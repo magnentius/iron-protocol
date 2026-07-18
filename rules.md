@@ -320,7 +320,7 @@ Weapons can only be mounted in the Left Arm, Right Arm, or Torso, which dictates
 
 | Weapon | EP Cost | Ammo | Cooldown | Damage | Detection Spectrum | Special Rules |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **Autocannon** | 1 | 30 rounds | None | 3d6 | Visual (VIS) or Microwave (Radar) | Rapid fire. Fires a fixed 3-round burst (consumes 3 ammo). |
+| **Autocannon** | 1 | 10 Bursts | None | 3d6 | Visual (VIS) or Microwave (Radar) | Rapid fire. Fires a single burst (consumes 1 Burst). |
 | **High Energy Laser (HEL)** | 4 | Infinite | None | 2d6 (Combat) + 1d6 (End) | Visual (VIS) or Infrared (IR) | Sustained Beam. Can pay 3 EP to maintain lock in subsequent turns. |
 | **Rail Gun** | 6 | 5 rounds | 1 Turn | 3d6 + 5 | Visual (VIS) or Microwave (Radar) | High penetration. Ignores up to 3 points of Armor DR. |
 | **Guided Missiles** | 2 | 4 Salvos | None | Warhead Dep. | Guidance Dep. | Requires Lock. Permits indirect fire (no LOS) for all guidance types (onboard camera/sensors). |
@@ -556,7 +556,7 @@ Here are three pre-configured Iron Frames ready for combat.
   - Active Metamaterial Coating (AMC)
   - Tactical Datalink
 - **Equipped Weapons**:
-  - **Left Arm**: Autocannon (30 rounds AP ammo)
+  - **Left Arm**: Autocannon (10 AP Bursts)
   - **Right Arm**: High Power Microwave (HPM)
 
 ### 9.2 IF-05 "Vanguard" (Medium Skirmisher Frame)
@@ -578,7 +578,7 @@ Here are three pre-configured Iron Frames ready for combat.
   - Flare Launcher (3 charges)
   - Tactical Datalink
 - **Equipped Weapons**:
-  - **Left Arm**: Autocannon (30 rounds, loaded with 15 AP / 15 HEI)
+  - **Left Arm**: Autocannon (10 Bursts, loaded with 5 AP / 5 HEI)
   - **Torso**: Guided Missile Launcher (4 Salvos, Microwave [Radar] Guided, HE Warheads)
 
 ### 9.3 IF-07 "Crusader" (Heavy Fire-Support Frame)
@@ -601,7 +601,7 @@ Here are three pre-configured Iron Frames ready for combat.
   - Tactical Datalink
 - **Equipped Weapons**:
   - **Right Arm**: Rail Gun (5 rounds)
-  - **Left Arm**: Autocannon (30 rounds AP ammo)
+  - **Left Arm**: Autocannon (10 AP Bursts)
   - **Torso**: Guided Missile Launcher (4 Salvos, Microwave [Radar] Guided, Cluster Warheads)
 
 ### 9.4 IF-09 "Colossus" (Heavy Assault Frame)
