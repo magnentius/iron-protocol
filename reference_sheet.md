@@ -40,8 +40,9 @@ graph TD
 9. **Roll Critical Hits**: If IS took 1+ damage, roll 1d6 on the location's Critical Table.
 
 ### 4. End Phase
-1. **Bank Energy**: Store unused EP in the Capacitor (up to Capacitor Max). Excess EP is lost.
-2. **Clean Up**: Remove temporary evasion/smoke/flare tokens. Cool down weapons.
+1. **Resolve End Phase Damage**: Any location hit by a High Energy Laser (HEL) suffers an additional **1d6 damage** (reduced by that location's current Armor DR; does not degrade DR further but can trigger criticals).
+2. **Bank Energy**: Store unused EP in the Capacitor (up to Capacitor Max). Excess EP is lost.
+3. **Clean Up**: Remove temporary evasion/smoke/flare tokens. Cool down weapons.
 
 ---
 

@@ -221,6 +221,8 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
   9. **Roll Critical Hit**: Since the Torso Internal Structure suffered damage, the Colossus rolls 1d6 on the Torso Critical Hit Table: rolls a 3, indicating **Reactor Damage** (the Vanguard's reactor output is permanently reduced by 2 EP per turn).
 
 ### 2.4 End Phase
+- **Resolve End Phase Damage**: Resolve any damage scheduled to occur during the End Phase:
+  - **High Energy Laser (HEL) Thermal Residue**: Any location hit by an HEL during the Combat Phase suffers an additional **1d6 damage** during the End Phase (reduced by that location's current Armor DR normally. This hit does not degrade Armor DR further, but does trigger a critical check if damage penetrates to Internal Structure).
 - **Energy Storage**: Unused EP is moved to the Capacitor, up to the Capacitor Max. Any excess EP is vented and lost.
 - **Clean Up**: Remove Evasion tokens, clear temporary smoke templates, and decrement cooldown tokens on weapons.
 
