@@ -188,7 +188,7 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
   - *EP Expenditure*: 3 hexes jumped $\times$ 2 EP = 6 EP. 
   - *Evasion accumulated*: Jumping generates 2 EVA per hex. 3 hexes $\times$ 2 = 6 EVA, which is capped at the Specter's Evasion Limit of **5 EVA**.
   - *Landing*: Upon landing, the pilot sets the Specter's Leg Facing facing the enemy's rear quadrant for free.
-  - *Final Step*: The pilot leaves the torso aligned forward to keep its arm-mounted HPM pointed at the target. The Specter has 6 EP remaining to fire its weapons in the Combat Phase.
+  - *Final Step*: The pilot leaves the torso aligned forward to keep its arm-mounted Disruptor Cannon pointed at the target. The Specter has 6 EP remaining to fire its weapons in the Combat Phase.
 
 ### 2.3 Combat Phase (Initiative Order)
 Frames attack in order of **highest Initiative** to **lowest Initiative**.
@@ -324,7 +324,7 @@ Weapons can only be mounted in the Left Arm, Right Arm, or Torso, which dictates
 | **High Energy Laser (HEL)** | 4 | Infinite | None | 2d6 (Combat) + 1d6 (End) | Visual (VIS) or Infrared (IR) | Sustained Beam. Can pay 3 EP to maintain lock in subsequent turns. |
 | **Rail Gun** | 6 | 5 rounds | 1 Turn | 3d6 + 5 | Visual (VIS) or Microwave (Radar) | High penetration. Ignores up to 3 points of Armor DR. |
 | **Guided Missiles** | 2 | 4 Salvos | None | Warhead Dep. | Guidance Dep. | Requires Lock. Permits indirect fire (no LOS) for all guidance types (onboard camera/sensors). |
-| **High Power Microwave (HPM)** | 3 | Infinite | None | None | Microwave (Radar) or Visual (VIS) | Bypasses Evasion and Armor DR. Roll Hit Location: Head (2) forces Head Crit; Torso (7-8) drains 1d6 Capacitor EP and target has -2 EP reactor output next turn; Arms/Legs immediately force a roll on the corresponding Critical Table (treat any result of 6 [Severed] as Actuator Lockup next turn instead of destruction). |
+| **Disruptor Cannon** | 3 | Infinite | None | None | Microwave (Radar) or Visual (VIS) | Bypasses Evasion and Armor DR. Roll Hit Location: Head (2) forces Head Crit; Torso (7-8) drains 1d6 Capacitor EP and target has -2 EP reactor output next turn; Arms/Legs immediately force a roll on the corresponding Critical Table (treat any result of 6 [Severed] as Actuator Lockup next turn instead of destruction). |
 
 ### 5.1 Autocannon Munitions
 When equipping an Autocannon, players choose one ammo type:
@@ -437,7 +437,7 @@ To build balanced forces for casual or competitive play, players agree on a maxi
 - **High Energy Laser (HEL)**: 30 pts
 - **Rail Gun**: 45 pts
 - **Guided Missiles**: 20 pts
-- **High Power Microwave (HPM)**: 25 pts
+- **Disruptor Cannon**: 25 pts
 
 #### 5. Named Pilots
 - **Pilot (+1 Initiative Bonus)**: 15 pts
@@ -493,7 +493,7 @@ The chemical density of the atmosphere impacts how well the Frame's radiator ven
 
 #### Hydrogen / Methane Dense Gases (Gas Giant Moons)
 - **Supercooling**: Dense, freezing hydrocarbons pull heat away from the reactor. The Frame generates **+2 EP** during the Energy Phase.
-- **Combustion Hazard**: Firing energy weapons (HEL or HPM) through methane gas creates minor flash ignitions. Firing an energy weapon deals **1 point of damage** to the mounting location (bypassing Armor DR to permanently reduce that location's Armor DR by 1, or dealing 1 damage directly to Internal Structure if the location has 0 DR, which triggers a Critical Check).
+- **Combustion Hazard**: Firing energy weapons (HEL or Disruptor Cannon) through methane gas creates minor flash ignitions. Firing an energy weapon deals **1 point of damage** to the mounting location (bypassing Armor DR to permanently reduce that location's Armor DR by 1, or dealing 1 damage directly to Internal Structure if the location has 0 DR, which triggers a Critical Check).
 
 #### Airless Vacuum (Vacuum Worlds)
 - **Actuator Upkeep**: Without air cooling, internal radiators must work constantly to vent heat. Every Frame's Reactor Rating is permanently reduced by **2 EP per turn** (minimum of 2 EP generated).
@@ -557,7 +557,7 @@ Here are three pre-configured Iron Frames ready for combat.
   - Tactical Datalink
 - **Equipped Weapons**:
   - **Left Arm**: Autocannon (10 AP Bursts)
-  - **Right Arm**: High Power Microwave (HPM)
+  - **Right Arm**: Disruptor Cannon
 
 ### 9.2 IF-05 "Vanguard" (Medium Skirmisher Frame)
 ![IF-05 "Vanguard" Technical Sketch](images/if_05_vanguard.jpg)

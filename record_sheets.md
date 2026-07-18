@@ -40,7 +40,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 ### 🔫 Armaments & Systems
 * **Left Arm: Autocannon** (3d6 damage | 1 EP cost | AP ammo ignores 3 DR)  
   *Ammo Tracker (10 Bursts)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10`
-* **Right Arm: High Power Microwave (HPM)** (Directed Energy Disruptor | 3 EP cost)  
+* **Right Arm: Disruptor Cannon** (Directed Energy Disruptor | 3 EP cost)  
   *Ammo*: Infinite (Bypasses EVA/DR. Torso drains EP; Arms/Legs/Head force Crits)
 * **Active Countermeasure: Active Metamaterial Coating (AMC)** (Stealth Upgrade)  
   *Upkeep*: 2 EP per mode (IR-Suppression / Microwave-Absorbent) or 4 EP (Visual-Camouflage).
