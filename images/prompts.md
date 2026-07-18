@@ -50,3 +50,8 @@ When generating any image for *Iron Protocol*, always append or prefix the follo
 ### The Maintenance Gantry
 > **Prompt:**  
 > `Technical line art illustration of a bipedal Iron Frame suspended inside a dropship hangar gantry. The frame is supported by massive overhead cranes, with armor panels open to expose detailed interior hydraulic lines and reactor wiring. Catwalks wrap around the mechanical chassis. Black and white pen and ink sketch, cross-hatching, clean white background, retro industrial wargame manual style. The drawing must be completely clean art with no text, no labels, no letters, no words, and no titles in the image --ar 3:4`
+
+### The Tactical Hex Grid Map
+> **Prompt:**  
+> `Technical line art schematic of a tactical hex-grid battlefield map. The layout is composed of a clean network of hexagonal grid lines mapping out rugged terrain, topographical elevation contours, rocky crags, sparse futuristic cover barricades, and boulders. Gritty black and white pen and ink sketch, cross-hatching shadows, clean white background, tabletop wargame map schematic style. Completely clean art with no text, no labels, no words, and no titles --ar 3:4`
+
