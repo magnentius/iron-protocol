@@ -45,10 +45,10 @@
   - [8.1 Initiative Bonus](#81-initiative-bonus)
   - [8.2 Iron Protocol Vows](#82-iron-protocol-vows)
 - [9. Sample Frames](#9-sample-frames)
-  - [9.1 IF-01 "Specter"](#91-if-01-specter-light-scout-frame)
-  - [9.2 IF-05 "Vanguard"](#92-if-05-vanguard-medium-skirmisher-frame)
-  - [9.3 IF-07 "Crusader"](#93-if-07-crusader-heavy-fire-support-frame)
-  - [9.4 IF-09 "Colossus"](#94-if-09-colossus-heavy-assault-frame)
+  - [9.1 IF-30L-1 "Specter"](#91-if-30l-1-specter-light-scout-frame)
+  - [9.2 IF-55M-1 "Vanguard"](#92-if-55m-1-vanguard-medium-skirmisher-frame)
+  - [9.3 IF-75H-1 "Paladin"](#93-if-75h-1-paladin-heavy-fire-support-frame)
+  - [9.4 IF-90A-1 "Colossus"](#94-if-90a-1-colossus-heavy-assault-frame)
 
 ---
 
@@ -151,15 +151,15 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
   - **Jump Jet (J)**: Only available to **Light** and **Medium** weight classes (20–55 Tons). Heavy and Assault Frames cannot be equipped with Jump Jets and cannot jump.
     - *Cost*: 2 EP per hex.
     - *Movement*: The Frame jumps in a straight line to a hex within its maximum jump distance (default maximum of 4 hexes). It bypasses all intervening terrain, obstacles, and other Frames.
-    - *Landing & Death from Above (DFA)*:
-      - **Standard Landing**: Normally, a Frame lands in an unoccupied hex. Upon landing, the pilot sets the Leg Facing to any direction for free.
-      - **Death from Above (DFA) Strike**: Alternatively, a pilot may target an occupied hex to perform a DFA strike.
-      - **DFA Damage**: Both Frames suffer damage rolled using a pool of $d6$ dice:
-        $$\text{DFA Damage Dice} = (\text{Jumping Frame's Mass Value} \times \text{Hexes Jumped}) / 2 \text{ (rounded up)}$$
-      - **Locations Hit**: 
-        - The target Frame suffers the damage to its **Torso** (on a 1d6 roll of 2–6) or its **Head** (on a 1d6 roll of 1).
-        - The jumping Frame suffers the damage directly to its **Legs** (representing landing impact).
-        - Both damage hits are reduced by the respective location's Armor DR normally. Evasion (EVA) does not reduce DFA damage.
+    - *Landing & Kinetic Drop Strike*:
+      - Jumping into an unoccupied hex triggers a **Stability Check** upon landing (see Section 6.3).
+      - **Kinetic Drop Strike**: Alternatively, a pilot may target an occupied hex to perform a Kinetic Drop Strike.
+      - **Drop Strike Damage**: Both Frames suffer damage rolled using a pool of $d6$ dice:
+        $$\text{Drop Strike Damage Dice} = (\text{Jumping Frame's Mass Value} \times \text{Hexes Jumped}) / 2 \text{ (rounded up)}$$
+        - The target Frame suffers the full result in damage (e.g. 3d6 rolled as 1, 4, 6 = 11 damage).
+        - The jumping Frame suffers half the result in damage (e.g. 11 / 2 = 6 damage).
+        - Roll a 1d6 Hit Location for both the target and the jumper to determine where the damage lands.
+        - Both damage hits are reduced by the respective location's Armor DR normally. Evasion (EVA) does not reduce Drop Strike damage.
       - **Displacement**: After damage is resolved, the target's player (the defender) slides the jumping Frame into any unoccupied adjacent hex of their choice. If no adjacent hex is unoccupied, the jumping Frame falls Prone, taking an additional 2d6 damage to its Legs, and is placed in the nearest unoccupied hex (see Section 6.3).
     - *Evasion*: Due to the high velocity and ballistic trajectory of flight, jumping generates **2 EVA per hex jumped** (up to the Frame's Evasion Limit).
 - **Collisions & Blocking**: If a Frame's movement path would enter a hex occupied by another Frame, a collision occurs. The moving Frame immediately stops in the last unoccupied hex, its activation ends, and both frames suffer damage.
@@ -167,13 +167,12 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
   - **Damage Calculation**: The damage is rolled using a pool of $d6$ dice based on the moving Frame's **Mass Value** (Light = 1, Medium = 2, Heavy = 3, Assault = 4) and its speed (the number of hexes moved in the current activation before impact):
     $$\text{Collision Damage Dice Pool} = \text{Mass Value} \times \text{Speed Factor}$$
     Where **Speed Factor** is the number of hexes moved in this activation prior to impact divided by 2 (rounded up, minimum of 1).
-    *(Example: An Assault Frame [90 Tons, Mass Value 4] that moves 3 hexes before colliding with a target rolls $4 \times 2 = 8d6$ damage. Both frames suffer this damage to a random location, reduced by their respective Armor DR. EVA is not subtracted).*
   - **Stability Roll**: After resolving collision damage, both Frames must check if they fall Prone (see Section 6.3).
 - **Accumulating Evasion**: For every hex a Frame successfully exits during its activation *(changing facing/pivoting does not exit a hex and generates 0 EVA)*, it gains 1 **Evasion Point (EVA)**, up to its Evasion Limit. These EVA points are tracked using tokens and represent the difficulty of targeting a moving frame.
 - **Torso Twist**: At the very end of its activation (after all movement is completed), the Frame may perform a free Torso Twist. The player can rotate the upper body of the Frame 1 hex side (60 degrees) to the left or right of its current Leg Facing, or reset it to align with the Leg Facing. This sets the Frame's Torso Facing (and Firing Arcs) for the upcoming Combat Phase. The torso remains in this position until the Frame activates in the next turn's Activation Phase.
 
 #### 2.2.1 Movement Examples
-- **Example 1 (Tactical Maneuvering)**: An IF-05 "Vanguard" (Reactor 12) starts its activation on Level 0 with a full energy pool of 12 EP. 
+- **Example 1 (Tactical Maneuvering)**: An IF-55M-1 "Vanguard" (Reactor 12) starts its activation on Level 0 with a full energy pool of 12 EP. 
   1. It performs a **Forward Walk** (1 EP) into an adjacent Level 1 Pavement hex. (Cost: 1 EP + 1 EP climbing cost = 2 EP total).
   2. It performs a **Pivot/Turn** (1 EP) to rotate its Leg Facing 60 degrees left.
   3. It performs a **Forward Walk** (1 EP) into a Light Woods hex on Level 1. (Cost: 1 EP + 1 EP woods entry cost = 2 EP total).
@@ -182,7 +181,7 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
   - *Evasion accumulated*: It exited 3 hexes during its movement, earning **3 EVA tokens** (capped at its Evasion Limit of 3 EVA).
   - *Final Step*: The pilot performs a free **Torso Twist** 60 degrees right to point its torso-mounted guided missiles toward the target's expected location.
 
-- **Example 2 (Jump Jet Cliff-Jumping)**: An IF-01 "Specter" (Reactor 9, Capacitor 3, total 12 EP available) starts its activation at the base of a steep Level 2 cliff (Level 0 hex adjacent to a Level 2 hex).
+- **Example 2 (Jump Jet Cliff-Jumping)**: An IF-30L-1 "Specter" (Reactor 9, Capacitor 3, total 12 EP available) starts its activation at the base of a steep Level 2 cliff (Level 0 hex adjacent to a Level 2 hex).
   1. It declares a **Jump Jet** maneuver targeting an unoccupied Level 2 hex 3 spaces away, directly on top of the cliff (bypassing the steep height difference which blocks standard walking).
   - *EP Expenditure*: 3 hexes jumped $\times$ 2 EP = 6 EP. 
   - *Evasion accumulated*: Jumping generates 2 EVA per hex. 3 hexes $\times$ 2 = 6 EVA, which is capped at the Specter's Evasion Limit of **5 EVA**.
@@ -206,7 +205,7 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
   9. **Roll Critical Hits**: If the location's Internal Structure takes 1 or more points of damage, roll 1d6 on the **Critical Hit Table** for that location.
 
 #### 2.3.1 Combat Examples
-- **Example 1 (Direct Laser Fire & Critical Hit)**: During the Combat Phase, the IF-09 "Colossus" (Initiative 3) resolves its attack against the IF-05 "Vanguard" (Initiative 6).
+- **Example 1 (Direct Laser Fire & Critical Hit)**: During the Combat Phase, the IF-90A-1 "Colossus" (Initiative 3) resolves its attack against the IF-55M-1 "Vanguard" (Initiative 6).
   1. **Weapon Selection**: The Colossus pilot spends 4 EP to fire the **High Energy Laser (HEL)** mounted on its Left Arm.
   2. **Verify Arc and LOS**: The Vanguard is located within the Colossus's Left Side Arc (Left Arm mount). Line of Sight is clear of blocking terrain.
   3. **Verify Lock**: The Colossus has a Visual (VIS) lock on the Vanguard.
@@ -254,7 +253,7 @@ Combat under the Iron Protocol occurs on diverse planetary surfaces. The map's h
 - **Line of Sight Blockage**: Woods and Jungle block sensor locks and Line of Sight on specific bands. If a weapon's line of sight passes through **2 or more intervening hexes of Light Woods/Jungle**, or **1 intervening hex of Heavy Woods/Jungle**, **Visual (VIS)** LOS and locks are blocked. However, **Infrared (IR)** and **Microwave (Radar)** locks are unaffected by these intervening hexes, allowing thermal-guided weapons and radar targeting to function through the trees unimpeded.
 
 #### Stability Adjustments
-- When resolving a collision or DFA landing check (see Section 6.3), apply the terrain modifier of the hex the Frame is standing in directly to its Stability Roll. (Example: A Light Frame [Mass Value 1] in Rubble that collided at Speed Factor 2 makes a Stability Check of $2d6 + 1 \text{ (Mass)} - 2 \text{ (Speed)} - 2 \text{ (Rubble)} = 2d6 - 3$, needing a final total of 7 or higher to stay standing).
+- When resolving a collision or Kinetic Drop Strike landing check (see Section 6.3), apply the terrain modifier of the hex the Frame is standing in directly to its Stability Roll. (Example: A Light Frame [Mass Value 1] in Rubble that collided at Speed Factor 2 makes a Stability Check of $2d6 + 1 \text{ (Mass)} - 2 \text{ (Speed)} - 2 \text{ (Rubble)} = 2d6 - 3$, needing a final total of 7 or higher to stay standing).
 
 #### Environmental Cooling (Water)
 - Iron Frames standing in **Water** benefit from the liquid cooling their reactor assemblies. During the Energy Phase, if a Frame starts its turn in a Water hex, it generates **+1 EP** (which can exceed its default Reactor Rating).
@@ -277,7 +276,7 @@ Traversing elevation changes costs additional energy:
 - **Climbing Down (-1 Level)**: Entering a hex that is exactly **1 level lower** than the Frame's current hex costs **+0 extra EP** (standard terrain cost).
 - **Steep Cliffs (2+ Levels)**: A Frame cannot walk or reverse into a hex with a level difference of **2 or more levels** (higher or lower) relative to its current hex. 
   - *Exception*: Frames equipped with Jump Jets may jump over steep cliffs.
-- **Falling**: If a Frame is forced into a lower hex of 2+ levels (e.g. pushed off a ledge by a collision or DFA displacement), it immediately falls **Prone** upon landing and suffers **1d6 damage per level fell** to a random location (reduced by that location's Armor DR normally).
+- **Falling**: If a Frame is forced into a lower hex of 2+ levels (e.g. pushed off a ledge by a collision or Drop Strike displacement), it immediately falls **Prone** upon landing and suffers **1d6 damage per level fell** to a random location (reduced by that location's Armor DR normally).
 
 ---
 
@@ -394,17 +393,16 @@ If damage penetrates to the **Internal Structure** of a location, roll 1d6 on th
 - **6+: Leg Severed**. The Frame falls Prone and is permanently immobilized. It cannot walk or reverse, and can only pivot (costing 3 EP per 60 degrees).
 
 ### 6.3 Falling and the Prone State
-When an Iron Frame is knocked over during combat (via collision, DFA, or leg destruction), it enters the **Prone** state. Mark the Frame with a Prone token.
+When an Iron Frame is knocked over during combat (via collision, Drop Strike, or leg destruction), it enters the **Prone** state. Mark the Frame with a Prone token.
 
-#### Falling Triggers
-- **Collisions**: When a collision occurs, both Frames must make a **Stability Roll** after resolving damage:
-  $$\text{Stability Check} = 2d6 + \text{Mass Value} - \text{Speed Factor}$$
-  If the final modified result is **less than 7**, that Frame falls Prone. (Heavy Frames are stable, whereas light Frames colliding at high speed are highly likely to fall).
-- **Death from Above (DFA)**: 
-  - The **Target Frame** of a DFA strike is automatically knocked Prone.
-  - The **Jumping Frame** must make a Stability Roll:
-    $$\text{DFA Stability Check} = 2d6 + \text{Mass Value} - \text{Hexes Jumped}$$
-    If the final modified result is **less than 7**, it falls Prone in its landing/displacement hex.
+### Triggering Prone (Stability Checks)
+A Frame must make a **Stability Check** (rolling 2d6) to avoid falling Prone in the following situations:
+- **Collisions**: (See Section 2.2 for Collision rules).
+- **Kinetic Drop Strike**: 
+  - The **Target Frame** of a Drop Strike is automatically knocked Prone.
+  - The **Jumping Frame** must make a Stability Check upon landing (whether the hex was empty or occupied):
+    $$\text{Drop Strike Stability Check} = 2d6 + \text{Mass Value} - \text{Hexes Jumped}$$
+    - **Target**: 7 or higher. (A failure results in falling Prone).
 - **Leg Severed**: If a Frame suffers a "Leg Severed" critical hit (Leg Critical Table 6+), it immediately falls Prone.
 
 #### Effects of the Prone State
@@ -548,8 +546,8 @@ Choose one Vow for your Named Pilot:
 ## 9. Sample Frames
 Here are three pre-configured Iron Frames ready for combat.
 
-### 9.1 IF-01 "Specter" (Light Scout Frame)
-![IF-01 "Specter" Technical Sketch](images/if_01_specter.jpg)
+### 9.1 IF-30L-1 "Specter" (Light Scout Frame)
+![IF-30L-1 "Specter" Technical Sketch](images/if_01_specter.jpg)
 
 *A fast, stealthy frame designed to infiltrate enemy lines, disrupt sensors, and escape using high evasion and metamaterial cloaking.*
 - **Initiative**: 10
@@ -569,8 +567,8 @@ Here are three pre-configured Iron Frames ready for combat.
   - **Left Arm**: Autocannon (10 AP Bursts)
   - **Right Arm**: Disruptor Cannon
 
-### 9.2 IF-05 "Vanguard" (Medium Skirmisher Frame)
-![IF-05 "Vanguard" Technical Sketch](images/if_05_vanguard.jpg)
+### 9.2 IF-55M-1 "Vanguard" (Medium Skirmisher Frame)
+![IF-55M-1 "Vanguard" Technical Sketch](images/if_05_vanguard.jpg)
 
 *The workhorse of the fleet. Balanced defense, solid firepower, and equipped with flares to deflect seeking missiles.*
 - **Initiative**: 6
@@ -591,8 +589,8 @@ Here are three pre-configured Iron Frames ready for combat.
   - **Left Arm**: Autocannon (10 Bursts, loaded with 5 AP / 5 HEI)
   - **Torso**: Guided Missile Launcher (4 Salvos, Microwave [Radar] Guided, HE Warheads)
 
-### 9.3 IF-07 "Crusader" (Heavy Fire-Support Frame)
-![IF-07 "Crusader" Technical Sketch](images/if_07_crusader.png)
+### 9.3 IF-75H-1 "Paladin" (Heavy Fire-Support Frame)
+![IF-75H-1 "Paladin" Technical Sketch](images/if_07_paladin.png)
 
 *A heavy bombardment frame equipped to deliver high-impact kinetic support and rain cluster munitions, protected by layered defensive launchers.*
 - **Initiative**: 5
@@ -614,8 +612,8 @@ Here are three pre-configured Iron Frames ready for combat.
   - **Left Arm**: Autocannon (10 AP Bursts)
   - **Torso**: Guided Missile Launcher (4 Salvos, Microwave [Radar] Guided, Cluster Warheads)
 
-### 9.4 IF-09 "Colossus" (Heavy Assault Frame)
-![IF-09 "Colossus" Technical Sketch](images/if_09_colossus.jpg)
+### 9.4 IF-90A-1 "Colossus" (Heavy Assault Frame)
+![IF-90A-1 "Colossus" Technical Sketch](images/if_09_colossus.jpg)
 
 *A walking fortress. Generates massive amounts of energy to feed its Rail Gun and High Energy Laser, relying on heavy armor and smoke screens for protection.*
 - **Initiative**: 3

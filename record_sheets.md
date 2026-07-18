@@ -12,7 +12,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 ---
 
-## 🛠️ IF-01 "Specter" (Light Scout Frame)
+## 🛠️ IF-30L-1 "Specter" (Light Scout Frame)
 
 * **Initiative**: 10 | **Tonnage**: 30 Tons | **Points**: 345 pts | **Movement Limit**: 6 hexes | **Evasion Limit**: 5 EVA
 
@@ -48,7 +48,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 ---
 
-## ⚔️ IF-05 "Vanguard" (Medium Skirmisher Frame)
+## ⚔️ IF-55M-1 "Vanguard" (Medium Skirmisher Frame)
 
 * **Initiative**: 6 | **Tonnage**: 55 Tons | **Points**: 420 pts | **Movement Limit**: 5 hexes | **Evasion Limit**: 3 EVA
 
@@ -86,7 +86,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 ---
 
-## 🛡️ IF-07 "Crusader" (Heavy Fire-Support Frame)
+## 🛡️ IF-75H-1 "Paladin" (Heavy Fire-Support Frame)
 
 * **Initiative**: 5 | **Tonnage**: 75 Tons | **Points**: 520 pts | **Movement Limit**: 4 hexes | **Evasion Limit**: 2 EVA
 
@@ -126,7 +126,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 ---
 
-## 🌋 IF-09 "Colossus" (Heavy Assault Frame)
+## 🌋 IF-90A-1 "Colossus" (Heavy Assault Frame)
 
 * **Initiative**: 3 | **Tonnage**: 90 Tons | **Points**: 595 pts | **Movement Limit**: 3 hexes | **Evasion Limit**: 1 EVA
 

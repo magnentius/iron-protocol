@@ -76,7 +76,7 @@ graph TD
 ---
 
 ## 💥 Collision & Stability Checks
-*Triggers when a Frame enters an occupied hex (standard movement or DFA landing).*
+*Triggers when a Frame enters an occupied hex (standard movement or Drop Strike landing).*
 * **Collision Damage**:
   $$\text{Damage Sufferred} = \text{Opponent's Mass Value} \times \text{Movement Speed (hexes entered)}$$
   *(Damage is reduced by Evasion and Armor DR normally).*
