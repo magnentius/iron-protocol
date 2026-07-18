@@ -1,7 +1,7 @@
 # Iron Protocol
 **A Tactical Game of Iron Frame Combat**
 
-![Iron Protocol Cover Art](file:///Users/johnk/github/iron-protocol/iron_protocol.jpg)
+![Iron Protocol Cover Art](images/iron_protocol.jpg)
 
 *Fusing the tactical resource management and locational damage of BattleTech with the turn-order dynamics and initiative-based action of X-Wing Miniatures.*
 
@@ -263,7 +263,7 @@ When an Iron Frame is knocked over during combat (via collision, DFA, or leg des
 Here are three pre-configured Iron Frames ready for combat.
 
 ### IF-01 "Specter" (Light Scout Frame)
-![IF-01 "Specter" Technical Sketch](file:///Users/johnk/github/iron-protocol/if_01_specter.jpg)
+![IF-01 "Specter" Technical Sketch](images/if_01_specter.jpg)
 
 *A fast, stealthy frame designed to infiltrate enemy lines, disrupt sensors, and escape using high evasion and metamaterial cloaking.*
 - **Initiative**: 10
@@ -282,7 +282,7 @@ Here are three pre-configured Iron Frames ready for combat.
   - **Right Arm**: High Power Microwave (HPM)
 
 ### IF-05 "Vanguard" (Medium Skirmisher Frame)
-![IF-05 "Vanguard" Technical Sketch](file:///Users/johnk/github/iron-protocol/if_05_vanguard.jpg)
+![IF-05 "Vanguard" Technical Sketch](images/if_05_vanguard.jpg)
 
 *The workhorse of the fleet. Balanced defense, solid firepower, and equipped with flares to deflect seeking missiles.*
 - **Initiative**: 6
@@ -302,7 +302,7 @@ Here are three pre-configured Iron Frames ready for combat.
   - **Torso**: Guided Missile Launcher (4 Salvos, Microwave [Radar] Guided, HE Warheads)
 
 ### IF-09 "Colossus" (Heavy Assault Frame)
-![IF-09 "Colossus" Technical Sketch](file:///Users/johnk/github/iron-protocol/if_09_colossus.jpg)
+![IF-09 "Colossus" Technical Sketch](images/if_09_colossus.jpg)
 
 *A walking fortress. Generates massive amounts of energy to feed its Rail Gun and High Energy Laser, relying on heavy armor and smoke screens for protection.*
 - **Initiative**: 3
@@ -323,6 +323,8 @@ Here are three pre-configured Iron Frames ready for combat.
 ---
 
 ## 7. Named Pilots & The Code of Honor
+![Kaito Vance](images/kaito_vance.jpg)
+
 In *Iron Protocol*, pilots are not anonymous grunts. You can field legendary **Named Pilots** who represent the elite houses, coalitions, and orders.
 
 ### 7.1 Initiative Bonus
