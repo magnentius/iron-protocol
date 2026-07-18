@@ -20,6 +20,8 @@ The emergence of the Iron Protocol was born of necessity, forged from the ashes 
 Habitable worlds are warfare's ultimate prize, but they are exceedingly rare and precious. Conventional mass warfare—carpet bombing, tactical nuclear strikes, and massive tank divisions tearing up agricultural land—irreversibly ruins planetary biospheres. The Iron Protocol strictly outlaws weapons of mass destruction, orbital bombardment, and heavy tracked planetary armor. Battles are confined to designated, unpopulated "Honor Fields" to preserve planetary infrastructure and ecologies for the victor.
 
 #### 2. The Iron Aegis (Planetary Shielding)
+![Stealth Dropship Landing](images/dropship.jpg)
+
 Every settled world is protected by the **Iron Aegis**—a grid of planetary defense shields, surface-to-orbit lasers, and hyper-velocity missile silos. Any starship attempting to conduct orbital bombardment is instantly targeted and destroyed. Surface invasions must be launched via stealth drop-pods containing highly localized ground forces, bypassing the defensive network. 
 
 #### 3. Bipedal Superiority Over Tanks & Aircraft
