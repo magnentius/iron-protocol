@@ -22,7 +22,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 * **Capacitor Storage (Max 3 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3`
 
 ### 🔫 Armaments & Systems
-* **Left Arm [Light HP]: Laser** (1d6 Combat + 1d6 End damage | 2 EP cost | End Phase damage bypasses Armor DR)  
+* **Left Arm [Light HP]: Laser** (1d6 Combat + 1d6 End damage | 2 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
   *Ammo*: Infinite
 * **Right Arm [Light HP]: Autocannon** (2d6 damage | 1 EP cost | Configured with AP loadout)  
   *AP Bursts (10)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` (AP ignores 2 DR)
@@ -105,7 +105,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 * **Left Arm [Light HP]: Autocannon** (2d6 damage | 1 EP cost | Configured with AP / HEI dual loadout)  
   *AP Bursts (5)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` (AP ignores 2 DR)  
   *HEI Bursts (5)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` (HEI adds +2 to crits)
-* **Right Arm [Light HP]: Laser** (1d6 Combat + 1d6 End damage | 2 EP cost | End Phase damage bypasses Armor DR)  
+* **Right Arm [Light HP]: Laser** (1d6 Combat + 1d6 End damage | 2 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
   *Ammo*: Infinite
 * **Torso [Light HP]: Defensive Flare Launcher** (Deflects locking missiles | 1 EP use cost)  
   *Charges (3 charges)*: `[ ] Charge 1` | `[ ] Charge 2` | `[ ] Charge 3`
@@ -192,7 +192,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 * **Capacitor Storage (Max 10 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10`
 
 ### 🔫 Armaments & Systems
-* **Left Arm [Heavy HP]: Thermal Lance (TL)** (2d6 Combat + 2d6 End damage | 4 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
+* **Left Arm [Heavy HP]: Thermal Lance** (2d6 Combat + 2d6 End damage | 4 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
   *Ammo*: Infinite
 * **Right Arm [Heavy HP]: Rail Gun** (3d6+5 damage | 6 EP cost | Ignores 3 DR | Cooldown: 1 Turn)  
   *Ammo Tracker (5 Kinetic Slugs)*: `[ ] Slug 1` | `[ ] Slug 2` | `[ ] Slug 3` | `[ ] Slug 4` | `[ ] Slug 5`
