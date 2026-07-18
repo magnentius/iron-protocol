@@ -41,7 +41,7 @@ graph TD
 9. **Roll Critical Hits**: If IS took 1+ damage, roll 1d6 on the location's Critical Table.
 
 ### 4. End Phase
-1. **Resolve End Phase Damage**: Any location hit by a High Energy Laser (HEL) suffers an additional **2d6 damage** (this damage completely bypasses Armor DR and is dealt directly to the Internal Structure, triggering criticals normally).
+1. **Resolve End Phase Damage**: Any location hit by a Thermal Lance (TL) suffers an additional **2d6 damage** (this damage completely bypasses Armor DR and is dealt directly to the Internal Structure, triggering criticals normally).
 2. **Bank Energy**: Store unused EP in the Capacitor (up to Capacitor Max). Excess EP is lost.
 3. **Clean Up**: Remove Evasion tokens, decrement cooldowns, and reduce Smoke tokens by 1.
 

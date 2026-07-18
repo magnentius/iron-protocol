@@ -206,11 +206,11 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
 
 #### 2.3.1 Combat Examples
 - **Example 1 (Direct Laser Fire & Critical Hit)**: During the Combat Phase, the IF-90A-1 "Colossus" (Initiative 3) resolves its attack against the IF-55M-1 "Vanguard" (Initiative 6).
-  1. **Weapon Selection**: The Colossus pilot spends 4 EP to fire the **High Energy Laser (HEL)** mounted on its Left Arm.
+  1. **Weapon Selection**: The Colossus pilot spends 4 EP to fire the **Thermal Lance (TL)** mounted on its Left Arm.
   2. **Verify Arc and LOS**: The Vanguard is located within the Colossus's Left Side Arc (Left Arm mount). Line of Sight is clear of blocking terrain.
   3. **Verify Lock**: The Colossus has a Visual (VIS) lock on the Vanguard.
   4. **Hit Location**: The Colossus rolls 2d6 on the Hit Location Table: rolls a 7, indicating a **Torso (Center)** hit.
-  5. **Roll Damage**: The Colossus rolls 2d6 for the HEL: rolls a total of 10 damage.
+  5. **Roll Damage**: The Colossus rolls 2d6 for the TL: rolls a total of 10 damage.
   6. **Apply Target Evasion**: The Vanguard has 3 EVA tokens. Subtract 3 from damage: $10 - 3 = 7$ damage remaining.
   7. **Apply Armor DR**: The Vanguard's Torso currently has an Armor DR of 5. Subtract 5 from damage: $7 - 5 = 2$ damage remaining.
   8. **Resolve Damage & Degradation**: 
@@ -220,7 +220,7 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
 
 ### 2.4 End Phase
 - **Resolve End Phase Damage**: Resolve any damage scheduled to occur during the End Phase:
-  - **High Energy Laser (HEL) Thermal Residue**: Any location hit by an HEL during the Combat Phase suffers an additional **2d6 damage** during the End Phase. The thermal residue burns directly through the compromised hull; this damage entirely **bypasses Armor DR** and is dealt directly to the Internal Structure (automatically triggering a critical check if 1+ damage is dealt).
+  - **Thermal Lance (TL) Thermal Residue**: Any location hit by a TL during the Combat Phase suffers an additional **2d6 damage** during the End Phase. The thermal residue burns directly through the compromised hull; this damage entirely **bypasses Armor DR** and is dealt directly to the Internal Structure (automatically triggering a critical check if 1+ damage is dealt).
 - **Energy Storage**: Unused EP is moved to the Capacitor, up to the Capacitor Max. Any excess EP is vented and lost.
 - **Clean Up**: Remove Evasion tokens, decrement cooldown tokens on weapons, and reduce the value of any Smoke tokens by 1 (remove the smoke template entirely when its token reaches 0).
 
@@ -316,13 +316,14 @@ A Frame may be equipped with a **Tactical Datalink** housed in its Head location
 ## 5. Weapons & Munitions
 Weapons can only be mounted in the Left Arm, Right Arm, or Torso, which dictates their firing arcs (see Section 1.1).
 
-| Weapon | EP Cost | Ammo | Cooldown | Damage | Detection Spectrum | Special Rules |
-| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **Autocannon** | 1 | 10 Bursts | None | 2d6 | Any (VIS, IR, or Radar) | Rapid fire. Fires a single burst (consumes 1 Burst). |
-| **High Energy Laser (HEL)** | 4 | Infinite | None | 2d6 (Combat) + 2d6 (End) | Any (VIS, IR, or Radar) | Sustained Beam. End Phase damage bypasses Armor DR. |
-| **Rail Gun** | 6 | 5 rounds | 1 Turn | 3d6 + 5 | Any (VIS, IR, or Radar) | High penetration. Ignores up to 3 points of Armor DR. |
-| **Guided Missiles** | 2 | 4 Salvos | None | Warhead Dep. | Guidance Dep. | Requires Lock. Permits indirect fire (no LOS) for all guidance types (onboard camera/sensors). |
-| **Disruptor Cannon** | 3 | Infinite | None | None | Any (VIS, IR, or Radar) | Bypasses Evasion and Armor DR. Roll Hit Location: Head (2) forces Head Crit; Torso (7 or 12) drains 1d6 Capacitor EP and target has -2 EP reactor output next turn; Arms/Legs (3-6, 8-11) immediately force a roll on the corresponding Critical Table (treat any result of 6 [Severed] as Actuator Lockup next turn instead of destruction: the affected arm cannot fire, or the affected legs cannot move). |
+| Weapon | Hardpoint | EP Cost | Ammo | Cooldown | Damage | Detection Spectrum | Special Rules |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Autocannon** | Light | 1 | 10 Bursts | None | 2d6 | Any (VIS, IR, Radar) | Rapid fire. Fires a single burst (consumes 1 Burst). |
+| **Laser** | Light | 2 | Infinite | None | 1d6 (Combat) + 1d6 (End) | Any (VIS, IR, Radar) | Focused Beam. End Phase damage bypasses Armor DR. |
+| **Guided Missiles** | Medium | 2 | 4 Salvos | None | Warhead Dep. | Guidance Dep. | Requires Lock. Permits indirect fire (no LOS) for all guidance types. |
+| **Disruptor Cannon** | Medium | 3 | Infinite | None | None | Any (VIS, IR, Radar) | Bypasses Evasion and Armor DR. Roll Hit Location: Head (2) forces Head Crit; Torso (7 or 12) drains 1d6 Cap EP and target has -2 EP reactor output next turn; Arms/Legs (3-6, 8-11) immediately force Critical (treat 6 as Actuator Lockup next turn instead of destruction). |
+| **Thermal Lance (TL)** | Heavy | 4 | Infinite | None | 2d6 (Combat) + 2d6 (End) | Any (VIS, IR, Radar) | Sustained Beam. End Phase damage bypasses Armor DR. |
+| **Rail Gun** | Heavy | 6 | 5 rounds | 1 Turn | 3d6 + 5 | Any (VIS, IR, Radar) | High penetration. Ignores up to 3 points of Armor DR. |
 
 ### 5.1 Autocannon Munitions
 When equipping an Autocannon, players choose how to load its 10-Burst ammunition supply. They can load all 10 Bursts with **one** ammo type, or split the supply between the two types at build time (e.g., 5 AP Bursts and 5 HEI Bursts), declaring which type is being fired before rolling to hit.
@@ -449,8 +450,8 @@ To build balanced forces for casual or competitive play, players agree on a maxi
 
 #### 5. Weapons & Armaments
 - **Autocannon** [Light]: 15 pts
-- **Laser** [Light]: 10 pts
-- **High Energy Laser (HEL)** [Heavy]: 30 pts
+- **Laser** [Light]: 15 pts
+- **Thermal Lance (TL)** [Heavy]: 30 pts
 - **Rail Gun** [Heavy]: 45 pts
 - **Guided Missiles** [Medium]: 20 pts
 - **Disruptor Cannon** [Medium]: 25 pts
@@ -509,7 +510,7 @@ The chemical density of the atmosphere impacts how well the Frame's radiator ven
 
 #### Hydrogen / Methane Dense Gases (Gas Giant Moons)
 - **Supercooling**: Dense, freezing hydrocarbons pull heat away from the reactor. The Frame generates **+2 EP** during the Energy Phase.
-- **Combustion Hazard**: Firing energy weapons (HEL or Disruptor Cannon) through methane gas creates minor flash ignitions. Firing an energy weapon deals **1 point of damage** to the mounting location (bypassing Armor DR to permanently reduce that location's Armor DR by 1, or dealing 1 damage directly to Internal Structure if the location has 0 DR, which triggers a Critical Check).
+- **Combustion Hazard**: Firing energy weapons (TL or Disruptor Cannon) through methane gas creates minor flash ignitions. Firing an energy weapon deals **1 point of damage** to the mounting location (bypassing Armor DR to permanently reduce that location's Armor DR by 1, or dealing 1 damage directly to Internal Structure if the location has 0 DR, which triggers a Critical Check).
 
 #### Airless Vacuum (Vacuum Worlds)
 - **Actuator Upkeep**: Without air cooling, internal radiators must work constantly to vent heat. Every Frame's Reactor Rating is permanently reduced by **2 EP per turn** (minimum of 2 EP generated).
@@ -552,21 +553,42 @@ Choose one Vow for your Named Pilot:
 ---
 
 ## 9. Sample Frames
-Here are three pre-configured Iron Frames ready for combat.
+Here are five pre-configured Iron Frames ready for combat.
 
-### 9.1 IF-45M-1 "Specter" (Medium Stealth Frame)
+### 9.1 IF-25L-1 "Jackal" (Light Recon Frame)
+![IF-25L-1 "Jackal" Technical Sketch](images/if_00_jackal.png)
+
+*A fragile but blisteringly fast scout frame. It relies on its extreme evasion and jump jets to outmaneuver heavier foes, darting in to deliver surgical strikes before leaping to safety.*
+- **Initiative**: 12
+- **Chassis Mass (Tonnage)**: 25 Tons (Light, Mass Value 1)
+- **Point Value**: 320 points
+- **Reactor Rating**: 8 EP/turn
+- **Capacitor Max**: 3 EP
+- **Evasion Limit**: 6 EVA
+- **Movement Limit**: 7 hexes
+- **Armor DR by Location**: Head: 1 | Torso: 2 | Left Arm: 1 | Right Arm: 1 | Legs: 2
+- **Internal Structure**: Head: 3 | Torso: 8 | Left Arm: 4 | Right Arm: 4 | Legs: 5
+- **Equipped Systems**:
+  - Standard Sensor Suite (Visual [VIS]/Infrared [IR]/Microwave [Radar])
+  - Jump Jets [Light HP]
+  - Tactical Datalink [Light HP]
+- **Equipped Weapons**:
+  - **Left Arm** [Light HP]: Laser (1d6 Combat + 1d6 End damage)
+  - **Right Arm** [Light HP]: Autocannon (10 Bursts, loaded with 10 AP)
+
+### 9.2 IF-45M-1 "Specter" (Medium Stealth Frame)
 ![IF-45M-1 "Specter" Technical Sketch](images/if_01_specter.jpg)
 
 *A fast, stealthy frame designed to infiltrate enemy lines, disrupt sensors, and escape using high evasion and metamaterial cloaking.*
 - **Initiative**: 10
 - **Chassis Mass (Tonnage)**: 45 Tons (Medium, Mass Value 2)
-- **Point Value**: 345 points
+- **Point Value**: 380 points
 - **Reactor Rating**: 9 EP/turn
 - **Capacitor Max**: 4 EP
 - **Evasion Limit**: 5 EVA
 - **Movement Limit**: 5 hexes
-- **Armor DR by Location**: Head: 1 | Torso: 3 | Left Arm: 2 | Right Arm: 2 | Legs: 2
-- **Internal Structure**: Head: 3 | Torso: 8 | Left Arm: 4 | Right Arm: 4 | Legs: 6
+- **Armor DR by Location**: Head: 1 | Torso: 4 | Left Arm: 2 | Right Arm: 2 | Legs: 3
+- **Internal Structure**: Head: 3 | Torso: 10 | Left Arm: 6 | Right Arm: 6 | Legs: 8
 - **Equipped Systems**:
   - Standard Sensor Suite (Visual [VIS]/Infrared [IR]/Microwave [Radar])
   - Active Metamaterial Coating (AMC)
@@ -574,13 +596,13 @@ Here are three pre-configured Iron Frames ready for combat.
 - **Equipped Weapons**:
   - **Right Arm** [Medium HP]: Disruptor Cannon
 
-### 9.2 IF-55M-1 "Vanguard" (Medium Skirmisher Frame)
+### 9.3 IF-55M-1 "Vanguard" (Medium Skirmisher Frame)
 ![IF-55M-1 "Vanguard" Technical Sketch](images/if_05_vanguard.jpg)
 
 *The workhorse of the fleet. Balanced defense, solid firepower, and equipped with flares to deflect seeking missiles.*
 - **Initiative**: 6
 - **Chassis Mass (Tonnage)**: 55 Tons (Medium, Mass Value 2)
-- **Point Value**: 420 points
+- **Point Value**: 415 points
 - **Reactor Rating**: 12 EP/turn
 - **Capacitor Max**: 6 EP
 - **Evasion Limit**: 3 EVA
@@ -594,9 +616,9 @@ Here are three pre-configured Iron Frames ready for combat.
   - Tactical Datalink [Light HP]
 - **Equipped Weapons**:
   - **Left Arm** [Light HP]: Autocannon (10 Bursts, loaded with 5 AP / 5 HEI)
-  - **Right Arm** [Light HP]: Laser
+  - **Right Arm** [Light HP]: Laser (1d6 Combat + 1d6 End damage)
 
-### 9.3 IF-75H-1 "Paladin" (Heavy Fire-Support Frame)
+### 9.4 IF-75H-1 "Paladin" (Heavy Fire-Support Frame)
 ![IF-75H-1 "Paladin" Technical Sketch](images/if_07_paladin.png)
 
 *A heavy bombardment frame equipped to deliver high-impact kinetic support and rain cluster munitions, protected by layered defensive launchers.*
@@ -619,13 +641,13 @@ Here are three pre-configured Iron Frames ready for combat.
   - **Left Arm** [Light HP]: Autocannon (10 AP Bursts)
   - **Torso** [Medium HP]: Guided Missile Launcher (4 Salvos, Microwave [Radar] Guided, Cluster Warheads)
 
-### 9.4 IF-90A-1 "Colossus" (Heavy Assault Frame)
+### 9.5 IF-90A-1 "Colossus" (Heavy Assault Frame)
 ![IF-90A-1 "Colossus" Technical Sketch](images/if_09_colossus.jpg)
 
-*A walking fortress. Generates massive amounts of energy to feed its Rail Gun and High Energy Laser, relying on heavy armor and smoke screens for protection.*
+*A walking fortress. Generates massive amounts of energy to feed its Rail Gun and Thermal Lance, relying on heavy armor and smoke screens for protection.*
 - **Initiative**: 3
 - **Chassis Mass (Tonnage)**: 90 Tons (Assault, Mass Value 4)
-- **Point Value**: 595 points
+- **Point Value**: 625 points
 - **Reactor Rating**: 18 EP/turn
 - **Capacitor Max**: 10 EP
 - **Evasion Limit**: 1 EVA
@@ -638,7 +660,7 @@ Here are three pre-configured Iron Frames ready for combat.
   - Flare Launcher (3 charges) [Light HP]
   - Tactical Datalink [Light HP]
 - **Equipped Weapons**:
-  - **Left Arm** [Heavy HP]: High Energy Laser (HEL)
+  - **Left Arm** [Heavy HP]: Thermal Lance (TL)
   - **Right Arm** [Heavy HP]: Rail Gun (5 rounds)
   - **Torso** [Medium HP]: Guided Missile Launcher (4 Salvos, IR Guided, EMP Warheads)
 

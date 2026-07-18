@@ -23,6 +23,10 @@ When generating any image for *Iron Protocol*, always append or prefix the follo
 
 ## 🤖 2. Iron Frames
 
+### IF-25L-1 "Jackal" (Light Recon)
+> **Prompt:**  
+> `Technical line art illustration of the IF-25L-1 "Jackal", a 25-ton light recon Iron Frame. It has an extremely frail, skeletal, and agile bipedal structure with prominent jump jet exhaust vents on its back and calves. It wields a light autocannon on its right arm and a laser emitter on its left arm. Classic wargame technical readout style, black and white pen and ink sketch, cross-hatching, clean white background, industrial mech design, completely clean art with no text, no labels, no words --ar 3:4`
+
 ### IF-45M-1 "Specter" (Medium Stealth)
 > **Prompt:**  
 > `Technical line art illustration of the IF-45M-1 "Specter", a medium 45-ton stealth Iron Frame. It has sleek, reverse-jointed legs (chicken-walker style), a low-profile head featuring a cluster of optical sensor lenses, a disruptor cannon mounted on the right arm, and clean metamaterial paneling. Classic wargame technical readout style, black and white pen and ink sketch, cross-hatching, clean white background, industrial mech design, completely clean art with no text, no labels, no words --ar 3:4`
