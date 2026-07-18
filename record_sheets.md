@@ -31,17 +31,17 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 | **Legs** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ]` (6 IS) |
 
 ### 💥 Critical Damage Logs
-* **Head (Sensors)**: `[ ] Sensor Flicker (-1 hit)` | `[ ] Comm Static` | `[ ] Pilot Stunned (0 EP)` | `[ ] Sensors Destroyed` | `[ ] Cockpit Breach (-3 Init)` | `[ ] Pilot K.O. (Dead)`
-* **Torso (Core)**: `[ ] System Glitch` | `[ ] Capacitor Leak (-2 Max)` | `[ ] Reactor Damage (-2 EP/turn)` | `[ ] Gyro Lock` | `[ ] Ammo Expl.` | `[ ] Core Melt (Explosion)`
-* **Left Arm**: `[ ] Hand Act.` | `[ ] Weapon Damaged` | `[ ] Shoulder Jammed` | `[ ] DR 0` | `[ ] Ammo Cut` | `[ ] Arm Severed`
-* **Right Arm**: `[ ] Hand Act.` | `[ ] Weapon Damaged` | `[ ] Shoulder Jammed` | `[ ] DR 0` | `[ ] Ammo Cut` | `[ ] Arm Severed`
+* **Head (Sensors)**: `[ ] Sensor Flicker (All locks max 5)` | `[ ] Comm Static` | `[ ] Pilot Stunned (0 EP/Cap)` | `[ ] Sensors Destroyed` | `[ ] Cockpit Breach (-3 Init)` | `[ ] Pilot K.O. (Dead)`
+* **Torso (Core)**: `[ ] System Glitch (-1 EP)` | `[ ] Capacitor Leak (-2 Max)` | `[ ] Reactor Damage (-2 EP/turn)` | `[ ] Gyro Lock` | `[ ] Ammo Expl.` | `[ ] Core Melt (Explosion)`
+* **Left Arm**: `[ ] Weapon Calib. (+1 EP)` | `[ ] Weapon Damaged` | `[ ] Shoulder Jammed` | `[ ] DR 0` | `[ ] Ammo Cut` | `[ ] Arm Severed`
+* **Right Arm**: `[ ] Weapon Calib. (+1 EP)` | `[ ] Weapon Damaged` | `[ ] Shoulder Jammed` | `[ ] DR 0` | `[ ] Ammo Cut` | `[ ] Arm Severed`
 * **Legs**: `[ ] Toe Act.` | `[ ] Knee Lock` | `[ ] Hip Act. (-1 EVA)` | `[ ] DR 0` | `[ ] Thruster Wrecked` | `[ ] Leg Severed (Immobilized)`
 
 ### 🔫 Armaments & Systems
-* **Left Arm: Autocannon** (3d6 damage | 1 EP cost | AP ammo ignores 3 DR)  
+* **Left Arm: Autocannon** (2d6 damage | 1 EP cost | AP ammo ignores 2 DR)  
   *Ammo Tracker (10 Bursts)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10`
 * **Right Arm: Disruptor Cannon** (Directed Energy Disruptor | 3 EP cost)  
-  *Ammo*: Infinite (Bypasses EVA/DR. Torso drains EP; Arms/Legs/Head force Crits)
+  *Ammo*: Infinite (Bypasses EVA/DR. Torso [7,12] drains EP; Limbs [3-6, 8-11]/Head [2] force Crits)
 * **Active Countermeasure: Active Metamaterial Coating (AMC)** (Stealth Upgrade)  
   *Upkeep*: 2 EP per mode (IR-Suppression / Microwave-Absorbent) or 4 EP (Visual-Camouflage).
 * **Tactical Datalink**: Shares locks and target telemetry in real time.
@@ -67,15 +67,15 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 | **Legs** | `[4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (10 IS) |
 
 ### 💥 Critical Damage Logs
-* **Head (Sensors)**: `[ ] Sensor Flicker (-1 hit)` | `[ ] Comm Static` | `[ ] Pilot Stunned (0 EP)` | `[ ] Sensors Destroyed` | `[ ] Cockpit Breach (-3 Init)` | `[ ] Pilot K.O. (Dead)`
-* **Torso (Core)**: `[ ] System Glitch` | `[ ] Capacitor Leak (-2 Max)` | `[ ] Reactor Damage (-2 EP/turn)` | `[ ] Gyro Lock` | `[ ] Ammo Expl.` | `[ ] Core Melt (Explosion)`
-* **Left Arm**: `[ ] Hand Act.` | `[ ] Weapon Damaged` | `[ ] Shoulder Jammed` | `[ ] DR 0` | `[ ] Ammo Cut` | `[ ] Arm Severed`
-* **Right Arm**: `[ ] Hand Act.` | `[ ] Weapon Damaged` | `[ ] Shoulder Jammed` | `[ ] DR 0` | `[ ] Ammo Cut` | `[ ] Arm Severed`
+* **Head (Sensors)**: `[ ] Sensor Flicker (All locks max 5)` | `[ ] Comm Static` | `[ ] Pilot Stunned (0 EP/Cap)` | `[ ] Sensors Destroyed` | `[ ] Cockpit Breach (-3 Init)` | `[ ] Pilot K.O. (Dead)`
+* **Torso (Core)**: `[ ] System Glitch (-1 EP)` | `[ ] Capacitor Leak (-2 Max)` | `[ ] Reactor Damage (-2 EP/turn)` | `[ ] Gyro Lock` | `[ ] Ammo Expl.` | `[ ] Core Melt (Explosion)`
+* **Left Arm**: `[ ] Weapon Calib. (+1 EP)` | `[ ] Weapon Damaged` | `[ ] Shoulder Jammed` | `[ ] DR 0` | `[ ] Ammo Cut` | `[ ] Arm Severed`
+* **Right Arm**: `[ ] Weapon Calib. (+1 EP)` | `[ ] Weapon Damaged` | `[ ] Shoulder Jammed` | `[ ] DR 0` | `[ ] Ammo Cut` | `[ ] Arm Severed`
 * **Legs**: `[ ] Toe Act.` | `[ ] Knee Lock` | `[ ] Hip Act. (-1 EVA)` | `[ ] DR 0` | `[ ] Thruster Wrecked` | `[ ] Leg Severed (Immobilized)`
 
 ### 🔫 Armaments & Systems
-* **Left Arm: Autocannon** (3d6 damage | 1 EP cost | Configured with AP / HEI dual loadout)  
-  *AP Bursts (5)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` (AP ignores 3 DR)  
+* **Left Arm: Autocannon** (2d6 damage | 1 EP cost | Configured with AP / HEI dual loadout)  
+  *AP Bursts (5)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` (AP ignores 2 DR)  
   *HEI Bursts (5)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` (HEI adds +2 to crits)
 * **Torso: Guided Missile Launcher** (2 EP cost | Microwave [Radar] Guided | HE Warheads deal 4d6)  
   *Salvo Tracker (4 Salvos)*: `[ ] Salvo 1` | `[ ] Salvo 2` | `[ ] Salvo 3` | `[ ] Salvo 4`
@@ -105,16 +105,16 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 | **Legs** | `[5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (12 IS) |
 
 ### 💥 Critical Damage Logs
-* **Head (Sensors)**: `[ ] Sensor Flicker (-1 hit)` | `[ ] Comm Static` | `[ ] Pilot Stunned (0 EP)` | `[ ] Sensors Destroyed` | `[ ] Cockpit Breach (-3 Init)` | `[ ] Pilot K.O. (Dead)`
-* **Torso (Core)**: `[ ] System Glitch` | `[ ] Capacitor Leak (-2 Max)` | `[ ] Reactor Damage (-2 EP/turn)` | `[ ] Gyro Lock` | `[ ] Ammo Expl.` | `[ ] Core Melt (Explosion)`
-* **Left Arm**: `[ ] Hand Act.` | `[ ] Weapon Damaged` | `[ ] Shoulder Jammed` | `[ ] DR 0` | `[ ] Ammo Cut` | `[ ] Arm Severed`
-* **Right Arm**: `[ ] Hand Act.` | `[ ] Weapon Damaged` | `[ ] Shoulder Jammed` | `[ ] DR 0` | `[ ] Ammo Cut` | `[ ] Arm Severed`
+* **Head (Sensors)**: `[ ] Sensor Flicker (All locks max 5)` | `[ ] Comm Static` | `[ ] Pilot Stunned (0 EP/Cap)` | `[ ] Sensors Destroyed` | `[ ] Cockpit Breach (-3 Init)` | `[ ] Pilot K.O. (Dead)`
+* **Torso (Core)**: `[ ] System Glitch (-1 EP)` | `[ ] Capacitor Leak (-2 Max)` | `[ ] Reactor Damage (-2 EP/turn)` | `[ ] Gyro Lock` | `[ ] Ammo Expl.` | `[ ] Core Melt (Explosion)`
+* **Left Arm**: `[ ] Weapon Calib. (+1 EP)` | `[ ] Weapon Damaged` | `[ ] Shoulder Jammed` | `[ ] DR 0` | `[ ] Ammo Cut` | `[ ] Arm Severed`
+* **Right Arm**: `[ ] Weapon Calib. (+1 EP)` | `[ ] Weapon Damaged` | `[ ] Shoulder Jammed` | `[ ] DR 0` | `[ ] Ammo Cut` | `[ ] Arm Severed`
 * **Legs**: `[ ] Toe Act.` | `[ ] Knee Lock` | `[ ] Hip Act. (-1 EVA)` | `[ ] DR 0` | `[ ] Thruster Wrecked` | `[ ] Leg Severed (Immobilized)`
 
 ### 🔫 Armaments & Systems
 * **Right Arm: Rail Gun** (3d6+5 damage | 6 EP cost | Ignores 3 DR | Cooldown: 1 Turn)  
   *Ammo Tracker (5 Kinetic Slugs)*: `[ ] Slug 1` | `[ ] Slug 2` | `[ ] Slug 3` | `[ ] Slug 4` | `[ ] Slug 5`
-* **Left Arm: Autocannon** (3d6 damage | 1 EP cost | Loaded with AP ammo)  
+* **Left Arm: Autocannon** (2d6 damage | 1 EP cost | Loaded with AP ammo)  
   *Ammo Tracker (10 AP Bursts)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10`
 * **Torso: Guided Missile Launcher** (2 EP cost | Microwave [Radar] Guided | Cluster Warheads deal 1d6 to 5 locations)  
   *Salvo Tracker (4 Salvos)*: `[ ] Salvo 1` | `[ ] Salvo 2` | `[ ] Salvo 3` | `[ ] Salvo 4`
@@ -145,14 +145,14 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 | **Legs** | `[6] [5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (15 IS) |
 
 ### 💥 Critical Damage Logs
-* **Head (Sensors)**: `[ ] Sensor Flicker (-1 hit)` | `[ ] Comm Static` | `[ ] Pilot Stunned (0 EP)` | `[ ] Sensors Destroyed` | `[ ] Cockpit Breach (-3 Init)` | `[ ] Pilot K.O. (Dead)`
-* **Torso (Core)**: `[ ] System Glitch` | `[ ] Capacitor Leak (-2 Max)` | `[ ] Reactor Damage (-2 EP/turn)` | `[ ] Gyro Lock` | `[ ] Ammo Expl.` | `[ ] Core Melt (Explosion)`
-* **Left Arm**: `[ ] Hand Act.` | `[ ] Weapon Damaged` | `[ ] Shoulder Jammed` | `[ ] DR 0` | `[ ] Ammo Cut` | `[ ] Arm Severed`
-* **Right Arm**: `[ ] Hand Act.` | `[ ] Weapon Damaged` | `[ ] Shoulder Jammed` | `[ ] DR 0` | `[ ] Ammo Cut` | `[ ] Arm Severed`
+* **Head (Sensors)**: `[ ] Sensor Flicker (All locks max 5)` | `[ ] Comm Static` | `[ ] Pilot Stunned (0 EP/Cap)` | `[ ] Sensors Destroyed` | `[ ] Cockpit Breach (-3 Init)` | `[ ] Pilot K.O. (Dead)`
+* **Torso (Core)**: `[ ] System Glitch (-1 EP)` | `[ ] Capacitor Leak (-2 Max)` | `[ ] Reactor Damage (-2 EP/turn)` | `[ ] Gyro Lock` | `[ ] Ammo Expl.` | `[ ] Core Melt (Explosion)`
+* **Left Arm**: `[ ] Weapon Calib. (+1 EP)` | `[ ] Weapon Damaged` | `[ ] Shoulder Jammed` | `[ ] DR 0` | `[ ] Ammo Cut` | `[ ] Arm Severed`
+* **Right Arm**: `[ ] Weapon Calib. (+1 EP)` | `[ ] Weapon Damaged` | `[ ] Shoulder Jammed` | `[ ] DR 0` | `[ ] Ammo Cut` | `[ ] Arm Severed`
 * **Legs**: `[ ] Toe Act.` | `[ ] Knee Lock` | `[ ] Hip Act. (-1 EVA)` | `[ ] DR 0` | `[ ] Thruster Wrecked` | `[ ] Leg Severed (Immobilized)`
 
 ### 🔫 Armaments & Systems
-* **Left Arm: High Energy Laser (HEL)** (2d6 Combat + 1d6 End damage | 4 EP cost | Sustained Beam)  
+* **Left Arm: High Energy Laser (HEL)** (2d6 Combat + 2d6 End damage | 4 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
   *Ammo*: Infinite
 * **Right Arm: Rail Gun** (3d6+5 damage | 6 EP cost | Ignores 3 DR | Cooldown: 1 Turn)  
   *Ammo Tracker (5 Kinetic Slugs)*: `[ ] Slug 1` | `[ ] Slug 2` | `[ ] Slug 3` | `[ ] Slug 4` | `[ ] Slug 5`

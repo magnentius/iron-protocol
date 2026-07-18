@@ -17,12 +17,13 @@ graph TD
 1. **Energy Generation**: Every Frame generates EP equal to its Reactor Rating. Add to stored Capacitor EP.
 2. **Stealth Upkeep**: Spend EP to maintain active Metamaterial Coating (AMC) modes or active ECM suites.
 
+
 ### 2. Activation Phase (Reverse Initiative Order)
 *Frames activate from lowest Initiative to highest Initiative. Spend EP step-by-step.*
 - **Forward Walk (W)**: 1 EP (climbing +1 EP per vertical level).
 - **Reverse (R)**: 2 EP.
 - **Pivot/Turn (TL/TR)**: 1 EP per 60 degrees.
-- **Strafe (SL/SR)**: 2 EP.
+
 - **Jump Jet (J)**: 2 EP per hex (Light and Medium only, straight line, max 4 hexes).
 - **Movement Limit**: A Frame cannot enter more hexes than its weight class Movement Limit per turn.
 - **Leg vs. Torso Facing**: At the end of activation, torso facing can twist up to 60 degrees left/right of leg facing for free.
@@ -40,9 +41,9 @@ graph TD
 9. **Roll Critical Hits**: If IS took 1+ damage, roll 1d6 on the location's Critical Table.
 
 ### 4. End Phase
-1. **Resolve End Phase Damage**: Any location hit by a High Energy Laser (HEL) suffers an additional **1d6 damage** (reduced by that location's current Armor DR; does not degrade DR further but can trigger criticals).
+1. **Resolve End Phase Damage**: Any location hit by a High Energy Laser (HEL) suffers an additional **2d6 damage** (this damage completely bypasses Armor DR and is dealt directly to the Internal Structure, triggering criticals normally).
 2. **Bank Energy**: Store unused EP in the Capacitor (up to Capacitor Max). Excess EP is lost.
-3. **Clean Up**: Remove temporary evasion/smoke/flare tokens. Cool down weapons.
+3. **Clean Up**: Remove Evasion tokens, decrement cooldowns, and reduce Smoke tokens by 1.
 
 ---
 
@@ -70,6 +71,7 @@ graph TD
 
 * **Infrared (IR) Lock Requirement**: Target must have spent **3+ EP** in its last activation to generate a detectable heat signature.
 * **Tactical Datalinks**: Shared locks permit teammates with active datalinks to target hidden units.
+* **Microwave (Radar)**: Direct LOS. Ignores Woods/Smoke. Blocked by Elevation. Indirect fire requires a Datalink spotter.
 
 ---
 
@@ -81,7 +83,7 @@ graph TD
 * **Stability Check (Both Frames)**:
   $$\text{Stability Check} = 2d6 + \text{Mass Value} - \text{Movement Speed (or hexes jumped)}$$
   - **Success (7+)**: The Frame stands firm.
-  - **Failure (6 or less)**: The Frame falls **Prone** (Evasion reduced to 0, cannot Torso Twist, walk, or strafe. Suffers a **-1d6 damage penalty** to all weapon rolls).
+  - **Failure (6 or less)**: The Frame falls **Prone** (Evasion reduced to 0, cannot Torso Twist, walk, or reverse. Suffers a **-1d6 damage penalty** to all weapon rolls).
   - **Stand Up**: Costs **3 EP** during the Activation Phase.
 
 ---
@@ -92,20 +94,20 @@ graph TD
 
 | Roll (2d6) | Location Hit | Armor/IS Modifier |
 | :---: | :--- | :--- |
-| **2** | **Head** (Cockpit/Sensors) | Bypasses Evasion (Direct Hit) |
-| **3–4** | **Right Arm** | Weapons mounted here |
-| **5** | **Right Leg** | Locomotion/Stability |
-| **6** | **Left Leg** | Locomotion/Stability |
-| **7–8** | **Torso** (Center Core) | Contains Reactor/Capacitor |
-| **9–10** | **Left Arm** | Weapons mounted here |
-| **11–12** | **Legs** (Rear Arc) | Select Left/Right randomly |
+| **2** | **Head** (Sensors) | Contains the Sensor Suite. Criticals blind the Frame. |
+| **3–4** | **Left Arm** | Mounted weapons/defenses in Left Arm are vulnerable. |
+| **5–6** | **Left Leg** | Criticals slow movement speed. |
+| **7** | **Torso (Center)** | Main frame chassis. Standard armor DR applies. |
+| **8–9** | **Right Leg** | Criticals slow movement speed. |
+| **10–11** | **Right Arm** | Mounted weapons/defenses in Right Arm are vulnerable. |
+| **12** | **Torso (Core Critical)** | Bypasses Torso Armor DR entirely. Damage goes to IS. |
 
 ---
 
 ### 1d6 Critical Hit Tables
 
 #### 1. Torso Criticals
-* **1: System Glitch**. Pilot loses 1 EP next turn.
+* **1: System Glitch**. Frame generates 1 less EP next turn.
 * **2: Capacitor Leak**. Capacitor Max reduced by 2; lose 2 stored EP.
 * **3: Reactor Damage**. Reactor output permanently reduced by 2 EP/turn.
 * **4: Gyro Lock**. Torso twists cost 2 EP (no longer free).
@@ -113,7 +115,7 @@ graph TD
 * **6: Core Melt**. Reactor explodes. Deal 2d6 damage to all adjacent hexes. Frame destroyed.
 
 #### 2. Arm Criticals
-* **1: Hand Actuator**. Cannot carry objects.
+* **1: Weapon Calibration**. Weapons in this arm cost +1 EP.
 * **2: Weapon Damaged**. Attacking player chooses one weapon in this arm; it is destroyed.
 * **3: Shoulder Joint Jammed**. Weapons in this arm can only fire into Front Arc.
 * **4: Structural Fracture**. Arm Armor DR reduced to 0.
@@ -122,16 +124,16 @@ graph TD
 
 #### 3. Leg Criticals
 * **1: Toe Actuator**. -1 penalty to all future Stability checks.
-* **2: Knee Lock**. Walking/strafing costs +1 EP.
+* **2: Knee Lock**. Walking/reversing costs +1 EP.
 * **3: Hip Actuator**. Evasion Limit permanently reduced by 1.
 * **4: Structural Fracture**. Leg Armor DR reduced to 0.
 * **5: Thruster Wrecked**. Jump Jets disabled.
 * **6: Leg Severed**. Frame falls Prone and is permanently immobilized.
 
 #### 4. Head (Cockpit) Criticals
-* **1: Sensor Flicker**. -1 modifier to hit rolls next turn.
+* **1: Sensor Flicker**. All locks (VIS/IR/Radar) capped at 5 hexes next turn.
 * **2: Comm Static**. Cannot share datalink targeting.
-* **3: Pilot Stunned**. Frame has 0 EP next turn (cannot move or fire).
+* **3: Pilot Stunned**. Frame generates 0 EP next turn and Capacitor drained to 0 (cannot move or fire).
 * **4: Sensor Array Destroyed**. Radar/IR locks disabled. Target blind beyond adjacent hexes.
 * **5: Cockpit Breach**. Pilot suffers toxic/pressure venting. Initiative permanently reduced by 3.
 * **6: Pilot K.O. / Frame Shutdown**. Frame is permanently disabled.

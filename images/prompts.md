@@ -59,3 +59,11 @@ When generating any image for *Iron Protocol*, always append or prefix the follo
 > **Prompt:**  
 > `Technical line art schematic of a tactical hex-grid battlefield map. The layout is composed of a clean network of hexagonal grid lines mapping out rugged terrain, topographical elevation contours, rocky crags, sparse futuristic cover barricades, and boulders. Gritty black and white pen and ink sketch, cross-hatching shadows, clean white background, tabletop wargame map schematic style. Completely clean art with no text, no labels, no words, and no titles --ar 3:4`
 
+---
+
+## 🛡️ 5. Emblems & Logos
+
+### Iron Protocol Logo Emblem
+> **Prompt:**  
+> `Vector logo design for "Iron Protocol". A bold, high-contrast circular military emblem featuring a stylized frontal shield silhouette. Inside the shield, a clean geometric outline of a humanoid bipedal mech torso and head, framed by industrial gear teeth and crossing mechanical wings. Tabletop wargaming emblem, black and white pen and ink sketch style, clean solid lines, heavy contrast, white background, no text, no letters, no words, no titles, completely clean emblem graphic --ar 1:1`
+
