@@ -23,9 +23,9 @@ When generating any image for *Iron Protocol*, always append or prefix the follo
 
 ## 🤖 2. Iron Frames
 
-### IF-30L-1 "Specter" (Light Scout)
+### IF-45M-1 "Specter" (Medium Stealth)
 > **Prompt:**  
-> `Technical line art illustration of the IF-30L-1 "Specter", a lightweight 30-ton scout Iron Frame. It has sleek, reverse-jointed legs (chicken-walker style), a low-profile head featuring a cluster of optical sensor lenses, a light autocannon mounted on the left arm, and clean metamaterial paneling. Classic wargame technical readout style, black and white pen and ink sketch, cross-hatching, clean white background, industrial mech design, completely clean art with no text, no labels, no words --ar 3:4`
+> `Technical line art illustration of the IF-45M-1 "Specter", a medium 45-ton stealth Iron Frame. It has sleek, reverse-jointed legs (chicken-walker style), a low-profile head featuring a cluster of optical sensor lenses, a disruptor cannon mounted on the right arm, and clean metamaterial paneling. Classic wargame technical readout style, black and white pen and ink sketch, cross-hatching, clean white background, industrial mech design, completely clean art with no text, no labels, no words --ar 3:4`
 
 ### IF-55M-1 "Vanguard" (Medium Skirmisher)
 > **Prompt:**  

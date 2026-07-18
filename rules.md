@@ -45,7 +45,7 @@
   - [8.1 Initiative Bonus](#81-initiative-bonus)
   - [8.2 Iron Protocol Vows](#82-iron-protocol-vows)
 - [9. Sample Frames](#9-sample-frames)
-  - [9.1 IF-30L-1 "Specter"](#91-if-30l-1-specter-light-scout-frame)
+  - [9.1 IF-45M-1 "Specter"](#91-if-45m-1-specter-medium-stealth-frame)
   - [9.2 IF-55M-1 "Vanguard"](#92-if-55m-1-vanguard-medium-skirmisher-frame)
   - [9.3 IF-75H-1 "Paladin"](#93-if-75h-1-paladin-heavy-fire-support-frame)
   - [9.4 IF-90A-1 "Colossus"](#94-if-90a-1-colossus-heavy-assault-frame)
@@ -181,7 +181,7 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
   - *Evasion accumulated*: It exited 3 hexes during its movement, earning **3 EVA tokens** (capped at its Evasion Limit of 3 EVA).
   - *Final Step*: The pilot performs a free **Torso Twist** 60 degrees right to point its torso-mounted guided missiles toward the target's expected location.
 
-- **Example 2 (Jump Jet Cliff-Jumping)**: An IF-30L-1 "Specter" (Reactor 9, Capacitor 3, total 12 EP available) starts its activation at the base of a steep Level 2 cliff (Level 0 hex adjacent to a Level 2 hex).
+- **Example 2 (Jump Jet Cliff-Jumping)**: An IF-45M-1 "Specter" (Reactor 9, Capacitor 3, total 12 EP available) starts its activation at the base of a steep Level 2 cliff (Level 0 hex adjacent to a Level 2 hex).
   1. It declares a **Jump Jet** maneuver targeting an unoccupied Level 2 hex 3 spaces away, directly on top of the cliff (bypassing the steep height difference which blocks standard walking).
   - *EP Expenditure*: 3 hexes jumped $\times$ 2 EP = 6 EP. 
   - *Evasion accumulated*: Jumping generates 2 EVA per hex. 3 hexes $\times$ 2 = 6 EVA, which is capped at the Specter's Evasion Limit of **5 EVA**.
@@ -427,27 +427,35 @@ To build balanced forces for casual or competitive play, players agree on a maxi
 - **Heavy Chassis** (60–75 Tons): 200 pts
 - **Assault Chassis** (80–100 Tons): 250 pts
 
-#### 2. Locomotive & Reactor Output
+#### 2. Hardpoint Slots (By Weight Class)
+*Every Frame possesses a specific number of hardpoints dictating what equipment it can mount. A Frame cannot mount a piece of equipment heavier than its weight class.*
+- **Light Chassis**: 0 Heavy | 0 Medium | 4 Light
+- **Medium Chassis**: 0 Heavy | 2 Medium | 4 Light
+- **Heavy Chassis**: 1 Heavy | 3 Medium | 4 Light
+- **Assault Chassis**: 2 Heavy | 3 Medium | 4 Light
+
+#### 3. Locomotive & Reactor Output
 - **Reactor Rating**: +10 pts per 1 EP generated (e.g. Reactor 12 = 120 pts)
 - **Capacitor Max**: +5 pts per 1 EP maximum capacity (e.g. Capacitor 6 = 30 pts)
 - **Evasion Limit**: +10 pts per max EVA (e.g. Evasion Limit 3 = 30 pts)
 
-#### 3. Countermeasures & Active Systems
-- **Active Metamaterial Coating (AMC)**: 30 pts
-- **Electronic Countermeasures (ECM)**: 25 pts
-- **Flare Launcher**: 15 pts
-- **Smoke Launcher**: 10 pts
-- **Tactical Datalink**: 15 pts
-- **Jump Jets (Light/Medium only)**: 20 pts
+#### 4. Countermeasures & Active Systems
+- **Active Metamaterial Coating (AMC)** [Medium]: 30 pts
+- **Electronic Countermeasures (ECM)** [Medium]: 25 pts
+- **Flare Launcher** [Light]: 15 pts
+- **Smoke Launcher** [Light]: 10 pts
+- **Tactical Datalink** [Light]: 15 pts
+- **Jump Jets (Light/Medium only)** [Light]: 20 pts
 
-#### 4. Weapons & Armaments
-- **Autocannon**: 15 pts
-- **High Energy Laser (HEL)**: 30 pts
-- **Rail Gun**: 45 pts
-- **Guided Missiles**: 20 pts
-- **Disruptor Cannon**: 25 pts
+#### 5. Weapons & Armaments
+- **Autocannon** [Light]: 15 pts
+- **Laser** [Light]: 10 pts
+- **High Energy Laser (HEL)** [Heavy]: 30 pts
+- **Rail Gun** [Heavy]: 45 pts
+- **Guided Missiles** [Medium]: 20 pts
+- **Disruptor Cannon** [Medium]: 25 pts
 
-#### 5. Named Pilots
+#### 6. Named Pilots
 - **Pilot (+1 Initiative Bonus)**: 15 pts
 - **Pilot (+2 Initiative Bonus)**: 30 pts
 - **Pilot (+3 Initiative Bonus)**: 45 pts
@@ -546,17 +554,17 @@ Choose one Vow for your Named Pilot:
 ## 9. Sample Frames
 Here are three pre-configured Iron Frames ready for combat.
 
-### 9.1 IF-30L-1 "Specter" (Light Scout Frame)
-![IF-30L-1 "Specter" Technical Sketch](images/if_01_specter.jpg)
+### 9.1 IF-45M-1 "Specter" (Medium Stealth Frame)
+![IF-45M-1 "Specter" Technical Sketch](images/if_01_specter.jpg)
 
 *A fast, stealthy frame designed to infiltrate enemy lines, disrupt sensors, and escape using high evasion and metamaterial cloaking.*
 - **Initiative**: 10
-- **Chassis Mass (Tonnage)**: 30 Tons (Light, Mass Value 1)
+- **Chassis Mass (Tonnage)**: 45 Tons (Medium, Mass Value 2)
 - **Point Value**: 345 points
 - **Reactor Rating**: 9 EP/turn
 - **Capacitor Max**: 4 EP
 - **Evasion Limit**: 5 EVA
-- **Movement Limit**: 6 hexes
+- **Movement Limit**: 5 hexes
 - **Armor DR by Location**: Head: 1 | Torso: 3 | Left Arm: 2 | Right Arm: 2 | Legs: 2
 - **Internal Structure**: Head: 3 | Torso: 8 | Left Arm: 4 | Right Arm: 4 | Legs: 6
 - **Equipped Systems**:
@@ -564,8 +572,7 @@ Here are three pre-configured Iron Frames ready for combat.
   - Active Metamaterial Coating (AMC)
   - Tactical Datalink
 - **Equipped Weapons**:
-  - **Left Arm**: Autocannon (10 AP Bursts)
-  - **Right Arm**: Disruptor Cannon
+  - **Right Arm** [Medium HP]: Disruptor Cannon
 
 ### 9.2 IF-55M-1 "Vanguard" (Medium Skirmisher Frame)
 ![IF-55M-1 "Vanguard" Technical Sketch](images/if_05_vanguard.jpg)
@@ -582,12 +589,12 @@ Here are three pre-configured Iron Frames ready for combat.
 - **Internal Structure**: Head: 4 | Torso: 12 | Left Arm: 8 | Right Arm: 8 | Legs: 10
 - **Equipped Systems**:
   - Standard Sensor Suite (Visual [VIS]/Infrared [IR]/Microwave [Radar])
-  - ECM Suite
-  - Flare Launcher (3 charges)
-  - Tactical Datalink
+  - ECM Suite [Medium HP]
+  - Flare Launcher (3 charges) [Light HP]
+  - Tactical Datalink [Light HP]
 - **Equipped Weapons**:
-  - **Left Arm**: Autocannon (10 Bursts, loaded with 5 AP / 5 HEI)
-  - **Torso**: Guided Missile Launcher (4 Salvos, Microwave [Radar] Guided, HE Warheads)
+  - **Left Arm** [Light HP]: Autocannon (10 Bursts, loaded with 5 AP / 5 HEI)
+  - **Right Arm** [Light HP]: Laser
 
 ### 9.3 IF-75H-1 "Paladin" (Heavy Fire-Support Frame)
 ![IF-75H-1 "Paladin" Technical Sketch](images/if_07_paladin.png)
@@ -604,13 +611,13 @@ Here are three pre-configured Iron Frames ready for combat.
 - **Internal Structure**: Head: 5 | Torso: 16 | Left Arm: 10 | Right Arm: 10 | Legs: 12
 - **Equipped Systems**:
   - Standard Sensor Suite (Visual [VIS]/Infrared [IR]/Microwave [Radar])
-  - Flare Launcher (3 charges)
-  - Smoke Launcher (2 charges)
-  - Tactical Datalink
+  - Flare Launcher (3 charges) [Light HP]
+  - Smoke Launcher (2 charges) [Light HP]
+  - Tactical Datalink [Light HP]
 - **Equipped Weapons**:
-  - **Right Arm**: Rail Gun (5 rounds)
-  - **Left Arm**: Autocannon (10 AP Bursts)
-  - **Torso**: Guided Missile Launcher (4 Salvos, Microwave [Radar] Guided, Cluster Warheads)
+  - **Right Arm** [Heavy HP]: Rail Gun (5 rounds)
+  - **Left Arm** [Light HP]: Autocannon (10 AP Bursts)
+  - **Torso** [Medium HP]: Guided Missile Launcher (4 Salvos, Microwave [Radar] Guided, Cluster Warheads)
 
 ### 9.4 IF-90A-1 "Colossus" (Heavy Assault Frame)
 ![IF-90A-1 "Colossus" Technical Sketch](images/if_09_colossus.jpg)
@@ -627,11 +634,13 @@ Here are three pre-configured Iron Frames ready for combat.
 - **Internal Structure**: Head: 6 | Torso: 20 | Left Arm: 12 | Right Arm: 12 | Legs: 15
 - **Equipped Systems**:
   - Standard Sensor Suite (Visual [VIS]/Infrared [IR]/Microwave [Radar])
-  - Smoke Launcher (2 charges)
+  - Smoke Launcher (2 charges) [Light HP]
+  - Flare Launcher (3 charges) [Light HP]
+  - Tactical Datalink [Light HP]
 - **Equipped Weapons**:
-  - **Left Arm**: High Energy Laser (HEL)
-  - **Right Arm**: Rail Gun (5 rounds)
-  - **Torso**: Guided Missile Launcher (4 Salvos, IR Guided, EMP Warheads)
+  - **Left Arm** [Heavy HP]: High Energy Laser (HEL)
+  - **Right Arm** [Heavy HP]: Rail Gun (5 rounds)
+  - **Torso** [Medium HP]: Guided Missile Launcher (4 Salvos, IR Guided, EMP Warheads)
 
 ---
 *Game Design by Antigravity & the User.*
