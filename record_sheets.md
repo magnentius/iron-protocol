@@ -39,9 +39,8 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 ### 🔫 Armaments & Systems
 * **Left Arm: Autocannon** (3d6 damage | 1 EP cost | AP ammo ignores 3 DR)  
-  *Ammo Tracker (50 Rounds)*:  
-  `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]`  
-  `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]`
+  *Ammo Tracker (30 Rounds)*:  
+  `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]`
 * **Right Arm: High Power Microwave (HPM)** (Head Critical Emitter | 3 EP cost)  
   *Ammo*: Infinite
 * **Active Countermeasure: Active Metamaterial Coating (AMC)** (Stealth Upgrade)  
@@ -77,8 +76,8 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 ### 🔫 Armaments & Systems
 * **Left Arm: Autocannon** (3d6 damage | 1 EP cost | Configured with AP / HEI dual loadout)  
-  *AP Ammo (50 Rounds)*: `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` (AP ignores 3 DR)  
-  *HEI Ammo (50 Rounds)*: `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` (HEI adds +2 to crits)
+  *AP Ammo (15 Rounds)*: `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` (AP ignores 3 DR)  
+  *HEI Ammo (15 Rounds)*: `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` (HEI adds +2 to crits)
 * **Torso: Guided Missile Launcher** (2 EP cost | Microwave [Radar] Guided | HE Warheads deal 4d6)  
   *Salvo Tracker (4 Salvos)*: `[ ] Salvo 1` | `[ ] Salvo 2` | `[ ] Salvo 3` | `[ ] Salvo 4`
 * **Defensive Flare Launcher** (Deflects locking missiles | 1 EP use cost)  
@@ -117,9 +116,8 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 * **Right Arm: Rail Gun** (3d6+5 damage | 6 EP cost | Ignores 3 DR | Cooldown: 1 Turn)  
   *Ammo Tracker (5 Kinetic Slugs)*: `[ ] Slug 1` | `[ ] Slug 2` | `[ ] Slug 3` | `[ ] Slug 4` | `[ ] Slug 5`
 * **Left Arm: Autocannon** (3d6 damage | 1 EP cost | Loaded with AP ammo)  
-  *Ammo Tracker (50 Rounds)*:  
-  `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]`  
-  `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]`
+  *Ammo Tracker (30 Rounds)*:  
+  `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]` `[ ] [ ] [ ] [ ] [ ]`
 * **Torso: Guided Missile Launcher** (2 EP cost | Microwave [Radar] Guided | Cluster Warheads deal 1d6 to 5 locations)  
   *Salvo Tracker (4 Salvos)*: `[ ] Salvo 1` | `[ ] Salvo 2` | `[ ] Salvo 3` | `[ ] Salvo 4`
 * **Defensive Smoke Launcher** (Blocks Visual sightlines | 1 EP use cost)  
