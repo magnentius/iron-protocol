@@ -4,17 +4,18 @@
 
 ![Iron Protocol Logo](images/logo.jpg)
 
-*Iron Protocol* is a hex-grid tabletop wargame of heavy mechanical combat. It fuses the tactical resource management, locational damage, and critical tables of classic mech wargames (like *BattleTech*) with the fluid turn-order dynamics, initiative-based activations, and torso twisting of tactical dogfighters.
+*Iron Protocol* is a hex-grid tabletop wargame of heavy mechanical combat. It fuses the tactical resource management, locational damage, and critical tables of classic mech wargames with the fluid turn-order dynamics, initiative-based activations, and torso twisting of tactical dogfighters.
 
 ---
 
 ## ⚡ Core Features
 
-* **Energy-Strained Locomotion**: Manage reactor energy (EP) turn-by-turn. Allocate power to walk, reverse, strafe, jump, bank into capacitors, upkeep stealth systems, or fire heavy weapons.
-* **Double-Initiative Phase Sequence**: Low-Initiative frames activate and move first (giving faster scouts warning), but High-Initiative frames strike first in the Combat Phase.
+* **Deterministic Combat**: There are no "to-hit" rolls. If you have a sensor lock on a target, your weapons automatically hit. The tactical puzzle revolves entirely around positioning, electronic warfare, and managing the sensor spectrum to deny enemy locks while securing your own.
+* **Energy-Strained Locomotion**: Manage reactor energy (EP) turn-by-turn. Allocate power to walk, reverse, jump, bank into capacitors, upkeep stealth systems, or fire heavy weapons.
+* **Double-Initiative Phase Sequence**: Low-Initiative frames activate and move first (giving faster scouts warning), but High-Initiative frames strike first in the Combat Phase, creating a devastating tactical advantage for the agile.
 * **Locational Damage & Armor Degradation**: Attacks damage specific locations (Head, Torso, Left/Right Arm, Legs). Penetrating hits permanently degrade Armor DR, leading to structural failures and severe internal critical malfunctions.
-* **Electronic Warfare & Stealth**: Use Active Metamaterial Coatings (AMC), active ECM suites, and smoke screens to block Microwave (Radar), Infrared (IR), and Visual locks.
-* **Point-Buy Squad Building**: Build and balance custom squads using optional point values mapped to chassis sizes, reactor ratings, and weapon loadouts.
+* **Electronic Warfare & Datalinks**: Use Active Metamaterial Coatings (AMC), ECM, flares, and smoke to spoof specific sensor spectrums (Visual, Infrared, Radar). Share target telemetry across the battlefield via Tactical Datalinks to spot for indirect missile fire.
+* **The Code of Honor**: Integrate optional pilot rules that allow you to swear ancient oaths before combat, granting initiative bonuses in exchange for adhering to strict targeting restrictions and martial chivalry.
 
 ---
 

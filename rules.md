@@ -3,7 +3,7 @@
 
 ![Iron Protocol Cover Art](images/iron_protocol.jpg)
 
-*Fusing the tactical resource management and locational damage of BattleTech with the turn-order dynamics and initiative-based action of X-Wing Miniatures.*
+*Fusing tactical resource management and locational damage with fluid turn-order dynamics and initiative-based action.*
 
 ---
 
