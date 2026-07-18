@@ -19,27 +19,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 ### ⚡ Energy Pool
 * **Reactor Generation (9 EP/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9`
 * **Capacitor Storage (Max 4 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4`
-
-### 🛡️ Locational Status
-
-| Location | Armor DR Tracker (Cross off highest on hit) | Internal Structure (Mark on damage) |
-| :--- | :--- | :--- |
-| **Head** | `[1] [0]` | `[ ] [ ] [ ]` (3 IS) |
-| **Torso** | `[3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (8 IS) |
-| **Left Arm** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ]` (4 IS) |
-| **Right Arm** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ]` (4 IS) |
-| **Legs** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ]` (6 IS) |
-
-### 💥 Critical Damage Logs
-
-| Roll | Head | Torso | Arms (L / R) | Legs |
-| :---: | :--- | :--- | :--- | :--- |
-| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ]` **Toe Act.** *(-1 Stability)* |
-| **2** | `[ ]` **Comm Static** *(No Datalink)* | `[ ]` **Cap Leak** *(-2 Cap Max)* | `[ ] / [ ]` **Weapon Damaged** *(-1d6 dmg)* | `[ ]` **Knee Lock** *(-1 Move Limit)* |
-| **3** | `[ ]` **Pilot Stunned** *(0 EP next)* | `[ ]` **Reactor Dmg** *(-2 EP/turn)* | `[ ] / [ ]` **Shoulder Jam** *(Fwd Arc only)* | `[ ]` **Hip Act.** *(-1 EVA Limit)* |
-| **4** | `[ ]` **Sensors Down** *(No Locks)* | `[ ]` **Gyro Lock** *(No Torso Twist)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* | `[ ]` **Armor Blown** *(DR to 0)* |
-| **5** | `[ ]` **Cockpit Breach** *(-3 Init)* | `[ ]` **Ammo Expl.** *(Internal Blast)* | `[ ] / [ ]` **Ammo Cut** *(Cannot Fire)* | `[ ]` **Thruster Wreck** *(Cannot Jump)* |
-| **6** | `[ ]` **Pilot K.O.** *(Dead)* | `[ ]` **Core Melt** *(Destroyed)* | `[ ] / [ ]` **Arm Severed** *(Destroyed)* | `[ ]` **Leg Severed** *(Immobilized)* |
+* **Upkeep Allocation (Reserved EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6`
 
 ### 🔫 Armaments & Systems
 * **Left Arm: Autocannon** (2d6 damage | 1 EP cost | AP ammo ignores 2 DR)  
@@ -50,6 +30,28 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
   *Upkeep*: 2 EP per mode (Visual-Camouflage / IR-Suppression / Microwave-Absorbent).
 * **Tactical Datalink**: Shares locks and target telemetry in real time.
 
+### 🛡️ Locational Status
+
+| Location | Armor DR Tracker (Cross off highest on hit) | Internal Structure (Mark on damage) |
+| :--- | :--- | :--- |
+| **Head** | `[1] [0]` | `[ ] [ ] [ ]` (3 IS) |
+| **Torso** | `[3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (8 IS) |
+| **Left Arm** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ]` (4 IS) |
+| **Right Arm** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ]` (4 IS) |
+| **Left Leg** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ]` (6 IS) |
+| **Right Leg** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ]` (6 IS) |
+
+### 💥 Critical Damage Logs
+
+| Roll | Head | Torso | Arms (L / R) | Legs (L / R) |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ] / [ ]` **Toe Act.** *(-1 Stability)* |
+| **2** | `[ ]` **Comm Static** *(No Datalink)* | `[ ]` **Cap Leak** *(-2 Cap Max)* | `[ ] / [ ]` **Weapon Damaged** *(-1d6 dmg)* | `[ ] / [ ]` **Knee Lock** *(-1 Move Limit)* |
+| **3** | `[ ]` **Pilot Stunned** *(0 EP next)* | `[ ]` **Reactor Dmg** *(-2 EP/turn)* | `[ ] / [ ]` **Shoulder Jam** *(Fwd Arc only)* | `[ ] / [ ]` **Hip Act.** *(-1 EVA Limit)* |
+| **4** | `[ ]` **Sensors Down** *(No Locks)* | `[ ]` **Gyro Lock** *(No Torso Twist)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* |
+| **5** | `[ ]` **Cockpit Breach** *(-3 Init)* | `[ ]` **Ammo Expl.** *(Internal Blast)* | `[ ] / [ ]` **Ammo Cut** *(Cannot Fire)* | `[ ] / [ ]` **Thruster Wreck** *(Cannot Jump)* |
+| **6** | `[ ]` **Pilot K.O.** *(Dead)* | `[ ]` **Core Melt** *(Destroyed)* | `[ ] / [ ]` **Arm Severed** *(Destroyed)* | `[ ] / [ ]` **Leg Severed** *(Immobilized)* |
+
 ---
 
 ## ⚔️ IF-55M-1 "Vanguard" (Medium Skirmisher Frame)
@@ -59,27 +61,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 ### ⚡ Energy Pool
 * **Reactor Generation (12 EP/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12`
 * **Capacitor Storage (Max 6 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6`
-
-### 🛡️ Locational Status
-
-| Location | Armor DR Tracker (Cross off highest on hit) | Internal Structure (Mark on damage) |
-| :--- | :--- | :--- |
-| **Head** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ]` (4 IS) |
-| **Torso** | `[5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (12 IS) |
-| **Left Arm** | `[3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (8 IS) |
-| **Right Arm** | `[3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (8 IS) |
-| **Legs** | `[4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (10 IS) |
-
-### 💥 Critical Damage Logs
-
-| Roll | Head | Torso | Arms (L / R) | Legs |
-| :---: | :--- | :--- | :--- | :--- |
-| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ]` **Toe Act.** *(-1 Stability)* |
-| **2** | `[ ]` **Comm Static** *(No Datalink)* | `[ ]` **Cap Leak** *(-2 Cap Max)* | `[ ] / [ ]` **Weapon Damaged** *(-1d6 dmg)* | `[ ]` **Knee Lock** *(-1 Move Limit)* |
-| **3** | `[ ]` **Pilot Stunned** *(0 EP next)* | `[ ]` **Reactor Dmg** *(-2 EP/turn)* | `[ ] / [ ]` **Shoulder Jam** *(Fwd Arc only)* | `[ ]` **Hip Act.** *(-1 EVA Limit)* |
-| **4** | `[ ]` **Sensors Down** *(No Locks)* | `[ ]` **Gyro Lock** *(No Torso Twist)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* | `[ ]` **Armor Blown** *(DR to 0)* |
-| **5** | `[ ]` **Cockpit Breach** *(-3 Init)* | `[ ]` **Ammo Expl.** *(Internal Blast)* | `[ ] / [ ]` **Ammo Cut** *(Cannot Fire)* | `[ ]` **Thruster Wreck** *(Cannot Jump)* |
-| **6** | `[ ]` **Pilot K.O.** *(Dead)* | `[ ]` **Core Melt** *(Destroyed)* | `[ ] / [ ]` **Arm Severed** *(Destroyed)* | `[ ]` **Leg Severed** *(Immobilized)* |
+* **Upkeep Allocation (Reserved EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6`
 
 ### 🔫 Armaments & Systems
 * **Left Arm: Autocannon** (2d6 damage | 1 EP cost | Configured with AP / HEI dual loadout)  
@@ -92,6 +74,28 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 * **Active System: ECM Suite** (Jams Microwave locks | Upkeep: 2 EP)
 * **Tactical Datalink**: Shares locks and target telemetry in real time.
 
+### 🛡️ Locational Status
+
+| Location | Armor DR Tracker (Cross off highest on hit) | Internal Structure (Mark on damage) |
+| :--- | :--- | :--- |
+| **Head** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ]` (4 IS) |
+| **Torso** | `[5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (12 IS) |
+| **Left Arm** | `[3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (8 IS) |
+| **Right Arm** | `[3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (8 IS) |
+| **Left Leg** | `[4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (10 IS) |
+| **Right Leg** | `[4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (10 IS) |
+
+### 💥 Critical Damage Logs
+
+| Roll | Head | Torso | Arms (L / R) | Legs (L / R) |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ] / [ ]` **Toe Act.** *(-1 Stability)* |
+| **2** | `[ ]` **Comm Static** *(No Datalink)* | `[ ]` **Cap Leak** *(-2 Cap Max)* | `[ ] / [ ]` **Weapon Damaged** *(-1d6 dmg)* | `[ ] / [ ]` **Knee Lock** *(-1 Move Limit)* |
+| **3** | `[ ]` **Pilot Stunned** *(0 EP next)* | `[ ]` **Reactor Dmg** *(-2 EP/turn)* | `[ ] / [ ]` **Shoulder Jam** *(Fwd Arc only)* | `[ ] / [ ]` **Hip Act.** *(-1 EVA Limit)* |
+| **4** | `[ ]` **Sensors Down** *(No Locks)* | `[ ]` **Gyro Lock** *(No Torso Twist)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* |
+| **5** | `[ ]` **Cockpit Breach** *(-3 Init)* | `[ ]` **Ammo Expl.** *(Internal Blast)* | `[ ] / [ ]` **Ammo Cut** *(Cannot Fire)* | `[ ] / [ ]` **Thruster Wreck** *(Cannot Jump)* |
+| **6** | `[ ]` **Pilot K.O.** *(Dead)* | `[ ]` **Core Melt** *(Destroyed)* | `[ ] / [ ]` **Arm Severed** *(Destroyed)* | `[ ] / [ ]` **Leg Severed** *(Immobilized)* |
+
 ---
 
 ## 🛡️ IF-75H-1 "Paladin" (Heavy Fire-Support Frame)
@@ -101,27 +105,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 ### ⚡ Energy Pool
 * **Reactor Generation (14 EP/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12` | `[ ] 13` | `[ ] 14`
 * **Capacitor Storage (Max 8 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8`
-
-### 🛡️ Locational Status
-
-| Location | Armor DR Tracker (Cross off highest on hit) | Internal Structure (Mark on damage) |
-| :--- | :--- | :--- |
-| **Head** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ]` (5 IS) |
-| **Torso** | `[6] [5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (16 IS) |
-| **Left Arm** | `[4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (10 IS) |
-| **Right Arm** | `[4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (10 IS) |
-| **Legs** | `[5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (12 IS) |
-
-### 💥 Critical Damage Logs
-
-| Roll | Head | Torso | Arms (L / R) | Legs |
-| :---: | :--- | :--- | :--- | :--- |
-| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ]` **Toe Act.** *(-1 Stability)* |
-| **2** | `[ ]` **Comm Static** *(No Datalink)* | `[ ]` **Cap Leak** *(-2 Cap Max)* | `[ ] / [ ]` **Weapon Damaged** *(-1d6 dmg)* | `[ ]` **Knee Lock** *(-1 Move Limit)* |
-| **3** | `[ ]` **Pilot Stunned** *(0 EP next)* | `[ ]` **Reactor Dmg** *(-2 EP/turn)* | `[ ] / [ ]` **Shoulder Jam** *(Fwd Arc only)* | `[ ]` **Hip Act.** *(-1 EVA Limit)* |
-| **4** | `[ ]` **Sensors Down** *(No Locks)* | `[ ]` **Gyro Lock** *(No Torso Twist)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* | `[ ]` **Armor Blown** *(DR to 0)* |
-| **5** | `[ ]` **Cockpit Breach** *(-3 Init)* | `[ ]` **Ammo Expl.** *(Internal Blast)* | `[ ] / [ ]` **Ammo Cut** *(Cannot Fire)* | `[ ]` **Thruster Wreck** *(Cannot Jump)* |
-| **6** | `[ ]` **Pilot K.O.** *(Dead)* | `[ ]` **Core Melt** *(Destroyed)* | `[ ] / [ ]` **Arm Severed** *(Destroyed)* | `[ ]` **Leg Severed** *(Immobilized)* |
+* **Upkeep Allocation (Reserved EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6`
 
 ### 🔫 Armaments & Systems
 * **Right Arm: Rail Gun** (3d6+5 damage | 6 EP cost | Ignores 3 DR | Cooldown: 1 Turn)  
@@ -136,6 +120,28 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
   *Charges (3 charges)*: `[ ] Charge 1` | `[ ] Charge 2` | `[ ] Charge 3`
 * **Tactical Datalink**: Shares locks and target telemetry in real time.
 
+### 🛡️ Locational Status
+
+| Location | Armor DR Tracker (Cross off highest on hit) | Internal Structure (Mark on damage) |
+| :--- | :--- | :--- |
+| **Head** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ]` (5 IS) |
+| **Torso** | `[6] [5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (16 IS) |
+| **Left Arm** | `[4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (10 IS) |
+| **Right Arm** | `[4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (10 IS) |
+| **Left Leg** | `[5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (12 IS) |
+| **Right Leg** | `[5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (12 IS) |
+
+### 💥 Critical Damage Logs
+
+| Roll | Head | Torso | Arms (L / R) | Legs (L / R) |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ] / [ ]` **Toe Act.** *(-1 Stability)* |
+| **2** | `[ ]` **Comm Static** *(No Datalink)* | `[ ]` **Cap Leak** *(-2 Cap Max)* | `[ ] / [ ]` **Weapon Damaged** *(-1d6 dmg)* | `[ ] / [ ]` **Knee Lock** *(-1 Move Limit)* |
+| **3** | `[ ]` **Pilot Stunned** *(0 EP next)* | `[ ]` **Reactor Dmg** *(-2 EP/turn)* | `[ ] / [ ]` **Shoulder Jam** *(Fwd Arc only)* | `[ ] / [ ]` **Hip Act.** *(-1 EVA Limit)* |
+| **4** | `[ ]` **Sensors Down** *(No Locks)* | `[ ]` **Gyro Lock** *(No Torso Twist)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* |
+| **5** | `[ ]` **Cockpit Breach** *(-3 Init)* | `[ ]` **Ammo Expl.** *(Internal Blast)* | `[ ] / [ ]` **Ammo Cut** *(Cannot Fire)* | `[ ] / [ ]` **Thruster Wreck** *(Cannot Jump)* |
+| **6** | `[ ]` **Pilot K.O.** *(Dead)* | `[ ]` **Core Melt** *(Destroyed)* | `[ ] / [ ]` **Arm Severed** *(Destroyed)* | `[ ] / [ ]` **Leg Severed** *(Immobilized)* |
+
 ---
 
 ## 🌋 IF-90A-1 "Colossus" (Heavy Assault Frame)
@@ -145,27 +151,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 ### ⚡ Energy Pool
 * **Reactor Generation (18 EP/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12` | `[ ] 13` | `[ ] 14` | `[ ] 15` | `[ ] 16` | `[ ] 17` | `[ ] 18`
 * **Capacitor Storage (Max 10 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10`
-
-### 🛡️ Locational Status
-
-| Location | Armor DR Tracker (Cross off highest on hit) | Internal Structure (Mark on damage) |
-| :--- | :--- | :--- |
-| **Head** | `[3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ]` (6 IS) |
-| **Torso** | `[7] [6] [5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (20 IS) |
-| **Left Arm** | `[5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (12 IS) |
-| **Right Arm** | `[5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (12 IS) |
-| **Legs** | `[6] [5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (15 IS) |
-
-### 💥 Critical Damage Logs
-
-| Roll | Head | Torso | Arms (L / R) | Legs |
-| :---: | :--- | :--- | :--- | :--- |
-| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ]` **Toe Act.** *(-1 Stability)* |
-| **2** | `[ ]` **Comm Static** *(No Datalink)* | `[ ]` **Cap Leak** *(-2 Cap Max)* | `[ ] / [ ]` **Weapon Damaged** *(-1d6 dmg)* | `[ ]` **Knee Lock** *(-1 Move Limit)* |
-| **3** | `[ ]` **Pilot Stunned** *(0 EP next)* | `[ ]` **Reactor Dmg** *(-2 EP/turn)* | `[ ] / [ ]` **Shoulder Jam** *(Fwd Arc only)* | `[ ]` **Hip Act.** *(-1 EVA Limit)* |
-| **4** | `[ ]` **Sensors Down** *(No Locks)* | `[ ]` **Gyro Lock** *(No Torso Twist)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* | `[ ]` **Armor Blown** *(DR to 0)* |
-| **5** | `[ ]` **Cockpit Breach** *(-3 Init)* | `[ ]` **Ammo Expl.** *(Internal Blast)* | `[ ] / [ ]` **Ammo Cut** *(Cannot Fire)* | `[ ]` **Thruster Wreck** *(Cannot Jump)* |
-| **6** | `[ ]` **Pilot K.O.** *(Dead)* | `[ ]` **Core Melt** *(Destroyed)* | `[ ] / [ ]` **Arm Severed** *(Destroyed)* | `[ ]` **Leg Severed** *(Immobilized)* |
+* **Upkeep Allocation (Reserved EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6`
 
 ### 🔫 Armaments & Systems
 * **Left Arm: High Energy Laser (HEL)** (2d6 Combat + 2d6 End damage | 4 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
@@ -176,3 +162,28 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
   *Salvo Tracker (4 Salvos)*: `[ ] Salvo 1` | `[ ] Salvo 2` | `[ ] Salvo 3` | `[ ] Salvo 4`
 * **Defensive Smoke Launcher** (Blocks Visual sightlines | 1 EP use cost)  
   *Charges (2 charges)*: `[ ] Charge 1` | `[ ] Charge 2`
+* **Defensive Flare Launcher** (Deflects seeking missiles | 1 EP use cost)  
+  *Charges (3 charges)*: `[ ] Charge 1` | `[ ] Charge 2` | `[ ] Charge 3`
+* **Tactical Datalink**: Shares locks and target telemetry in real time.
+
+### 🛡️ Locational Status
+
+| Location | Armor DR Tracker (Cross off highest on hit) | Internal Structure (Mark on damage) |
+| :--- | :--- | :--- |
+| **Head** | `[3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ]` (6 IS) |
+| **Torso** | `[7] [6] [5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (20 IS) |
+| **Left Arm** | `[5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (12 IS) |
+| **Right Arm** | `[5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (12 IS) |
+| **Left Leg** | `[6] [5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (15 IS) |
+| **Right Leg** | `[6] [5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (15 IS) |
+
+### 💥 Critical Damage Logs
+
+| Roll | Head | Torso | Arms (L / R) | Legs (L / R) |
+| :---: | :--- | :--- | :--- | :--- |
+| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ] / [ ]` **Toe Act.** *(-1 Stability)* |
+| **2** | `[ ]` **Comm Static** *(No Datalink)* | `[ ]` **Cap Leak** *(-2 Cap Max)* | `[ ] / [ ]` **Weapon Damaged** *(-1d6 dmg)* | `[ ] / [ ]` **Knee Lock** *(-1 Move Limit)* |
+| **3** | `[ ]` **Pilot Stunned** *(0 EP next)* | `[ ]` **Reactor Dmg** *(-2 EP/turn)* | `[ ] / [ ]` **Shoulder Jam** *(Fwd Arc only)* | `[ ] / [ ]` **Hip Act.** *(-1 EVA Limit)* |
+| **4** | `[ ]` **Sensors Down** *(No Locks)* | `[ ]` **Gyro Lock** *(No Torso Twist)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* |
+| **5** | `[ ]` **Cockpit Breach** *(-3 Init)* | `[ ]` **Ammo Expl.** *(Internal Blast)* | `[ ] / [ ]` **Ammo Cut** *(Cannot Fire)* | `[ ] / [ ]` **Thruster Wreck** *(Cannot Jump)* |
+| **6** | `[ ]` **Pilot K.O.** *(Dead)* | `[ ]` **Core Melt** *(Destroyed)* | `[ ] / [ ]` **Arm Severed** *(Destroyed)* | `[ ] / [ ]` **Leg Severed** *(Immobilized)* |
