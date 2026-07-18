@@ -33,7 +33,7 @@ When generating any image for *Iron Protocol*, always append or prefix the follo
 
 ### IF-55M-1 "Vanguard" (Medium Skirmisher)
 > **Prompt:**  
-> `Technical line art illustration of the IF-55M-1 "Vanguard", a balanced 55-ton medium skirmisher Iron Frame. It has an athletic humanoid bipedal structure, blocky armor plating, a heavy autocannon on the left arm with a visible ammunition feed chute, a missile launcher box mounted on the torso, and shoulder-mounted flare tubes. Classic wargame technical readout style, black and white pen and ink sketch, cross-hatching, clean white background, industrial mech design, completely clean art with no text, no labels, no words --ar 3:4`
+> `Technical line art illustration of the IF-55M-1 "Vanguard", a balanced 55-ton medium skirmisher Iron Frame. It has an athletic humanoid bipedal structure, blocky armor plating, an autocannon on the left arm with a visible ammunition feed chute, a laser emitter on the right arm, torso-mounted ECM sensor pods, and shoulder-mounted flare tubes. Classic wargame technical readout style, black and white pen and ink sketch, cross-hatching, clean white background, industrial mech design, completely clean art with no text, no labels, no words --ar 3:4`
 
 ### IF-75H-1 "Paladin" (Heavy Fire-Support)
 > **Prompt:**  
@@ -41,7 +41,7 @@ When generating any image for *Iron Protocol*, always append or prefix the follo
 
 ### IF-90A-1 "Colossus" (Assault Fortress)
 > **Prompt:**  
-> `Technical line art illustration of the IF-90A-1 "Colossus", a massive 90-ton assault Iron Frame. It features thick, pillar-like bipedal legs, a wide armored chest, a colossal long-barrel railgun with thick power cables replacing its right arm, a heavy high-energy laser emitter on its left arm, and torso missile pods. Walking fortress look, classic wargame technical readout style, black and white pen and ink sketch, cross-hatching, clean white background, industrial mech design, completely clean art with no text, no labels, no words --ar 3:4`
+> `Technical line art illustration of the IF-90A-1 "Colossus", a massive 90-ton assault Iron Frame. It features thick, pillar-like bipedal legs, a wide armored chest, a colossal long-barrel railgun with thick power cables replacing its right arm, a heavy thermal lance emitter on its left arm, and torso missile pods. Walking fortress look, classic wargame technical readout style, black and white pen and ink sketch, cross-hatching, clean white background, industrial mech design, completely clean art with no text, no labels, no words --ar 3:4`
 
 ---
 
