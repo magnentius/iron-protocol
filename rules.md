@@ -324,7 +324,7 @@ Weapons can only be mounted in the Left Arm, Right Arm, or Torso, which dictates
 | **High Energy Laser (HEL)** | 4 | Infinite | None | 2d6 (Combat) + 1d6 (End) | Visual (VIS) or Infrared (IR) | Sustained Beam. Can pay 3 EP to maintain lock in subsequent turns. |
 | **Rail Gun** | 6 | 5 rounds | 1 Turn | 3d6 + 5 | Visual (VIS) or Microwave (Radar) | High penetration. Ignores up to 3 points of Armor DR. |
 | **Guided Missiles** | 2 | 4 Salvos | None | Warhead Dep. | Guidance Dep. | Requires Lock. Permits indirect fire (no LOS) for all guidance types (onboard camera/sensors). |
-| **High Power Microwave (HPM)** | 3 | Infinite | None | None | Microwave (Radar) or Visual (VIS) | Roll Hit Location normally. If the weapon successfully hits the Head location, the attack deals no physical damage, but it does bypass all Armor DR to force a roll on the Head Critical Table. |
+| **High Power Microwave (HPM)** | 3 | Infinite | None | None | Microwave (Radar) or Visual (VIS) | Bypasses Evasion and Armor DR. Roll Hit Location: Head (2) forces Head Crit; Torso (7-8) drains 1d6 Capacitor EP and target has -2 EP reactor output next turn; Arms/Legs immediately force a roll on the corresponding Critical Table (treat any result of 6 [Severed] as Actuator Lockup next turn instead of destruction). |
 
 ### 5.1 Autocannon Munitions
 When equipping an Autocannon, players choose one ammo type:
