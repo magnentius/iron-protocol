@@ -84,6 +84,8 @@ Following a catastrophic AI rebellion, treaties strictly outlaw autonomous comba
 ---
 
 ## 1. Core Mechanics & Setup
+> *"Victorious warriors win first and then go to war, while defeated warriors go to war first and then seek to win." — Sun Tzu*
+
 
 ### 1.1 The Hex Grid & Time Scale
 The game is played on a standard hexagonal grid.
@@ -149,6 +151,8 @@ Each Iron Frame (IF) is defined by its chassis, reactor, capacitor, and mounted 
 ---
 
 ## 2. Turn Sequence
+> *"A good plan violently executed now is better than a perfect plan executed next week." — George S. Patton*
+
 Each round of play is divided into four distinct phases:
 1. **Energy Phase**: Generate energy and allocate stealth/system upkeep.
 2. **Activation Phase**: Move Frames and spend EP on movement in **reverse initiative order** (lowest initiative first).
@@ -244,6 +248,8 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
 ---
 
 ## 3. Terrain & Elevation
+> *"The terrain is the foundation of victory. Know the ground, know the weather; your victory will then be total." — Sun Tzu*
+
 Combat under the Iron Protocol occurs on diverse planetary surfaces. The map's hexes are classified by terrain type, which alters movement costs, provides cover, or impacts pilot checks.
 
 ### 3.1 Summary of Terrain Types
@@ -305,6 +311,8 @@ Traversing elevation changes costs additional energy:
 ---
 
 ## 4. Sensors, Stealth, and Detection
+> *"All warfare is based on deception." — Sun Tzu*
+
 Because attacks hit automatically if targeted, the tactical battle is won or lost in the **Sensor & Detection** game. A Frame cannot be attacked unless it is detected on at least one sensor spectrum required by the weapon.
 
 ### 4.1 The Sensor Suite (Head Location)
@@ -335,6 +343,8 @@ A Frame may be equipped with a **Tactical Datalink** housed in its Head location
 ---
 
 ## 5. Weapons & Munitions
+> *"God is on the side with the best artillery." — Napoleon Bonaparte*
+
 Weapons can only be mounted in the Left Arm, Right Arm, or Torso, which dictates their firing arcs (see Section 1.1).
 
 - **Armor Piercing (AP X)**: Weapons or munitions designated as **AP X** ignore up to **X** points of the target's Armor DR when calculating damage. (For example, an AP 3 weapon fired at a location with Armor DR 5 treats that location's DR as 2).
@@ -390,6 +400,8 @@ Many weapons and utility systems share standardized mechanical behaviors, repres
 ---
 
 ## 6. Damage & Critical Hits
+> *"No plan of operations extends with any certainty beyond the first contact with the main hostile force." — Helmuth von Moltke the Elder*
+
 
 ### 6.1 Hit Location Table (2d6)
 When a Frame is hit, the player rolls 2d6 and determines the hit location using the column corresponding to the incoming attack's **Hit Zone** (Left Side, Front/Rear, or Right Side):
@@ -496,6 +508,8 @@ If an attack hits a location that has already been destroyed (e.g. a random hit 
 
 
 ## 7. Optional Rules
+> *"Amateurs talk about tactics, but professionals study logistics." — Gen. Robert H. Barrow*
+
 For players seeking advanced simulation, competitive matching, or campaign settings, these optional rules introduce points-based force organization and environmental hazards.
 
 ### 7.1 Squad Building & Point Values
@@ -602,6 +616,8 @@ The chemical density of the atmosphere impacts how well the Frame's radiator ven
 ---
 
 ## 8. Named Pilots & The Code of Honor
+> *"The true science of martial arts means practicing them in such a way that they will be useful at any time, and to teach them in such a way that they will be useful in all things." — Miyamoto Musashi*
+
 
 In *Iron Protocol*, pilots are not anonymous grunts. You can field legendary **Named Pilots** who represent the elite houses, coalitions, and orders.
 
@@ -675,6 +691,8 @@ Choose one Vow for your Named Pilot:
 ---
 
 ## 9. Iron Frame Roster
+> *"Battles are won by slaughter and maneuver. The greater the general, the more he contributes in maneuver, the less he demands in slaughter." — Winston Churchill*
+
 Here are five pre-configured Iron Frames ready for combat.
 
 ### 9.1 IF-25L-1 "Jackal" (Light Recon Frame)
