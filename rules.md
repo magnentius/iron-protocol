@@ -706,7 +706,7 @@ Here are five pre-configured Iron Frames ready for combat.
   - **Right Arm** [Light HP]: Laser (1d6 Combat + 1d6 End damage)
 
 ### 9.4 IF-75H-1 "Paladin" (Heavy Fire-Support Frame)
-![IF-75H-1 "Paladin" Technical Sketch](images/if_75h_1_paladin.png)
+![IF-75H-1 "Paladin" Technical Sketch](images/if_75h_1_paladin.jpg)
 
 *A heavy bombardment frame equipped to deliver high-impact kinetic support and rain cluster munitions, protected by layered defensive launchers.*
 - **Initiative**: 5
