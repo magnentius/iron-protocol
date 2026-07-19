@@ -39,4 +39,4 @@
 | **3** | `[ ]` **Pilot Stunned** *(0 EP next)* | `[ ]` **Reactor Dmg** *(-2 EP/turn)* | `[ ] / [ ]` **Shoulder Jam** *(Fwd Arc only)* | `[ ] / [ ]` **Hip Act.** *(-1 EVA Limit)* |
 | **4** | `[ ]` **Life Support** *(Pilot takes 1 dmg/turn)* | `[ ]` **Engine Hit** *(+1 Heat/turn)* | `[ ] / [ ]` **Actuator Hit** *(-1 Hit)* | `[ ] / [ ]` **Ankle Act.** *(-2 Move Limit)* |
 | **5** | `[ ]` **Sensors Dest.** *(No Locks)* | `[ ]` **Gyro Hit** *(-1 EVA Limit)* | `[ ] / [ ]` **Ammo Feed Cut** *(Disabled)* | `[ ] / [ ]` **Leg Blown Off** *(Prone)* |
-| **6+** | `[ ]` **Cockpit Breach** *(Pilot Killed)* | `[ ]` **Reactor Core** *(Mech Destroyed)* | `[ ] / [ ]` **Arm Severed** *(Destroyed)* | `[ ] / [ ]` **Leg Severed** *(Destroyed)* |
+| **6+** | `[ ]` **Cockpit Breach** *(Pilot Killed)* | `[ ]` **Reactor Core** *(Destroyed)* | `[ ] / [ ]` **Arm Severed** *(Destroyed)* | `[ ] / [ ]` **Leg Severed** *(Destroyed)* |
