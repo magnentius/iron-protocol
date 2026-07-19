@@ -36,6 +36,7 @@
   - [6.1 Hit Location Table](#61-hit-location-table-2d6)
   - [6.2 Critical Hit Tables](#62-critical-hit-tables-1d6)
   - [6.3 Falling and the Prone State](#63-falling-and-the-prone-state)
+  - [6.4 Location Destruction & Damage Transfer](#64-location-destruction--damage-transfer)
 - [7. Optional Rules](#7-optional-rules)
   - [7.1 Squad Building & Point Values](#71-squad-building--point-values)
   - [7.2 Visibility & Sensors](#72-visibility--sensors)
@@ -414,7 +415,35 @@ A Frame must make a **Stability Check** (rolling 2d6) to avoid falling Prone in 
   - **Stand Up**: Costs **3 EP** during its Activation Phase. Upon standing, the pilot removes the Prone token and may set the Leg Facing to any direction for free.
   - **Pivot**: While Prone, the Frame may crawl-turn, pivoting its Leg Facing by 60 degrees. Cost: **2 EP** per 60 degrees.
 
+### 6.4 Location Destruction & Damage Transfer
+If the damage applied to a hit location reduces its remaining Internal Structure (IS) to 0, that location is destroyed. Any excess damage from that hit, as well as any subsequent hits to that location, are handled using the following rules:
+
+#### 1. Torso Destruction
+If the Torso's Internal Structure is reduced to 0, the engine core is breached. The Frame is completely destroyed.
+*   **Core Melt**: The reactor explodes immediately. All units in adjacent hexes suffer **2d6 damage** (apply Evasion and Armor DR normally).
+
+#### 2. Head Destruction
+If the Head's Internal Structure is reduced to 0, the cockpit is vaporized or crushed, and the pilot is killed. The Frame is immediately deactivated and treated as destroyed.
+
+#### 3. Arm Destruction (Left or Right)
+If an Arm's Internal Structure is reduced to 0, the arm is severed and blown off.
+*   **Equipment Loss**: All weapons and systems mounted in that arm are permanently destroyed and lost.
+*   **Excess Damage**: Any excess damage from the hit that destroyed the arm bypasses Evasion and Armor DR, transferring directly to the **Torso** Internal Structure.
+
+#### 4. Leg Destruction (Left or Right)
+If a Leg's Internal Structure is reduced to 0, the leg is severed and blown off.
+*   **Immediate Fall**: The Frame immediately falls **Prone**.
+*   **Crippled Movement**: The Frame is permanently crippled and cannot walk, reverse, or jump. Its only movement option is to pivot its Leg Facing at a cost of **3 EP** per 60 degrees.
+*   **Double Leg Loss**: If both legs are destroyed, the Frame is completely disabled (treated as destroyed).
+*   **Excess Damage**: Any excess damage from the hit that destroyed the leg bypasses Evasion and Armor DR, transferring directly to the **Torso** Internal Structure.
+
+#### 5. Damage Transfer (Blow-Through)
+If an attack hits a location that has already been destroyed (e.g. a random hit location rolls a severed Arm or Leg), the hit is not wasted:
+*   The damage bypasses Evasion and Armor DR, transferring directly to the **Torso** Internal Structure.
+*   Damage cannot transfer further than the Torso (as Torso destruction destroys the Frame).
+
 ---
+
 
 ## 7. Optional Rules
 For players seeking advanced simulation, competitive matching, or campaign settings, these optional rules introduce points-based force organization and environmental hazards.
@@ -583,7 +612,7 @@ Here are five pre-configured Iron Frames ready for combat.
 *A fast, stealthy frame designed to infiltrate enemy lines, disrupt sensors, and escape using high evasion and metamaterial cloaking.*
 - **Initiative**: 10
 - **Chassis Mass (Tonnage)**: 45 Tons (Medium, Mass Value 2)
-- **Point Value**: 380 points
+- **Point Value**: 395 points
 - **Reactor Rating**: 9 EP/turn
 - **Capacitor Max**: 4 EP
 - **Evasion Limit**: 5 EVA
@@ -595,6 +624,7 @@ Here are five pre-configured Iron Frames ready for combat.
   - Active Metamaterial Coating (AMC)
   - Tactical Datalink
 - **Equipped Weapons**:
+  - **Left Arm** [Light HP]: Laser (1d6 Combat + 1d6 End damage)
   - **Right Arm** [Medium HP]: Disruptor Cannon
 
 ### 9.3 IF-55M-1 "Vanguard" (Medium Skirmisher Frame)

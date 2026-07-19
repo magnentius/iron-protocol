@@ -54,7 +54,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 ---
 ## 🛠️ IF-45M-1 "Specter" (Medium Stealth Frame)
 
-* **Initiative**: 10 | **Tonnage**: 45 Tons | **Points**: 380 pts | **Movement Limit**: 5 hexes | **Evasion Limit**: 5 EVA
+* **Initiative**: 10 | **Tonnage**: 45 Tons | **Points**: 395 pts | **Movement Limit**: 5 hexes | **Evasion Limit**: 5 EVA
 
 ### ⚡ Energy Pool
 * **Reactor EP (9/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9`  
@@ -62,6 +62,8 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 * **Capacitor Storage (Max 4 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4`
 
 ### 🔫 Armaments & Systems
+* **Left Arm [Light HP]: Laser** (1d6 Combat + 1d6 End damage | 2 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
+  *Ammo*: Infinite
 * **Right Arm [Medium HP]: Disruptor Cannon** (Directed Energy Disruptor | 3 EP cost)  
   *Ammo*: Infinite (Bypasses EVA/DR. Torso [7,12] drains EP; Limbs [3-6, 8-11]/Head [2] force Crits)
 * **Torso [Medium HP]: Active Metamaterial Coating (AMC)** (Stealth Upgrade)  

@@ -39,6 +39,7 @@ graph TD
 7. **Apply Armor DR**: Subtract hit location's current Armor DR from remaining damage.
 8. **Resolve Damage**: Excess damage reduces hit location's Internal Structure (IS). If damage penetrates, permanently reduce that location's Armor DR by 1 (to minimum of 0).
 9. **Roll Critical Hits**: If IS took 1+ damage, roll 1d6 on the location's Critical Table.
+10. **Location Destruction & Transfer**: If IS reaches 0, the location is destroyed. Torso/Head destruction destroys the Frame (Torso triggers 2d6 Core Melt to adjacent units). Severed Arm/Leg destroys mounted gear, forces fall (Leg), and transfers excess damage directly to the Torso (bypassing DR). Subsequent hits to a destroyed location also transfer directly to the Torso.
 
 ### 4. End Phase
 1. **Resolve End Phase Damage**: Any location hit by a Thermal Lance or Laser suffers additional Sustained Beam damage during the End Phase (Thermal Lance: **2d6 damage**; Laser: **1d6 damage**). This damage completely bypasses Armor DR and is dealt directly to the Internal Structure, triggering criticals normally.
