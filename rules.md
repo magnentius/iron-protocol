@@ -546,23 +546,23 @@ Instead, upgrades cost **Deployment Points (pts)**. Mobility stats (Init/Move/EV
 - **Capacitor Upgrade**: +5 pts per +1 EP capacity (No Limit)
 
 #### 2. Countermeasures & Active Systems
-- **Flare Launcher** [Light]: 15 pts
-- **Jump Jets (Light/Medium only)** [Light]: 20 pts
 - **Smoke Launcher** [Light]: 10 pts
+- **Flare Launcher** [Light]: 15 pts
 - **Tactical Datalink** [Light]: 15 pts
-- **Active Metamaterial Coating (AMC)** [Medium]: 30 pts
+- **Jump Jets (Light/Medium only)** [Light]: 20 pts
 - **Electronic Countermeasures (ECM)** [Medium]: 25 pts
+- **Active Metamaterial Coating (AMC)** [Medium]: 30 pts
 
 #### 3. Weapons & Armaments
-- **Autocannon** [Light]: 15 pts
 - **Extra Ammo Bin (Autocannon)** [Light]: 10 pts
+- **Autocannon** [Light]: 15 pts
 - **Laser** [Light]: 15 pts
-- **Disruptor Cannon** [Medium]: 25 pts
 - **Extra Ammo Bin (Guided Missiles)** [Medium]: 15 pts
 - **Guided Missiles** [Medium]: 20 pts
+- **Disruptor Cannon** [Medium]: 25 pts
 - **Extra Ammo Bin (Rail Gun)** [Heavy]: 15 pts
-- **Rail Gun** [Heavy]: 45 pts
 - **Thermal Lance** [Heavy]: 30 pts
+- **Rail Gun** [Heavy]: 45 pts
 
 #### 4. Named Pilots
 - **Pilot (+1 Initiative Bonus)**: 15 pts
