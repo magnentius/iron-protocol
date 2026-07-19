@@ -22,5 +22,5 @@
 ## 📂 Repository Guide
 
 * 📓 **[rules.md](rules.md)**: The full master rulebook, including core phases, terrain modifiers, planetary hazards, custom pilot vows, and pre-configured frame technical readouts.
-* 📋 **[reference_sheet.md](reference_sheet.md)**: A printable quick reference sheet player aid, consolidating turn sequences, the sensor matrix, stability equations, and hit/critical tables on one page.
+* 📋 **[reference_sheet.md](reference_sheet.md)**: A printable quick reference sheet player aid, consolidating turn sequences, the sensor matrix, pilot check equations, and hit/critical tables on one page.
 * 🛠️ **[record_sheets.md](record_sheets.md)**: Printable character sheets for the five standard frames (**IF-25L-1 Jackal**, **IF-45M-1 Specter**, **IF-55M-1 Vanguard**, **IF-75H-1 Paladin**, and **IF-90A-1 Colossus**) featuring tracking bubbles for energy pools, armor DR, structure damage, critical hits, and weapon ammunition bursts.

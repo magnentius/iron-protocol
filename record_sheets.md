@@ -16,16 +16,18 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 * **Initiative**: 12 | **Tonnage**: 25 Tons | **Points**: 320 pts | **Movement Limit**: 7 hexes | **Evasion Limit**: 6 EVA
 
-### ⚡ Energy Pool
-* **Reactor EP (8/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8`  
-  *(Mark left-to-right for Spent EP. Mark right-to-left for Upkeep)*
+### ⚡ Energy & Evasion
+* **Reactor EP (8/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5 (IR Lockable)` | `[ ] 6` | `[ ] 7` | `[ ] 8`  
+  *(Mark left-to-right for Spent EP; spending 5+ EP total makes the Frame vulnerable to IR locks. Mark right-to-left for Upkeep)*
 * **Capacitor Storage (Max 3 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3`
+* **Evasion Tracker (Max 6 EVA)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6`  
+  *(Mark generated Evasion during movement; resets in End Phase)*
 
 ### 🔫 Armaments & Systems
 * **Left Arm [Light HP]: Laser** (1d6 Combat + 1d6 End damage | 2 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
   *Ammo*: Infinite
 * **Right Arm [Light HP]: Autocannon** (2d6 damage | 1 EP cost | Configured with AP loadout)  
-  *AP Bursts (10)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` (AP ignores 2 DR)
+  *AP Bursts (10)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` (AP 2)
 * **Torso [Light HP]: Jump Jets** (Allows jumping over elevation/terrain | +2 EP cost to movement)
 * **Head [Light HP]: Tactical Datalink**: Shares locks and target telemetry in real time.
 
@@ -44,7 +46,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 | Roll | Head | Torso | Arms (L / R) | Legs (L / R) |
 | :---: | :--- | :--- | :--- | :--- |
-| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ] / [ ]` **Toe Act.** *(-1 Stability)* |
+| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ] / [ ]` **Toe Act.** *(-1 Pilot Check)* |
 | **2** | `[ ]` **Comm Static** *(No Datalink)* | `[ ]` **Cap Leak** *(-2 Cap Max)* | `[ ] / [ ]` **Weapon Damaged** *(-1d6 dmg)* | `[ ] / [ ]` **Knee Lock** *(-1 Move Limit)* |
 | **3** | `[ ]` **Pilot Stunned** *(0 EP next)* | `[ ]` **Reactor Dmg** *(-2 EP/turn)* | `[ ] / [ ]` **Shoulder Jam** *(Fwd Arc only)* | `[ ] / [ ]` **Hip Act.** *(-1 EVA Limit)* |
 | **4** | `[ ]` **Life Support** *(Pilot takes 1 dmg/turn)* | `[ ]` **Engine Hit** *(+1 Heat/turn)* | `[ ] / [ ]` **Actuator Hit** *(-1 Hit)* | `[ ] / [ ]` **Ankle Act.** *(-2 Move Limit)* |
@@ -56,10 +58,12 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 * **Initiative**: 10 | **Tonnage**: 45 Tons | **Points**: 395 pts | **Movement Limit**: 5 hexes | **Evasion Limit**: 5 EVA
 
-### ⚡ Energy Pool
-* **Reactor EP (9/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9`  
-  *(Mark left-to-right for Spent EP. Mark right-to-left for Upkeep)*
+### ⚡ Energy & Evasion
+* **Reactor EP (9/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5 (IR Lockable)` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9`  
+  *(Mark left-to-right for Spent EP; spending 5+ EP total makes the Frame vulnerable to IR locks. Mark right-to-left for Upkeep)*
 * **Capacitor Storage (Max 4 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4`
+* **Evasion Tracker (Max 5 EVA)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5`  
+  *(Mark generated Evasion during movement; resets in End Phase)*
 
 ### 🔫 Armaments & Systems
 * **Left Arm [Light HP]: Laser** (1d6 Combat + 1d6 End damage | 2 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
@@ -85,7 +89,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 | Roll | Head | Torso | Arms (L / R) | Legs (L / R) |
 | :---: | :--- | :--- | :--- | :--- |
-| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ] / [ ]` **Toe Act.** *(-1 Stability)* |
+| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ] / [ ]` **Toe Act.** *(-1 Pilot Check)* |
 | **2** | `[ ]` **Comm Static** *(No Datalink)* | `[ ]` **Cap Leak** *(-2 Cap Max)* | `[ ] / [ ]` **Weapon Damaged** *(-1d6 dmg)* | `[ ] / [ ]` **Knee Lock** *(-1 Move Limit)* |
 | **3** | `[ ]` **Pilot Stunned** *(0 EP next)* | `[ ]` **Reactor Dmg** *(-2 EP/turn)* | `[ ] / [ ]` **Shoulder Jam** *(Fwd Arc only)* | `[ ] / [ ]` **Hip Act.** *(-1 EVA Limit)* |
 | **4** | `[ ]` **Sensors Down** *(No Locks)* | `[ ]` **Gyro Lock** *(No Torso Twist)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* |
@@ -96,16 +100,18 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 ## ⚔️ IF-55M-1 "Vanguard" (Medium Skirmisher Frame)
 
-* **Initiative**: 6 | **Tonnage**: 55 Tons | **Points**: 415 pts | **Movement Limit**: 5 hexes | **Evasion Limit**: 3 EVA
+* **Initiative**: 6 | **Tonnage**: 55 Tons | **Points**: 425 pts | **Movement Limit**: 5 hexes | **Evasion Limit**: 4 EVA
 
-### ⚡ Energy Pool
-* **Reactor EP (12/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12`  
-  *(Mark left-to-right for Spent EP. Mark right-to-left for Upkeep)*
+### ⚡ Energy & Evasion
+* **Reactor EP (12/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5 (IR Lockable)` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12`  
+  *(Mark left-to-right for Spent EP; spending 5+ EP total makes the Frame vulnerable to IR locks. Mark right-to-left for Upkeep)*
 * **Capacitor Storage (Max 6 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6`
+* **Evasion Tracker (Max 4 EVA)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4`  
+  *(Mark generated Evasion during movement; resets in End Phase)*
 
 ### 🔫 Armaments & Systems
 * **Left Arm [Light HP]: Autocannon** (2d6 damage | 1 EP cost | Configured with AP / HEI dual loadout)  
-  *AP Bursts (5)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` (AP ignores 2 DR)  
+  *AP Bursts (5)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` (AP 2)  
   *HEI Bursts (5)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` (HEI adds +2 to crits)
 * **Right Arm [Light HP]: Laser** (1d6 Combat + 1d6 End damage | 2 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
   *Ammo*: Infinite
@@ -129,7 +135,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 | Roll | Head | Torso | Arms (L / R) | Legs (L / R) |
 | :---: | :--- | :--- | :--- | :--- |
-| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ] / [ ]` **Toe Act.** *(-1 Stability)* |
+| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ] / [ ]` **Toe Act.** *(-1 Pilot Check)* |
 | **2** | `[ ]` **Comm Static** *(No Datalink)* | `[ ]` **Cap Leak** *(-2 Cap Max)* | `[ ] / [ ]` **Weapon Damaged** *(-1d6 dmg)* | `[ ] / [ ]` **Knee Lock** *(-1 Move Limit)* |
 | **3** | `[ ]` **Pilot Stunned** *(0 EP next)* | `[ ]` **Reactor Dmg** *(-2 EP/turn)* | `[ ] / [ ]` **Shoulder Jam** *(Fwd Arc only)* | `[ ] / [ ]` **Hip Act.** *(-1 EVA Limit)* |
 | **4** | `[ ]` **Sensors Down** *(No Locks)* | `[ ]` **Gyro Lock** *(No Torso Twist)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* |
@@ -142,16 +148,18 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 * **Initiative**: 5 | **Tonnage**: 75 Tons | **Points**: 520 pts | **Movement Limit**: 4 hexes | **Evasion Limit**: 2 EVA
 
-### ⚡ Energy Pool
-* **Reactor EP (14/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12` | `[ ] 13` | `[ ] 14`  
-  *(Mark left-to-right for Spent EP. Mark right-to-left for Upkeep)*
+### ⚡ Energy & Evasion
+* **Reactor EP (14/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5 (IR Lockable)` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12` | `[ ] 13` | `[ ] 14`  
+  *(Mark left-to-right for Spent EP; spending 5+ EP total makes the Frame vulnerable to IR locks. Mark right-to-left for Upkeep)*
 * **Capacitor Storage (Max 8 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8`
+* **Evasion Tracker (Max 2 EVA)**: `[ ] 1` | `[ ] 2`  
+  *(Mark generated Evasion during movement; resets in End Phase)*
 
 ### 🔫 Armaments & Systems
-* **Right Arm [Heavy HP]: Rail Gun** (3d6+5 damage | 6 EP cost | Ignores 3 DR | Cooldown: 1 Turn)  
+* **Right Arm [Heavy HP]: Rail Gun** (3d6+5 damage | 6 EP cost | AP 3 | Cooldown: 1 Turn)  
   *Ammo Tracker (5 Kinetic Slugs)*: `[ ] Slug 1` | `[ ] Slug 2` | `[ ] Slug 3` | `[ ] Slug 4` | `[ ] Slug 5`
-* **Left Arm [Light HP]: Autocannon** (2d6 damage | 1 EP cost | Loaded with AP ammo)  
-  *Ammo Tracker (10 AP Bursts)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10`
+* **Left Arm [Light HP]: Autocannon** (2d6 damage | 1 EP cost | Loaded with AP 2 ammo)  
+  *Ammo Tracker (10 AP Bursts)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` (AP 2)
 * **Torso [Medium HP]: Guided Missile Launcher** (2 EP cost | Microwave [Radar] Guided | Cluster Warheads deal 1d6 to 5 locations)  
   *Salvo Tracker (4 Salvos)*: `[ ] Salvo 1` | `[ ] Salvo 2` | `[ ] Salvo 3` | `[ ] Salvo 4`
 * **Torso [Light HP]: Defensive Smoke Launcher** (Blocks Visual sightlines | 1 EP use cost)  
@@ -175,7 +183,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 | Roll | Head | Torso | Arms (L / R) | Legs (L / R) |
 | :---: | :--- | :--- | :--- | :--- |
-| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ] / [ ]` **Toe Act.** *(-1 Stability)* |
+| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ] / [ ]` **Toe Act.** *(-1 Pilot Check)* |
 | **2** | `[ ]` **Comm Static** *(No Datalink)* | `[ ]` **Cap Leak** *(-2 Cap Max)* | `[ ] / [ ]` **Weapon Damaged** *(-1d6 dmg)* | `[ ] / [ ]` **Knee Lock** *(-1 Move Limit)* |
 | **3** | `[ ]` **Pilot Stunned** *(0 EP next)* | `[ ]` **Reactor Dmg** *(-2 EP/turn)* | `[ ] / [ ]` **Shoulder Jam** *(Fwd Arc only)* | `[ ] / [ ]` **Hip Act.** *(-1 EVA Limit)* |
 | **4** | `[ ]` **Sensors Down** *(No Locks)* | `[ ]` **Gyro Lock** *(No Torso Twist)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* |
@@ -188,15 +196,17 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 * **Initiative**: 3 | **Tonnage**: 90 Tons | **Points**: 625 pts | **Movement Limit**: 3 hexes | **Evasion Limit**: 1 EVA
 
-### ⚡ Energy Pool
-* **Reactor EP (18/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12` | `[ ] 13` | `[ ] 14` | `[ ] 15` | `[ ] 16` | `[ ] 17` | `[ ] 18`  
-  *(Mark left-to-right for Spent EP. Mark right-to-left for Upkeep)*
+### ⚡ Energy & Evasion
+* **Reactor EP (18/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5 (IR Lockable)` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12` | `[ ] 13` | `[ ] 14` | `[ ] 15` | `[ ] 16` | `[ ] 17` | `[ ] 18`  
+  *(Mark left-to-right for Spent EP; spending 5+ EP total makes the Frame vulnerable to IR locks. Mark right-to-left for Upkeep)*
 * **Capacitor Storage (Max 10 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10`
+* **Evasion Tracker (Max 1 EVA)**: `[ ] 1`  
+  *(Mark generated Evasion during movement; resets in End Phase)*
 
 ### 🔫 Armaments & Systems
 * **Left Arm [Heavy HP]: Thermal Lance** (2d6 Combat + 2d6 End damage | 4 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
   *Ammo*: Infinite
-* **Right Arm [Heavy HP]: Rail Gun** (3d6+5 damage | 6 EP cost | Ignores 3 DR | Cooldown: 1 Turn)  
+* **Right Arm [Heavy HP]: Rail Gun** (3d6+5 damage | 6 EP cost | AP 3 | Cooldown: 1 Turn)  
   *Ammo Tracker (5 Kinetic Slugs)*: `[ ] Slug 1` | `[ ] Slug 2` | `[ ] Slug 3` | `[ ] Slug 4` | `[ ] Slug 5`
 * **Torso [Medium HP]: Guided Missile Launcher** (2 EP cost | Infrared [IR] Guided | EMP Warheads offline target sensors)  
   *Salvo Tracker (4 Salvos)*: `[ ] Salvo 1` | `[ ] Salvo 2` | `[ ] Salvo 3` | `[ ] Salvo 4`
@@ -221,7 +231,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 | Roll | Head | Torso | Arms (L / R) | Legs (L / R) |
 | :---: | :--- | :--- | :--- | :--- |
-| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ] / [ ]` **Toe Act.** *(-1 Stability)* |
+| **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ] / [ ]` **Toe Act.** *(-1 Pilot Check)* |
 | **2** | `[ ]` **Comm Static** *(No Datalink)* | `[ ]` **Cap Leak** *(-2 Cap Max)* | `[ ] / [ ]` **Weapon Damaged** *(-1d6 dmg)* | `[ ] / [ ]` **Knee Lock** *(-1 Move Limit)* |
 | **3** | `[ ]` **Pilot Stunned** *(0 EP next)* | `[ ]` **Reactor Dmg** *(-2 EP/turn)* | `[ ] / [ ]` **Shoulder Jam** *(Fwd Arc only)* | `[ ] / [ ]` **Hip Act.** *(-1 EVA Limit)* |
 | **4** | `[ ]` **Sensors Down** *(No Locks)* | `[ ]` **Gyro Lock** *(No Torso Twist)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* |

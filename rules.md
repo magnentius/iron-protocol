@@ -154,7 +154,7 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
     - *Cost*: 2 EP per hex.
     - *Movement*: The Frame jumps in a straight line to a hex within its maximum jump distance (default maximum of 4 hexes). It bypasses all intervening terrain, obstacles, and other Frames.
     - *Landing & Kinetic Drop Strike*:
-      - Jumping into an unoccupied hex triggers a **Stability Check** upon landing (see Section 6.3).
+      - Jumping into an unoccupied hex triggers a **Pilot Check** upon landing (see Section 6.3).
       - **Kinetic Drop Strike**: Alternatively, a pilot may target an occupied hex to perform a Kinetic Drop Strike.
       - **Drop Strike Damage**: Both Frames suffer damage rolled using a pool of $d6$ dice:
         $$\text{Drop Strike Damage Dice} = (\text{Jumping Frame's Mass Value} \times \text{Hexes Jumped}) / 2 \text{ (rounded up)}$$
@@ -169,7 +169,7 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
   - **Damage Calculation**: The damage is rolled using a pool of $d6$ dice based on the moving Frame's **Mass Value** (Light = 1, Medium = 2, Heavy = 3, Assault = 4) and its speed (the number of hexes moved in the current activation before impact):
     $$\text{Collision Damage Dice Pool} = \text{Mass Value} \times \text{Speed Factor}$$
     Where **Speed Factor** is the number of hexes moved in this activation prior to impact divided by 2 (rounded up, minimum of 1).
-  - **Stability Roll**: After resolving collision damage, both Frames must check if they fall Prone (see Section 6.3).
+  - **Pilot Check**: After resolving collision damage, both Frames must check if they fall Prone (see Section 6.3).
 - **Accumulating Evasion**: For every hex a Frame successfully exits during its activation *(changing facing/pivoting does not exit a hex and generates 0 EVA)*, it gains 1 **Evasion Point (EVA)**, up to its Evasion Limit. These EVA points are tracked using tokens and represent the difficulty of targeting a moving frame.
 - **Torso Twist**: At the very end of its activation (after all movement is completed), the Frame may perform a free Torso Twist. The player can rotate the upper body of the Frame 1 hex side (60 degrees) to the left or right of its current Leg Facing, or reset it to align with the Leg Facing. This sets the Frame's Torso Facing (and Firing Arcs) for the upcoming Combat Phase. The torso remains in this position until the Frame activates in the next turn's Activation Phase.
 
@@ -180,7 +180,7 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
   3. It performs a **Forward Walk** (1 EP) into a Light Woods hex on Level 1. (Cost: 1 EP + 1 EP woods entry cost = 2 EP total).
   4. It performs a second **Forward Walk** (1 EP) through the woods on Level 1. (Cost: 1 EP + 1 EP woods entry cost = 2 EP total).
   - *EP Expenditure*: $2 + 1 + 2 + 2 = 7$ EP. The Vanguard has 5 EP remaining in its pool to spend on active systems or firing weapons during the Combat Phase.
-  - *Evasion accumulated*: It exited 3 hexes during its movement, earning **3 EVA tokens** (capped at its Evasion Limit of 3 EVA).
+  - *Evasion accumulated*: It exited 3 hexes during its movement, earning **3 EVA tokens** (well within its Evasion Limit of 4 EVA).
   - *Final Step*: The pilot performs a free **Torso Twist** 60 degrees right to point its torso-mounted guided missiles toward the target's expected location.
 
 - **Example 2 (Jump Jet Cliff-Jumping)**: An IF-45M-1 "Specter" (Reactor 9, Capacitor 3, total 12 EP available) starts its activation at the base of a steep Level 2 cliff (Level 0 hex adjacent to a Level 2 hex).
@@ -229,19 +229,19 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
 ---
 
 ## 3. Terrain & Elevation
-Combat under the Iron Protocol occurs on diverse planetary surfaces. The map's hexes are classified by terrain type, which alters movement costs, provides cover, or impacts stability.
+Combat under the Iron Protocol occurs on diverse planetary surfaces. The map's hexes are classified by terrain type, which alters movement costs, provides cover, or impacts pilot checks.
 
 ### 3.1 Summary of Terrain Types
 
 | Terrain Type | Extra EP Cost to Enter | Defensive Cover | Special Rules |
 | :--- | :---: | :--- | :--- |
 | **Clear** | +0 EP | None | Standard terrain. |
-| **Pavement** | +0 EP | None | High traction. +1 bonus to all Stability Checks. |
-| **Rough** | +1 EP | None | Uneven footing. -1 penalty to all Stability Checks. |
-| **Rubble** | +2 EP | Light Cover (+1 Evasion) | Dangerous debris. -2 penalty to all Stability Checks. |
+| **Pavement** | +0 EP | None | High traction. +1 bonus to all Pilot Checks. |
+| **Rough** | +1 EP | None | Uneven footing. -1 penalty to all Pilot Checks. |
+| **Rubble** | +2 EP | Light Cover (+1 Evasion) | Dangerous debris. -2 penalty to all Pilot Checks. |
 | **Sand** | +1 EP | None | Shifting soil. Frame cannot generate more than 2 EVA in a turn while in Sand. |
 | **Water** | +2 EP | None | Deep liquid. Frame's Evasion Limit is capped at 1 EVA. Reactor generates +1 EP in the Energy Phase. |
-| **Marsh** | +1 EP | Light Cover (+1 Evasion) | Wet muck. Frame's Evasion Limit is capped at 2 EVA. -1 penalty to all Stability Checks. Generates +1 EP in the Energy Phase. |
+| **Marsh** | +1 EP | Light Cover (+1 Evasion) | Wet muck. Frame's Evasion Limit is capped at 2 EVA. -1 penalty to all Pilot Checks. Generates +1 EP in the Energy Phase. |
 | **Woods (Light)** | +1 EP | Light Cover (+1 Evasion) | Sparse trees. Blocks Visual (VIS) LOS if 2+ Light Woods/Jungle hexes intervene, but does not block Infrared (IR). |
 | **Woods (Heavy)** | +2 EP | Heavy Cover (+2 Evasion) | Dense forest. Blocks Visual (VIS) LOS if 1+ Heavy Woods/Jungle hexes intervene, but does not block Infrared (IR). |
 | **Jungle (Light)** | +1 EP | Light Cover (+1 Evasion) | Sparse canopy. Blocks Visual (VIS) LOS if 2+ Light Woods/Jungle hexes intervene, but does not block Infrared (IR). |
@@ -252,10 +252,17 @@ Combat under the Iron Protocol occurs on diverse planetary surfaces. The map's h
 #### Cover Modifiers
 - **Light Cover**: When a Frame in Light Cover is targeted by an attack, add a temporary **+1 EVA** to its current Evasion value for damage reduction.
 - **Heavy Cover**: When a Frame in Heavy Cover is targeted by an attack, add a temporary **+2 EVA** to its current Evasion value for damage reduction.
-- **Line of Sight Blockage**: Woods and Jungle block sensor locks and Line of Sight on specific bands. If a weapon's line of sight passes through **2 or more intervening hexes of Light Woods/Jungle**, or **1 intervening hex of Heavy Woods/Jungle**, **Visual (VIS)** LOS and locks are blocked. However, **Infrared (IR)** and **Microwave (Radar)** locks are unaffected by these intervening hexes, allowing thermal-guided weapons and radar targeting to function through the trees unimpeded.
+- **Line of Sight Blockage**: Woods and Jungle block sensor locks and Line of Sight on specific bands. If a weapon's line of sight passes through **2 or more intervening hexes of Light Woods/Jungle**, or **1 intervening hex of Heavy Woods/Jungle**, **Visual (VIS)** LOS and locks are blocked. **Infrared (IR)** and **Microwave (Radar)** locks are unaffected by vegetation and can target through any amount of woods or jungle unimpeded. **Exception**: If **3 or more** intervening hexes of Heavy Woods/Jungle are present, **Infrared (IR)** locks are also blocked.
 
-#### Stability Adjustments
-- When resolving a collision or Kinetic Drop Strike landing check (see Section 6.3), apply the terrain modifier of the hex the Frame is standing in directly to its Stability Roll. (Example: A Light Frame [Mass Value 1] in Rubble that collided at Speed Factor 2 makes a Stability Check of $2d6 + 1 \text{ (Mass)} - 2 \text{ (Speed)} - 2 \text{ (Rubble)} = 2d6 - 3$, needing a final total of 7 or higher to stay standing).
+#### Vegetation Canopy Height (Visual LOS Only)
+Woods and Jungle hexes have a vertical canopy that can block **Visual (VIS)** Line of Sight when elevation is involved. This canopy height is added to the hex's ground elevation level to determine if VIS LOS is obstructed. **Infrared (IR)** and **Microwave (Radar)** sensors see through all vegetation canopy regardless of height.
+- **Light Woods / Light Jungle**: Canopy is **1 level tall** (6m). A Light Woods hex at ground Level 0 has a VIS obstruction height of **1**.
+- **Heavy Woods / Heavy Jungle**: Canopy is **2 levels tall** (12m). A Heavy Woods hex at ground Level 0 has a VIS obstruction height of **2**.
+- **VIS LOS Check**: An intervening vegetation hex blocks Visual LOS if its obstruction height (ground level + canopy height) is **greater than or equal to** the top height of the lower Frame ($\min(A+2, B+2)$), using the same formula as Elevation LOS (Section 3.3).
+- *(Example: Two Frames on Level 0 [top height 2]. An intervening Light Woods hex [obstruction height 0+1=1] does NOT block VIS LOS [1 < 2]. An intervening Heavy Woods hex [obstruction height 0+2=2] DOES block VIS LOS [2 ≥ 2]. A Frame on Level 1 [top height 3] can see over Heavy Woods at Level 0 [obstruction height 2 < 3]).*
+
+#### Pilot Check Adjustments
+- When resolving a collision or Kinetic Drop Strike landing check (see Section 6.3), apply the terrain modifier of the hex the Frame is standing in directly to its Pilot Check Roll. (Example: A Light Frame [Mass Value 1] in Rubble that collided at Speed Factor 2 makes a Pilot Check of $2d6 + 1 \text{ (Mass)} - 2 \text{ (Speed)} - 2 \text{ (Rubble)} = 2d6 - 3$, needing a final total of 6 or higher to stay standing).
 
 #### Environmental Cooling (Water)
 - Iron Frames standing in **Water** benefit from the liquid cooling their reactor assemblies. During the Energy Phase, if a Frame starts its turn in a Water hex, it generates **+1 EP** (which can exceed its default Reactor Rating).
@@ -292,7 +299,7 @@ Every Frame has a sensor suite consisting of three bands, housed in the Head loc
    - *Blocked by*: Smoke templates, heavy forests, or Visual-Camouflage (VIS) AMC.
 2. **Infrared (IR)**: Medium wavelength (approx. 700 nm–1 mm). Thermal sensors detecting heat signatures.
    - *Requires*: Direct Line of Sight (blocked by Elevation normally), but entirely ignores Woods, Jungle, and Smoke penalties. To lock a target hidden behind solid Elevation, a Frame must receive telemetry via a **Tactical Datalink** from a friendly spotter with clear IR LOS.
-   - *Sensitivity*: Targets become visible and targetable on IR for the remainder of the turn the moment they spend their **3rd EP** of the turn (cumulatively across the Energy, Activation, or Combat phases).
+   - *Sensitivity*: Targets become visible and targetable on IR for the remainder of the turn the moment they spend their **5th EP** of the turn (cumulatively across the Energy, Activation, or Combat phases).
    - *Blocked by*: Flares or Infrared-Suppression (IR) AMC.
 3. **Microwave (Radar)**: Longest wavelength (approx. 1 mm–1 m). Active microwave radio detection.
    - *Requires*: Direct Line of Sight (blocked by Elevation normally), but entirely ignores Woods, Jungle, and Smoke penalties. To lock a target hidden behind solid Elevation, a Frame must receive telemetry via a **Tactical Datalink** from a friendly spotter with clear Radar LOS.
@@ -318,25 +325,27 @@ A Frame may be equipped with a **Tactical Datalink** housed in its Head location
 ## 5. Weapons & Munitions
 Weapons can only be mounted in the Left Arm, Right Arm, or Torso, which dictates their firing arcs (see Section 1.1).
 
+- **Armor Piercing (AP X)**: Weapons or munitions designated as **AP X** ignore up to **X** points of the target's Armor DR when calculating damage. (For example, an AP 3 weapon fired at a location with Armor DR 5 treats that location's DR as 2).
+
 | Weapon | Hardpoint | EP Cost | Ammo | Cooldown | Damage | Detection Spectrum | Special Rules |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **Autocannon** | Light | 1 | 10 Bursts | None | 2d6 | Any (VIS, IR, Radar) | Rapid fire. Fires a single burst (consumes 1 Burst). |
+| **Autocannon** | Light | 1 | 10 Bursts (Explosive) | None | 2d6 | Any (VIS, IR, Radar) | Rapid fire. Fires a single burst (consumes 1 Burst). |
 | **Laser** | Light | 2 | Infinite | None | 1d6 (Combat) + 1d6 (End) | Any (VIS, IR, Radar) | Sustained Beam. End Phase damage bypasses Armor DR. |
-| **Guided Missiles** | Medium | 2 | 4 Salvos | None | Warhead Dep. | Guidance Dep. | Requires Lock. Permits indirect fire (no LOS) for all guidance types. |
+| **Guided Missiles** | Medium | 2 | 4 Salvos (Explosive) | None | Warhead Dep. | Guidance Dep. | Requires Lock. Permits indirect fire (no LOS) for all guidance types. |
 | **Disruptor Cannon** | Medium | 3 | Infinite | None | None | Any (VIS, IR, Radar) | Bypasses Evasion and Armor DR. Roll Hit Location: Head (2) forces Head Crit; Torso (7 or 12) drains 1d6 Cap EP and target has -2 EP reactor output next turn; Arms/Legs (3-6, 8-11) immediately force Critical (treat 6 as Actuator Lockup next turn instead of destruction). |
 | **Thermal Lance** | Heavy | 4 | Infinite | None | 2d6 (Combat) + 2d6 (End) | Any (VIS, IR, Radar) | Sustained Beam. End Phase damage bypasses Armor DR. |
-| **Rail Gun** | Heavy | 6 | 5 rounds | 1 Turn | 3d6 + 5 | Any (VIS, IR, Radar) | High penetration. Ignores up to 3 points of Armor DR. |
+| **Rail Gun** | Heavy | 6 | 5 Slugs (Inert) | 1 Turn | 3d6 + 5 | Any (VIS, IR, Radar) | AP 3. Inert kinetic slugs — does not trigger Ammo Explosion. |
 
 ### 5.1 Autocannon Munitions
 When equipping an Autocannon, players choose how to load its 10-Burst ammunition supply. They can load all 10 Bursts with **one** ammo type, or split the supply between the two types at build time (e.g., 5 AP Bursts and 5 HEI Bursts), declaring which type is being fired before rolling to hit.
-- **Armor Piercing (AP)**: Ignores up to 2 points of the target's Armor DR.
+- **Armor Piercing (AP 2)**: Ignores up to 2 points of the target's Armor DR.
 - **High Explosive Incendiary (HEI)**: Adds a flat +2 modifier to any Critical Hit rolls caused by this weapon.
 
 ### 5.2 Guided Missile Systems
 Missiles must be configured with a guidance package and a warhead at build time:
 - **Guidance Systems**:
   - *Microwave (Radar)-Guided*: Permits indirect fire (ignoring Elevation/LOS blocks). Requires a Microwave (Radar) lock (which must be provided by a Tactical Datalink spotter if the firing Frame lacks direct LOS). Blocked by active ECM or Microwave-Absorbent Active Coating.
-  - *Infrared (IR)-Guided*: Permits indirect fire (ignoring Elevation/LOS blocks). Requires an Infrared (IR) lock (which must be provided by a Tactical Datalink spotter if the firing Frame lacks direct LOS). Target must have spent 3+ EP this turn. Blocked by Flares or Infrared-Suppression Active Coating.
+  - *Infrared (IR)-Guided*: Permits indirect fire (ignoring Elevation/LOS blocks). Requires an Infrared (IR) lock (which must be provided by a Tactical Datalink spotter if the firing Frame lacks direct LOS). Target must have spent 5+ EP this turn. Blocked by Flares or Infrared-Suppression Active Coating.
   - *Visual (VIS)-Guided*: Permits indirect fire (ignoring Elevation/LOS blocks, utilizing onboard optical cameras during terminal descent). Requires a Visual (VIS) lock (which must be provided by a Tactical Datalink spotter if the firing Frame lacks direct LOS). Blocked by Smoke or Visual-Camouflage Active Coating.
 - **Warheads**:
   - *High Explosive (HE)*: Deals 4d6 damage to a single hit location.
@@ -376,7 +385,7 @@ If damage penetrates to the **Internal Structure** of a location, roll 1d6 on th
 - **2: Capacitor Leak**. Capacitor Max is permanently reduced by 2; lose 2 stored EP immediately.
 - **3: Reactor Damage**. Reactor output is permanently reduced by 2 EP per turn.
 - **4: Gyro Lock**. Torso twists cost 2 EP (no longer free).
-- **5: Ammo Explosion**. If the Frame carries ammunition, it explodes for 3d6 damage to the Torso (bypassing armor). If no ammunition is carried, treat as Reactor Damage.
+- **5: Ammo Explosion**. If the Frame carries **explosive ammunition** (Autocannon shells or Guided Missile warheads), it detonates for 3d6 damage to the Torso (bypassing armor). Inert ammunition (Rail Gun slugs) and energy weapons (Lasers, Thermal Lances, Disruptors) do **not** trigger this effect. If the Frame carries no explosive ammunition, treat as Reactor Damage instead.
 - **6+: Core Melt**. The Reactor explodes. Deal 2d6 damage to all adjacent hexes, and the Frame is destroyed immediately.
 
 #### Arms (Weapons & Actuators) Critical Table
@@ -388,7 +397,7 @@ If damage penetrates to the **Internal Structure** of a location, roll 1d6 on th
 - **6+: Arm Severed**. The arm is completely destroyed. All weapons and systems mounted in this arm are lost.
 
 #### Legs (Mobility) Critical Table
-- **1: Toe Actuator**. -1 penalty to all future Stability Checks.
+- **1: Toe Actuator**. -1 penalty to all future Pilot Checks.
 - **2: Knee Lock**. Walking and reversing cost +1 EP per hex.
 - **3: Hip Actuator**. Evasion Limit is permanently reduced by 1.
 - **4: Structural Fracture**. Leg Armor DR is permanently reduced to 0.
@@ -398,14 +407,14 @@ If damage penetrates to the **Internal Structure** of a location, roll 1d6 on th
 ### 6.3 Falling and the Prone State
 When an Iron Frame is knocked over during combat (via collision, Drop Strike, or leg destruction), it enters the **Prone** state. Mark the Frame with a Prone token.
 
-### Triggering Prone (Stability Checks)
-A Frame must make a **Stability Check** (rolling 2d6) to avoid falling Prone in the following situations:
+### Triggering Prone (Pilot Checks)
+A Frame must make a **Pilot Check** (rolling 2d6) to avoid falling Prone in the following situations:
 - **Collisions**: (See Section 2.2 for Collision rules).
 - **Kinetic Drop Strike**: 
   - The **Target Frame** of a Drop Strike is automatically knocked Prone.
-  - The **Jumping Frame** must make a Stability Check upon landing (whether the hex was empty or occupied):
-    $$\text{Drop Strike Stability Check} = 2d6 + \text{Mass Value} - \text{Hexes Jumped}$$
-    - **Target**: 7 or higher. (A failure results in falling Prone).
+  - The **Jumping Frame** must make a Pilot Check upon landing (whether the hex was empty or occupied):
+    $$\text{Drop Strike Pilot Check} = 2d6 + \text{Mass Value} - \text{Hexes Jumped} + \text{Pilot Initiative Bonus (if applicable)}$$
+    - **Target**: 6 or higher. (A failure results in falling Prone).
 - **Leg Severed**: If a Frame suffers a "Leg Severed" critical hit (Leg Critical Table 6+), it immediately falls Prone.
 
 #### Effects of the Prone State
@@ -507,11 +516,11 @@ To build balanced forces for casual or competitive play, players agree on a maxi
 ---
 
 ### 7.3 Gravity & Locomotion
-Different planet masses alter the weight of the Iron Frame's chassis, impacting stability, jumping, and falling damage.
+Different planet masses alter the weight of the Iron Frame's chassis, impacting pilot checks, jumping, and falling damage.
 
 #### Low Gravity (0.1g – 0.4g | e.g., Moons, Asteroids)
 - **High Mobility Jumps**: Jump Jets double their maximum jump range (up to 8 hexes) and only cost **1 EP per hex** to execute.
-- **Traction Loss**: Due to lack of downforce, apply a **-1 penalty** to all Stability Checks (see Section 6.3).
+- **Traction Loss**: Due to lack of downforce, apply a **-1 penalty** to all Pilot Checks (see Section 6.3).
 - **Soft Falls**: Falling damage is reduced to **1d6 per 2 levels fell** (rounded down, minimum 0).
 
 #### Standard Gravity (0.5g – 1.2g | e.g., Earth-like)
@@ -520,7 +529,7 @@ Different planet masses alter the weight of the Iron Frame's chassis, impacting 
 #### Heavy Gravity (1.3g – 2.0g | e.g., Super-Earths)
 - **Engine Strain**: Walking or reversing maneuvers cost **+1 EP** (Forward Walk costs 2 EP, Reverse costs 3 EP).
 - **No Jumping**: Gravity is too dense for thrusters; Jump Jets are disabled entirely (no Frames can jump).
-- **Solid Footing**: Frames are pinned to the ground. Apply a **+1 bonus** to all Stability Checks.
+- **Solid Footing**: Frames are pinned to the ground. Apply a **+1 bonus** to all Pilot Checks.
 - **Crushing Falls**: Falling damage is doubled (**2d6 per level fell**).
 
 ---
@@ -553,12 +562,13 @@ The chemical density of the atmosphere impacts how well the Frame's radiator ven
 
 In *Iron Protocol*, pilots are not anonymous grunts. You can field legendary **Named Pilots** who represent the elite houses, coalitions, and orders.
 
-### 8.1 Initiative Bonus
+### 8.1 Initiative & Pilot Check Bonus
 Equipping a Named Pilot on an Iron Frame grants a flat Initiative bonus of **+1, +2, or +3** (declared at build time, up to a maximum final Initiative of 12). This represents their tactical foresight and combat reflexes.
+- **Pilot Checks**: In addition to modifying the Frame's Initiative, the Named Pilot adds their Initiative bonus (+1, +2, or +3) as a flat modifier to all **Pilot Checks** (to avoid falling Prone). If the pilot is dishonored, they immediately lose this bonus as well.
 - **Point Cost (Optional)**: If playing with the optional point rules (see Section 7.1), Named Pilots cost points based on their Initiative bonus:
-  - **+1 Initiative**: 15 pts
-  - **+2 Initiative**: 30 pts
-  - **+3 Initiative**: 45 pts
+  - **+1 Initiative & Pilot Checks**: 15 pts
+  - **+2 Initiative & Pilot Checks**: 30 pts
+  - **+3 Initiative & Pilot Checks**: 45 pts
 
 ### 8.2 Iron Protocol Vows
 Every Named Pilot is sworn to a specific vow under the Iron Protocol, reflecting their martial pride. If a pilot violates their vow during a battle, they are **dishonored**: they immediately lose their Initiative bonus for the rest of the battle, and suffer additional penalties.
@@ -633,10 +643,10 @@ Here are five pre-configured Iron Frames ready for combat.
 *The workhorse of the fleet. Balanced defense, solid firepower, and equipped with flares to deflect seeking missiles.*
 - **Initiative**: 6
 - **Chassis Mass (Tonnage)**: 55 Tons (Medium, Mass Value 2)
-- **Point Value**: 415 points
+- **Point Value**: 425 points
 - **Reactor Rating**: 12 EP/turn
 - **Capacitor Max**: 6 EP
-- **Evasion Limit**: 3 EVA
+- **Evasion Limit**: 4 EVA
 - **Movement Limit**: 5 hexes
 - **Armor DR by Location**: Head: 2 | Torso: 5 | Left Arm: 3 | Right Arm: 3 | Legs: 4
 - **Internal Structure**: Head: 4 | Torso: 12 | Left Arm: 8 | Right Arm: 8 | Legs: 10

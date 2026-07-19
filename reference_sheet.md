@@ -70,21 +70,21 @@ graph TD
 | **AMC (Microwave-Absorbent)** | *Clear* | *Clear* | **BLOCKED** |
 | **Flares Countermeasure** | *Clear* | **Breaks seeking lock** (missiles only) | *Clear* |
 
-* **Infrared (IR) Lock Requirement**: Target must have spent **3+ EP** in its last activation to generate a detectable heat signature.
+* **Infrared (IR) Lock Requirement**: Target must have spent **5+ EP** in its last activation to generate a detectable heat signature.
 * **Tactical Datalinks**: Shared locks permit teammates with active datalinks to target hidden units.
 * **Microwave (Radar)**: Direct LOS. Ignores Woods/Smoke. Blocked by Elevation. Indirect fire requires a Datalink spotter.
 
 ---
 
-## 💥 Collision & Stability Checks
+## 💥 Collision & Pilot Checks
 *Triggers when a Frame enters an occupied hex (standard movement or Drop Strike landing).*
 * **Collision Damage**:
   $$\text{Damage Sufferred} = \text{Opponent's Mass Value} \times \text{Movement Speed (hexes entered)}$$
   *(Damage is reduced by Evasion and Armor DR normally).*
-* **Stability Check (Both Frames)**:
-  $$\text{Stability Check} = 2d6 + \text{Mass Value} - \text{Movement Speed (or hexes jumped)}$$
-  - **Success (7+)**: The Frame stands firm.
-  - **Failure (6 or less)**: The Frame falls **Prone** (Evasion reduced to 0, cannot Torso Twist, walk, or reverse. Suffers a **-1d6 damage penalty** to all weapon rolls).
+* **Pilot Check (Both Frames)**:
+  $$\text{Pilot Check} = 2d6 + \text{Mass Value} - \text{Movement Speed (or hexes jumped)} + \text{Pilot Initiative Bonus (if applicable)}$$
+  - **Success (6+)**: The Frame stands firm.
+  - **Failure (5 or less)**: The Frame falls **Prone** (Evasion reduced to 0, cannot Torso Twist, walk, or reverse. Suffers a **-1d6 damage penalty** to all weapon rolls).
   - **Stand Up**: Costs **3 EP** during the Activation Phase.
 
 ---
@@ -124,7 +124,7 @@ graph TD
 * **6: Arm Severed**. All weapons/systems in this arm are lost.
 
 #### 3. Leg Criticals
-* **1: Toe Actuator**. -1 penalty to all future Stability checks.
+* **1: Toe Actuator**. -1 penalty to all future Pilot checks.
 * **2: Knee Lock**. Walking/reversing costs +1 EP.
 * **3: Hip Actuator**. Evasion Limit permanently reduced by 1.
 * **4: Structural Fracture**. Leg Armor DR reduced to 0.
