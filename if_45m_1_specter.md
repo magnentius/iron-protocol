@@ -12,12 +12,12 @@
   *(Mark generated Evasion during movement; resets in End Phase)*
 
 ### 🔫 Armaments & Systems
-* **Left Arm [Light HP]: Laser** (1d6 Combat + 1d6 End damage | 2 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
+* **Left Arm [Light HP]: Laser** (2d6 Combat damage | 2 EP cost | Overcharge: [+1/+2 EP for +2/+4 flat damage] | Any Lock [VIS/IR/Radar])  
   *Ammo*: Infinite
-* **Right Arm [Medium HP]: Disruptor Cannon** (Directed Energy Disruptor | 3 EP cost)  
-  *Ammo*: Infinite (Bypasses EVA/DR. Torso [7,12] drains EP; Limbs [3-6, 8-11]/Head [2] force Crits)
+* **Right Arm [Medium HP]: Disruptor Cannon** (Directed Energy Disruptor | 3 EP cost | Overcharge: [+2 EP to force Crit AND drain 1d6 EP simultaneously])  
+  *Ammo*: Infinite (Bypasses EVA/DR. Normal hit: Torso [7,12] drains 1d6 EP; Limbs [3-6, 8-11]/Head [2] force Crits)
 * **Torso [Medium HP]: Active Metamaterial Coating (AMC)** (Stealth Upgrade)  
-  *Upkeep*: 2 EP per mode (Visual-Camouflage / IR-Suppression / Microwave-Absorbent).
+  *Upkeep*: 2 EP (Cloaks 1 spectrum: VIS/IR/Radar) | Overcharge: [+2 EP to cloak 2nd spectrum]
 * **Head [Light HP]: Tactical Datalink**: Shares locks and target telemetry in real time.
 
 ### 🛡️ Locational Status

@@ -238,8 +238,6 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
   9. **Roll Critical Hit**: Since the Torso Internal Structure suffered damage, the Colossus rolls 1d6 on the Torso Critical Hit Table: rolls a 3, indicating **Reactor Damage** (the Vanguard's reactor output is permanently reduced by 2 EP per turn).
 
 ### 2.4 End Phase
-- **Resolve End Phase Damage**: Resolve any damage scheduled to occur during the End Phase:
-  - **Sustained Beam**: Any location hit by a Thermal Lance or Laser during the Combat Phase suffers additional damage during the End Phase (Thermal Lance: 2d6 damage; Laser: 1d6 damage). This represents the weapon's dwell time focusing energy on a single point to melt through the hull; this damage must overcome Armor DR normally. However, whether the damage penetrates or is completely absorbed, the location's Armor DR is permanently reduced by **1**.
 - **Energy Storage**: Unused EP is moved to the Capacitor, up to the Capacitor Max. Any excess EP is vented and lost.
 - **Clean Up**: Remove Evasion tokens, decrement cooldown tokens on weapons, and reduce the value of any Smoke tokens by 1 (remove the smoke template entirely when its token reaches 0).
 
@@ -324,13 +322,10 @@ Every Frame has a sensor suite consisting of three bands, housed in the Head loc
 
 ### 4.2 Stealth & Defensive Countermeasures
 Frames can run active systems to deny locks and hide from sensors:
-- **Electronic Countermeasures (ECM)**: Costs 2 EP to activate in the Energy Phase. Blocks Microwave (Radar) detection and locks on the host Frame and any friendly Frames within a 2-hex radius.
+- **Electronic Countermeasures (ECM)**: Costs **1 EP** to activate in the Energy Phase. Blocks Microwave (Radar) detection and locks on the host Frame (0-hex radius). **Overcharge** [+1 EP per +1 hex radius]. All friendly Frames within the active radius are protected. *(Note: Overcharging triggers the mandatory 1-Turn Cooldown on the ECM suite).*
 - **Flares**: Limited charges (typically 3). When targeted by an IR-guided missile or IR-based attack, the defender may expend 1 Flare charge to completely negate the attack.
 - **Smoke Launchers**: Limited charges (typically 2). During the Activation Phase, a Frame may spend 1 EP and 1 charge to deploy a Smoke cloud in its current or an adjacent hex (place a Smoke token with a value of 2). The smoke template blocks Visual (VIS) LOS and Visual locks through that hex for as long as it remains on the board. Infrared (IR) and Microwave (Radar) sensors are unaffected and can scan through smoke unimpeded.
-- **Active Metamaterial Coating (AMC)**: During the Energy Phase, a player can spend EP to tune their coating. A Frame may only activate up to **two** AMC modes simultaneously, ensuring it is always detectable on at least one sensor spectrum:
-  - *Microwave-Absorbent Mode* (2 EP): Frame cannot be detected or locked by Microwave (Radar) sensors.
-  - *Infrared-Suppression Mode* (2 EP): Frame cannot be detected or locked by Infrared (IR) sensors.
-  - *Visual-Camouflage Mode* (2 EP): Frame cannot be detected or locked by Visual (VIS) sensors.
+- **Active Metamaterial Coating (AMC)**: Costs **2 EP** to activate in the Energy Phase. The Frame tunes its coating to absorb **one** sensor spectrum (Microwave, IR, or VIS), preventing it from being detected or locked on that spectrum. **Overcharge**: [+2 EP to cloak a 2nd spectrum simultaneously]. *(Note: Overcharging triggers the mandatory 1-Turn Cooldown, meaning the AMC will be completely offline during the following round, leaving the Frame fully exposed on all spectrums).*
 
 ### 4.3 Tactical Datalink (Head Location)
 A Frame may be equipped with a **Tactical Datalink** housed in its Head location.
@@ -349,11 +344,11 @@ Weapons can only be mounted in the Left Arm, Right Arm, or Torso, which dictates
 | Weapon | HP | EP Cost | Ammo | Cooldown | Damage | Detection | Traits | Special Rules |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Autocannon** | Light | 1/burst | 10 Bursts (Explosive) | None | 3x 1d6 (Burst) | Any | Rapid Fire | Fires 3-round bursts. Each 1d6 resolved separately. Can fire Full Auto. |
-| **Laser** | Light | 2 | Infinite | None | 1d6 + 1d6 (End) | Any | Sustained Beam | End Phase damage reduces Armor DR by 1. |
+| **Laser** | Light | 2 | Infinite | None | 2d6 | Any | Overcharge | **Overcharge**: [+1/+2 EP for +2/+4 flat damage]. |
 | **Guided Missiles** | Medium | 2 | 4 Salvos (Explosive) | None | Warhead Dep. | Guidance Dep. | AoE | Requires Lock. Permits indirect fire (no LOS) for all guidance types. |
-| **Disruptor Cannon** | Medium | 3 | Infinite | None | None | Any | Bypasses Evasion | Bypasses Armor DR. Hit Location effects (see record sheet for details). |
-| **Thermal Lance** | Heavy | 4 | Infinite | None | 2d6 + 2d6 (End) | Any | Sustained Beam | End Phase damage reduces Armor DR by 1. **Overcharge**: May spend extra EP (+2 EP = +1d6 Combat Dmg, max +4 EP). |
-| **Rail Gun** | Heavy | 6 | 5 Slugs (Inert) | 1 Turn | 3d6 + 10 | Any | AP 3 | Inert kinetic slugs — does not trigger Ammo Explosion. |
+| **Disruptor Cannon** | Medium | 3 | Infinite | None | None | Any | Bypasses Evasion, Overcharge | Bypasses Armor DR (see sheet for hit effects). **Overcharge**: [+2 EP to force Crit AND drain 1d6 EP simultaneously]. |
+| **Thermal Lance** | Heavy | 4 | Infinite | None | 4d6 | Any | Overcharge | **Overcharge**: [+2/+4 EP for +4/+8 flat damage]. |
+| **Rail Gun** | Heavy | 0 | 5 Slugs (Inert) | None | 3d6 + 10 | Any | AP 3, Overcharge | Inert slugs. **Requires Overcharge to fire**: [+6 EP]. |
 
 ### 5.1 Autocannon Munitions & Firing Modes
 When equipping an Autocannon, players choose how to load its 10-Burst ammunition supply. They can load all 10 Bursts with **one** ammo type, or split the supply between the two types at build time (e.g., 5 AP Bursts and 5 HEI Bursts), declaring which type is being fired before rolling to hit.
@@ -373,7 +368,7 @@ Missiles must be configured with a guidance package and a warhead at build time:
 - **Warheads**:
   - *High Explosive (HE)*: Roll 1 Hit Location. Deals 3d6 damage to the primary hit location, and **1d6 splash damage** to all adjacent locations on the target Frame (e.g., if the Torso is hit, the Head, Arms, and Legs take splash damage).
   - *Cluster*: Sandblasts the target's entire chassis. Deals **2d6 damage** (combined) to *every location* on the target Frame (Head, Torso, Left Arm, Right Arm, Left Leg, Right Leg). Resolve this 2d6 damage once against each location's Armor DR.
-  - *EMP (Electromagnetic Pulse)*: Detonates in a massive sphere. Targets a specific hex rather than a single Frame. **All Frames** within the target hex and the 6 surrounding adjacent hexes suffer the EMP effect. Deals no physical damage. Bypasses Armor DR. Affected Frames lose 1d6 EP from their Capacitor, and their sensors are severely scrambled for the next turn. Whenever an affected Frame attempts to establish a sensor lock (VIS, IR, or Radar) next turn, they must first pass a **Pilot Check** (roll 2d6, target 6+). If they fail, they cannot establish the lock and cannot fire the associated weapon. *(Note: This affects friendly Frames caught in the blast radius).*
+  - *EMP (Electromagnetic Pulse)*: Detonates in a massive sphere. Targets a specific hex rather than a single Frame. **All Frames** within the target hex and the 6 surrounding adjacent hexes suffer the EMP effect. Deals no physical damage. Bypasses Armor DR. Affected Frames suffer heavily scrambled sensors for the next turn (must pass a Pilot Check to establish any sensor locks). Additionally, any affected Frame suffers a **Critical Hit** on *every* location that currently has **0 Armor DR** (roll on the Critical Hit table for each exposed location). *(Note: This affects friendly Frames caught in the blast radius).*
 
 ### 5.3 Extra Ammunition Bins
 Ballistic and Missile weapons come with a standard internal magazine included in their base Hardpoint cost (e.g., the Autocannon includes 10 bursts). If a player wishes to carry additional ammunition for sustained fire, they may mount **Extra Ammo Bins**. **Extra Ammo Bins may only be mounted in the Torso.**
@@ -383,11 +378,14 @@ Ballistic and Missile weapons come with a standard internal magazine included in
 
 *(Note: Because Extra Ammo Bins can only be mounted in the Torso, they remain susceptible to the Ammo Explosion result on the Torso Critical Hit Table).*
 
-### 5.4 Thermal Lance Overcharge
-The Thermal Lance features an **Overcharge** mechanic that allows Heavy/Assault Frames to dump excess energy into the weapon for devastating spike damage.
-- **Energy Dump**: When firing the Thermal Lance, the pilot may spend additional EP (up to a maximum of 4 extra EP). 
-- **Damage Scaling**: For every **2 extra EP** spent, the Thermal Lance deals an additional **+1d6 Combat damage** on its initial attack.
-- *(Example: A pilot spends 4 base EP + 4 overcharge EP = 8 EP total. The Thermal Lance rolls 4d6 Combat damage instead of the usual 2d6).*
+### 5.4 Universal System Traits
+Many weapons and utility systems share standardized mechanical behaviors, represented by keywords or Traits.
+
+> **Trait: Overcharge [Cost for Effect]**
+> Any weapon or system with the Overcharge trait allows a pilot to dump excess EP from their Capacitor beyond the base activation cost to achieve a magnified effect. 
+> * **Capacitor Drain**: The additional EP required to trigger an Overcharge must be paid *exclusively* from banked EP in the Frame's Capacitor. Freshly generated Reactor EP cannot be used to pay Overcharge costs.
+> * **Cooldown Penalty**: Whenever a system is activated using its Overcharge mechanic (spending any amount of extra EP), that system enters a **1-Turn Cooldown**. It cannot be activated or fired at all during the following round.
+> * *(Example: A pilot overcharges their Thermal Lance. They spend 4 base EP + 4 overcharge EP = 8 EP total, rolling 4d6 Combat damage instead of the usual 2d6. The weapon then enters a 1-Turn Cooldown and cannot be fired next round).*
 
 ---
 
@@ -604,11 +602,34 @@ The chemical density of the atmosphere impacts how well the Frame's radiator ven
 ---
 
 ## 8. Named Pilots & The Code of Honor
-![Kaito Vance](images/kaito_vance.jpg)
 
 In *Iron Protocol*, pilots are not anonymous grunts. You can field legendary **Named Pilots** who represent the elite houses, coalitions, and orders.
 
-### 8.1 Initiative & Pilot Check Bonus
+### 8.1 Famous Aces
+While players are encouraged to create their own pilots, here are a few legendary aces that stalk the battlefields of *Iron Protocol*:
+
+- **Kaito Kuroda ("Wraith")**  
+  ![Kaito Kuroda](images/kaito_kuroda.jpg)  
+  *A prodigy of the Obsidian Order. Kaito relies on raw reflexes and blinding speed over heavy armor. He views combat as a sacred duel, demanding to look his opponents in the eyes before he strikes.*  
+  - **Initiative Bonus**: +3  
+  - **Sworn Vow**: Vow of Respect (Rei)  
+  - **Point Cost**: 45 pts  
+
+- **Kenji Takahashi ("Shogun")**  
+  ![Kenji Takahashi](images/kenji_takahashi.jpg)  
+  *A fiercely traditional veteran of the Inner Systems Defense Force. Takahashi operates almost exclusively in heavily armored assault frames and believes that momentum dictates victory. He is famous for his unyielding, straight-line charges into enemy formations.*  
+  - **Initiative Bonus**: +2  
+  - **Sworn Vow**: Vow of Courage (Yuu)  
+  - **Point Cost**: 30 pts  
+
+- **Lyra Vance ("Viper")**  
+  ![Lyra Vance](images/lyra_vance.jpg)  
+  *A ghost on the battlefield, Lyra operates deep behind enemy lines for the Sovereign Coalition. She pilots electronic warfare frames equipped with active camouflage. Rather than engaging in chaotic brawls, she relies on surgical precision, dismantling a target's mobility and weapon systems limb-by-limb before delivering the killing blow.*  
+  - **Initiative Bonus**: +3  
+  - **Sworn Vow**: Vow of Mercy (Jin)  
+  - **Point Cost**: 45 pts
+
+### 8.2 Initiative & Pilot Check Bonus
 Equipping a Named Pilot on an Iron Frame grants a flat Initiative bonus of **+1, +2, or +3** (declared at build time, up to a maximum final Initiative of 12). This represents their tactical foresight and combat reflexes.
 - **Pilot Checks**: In addition to modifying the Frame's Initiative, the Named Pilot adds their Initiative bonus (+1, +2, or +3) as a flat modifier to all **Pilot Checks** (to avoid falling Prone). If the pilot is dishonored, they immediately lose this bonus as well.
 - **Point Cost (Optional)**: If playing with the optional point rules (see Section 7.1), Named Pilots cost points based on their Initiative bonus:
@@ -616,7 +637,7 @@ Equipping a Named Pilot on an Iron Frame grants a flat Initiative bonus of **+1,
   - **+2 Initiative & Pilot Checks**: 30 pts
   - **+3 Initiative & Pilot Checks**: 45 pts
 
-### 8.2 Iron Protocol Vows
+### 8.3 Iron Protocol Vows
 Every Named Pilot is sworn to a specific vow under the Iron Protocol, reflecting their martial pride. If a pilot violates their vow during a battle, they are **dishonored**: they immediately lose their Initiative bonus for the rest of the battle, and suffer additional penalties.
 
 Choose one Vow for your Named Pilot:
@@ -635,6 +656,21 @@ Choose one Vow for your Named Pilot:
 *“Seek only the strongest. There is no glory in crushing the weak.”*
 - **The Constraint**: If a higher-initiative or higher-tonnage enemy Frame is detected and within the pilot's Torso Firing Arc, the pilot **must** target a higher-priority Frame instead of any lower-tier targets. (If both a higher-tonnage and higher-initiative target are present, the pilot may choose between them, but cannot fire at a target that is inferior in *both* categories).
 - **Dishonor Penalty**: If the pilot fires at a weaker target when a more prestigious target was valid, they are dishonored, and their weapons' EP costs increase by +1 EP per shot for the rest of the battle.
+
+#### Vow of Mercy (Jin)
+*“Victory is in the disarm, not the slaughter. A dead enemy learns nothing.”*
+- **The Constraint**: The pilot cannot target the Torso or Head of an enemy Frame if its Arms or Legs still have remaining Internal Structure. They must attempt to dismantle or disable the limbs first.
+- **Dishonor Penalty**: If the pilot intentionally targets the Torso or Head while a limb remains functional, they are dishonored. Plagued by a crisis of conscience, their Frame suffers a permanent -2 modifier to all future To-Hit rolls.
+
+#### Vow of Honesty (Makoto)
+*“Deception is a crutch. I will stand in the light and let them witness their end.”*
+- **The Constraint**: The pilot cannot activate Active Metamaterial Coating (AMC), Smoke Launchers, or ECM, nor can they benefit from the umbrella of allied ECM or Smoke.
+- **Dishonor Penalty**: If the pilot activates or relies on any active stealth/EW system to hide, they are dishonored. Their Capacitor Max is immediately and permanently reduced to 0 (they refuse to store energy out of shame).
+
+#### Vow of Loyalty (Chuugi)
+*“My shield is the wall that protects my kin. I will fall before they do.”*
+- **The Constraint**: If a friendly Frame within 3 hexes has lower current Armor DR or Internal Structure than the pilot, the pilot cannot move further away from that ally.
+- **Dishonor Penalty**: If the pilot abandons a damaged ally by intentionally moving outside the 3-hex radius, they are dishonored, and immediately suffer an automatic Reactor penalty of -3 EP per turn permanently.
 
 ---
 

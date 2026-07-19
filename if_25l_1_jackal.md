@@ -12,7 +12,7 @@
   *(Mark generated Evasion during movement; resets in End Phase)*
 
 ### 🔫 Armaments & Systems
-* **Left Arm [Light HP]: Laser** (1d6 Combat + 1d6 End damage | 2 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
+* **Left Arm [Light HP]: Laser** (2d6 Combat damage | 2 EP cost | Overcharge: [+1/+2 EP for +2/+4 flat damage] | Any Lock [VIS/IR/Radar])  
   *Ammo*: Infinite
 * **Right Arm [Light HP]: Autocannon** (3x 1d6 burst | 1 EP / burst | Configured with AP loadout)  
   *AP Bursts (10)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` (AP 1)

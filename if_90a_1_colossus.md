@@ -12,11 +12,11 @@
   *(Mark generated Evasion during movement; resets in End Phase)*
 
 ### 🔫 Armaments & Systems
-* **Left Arm [Heavy HP]: Thermal Lance** (2d6 Combat + 2d6 End damage | 4 EP cost | Overcharge: Spend +2 or +4 EP for +1d6 or +2d6 Combat dmg | Any Lock [VIS/IR/Radar])  
+* **Left Arm [Heavy HP]: Thermal Lance** (4d6 Combat damage | 4 EP cost | Overcharge: [+2/+4 EP for +4/+8 flat damage] | Any Lock [VIS/IR/Radar])  
   *Ammo*: Infinite
-* **Right Arm [Heavy HP]: Rail Gun** (3d6+10 damage | 6 EP cost | AP 3 | Cooldown: 1 Turn)  
+* **Right Arm [Heavy HP]: Rail Gun** (3d6+10 damage | 0 EP base cost | Requires Overcharge to fire: [+6 EP] | AP 3)  
   *Ammo Tracker (5 Kinetic Slugs)*: `[ ] Slug 1` | `[ ] Slug 2` | `[ ] Slug 3` | `[ ] Slug 4` | `[ ] Slug 5`
-* **Torso [Medium HP]: Guided Missile Launcher** (2 EP cost | Infrared [IR] Guided | EMP Warheads hit 7-hex radius; scrambles sensors [Pilot Check to recover])  
+* **Torso [Medium HP]: Guided Missile Launcher** (2 EP cost | Infrared [IR] Guided | EMP Warheads hit 7-hex radius; scrambles sensors [Pilot Check to recover] & causes Crits on 0 DR locations)  
   *Salvo Tracker (4 Salvos)*: `[ ] Salvo 1` | `[ ] Salvo 2` | `[ ] Salvo 3` | `[ ] Salvo 4`
 * **Torso [Light HP]: Defensive Smoke Launcher** (Blocks Visual sightlines | 1 EP use cost)  
   *Charges (2 charges)*: `[ ] Charge 1` | `[ ] Charge 2`

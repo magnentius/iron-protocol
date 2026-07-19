@@ -15,11 +15,11 @@
 * **Left Arm [Light HP]: Autocannon** (3x 1d6 burst | 1 EP / burst | Configured with AP / HEI dual loadout)  
   *AP Bursts (5)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` (AP 1)  
   *HEI Bursts (5)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` (HEI adds +1 to crits)
-* **Right Arm [Light HP]: Laser** (1d6 Combat + 1d6 End damage | 2 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
+* **Right Arm [Light HP]: Laser** (2d6 Combat damage | 2 EP cost | Overcharge: [+1/+2 EP for +2/+4 flat damage] | Any Lock [VIS/IR/Radar])  
   *Ammo*: Infinite
 * **Torso [Light HP]: Defensive Flare Launcher** (Deflects locking missiles | 1 EP use cost)  
   *Charges (3 charges)*: `[ ] Charge 1` | `[ ] Charge 2` | `[ ] Charge 3`
-* **Torso [Medium HP]: ECM Suite** (Jams Microwave locks | Upkeep: 2 EP)
+* **Torso [Medium HP]: ECM Suite** (Jams Microwave locks | Upkeep: 1 EP [Host only] | Overcharge: [+1 EP per +1 hex radius])
 * **Head [Light HP]: Tactical Datalink**: Shares locks and target telemetry in real time.
 
 ### 🛡️ Locational Status

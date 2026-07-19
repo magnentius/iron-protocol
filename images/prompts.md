@@ -47,9 +47,17 @@ When generating any image for *Iron Protocol*, always append or prefix the follo
 
 ## 👤 3. Named Pilots
 
-### Kaito Vance (The Iron Ronin)
+### Kaito Kuroda (Wraith)
 > **Prompt:**  
-> `Technical line art character portrait of "Kaito Vance", a legendary ace pilot from "Iron Protocol". He is a battle-hardened man with a focused gaze and a short scar over his brow, wearing a form-fitting sci-fi flight suit integrated with armored chest plates, neural connector sockets along his neck, and asymmetrical shoulder pads. He stands next to the massive, detailed mechanical foot of his Iron Frame, holding a high-tech flight helmet under his arm. Gritty black and white pen and ink line art, cross-hatching shadows, clean white background, classic tabletop wargame pilot sketch, inspired by classic BattleTech character readouts, completely clean art with no text, no labels, no words --ar 3:4`
+> `Technical line art character portrait of "Kaito Kuroda", a legendary ace pilot from "Iron Protocol". He is a young, intense man with sharp features and a traditional topknot, wearing a sleek, form-fitting Obsidian Order sci-fi flight suit integrated with angular armored plates, neural connector sockets along his neck, and asymmetrical shoulder pads. He stands next to the massive, detailed mechanical foot of his Iron Frame, holding a high-tech flight helmet under his arm. Gritty black and white pen and ink line art, cross-hatching shadows, clean white background, classic tabletop wargame pilot sketch, inspired by classic BattleTech character readouts, completely clean art with no text, no labels, no words --ar 3:4`
+
+### Kenji Takahashi (Shogun)
+> **Prompt:**  
+> `Technical line art character portrait of "Kenji Takahashi", a veteran ace pilot from "Iron Protocol". He is a grizzled, heavily scarred older man with a fierce gaze and a thick beard, wearing a bulky, heavy-duty military flight suit laden with utilitarian webbing, armored chest plating, and thick cooling hoses. He stands with arms crossed next to the massive, heavily armored leg of his assault Iron Frame. Gritty black and white pen and ink line art, cross-hatching shadows, clean white background, classic tabletop wargame pilot sketch, inspired by classic BattleTech character readouts, completely clean art with no text, no labels, no words --ar 3:4`
+
+### Lyra Vance (Viper)
+> **Prompt:**  
+> `Technical line art character portrait of "Lyra Vance", a female mercenary ace pilot from "Iron Protocol". She is a striking, calculating woman with an undercut hairstyle and a cybernetic optical implant over one eye, wearing a lightweight stealth flight suit covered in sensor baffling mesh, high-tech holsters, and neural link cables running down her spine. She leans against the sleek, reverse-jointed leg of her stealth Iron Frame, holding a datapad. Gritty black and white pen and ink line art, cross-hatching shadows, clean white background, classic tabletop wargame pilot sketch, inspired by classic BattleTech character readouts, completely clean art with no text, no labels, no words --ar 3:4`
 
 ---
 
