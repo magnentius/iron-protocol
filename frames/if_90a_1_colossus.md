@@ -2,7 +2,7 @@
 
 ![IF-90A-1 "Colossus" Technical Sketch](../images/if_90a_1_colossus.jpg)
 
-* **Initiative**: 3 | **Tonnage**: 90 Tons | **Points**: 625 pts | **Movement Limit**: 3 hexes | **Evasion Limit**: 1 EVA
+* **Initiative**: 3 | **Tonnage**: 90 Tons | **Points**: 655 pts | **Movement Limit**: 3 hexes | **Evasion Limit**: 1 EVA
 
 ### ⚡ Energy & Evasion
 * **Reactor EP (18/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5 (IR Lockable)` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12` | `[ ] 13` | `[ ] 14` | `[ ] 15` | `[ ] 16` | `[ ] 17` | `[ ] 18`  

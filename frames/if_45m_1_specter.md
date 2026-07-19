@@ -2,7 +2,7 @@
 
 ![IF-45M-1 "Specter" Technical Sketch](../images/if_45m_1_specter.jpg)
 
-* **Initiative**: 10 | **Tonnage**: 45 Tons | **Points**: 395 pts | **Movement Limit**: 5 hexes | **Evasion Limit**: 5 EVA
+* **Initiative**: 10 | **Tonnage**: 45 Tons | **Points**: 435 pts | **Movement Limit**: 5 hexes | **Evasion Limit**: 5 EVA
 
 ### ⚡ Energy & Evasion
 * **Reactor EP (9/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5 (IR Lockable)` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9`  

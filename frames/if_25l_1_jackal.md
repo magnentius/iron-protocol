@@ -2,7 +2,7 @@
 
 ![IF-25L-1 "Jackal" Technical Sketch](../images/if_25l_1_jackal.jpg)
 
-* **Initiative**: 12 | **Tonnage**: 25 Tons | **Points**: 320 pts | **Movement Limit**: 7 hexes | **Evasion Limit**: 6 EVA
+* **Initiative**: 12 | **Tonnage**: 25 Tons | **Points**: 370 pts | **Movement Limit**: 7 hexes | **Evasion Limit**: 6 EVA
 
 ### ⚡ Energy & Evasion
 * **Reactor EP (8/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5 (IR Lockable)` | `[ ] 6` | `[ ] 7` | `[ ] 8`  

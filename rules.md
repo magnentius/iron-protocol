@@ -513,29 +513,44 @@ If an attack hits a location that has already been destroyed (e.g. a random hit 
 
 For players seeking advanced simulation, competitive matching, or campaign settings, these optional rules introduce points-based force organization and environmental hazards.
 
-### 7.1 Squad Building & Point Values
-To build balanced forces for casual or competitive play, players agree on a maximum **Point Limit** (typically 1000 or 1500 points per squad). Every Frame, weapon, system, and pilot has a point cost computed using the following baseline values:
+### 7.1 Force Organization & Point Limits
+To build balanced forces for casual or competitive play, players agree on a maximum **Deployment Point** limit (typically 1000 or 1500 points). Forces are organized into tactical groups:
+- **Element**: A pair of 2 Iron Frames. (Standard skirmish games are typically 1 Element vs. 1 Element).
+- **Platoon**: A full combat unit consisting of 3 to 4 Iron Frames (typically organized as two Elements operating together). 
 
-#### 1. Frame Chassis (By Weight Class)
-*Determined by chassis tonnage, accounting for base structural integrity and armor capacity.*
-- **Light Chassis** (20–35 Tons): 100 pts
-- **Medium Chassis** (40–55 Tons): 150 pts
-- **Heavy Chassis** (60–75 Tons): 200 pts
-- **Assault Chassis** (80–100 Tons): 250 pts
+### 7.2 Base Chassis & Custom Frames
+If players wish to construct custom Iron Frames from scratch instead of using the pre-generated technical readouts (like the Vanguard or Specter), they must purchase a **Base Chassis** and spend points to upgrade it. 
 
-#### 2. Hardpoint Slots (By Weight Class)
+Every Frame is defined by its physical **Tonnage** (Weight Class). Tonnage determines the Frame's starting baseline stats and its absolute maximum limits (**Hard Caps**).
+
+**Chassis Limits Table:**
+
+| Chassis Class | Tonnage | Base Stats (Init / Move / EVA / Reactor / Cap) | Hard Caps (Max Allowable Upgrades) | Base Cost |
+| :--- | :---: | :--- | :--- | :--- |
+| **Light** | 20–35 Tons | Init 8 \| Move 5 \| 4 EVA \| Reactor 6 \| Cap 2 | Init 12 \| Move 7 \| 6 EVA \| Reactor 9 \| Cap 4 | 150 pts |
+| **Medium** | 40–55 Tons | Init 6 \| Move 4 \| 3 EVA \| Reactor 6 \| Cap 2 | Init 10 \| Move 5 \| 5 EVA \| Reactor 9 \| Cap 4 | 200 pts |
+| **Heavy** | 60–75 Tons | Init 4 \| Move 3 \| 1 EVA \| Reactor 5 \| Cap 2 | Init 6 \| Move 4 \| 2 EVA \| Reactor 8 \| Cap 4 | 250 pts |
+| **Assault** | 80–100 Tons | Init 2 \| Move 2 \| 0 EVA \| Reactor 5 \| Cap 2 | Init 4 \| Move 3 \| 1 EVA \| Reactor 7 \| Cap 4 | 300 pts |
+
+#### 1. Hardpoint Slots (By Weight Class)
 *Every Frame possesses a specific number of hardpoints dictating what equipment it can mount. A Frame cannot mount a piece of equipment heavier than its weight class.*
 - **Light Chassis**: 0 Heavy | 0 Medium | 4 Light
 - **Medium Chassis**: 0 Heavy | 2 Medium | 4 Light
 - **Heavy Chassis**: 1 Heavy | 3 Medium | 4 Light
 - **Assault Chassis**: 2 Heavy | 3 Medium | 4 Light
 
-#### 3. Locomotive & Reactor Output
-- **Reactor Rating**: +10 pts per 1 EP generated (e.g. Reactor 12 = 120 pts)
-- **Capacitor Max**: +5 pts per 1 EP maximum capacity (e.g. Capacitor 6 = 30 pts)
-- **Evasion Limit**: +10 pts per max EVA (e.g. Evasion Limit 3 = 30 pts)
+#### 2. Engine & Mobility Upgrades
+Upgrading a Frame's chassis above its Base Stats **does not increase its Tonnage**. A 45-ton Frame remains exactly 45 tons, meaning its physical armor capacity and weapon mounting slots remain those of a Medium frame.
 
-#### 4. Countermeasures & Active Systems
+Instead, upgrades cost **Deployment Points (pts)**. Mobility stats (Init/Move/EVA) are strictly bound by the Hard Caps of the Frame's weight class (a heavy chassis can only move so fast). However, Reactor and Capacitor upgrades have **no hard caps**, allowing Heavy and Assault frames to purchase massive power plants to fuel heavy weaponry.
+
+- **Initiative Upgrade**: +15 pts per +1 Init (Up to Hard Cap)
+- **Movement Upgrade**: +20 pts per +1 Move (Up to Hard Cap)
+- **Evasion Upgrade**: +15 pts per +1 EVA (Up to Hard Cap)
+- **Reactor Upgrade**: +10 pts per +1 EP generated (No Cap)
+- **Capacitor Upgrade**: +5 pts per +1 EP capacity (No Cap)
+
+#### 3. Countermeasures & Active Systems
 - **Active Metamaterial Coating (AMC)** [Medium]: 30 pts
 - **Electronic Countermeasures (ECM)** [Medium]: 25 pts
 - **Flare Launcher** [Light]: 15 pts
@@ -543,7 +558,7 @@ To build balanced forces for casual or competitive play, players agree on a maxi
 - **Tactical Datalink** [Light]: 15 pts
 - **Jump Jets (Light/Medium only)** [Light]: 20 pts
 
-#### 5. Weapons & Armaments
+#### 4. Weapons & Armaments
 - **Autocannon** [Light]: 15 pts
 - **Laser** [Light]: 15 pts
 - **Thermal Lance** [Heavy]: 30 pts
@@ -554,7 +569,7 @@ To build balanced forces for casual or competitive play, players agree on a maxi
 - **Extra Ammo Bin (Guided Missiles)** [Medium]: 15 pts
 - **Extra Ammo Bin (Rail Gun)** [Heavy]: 15 pts
 
-#### 6. Named Pilots
+#### 5. Named Pilots
 - **Pilot (+1 Initiative Bonus)**: 15 pts
 - **Pilot (+2 Initiative Bonus)**: 30 pts
 - **Pilot (+3 Initiative Bonus)**: 45 pts
@@ -702,7 +717,7 @@ Here are five pre-configured Iron Frames ready for combat.
 *A fragile but blisteringly fast scout frame. It relies on its extreme evasion and jump jets to outmaneuver heavier foes, darting in to deliver surgical strikes before leaping to safety.*
 - **Initiative**: 12
 - **Chassis Mass (Tonnage)**: 25 Tons (Light, Mass Value 1)
-- **Point Value**: 320 points
+- **Point Value**: 370 points
 - **Reactor Rating**: 8 EP/turn
 - **Capacitor Max**: 3 EP
 - **Evasion Limit**: 6 EVA
@@ -723,7 +738,7 @@ Here are five pre-configured Iron Frames ready for combat.
 *A fast, stealthy frame designed to infiltrate enemy lines, disrupt sensors, and escape using high evasion and metamaterial cloaking.*
 - **Initiative**: 10
 - **Chassis Mass (Tonnage)**: 45 Tons (Medium, Mass Value 2)
-- **Point Value**: 395 points
+- **Point Value**: 435 points
 - **Reactor Rating**: 9 EP/turn
 - **Capacitor Max**: 4 EP
 - **Evasion Limit**: 5 EVA
@@ -744,7 +759,7 @@ Here are five pre-configured Iron Frames ready for combat.
 *The workhorse of the fleet. Balanced defense, solid firepower, and equipped with flares to deflect seeking missiles.*
 - **Initiative**: 6
 - **Chassis Mass (Tonnage)**: 55 Tons (Medium, Mass Value 2)
-- **Point Value**: 425 points
+- **Point Value**: 400 points
 - **Reactor Rating**: 12 EP/turn
 - **Capacitor Max**: 6 EP
 - **Evasion Limit**: 4 EVA
@@ -766,7 +781,7 @@ Here are five pre-configured Iron Frames ready for combat.
 *A heavy bombardment frame equipped to deliver high-impact kinetic support and rain cluster munitions, protected by layered defensive launchers.*
 - **Initiative**: 5
 - **Chassis Mass (Tonnage)**: 75 Tons (Heavy, Mass Value 3)
-- **Point Value**: 520 points
+- **Point Value**: 540 points
 - **Reactor Rating**: 14 EP/turn
 - **Capacitor Max**: 8 EP
 - **Evasion Limit**: 2 EVA
@@ -789,7 +804,7 @@ Here are five pre-configured Iron Frames ready for combat.
 *A walking fortress. Generates massive amounts of energy to feed its Rail Gun and Thermal Lance, relying on heavy armor and smoke screens for protection.*
 - **Initiative**: 3
 - **Chassis Mass (Tonnage)**: 90 Tons (Assault, Mass Value 4)
-- **Point Value**: 625 points
+- **Point Value**: 655 points
 - **Reactor Rating**: 18 EP/turn
 - **Capacitor Max**: 10 EP
 - **Evasion Limit**: 1 EVA

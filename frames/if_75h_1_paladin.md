@@ -2,7 +2,7 @@
 
 ![IF-75H-1 "Paladin" Technical Sketch](../images/if_75h_1_paladin.jpg)
 
-* **Initiative**: 5 | **Tonnage**: 75 Tons | **Points**: 520 pts | **Movement Limit**: 4 hexes | **Evasion Limit**: 2 EVA
+* **Initiative**: 5 | **Tonnage**: 75 Tons | **Points**: 540 pts | **Movement Limit**: 4 hexes | **Evasion Limit**: 2 EVA
 
 ### ⚡ Energy & Evasion
 * **Reactor EP (14/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5 (IR Lockable)` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12` | `[ ] 13` | `[ ] 14`  
