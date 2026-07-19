@@ -26,8 +26,8 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 ### 🔫 Armaments & Systems
 * **Left Arm [Light HP]: Laser** (1d6 Combat + 1d6 End damage | 2 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
   *Ammo*: Infinite
-* **Right Arm [Light HP]: Autocannon** (2d6 damage | 1 EP cost | Configured with AP loadout)  
-  *AP Bursts (10)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` (AP 2)
+* **Right Arm [Light HP]: Autocannon** (3x 1d6 burst | 1 EP / burst | Configured with AP loadout)  
+  *AP Bursts (10)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` (AP 1)
 * **Torso [Light HP]: Jump Jets** (Allows jumping over elevation/terrain | +2 EP cost to movement)
 * **Head [Light HP]: Tactical Datalink**: Shares locks and target telemetry in real time.
 
@@ -35,7 +35,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 | Location | Armor DR Tracker (Cross off highest on hit) | Internal Structure (Mark on damage) |
 | :--- | :--- | :--- |
-| **Head** | `[1] [0]` | `[ ] [ ] [ ]` (3 IS) |
+| **Head** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ]` (4 IS) |
 | **Torso** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (8 IS) |
 | **Left Arm** | `[1] [0]` | `[ ] [ ] [ ] [ ]` (4 IS) |
 | **Right Arm** | `[1] [0]` | `[ ] [ ] [ ] [ ]` (4 IS) |
@@ -78,7 +78,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 | Location | Armor DR Tracker (Cross off highest on hit) | Internal Structure (Mark on damage) |
 | :--- | :--- | :--- |
-| **Head** | `[1] [0]` | `[ ] [ ] [ ]` (3 IS) |
+| **Head** | `[3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ]` (5 IS) |
 | **Torso** | `[4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (10 IS) |
 | **Left Arm** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ]` (6 IS) |
 | **Right Arm** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ]` (6 IS) |
@@ -110,9 +110,9 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
   *(Mark generated Evasion during movement; resets in End Phase)*
 
 ### 🔫 Armaments & Systems
-* **Left Arm [Light HP]: Autocannon** (2d6 damage | 1 EP cost | Configured with AP / HEI dual loadout)  
-  *AP Bursts (5)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` (AP 2)  
-  *HEI Bursts (5)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` (HEI adds +2 to crits)
+* **Left Arm [Light HP]: Autocannon** (3x 1d6 burst | 1 EP / burst | Configured with AP / HEI dual loadout)  
+  *AP Bursts (5)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` (AP 1)  
+  *HEI Bursts (5)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` (HEI adds +1 to crits)
 * **Right Arm [Light HP]: Laser** (1d6 Combat + 1d6 End damage | 2 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
   *Ammo*: Infinite
 * **Torso [Light HP]: Defensive Flare Launcher** (Deflects locking missiles | 1 EP use cost)  
@@ -124,7 +124,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 | Location | Armor DR Tracker (Cross off highest on hit) | Internal Structure (Mark on damage) |
 | :--- | :--- | :--- |
-| **Head** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ]` (4 IS) |
+| **Head** | `[4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ]` (6 IS) |
 | **Torso** | `[5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (12 IS) |
 | **Left Arm** | `[3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (8 IS) |
 | **Right Arm** | `[3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (8 IS) |
@@ -156,11 +156,11 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
   *(Mark generated Evasion during movement; resets in End Phase)*
 
 ### 🔫 Armaments & Systems
-* **Right Arm [Heavy HP]: Rail Gun** (3d6+5 damage | 6 EP cost | AP 3 | Cooldown: 1 Turn)  
+* **Right Arm [Heavy HP]: Rail Gun** (3d6+10 damage | 6 EP cost | AP 3 | Cooldown: 1 Turn)  
   *Ammo Tracker (5 Kinetic Slugs)*: `[ ] Slug 1` | `[ ] Slug 2` | `[ ] Slug 3` | `[ ] Slug 4` | `[ ] Slug 5`
-* **Left Arm [Light HP]: Autocannon** (2d6 damage | 1 EP cost | Loaded with AP 2 ammo)  
-  *Ammo Tracker (10 AP Bursts)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` (AP 2)
-* **Torso [Medium HP]: Guided Missile Launcher** (2 EP cost | Microwave [Radar] Guided | Cluster Warheads deal 1d6 to 5 locations)  
+* **Left Arm [Light HP]: Autocannon** (3x 1d6 burst | 1 EP / burst | Loaded with AP 1 ammo)  
+  *Ammo Tracker (10 AP Bursts)*: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` (AP 1)
+* **Torso [Medium HP]: Guided Missile Launcher** (2 EP cost | Microwave [Radar] Guided | Cluster Warheads deal 2d6 to every location)  
   *Salvo Tracker (4 Salvos)*: `[ ] Salvo 1` | `[ ] Salvo 2` | `[ ] Salvo 3` | `[ ] Salvo 4`
 * **Torso [Light HP]: Defensive Smoke Launcher** (Blocks Visual sightlines | 1 EP use cost)  
   *Charges (2 charges)*: `[ ] Charge 1` | `[ ] Charge 2`
@@ -172,7 +172,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 | Location | Armor DR Tracker (Cross off highest on hit) | Internal Structure (Mark on damage) |
 | :--- | :--- | :--- |
-| **Head** | `[2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ]` (5 IS) |
+| **Head** | `[4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ]` (7 IS) |
 | **Torso** | `[6] [5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (16 IS) |
 | **Left Arm** | `[4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (10 IS) |
 | **Right Arm** | `[4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (10 IS) |
@@ -204,11 +204,11 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
   *(Mark generated Evasion during movement; resets in End Phase)*
 
 ### 🔫 Armaments & Systems
-* **Left Arm [Heavy HP]: Thermal Lance** (2d6 Combat + 2d6 End damage | 4 EP cost | End damage bypasses DR | Any Lock [VIS/IR/Radar])  
+* **Left Arm [Heavy HP]: Thermal Lance** (2d6 Combat + 2d6 End damage | 4 EP cost | Overcharge: Spend +2 or +4 EP for +1d6 or +2d6 Combat dmg | Any Lock [VIS/IR/Radar])  
   *Ammo*: Infinite
-* **Right Arm [Heavy HP]: Rail Gun** (3d6+5 damage | 6 EP cost | AP 3 | Cooldown: 1 Turn)  
+* **Right Arm [Heavy HP]: Rail Gun** (3d6+10 damage | 6 EP cost | AP 3 | Cooldown: 1 Turn)  
   *Ammo Tracker (5 Kinetic Slugs)*: `[ ] Slug 1` | `[ ] Slug 2` | `[ ] Slug 3` | `[ ] Slug 4` | `[ ] Slug 5`
-* **Torso [Medium HP]: Guided Missile Launcher** (2 EP cost | Infrared [IR] Guided | EMP Warheads offline target sensors)  
+* **Torso [Medium HP]: Guided Missile Launcher** (2 EP cost | Infrared [IR] Guided | EMP Warheads offline target sensors; requires Pilot Check to recover)  
   *Salvo Tracker (4 Salvos)*: `[ ] Salvo 1` | `[ ] Salvo 2` | `[ ] Salvo 3` | `[ ] Salvo 4`
 * **Torso [Light HP]: Defensive Smoke Launcher** (Blocks Visual sightlines | 1 EP use cost)  
   *Charges (2 charges)*: `[ ] Charge 1` | `[ ] Charge 2`
@@ -220,7 +220,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
 
 | Location | Armor DR Tracker (Cross off highest on hit) | Internal Structure (Mark on damage) |
 | :--- | :--- | :--- |
-| **Head** | `[3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ]` (6 IS) |
+| **Head** | `[4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (8 IS) |
 | **Torso** | `[7] [6] [5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (20 IS) |
 | **Left Arm** | `[5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (12 IS) |
 | **Right Arm** | `[5] [4] [3] [2] [1] [0]` | `[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ]` (12 IS) |

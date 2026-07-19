@@ -239,7 +239,7 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
 
 ### 2.4 End Phase
 - **Resolve End Phase Damage**: Resolve any damage scheduled to occur during the End Phase:
-  - **Sustained Beam**: Any location hit by a Thermal Lance or Laser during the Combat Phase suffers additional damage during the End Phase (Thermal Lance: 2d6 damage; Laser: 1d6 damage). This represents the weapon's dwell time focusing energy on a single point to melt through the hull; this damage entirely **bypasses Armor DR** and is dealt directly to the Internal Structure (automatically triggering a critical check if 1+ damage is dealt).
+  - **Sustained Beam**: Any location hit by a Thermal Lance or Laser during the Combat Phase suffers additional damage during the End Phase (Thermal Lance: 2d6 damage; Laser: 1d6 damage). This represents the weapon's dwell time focusing energy on a single point to melt through the hull; this damage must overcome Armor DR normally. However, whether the damage penetrates or is completely absorbed, the location's Armor DR is permanently reduced by **1**.
 - **Energy Storage**: Unused EP is moved to the Capacitor, up to the Capacitor Max. Any excess EP is vented and lost.
 - **Clean Up**: Remove Evasion tokens, decrement cooldown tokens on weapons, and reduce the value of any Smoke tokens by 1 (remove the smoke template entirely when its token reaches 0).
 
@@ -344,19 +344,25 @@ Weapons can only be mounted in the Left Arm, Right Arm, or Torso, which dictates
 
 - **Armor Piercing (AP X)**: Weapons or munitions designated as **AP X** ignore up to **X** points of the target's Armor DR when calculating damage. (For example, an AP 3 weapon fired at a location with Armor DR 5 treats that location's DR as 2).
 
-| Weapon | Hardpoint | EP Cost | Ammo | Cooldown | Damage | Detection Spectrum | Special Rules |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **Autocannon** | Light | 1 | 10 Bursts (Explosive) | None | 2d6 | Any (VIS, IR, Radar) | Rapid fire. Fires a single burst (consumes 1 Burst). |
-| **Laser** | Light | 2 | Infinite | None | 1d6 (Combat) + 1d6 (End) | Any (VIS, IR, Radar) | Sustained Beam. End Phase damage bypasses Armor DR. |
-| **Guided Missiles** | Medium | 2 | 4 Salvos (Explosive) | None | Warhead Dep. | Guidance Dep. | Requires Lock. Permits indirect fire (no LOS) for all guidance types. |
-| **Disruptor Cannon** | Medium | 3 | Infinite | None | None | Any (VIS, IR, Radar) | Bypasses Evasion and Armor DR. Roll Hit Location: Head (2) forces Head Crit; Torso (7 or 12) drains 1d6 Cap EP and target has -2 EP reactor output next turn; Arms/Legs (3-6, 8-11) immediately force Critical (treat 6 as Actuator Lockup next turn instead of destruction). |
-| **Thermal Lance** | Heavy | 4 | Infinite | None | 2d6 (Combat) + 2d6 (End) | Any (VIS, IR, Radar) | Sustained Beam. End Phase damage bypasses Armor DR. |
-| **Rail Gun** | Heavy | 6 | 5 Slugs (Inert) | 1 Turn | 3d6 + 5 | Any (VIS, IR, Radar) | AP 3. Inert kinetic slugs — does not trigger Ammo Explosion. |
+- **Area of Effect (AoE)**: Damage designated as **AoE** (such as Missile Cluster and Splash damage) blankets a wide area and completely bypasses Evasion. Do not subtract the target's EVA points from AoE damage rolls.
 
-### 5.1 Autocannon Munitions
+| Weapon | HP | EP Cost | Ammo | Cooldown | Damage | Detection | Traits | Special Rules |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Autocannon** | Light | 1/burst | 10 Bursts (Explosive) | None | 3x 1d6 (Burst) | Any | Rapid Fire | Fires 3-round bursts. Each 1d6 resolved separately. Can fire Full Auto. |
+| **Laser** | Light | 2 | Infinite | None | 1d6 + 1d6 (End) | Any | Sustained Beam | End Phase damage reduces Armor DR by 1. |
+| **Guided Missiles** | Medium | 2 | 4 Salvos (Explosive) | None | Warhead Dep. | Guidance Dep. | AoE | Requires Lock. Permits indirect fire (no LOS) for all guidance types. |
+| **Disruptor Cannon** | Medium | 3 | Infinite | None | None | Any | Bypasses Evasion | Bypasses Armor DR. Hit Location effects (see record sheet for details). |
+| **Thermal Lance** | Heavy | 4 | Infinite | None | 2d6 + 2d6 (End) | Any | Sustained Beam | End Phase damage reduces Armor DR by 1. **Overcharge**: May spend extra EP (+2 EP = +1d6 Combat Dmg, max +4 EP). |
+| **Rail Gun** | Heavy | 6 | 5 Slugs (Inert) | 1 Turn | 3d6 + 10 | Any | AP 3 | Inert kinetic slugs — does not trigger Ammo Explosion. |
+
+### 5.1 Autocannon Munitions & Firing Modes
 When equipping an Autocannon, players choose how to load its 10-Burst ammunition supply. They can load all 10 Bursts with **one** ammo type, or split the supply between the two types at build time (e.g., 5 AP Bursts and 5 HEI Bursts), declaring which type is being fired before rolling to hit.
-- **Armor Piercing (AP 2)**: Ignores up to 2 points of the target's Armor DR.
-- **High Explosive Incendiary (HEI)**: Adds a flat +2 modifier to any Critical Hit rolls caused by this weapon.
+- **Armor Piercing (AP 1)**: Ignores up to 1 point of the target's Armor DR per hit.
+- **High Explosive Incendiary (HEI)**: Adds a flat +1 modifier to any Critical Hit rolls caused by this weapon.
+
+**Firing Modes**:
+- **Single Burst (1 EP)**: Consumes 1 Burst of ammo. Roll 1 Hit Location. Roll 3x 1d6 damage, resolving each 1d6 hit against the target location's Armor DR separately. The target's Evasion (EVA) reduces the *number of hits*: for every point of Evasion, one of the 1d6 hits misses entirely.
+- **Full Auto (X EP)**: Consumes X Bursts of ammo (up to the amount remaining in the magazine), costing 1 EP per burst fired. Roll 1 Hit Location for the entire attack. Roll 3X individual 1d6 damage rolls against that location, resolving each separately. Evasion reduces the total number of hits (e.g., a target with 4 EVA causes 4 of the 1d6 hits to miss).
 
 ### 5.2 Guided Missile Systems
 Missiles must be configured with a guidance package and a warhead at build time:
@@ -365,9 +371,23 @@ Missiles must be configured with a guidance package and a warhead at build time:
   - *Infrared (IR)-Guided*: Permits indirect fire (ignoring Elevation/LOS blocks). Requires an Infrared (IR) lock (which must be provided by a Tactical Datalink spotter if the firing Frame lacks direct LOS). Target must have spent 5+ EP this turn. Blocked by Flares or Infrared-Suppression Active Coating.
   - *Visual (VIS)-Guided*: Permits indirect fire (ignoring Elevation/LOS blocks, utilizing onboard optical cameras during terminal descent). Requires a Visual (VIS) lock (which must be provided by a Tactical Datalink spotter if the firing Frame lacks direct LOS). Blocked by Smoke or Visual-Camouflage Active Coating.
 - **Warheads**:
-  - *High Explosive (HE)*: Deals 4d6 damage to a single hit location.
-  - *Cluster*: Deals 1d6 damage to 5 different randomly rolled hit locations (roll location for each hit).
-  - *EMP (Electromagnetic Pulse)*: Deals no physical damage. Bypasses Armor DR. Target's Capacitor loses 1d6 EP, and their Sensors are offline for the next turn (the target cannot establish, maintain, or share any sensor locks [VIS, IR, or Radar] for the next turn).
+  - *High Explosive (HE)*: Roll 1 Hit Location. Deals 3d6 damage to the primary hit location, and **1d6 splash damage** to all adjacent locations on the target Frame (e.g., if the Torso is hit, the Head, Arms, and Legs take splash damage).
+  - *Cluster*: Sandblasts the target's entire chassis. Deals **2d6 damage** (combined) to *every location* on the target Frame (Head, Torso, Left Arm, Right Arm, Left Leg, Right Leg). Resolve this 2d6 damage once against each location's Armor DR.
+  - *EMP (Electromagnetic Pulse)*: Deals no physical damage. Bypasses Armor DR. Target's Capacitor loses 1d6 EP. The target's sensors are severely scrambled for the next turn. Whenever the target attempts to establish a sensor lock (VIS, IR, or Radar) next turn, they must first pass a **Pilot Check** (roll 2d6, target 6+). If they fail, they cannot establish the lock and cannot fire the associated weapon.
+
+### 5.3 Extra Ammunition Bins
+Ballistic and Missile weapons come with a standard internal magazine included in their base Hardpoint cost (e.g., the Autocannon includes 10 bursts). If a player wishes to carry additional ammunition for sustained fire, they may mount **Extra Ammo Bins**. **Extra Ammo Bins may only be mounted in the Torso.**
+- **Extra Ammo Bin (Autocannon)**: Grants +10 Bursts. Occupies 1 Light Hardpoint (Torso only).
+- **Extra Ammo Bin (Guided Missiles)**: Grants +4 Salvos. Occupies 1 Medium Hardpoint (Torso only).
+- **Extra Ammo Bin (Rail Gun)**: Grants +5 Slugs. Occupies 1 Heavy Hardpoint (Torso only).
+
+*(Note: Because Extra Ammo Bins can only be mounted in the Torso, they remain susceptible to the Ammo Explosion result on the Torso Critical Hit Table).*
+
+### 5.4 Thermal Lance Overcharge
+The Thermal Lance features an **Overcharge** mechanic that allows Heavy/Assault Frames to dump excess energy into the weapon for devastating spike damage.
+- **Energy Dump**: When firing the Thermal Lance, the pilot may spend additional EP (up to a maximum of 4 extra EP). 
+- **Damage Scaling**: For every **2 extra EP** spent, the Thermal Lance deals an additional **+1d6 Combat damage** on its initial attack.
+- *(Example: A pilot spends 4 base EP + 4 overcharge EP = 8 EP total. The Thermal Lance rolls 4d6 Combat damage instead of the usual 2d6).*
 
 ---
 
@@ -394,7 +414,7 @@ When a Frame is hit, the player rolls 2d6 and determines the hit location using 
 *\*\*Head (Sensors): Contains the cockpit and Sensor Suite. Critical hits on the Head are highly dangerous and can stun or blind the Frame.*
 
 ### 6.2 Critical Hit Tables (1d6)
-If damage penetrates to the **Internal Structure** of a location, roll 1d6 on the corresponding table. (Remember: HEI ammo adds a flat +2 modifier to these rolls, up to a maximum of 8. For rolls of 7+, resolve the 6 effect).
+If damage penetrates to the **Internal Structure** of a location, roll 1d6 on the corresponding table. (Remember: HEI ammo adds a flat +1 modifier to these rolls, up to a maximum of 7. For rolls of 7+, resolve the 6 effect).
 
 #### Head (Cockpit) Critical Table
 - **1: Sensor Flicker**. Sensors are unstable. The Frame's sensor locks (VIS/IR/Radar) are capped at a maximum range of 5 hexes next turn.
@@ -431,15 +451,14 @@ If damage penetrates to the **Internal Structure** of a location, roll 1d6 on th
 ### 6.3 Falling and the Prone State
 When an Iron Frame is knocked over during combat (via collision, Drop Strike, or leg destruction), it enters the **Prone** state. Mark the Frame with a Prone token.
 
-### Triggering Prone (Pilot Checks)
-A Frame must make a **Pilot Check** (rolling 2d6) to avoid falling Prone in the following situations:
-- **Collisions**: (See Section 2.2 for Collision rules).
-- **Kinetic Drop Strike**: 
-  - The **Target Frame** of a Drop Strike is automatically knocked Prone.
-  - The **Jumping Frame** must make a Pilot Check upon landing (whether the hex was empty or occupied):
-    $$\text{Drop Strike Pilot Check} = 2d6 + \text{Mass Value} - \text{Hexes Jumped} + \text{Pilot Initiative Bonus (if applicable)}$$
-    - **Target**: 6 or higher. (A failure results in falling Prone).
-- **Leg Severed**: If a Frame suffers a "Leg Severed" critical hit (Leg Critical Table 6+), it immediately falls Prone.
+### 6.4 Pilot Checks
+A Frame must make a **Pilot Check** (rolling 2d6, target 6 or higher) in the following situations:
+- **Avoiding Falling Prone**:
+  - *Collisions*: (See Section 2.2 for Collision rules).
+  - *Kinetic Drop Strike*: The **Target Frame** is automatically knocked Prone. The **Jumping Frame** must make a Pilot Check upon landing. $\text{Check} = 2d6 + \text{Mass} - \text{Hexes Jumped} + \text{Pilot Bonus}$.
+  - *Leg Severed*: A Frame automatically falls Prone if a leg is severed (no check allowed).
+- **Fighting Through Sensor Scrambles**:
+  - *EMP Recovery*: If a Frame's sensors are scrambled by an EMP, the pilot must pass a Pilot Check (2d6) to establish a VIS, IR, or Radar lock. Failure means the lock cannot be established.
 
 #### Effects of the Prone State
 - **Defense**: A Prone Frame's movement-generated Evasion (EVA) is reduced to **0**, and it cannot generate new EVA. It still benefits from any temporary EVA modifiers granted by Terrain Cover.
@@ -518,6 +537,9 @@ To build balanced forces for casual or competitive play, players agree on a maxi
 - **Rail Gun** [Heavy]: 45 pts
 - **Guided Missiles** [Medium]: 20 pts
 - **Disruptor Cannon** [Medium]: 25 pts
+- **Extra Ammo Bin (Autocannon)** [Light]: 10 pts
+- **Extra Ammo Bin (Guided Missiles)** [Medium]: 15 pts
+- **Extra Ammo Bin (Rail Gun)** [Heavy]: 15 pts
 
 #### 6. Named Pilots
 - **Pilot (+1 Initiative Bonus)**: 15 pts

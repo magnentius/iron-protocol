@@ -42,7 +42,7 @@ graph TD
 10. **Location Destruction & Transfer**: If IS reaches 0, the location is destroyed. Torso/Head destruction destroys the Frame (Torso triggers 2d6 Core Melt to adjacent units). Severed Arm/Leg destroys mounted gear, forces fall (Leg), and transfers excess damage directly to the Torso (bypassing DR). Subsequent hits to a destroyed location also transfer directly to the Torso.
 
 ### 4. End Phase
-1. **Resolve End Phase Damage**: Any location hit by a Thermal Lance or Laser suffers additional Sustained Beam damage during the End Phase (Thermal Lance: **2d6 damage**; Laser: **1d6 damage**). This damage completely bypasses Armor DR and is dealt directly to the Internal Structure, triggering criticals normally.
+1. **Resolve End Phase Damage**: Any location hit by a Thermal Lance or Laser suffers additional Sustained Beam damage during the End Phase (Thermal Lance: **2d6 damage**; Laser: **1d6 damage**). This damage must overcome Armor DR normally. However, whether the damage penetrates or is completely absorbed, the location's Armor DR is permanently reduced by **1**.
 2. **Bank Energy**: Store unused EP in the Capacitor (up to Capacitor Max). Excess EP is lost.
 3. **Clean Up**: Remove Evasion tokens, decrement cooldowns, and reduce Smoke tokens by 1.
 
