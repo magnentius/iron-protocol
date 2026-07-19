@@ -208,7 +208,7 @@ Use these pre-populated record sheets to track reactor energy, armor degradation
   *Ammo*: Infinite
 * **Right Arm [Heavy HP]: Rail Gun** (3d6+10 damage | 6 EP cost | AP 3 | Cooldown: 1 Turn)  
   *Ammo Tracker (5 Kinetic Slugs)*: `[ ] Slug 1` | `[ ] Slug 2` | `[ ] Slug 3` | `[ ] Slug 4` | `[ ] Slug 5`
-* **Torso [Medium HP]: Guided Missile Launcher** (2 EP cost | Infrared [IR] Guided | EMP Warheads offline target sensors; requires Pilot Check to recover)  
+* **Torso [Medium HP]: Guided Missile Launcher** (2 EP cost | Infrared [IR] Guided | EMP Warheads hit 7-hex radius; scrambles sensors [Pilot Check to recover])  
   *Salvo Tracker (4 Salvos)*: `[ ] Salvo 1` | `[ ] Salvo 2` | `[ ] Salvo 3` | `[ ] Salvo 4`
 * **Torso [Light HP]: Defensive Smoke Launcher** (Blocks Visual sightlines | 1 EP use cost)  
   *Charges (2 charges)*: `[ ] Charge 1` | `[ ] Charge 2`
