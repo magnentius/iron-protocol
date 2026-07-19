@@ -652,8 +652,8 @@ Here are five pre-configured Iron Frames ready for combat.
 - **Capacitor Max**: 3 EP
 - **Evasion Limit**: 6 EVA
 - **Movement Limit**: 7 hexes
-- **Armor DR by Location**: Head: 1 | Torso: 2 | Left Arm: 1 | Right Arm: 1 | Legs: 2
-- **Internal Structure**: Head: 3 | Torso: 8 | Left Arm: 4 | Right Arm: 4 | Legs: 5
+- **Armor DR by Location**: Head: 2 | Torso: 2 | Left Arm: 1 | Right Arm: 1 | Legs: 2
+- **Internal Structure**: Head: 4 | Torso: 8 | Left Arm: 4 | Right Arm: 4 | Legs: 5
 - **Equipped Systems**:
   - Standard Sensor Suite (Visual [VIS]/Infrared [IR]/Microwave [Radar])
   - Jump Jets [Light HP]
@@ -673,8 +673,8 @@ Here are five pre-configured Iron Frames ready for combat.
 - **Capacitor Max**: 4 EP
 - **Evasion Limit**: 5 EVA
 - **Movement Limit**: 5 hexes
-- **Armor DR by Location**: Head: 1 | Torso: 4 | Left Arm: 2 | Right Arm: 2 | Legs: 3
-- **Internal Structure**: Head: 3 | Torso: 10 | Left Arm: 6 | Right Arm: 6 | Legs: 8
+- **Armor DR by Location**: Head: 3 | Torso: 4 | Left Arm: 2 | Right Arm: 2 | Legs: 3
+- **Internal Structure**: Head: 5 | Torso: 10 | Left Arm: 6 | Right Arm: 6 | Legs: 8
 - **Equipped Systems**:
   - Standard Sensor Suite (Visual [VIS]/Infrared [IR]/Microwave [Radar])
   - Active Metamaterial Coating (AMC)
@@ -694,8 +694,8 @@ Here are five pre-configured Iron Frames ready for combat.
 - **Capacitor Max**: 6 EP
 - **Evasion Limit**: 4 EVA
 - **Movement Limit**: 5 hexes
-- **Armor DR by Location**: Head: 2 | Torso: 5 | Left Arm: 3 | Right Arm: 3 | Legs: 4
-- **Internal Structure**: Head: 4 | Torso: 12 | Left Arm: 8 | Right Arm: 8 | Legs: 10
+- **Armor DR by Location**: Head: 4 | Torso: 5 | Left Arm: 3 | Right Arm: 3 | Legs: 4
+- **Internal Structure**: Head: 6 | Torso: 12 | Left Arm: 8 | Right Arm: 8 | Legs: 10
 - **Equipped Systems**:
   - Standard Sensor Suite (Visual [VIS]/Infrared [IR]/Microwave [Radar])
   - ECM Suite [Medium HP]
@@ -716,8 +716,8 @@ Here are five pre-configured Iron Frames ready for combat.
 - **Capacitor Max**: 8 EP
 - **Evasion Limit**: 2 EVA
 - **Movement Limit**: 4 hexes
-- **Armor DR by Location**: Head: 2 | Torso: 6 | Left Arm: 4 | Right Arm: 4 | Legs: 5
-- **Internal Structure**: Head: 5 | Torso: 16 | Left Arm: 10 | Right Arm: 10 | Legs: 12
+- **Armor DR by Location**: Head: 4 | Torso: 6 | Left Arm: 4 | Right Arm: 4 | Legs: 5
+- **Internal Structure**: Head: 7 | Torso: 16 | Left Arm: 10 | Right Arm: 10 | Legs: 12
 - **Equipped Systems**:
   - Standard Sensor Suite (Visual [VIS]/Infrared [IR]/Microwave [Radar])
   - Flare Launcher (3 charges) [Light HP]
@@ -739,8 +739,8 @@ Here are five pre-configured Iron Frames ready for combat.
 - **Capacitor Max**: 10 EP
 - **Evasion Limit**: 1 EVA
 - **Movement Limit**: 3 hexes
-- **Armor DR by Location**: Head: 3 | Torso: 7 | Left Arm: 5 | Right Arm: 5 | Legs: 6
-- **Internal Structure**: Head: 6 | Torso: 20 | Left Arm: 12 | Right Arm: 12 | Legs: 15
+- **Armor DR by Location**: Head: 4 | Torso: 7 | Left Arm: 5 | Right Arm: 5 | Legs: 6
+- **Internal Structure**: Head: 8 | Torso: 20 | Left Arm: 12 | Right Arm: 12 | Legs: 15
 - **Equipped Systems**:
   - Standard Sensor Suite (Visual [VIS]/Infrared [IR]/Microwave [Radar])
   - Smoke Launcher (2 charges) [Light HP]
