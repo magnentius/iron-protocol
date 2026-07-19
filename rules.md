@@ -351,6 +351,10 @@ Weapons can only be mounted in the Left Arm, Right Arm, or Torso, which dictates
 
 - **Area of Effect (AoE)**: Damage designated as **AoE** (such as Missile Cluster and Splash damage) blankets a wide area and completely bypasses Evasion. Do not subtract the target's EVA points from AoE damage rolls.
 
+- **Rapid Fire**: Weapons with this trait fire in bursts. When firing a Rapid Fire weapon, the target's Evasion (EVA) reduces the *number of hits* (one hit misses entirely per EVA point) rather than subtracting from the total damage. Rapid Fire weapons can be fired in two modes:
+  - **Single Burst (Base EP Cost)**: Consumes 1 Burst of ammo. Roll 1 Hit Location. Roll the weapon's burst damage dice (e.g., 3x 1d6) and resolve each die against the target location's Armor DR separately.
+  - **Full Auto (X $\times$ Base EP)**: Consumes X Bursts of ammo (up to the magazine limit), paying the base EP cost for each burst. Roll 1 Hit Location. Roll the damage dice for *all* bursts combined against that location, resolving each separately. Evasion reduces the total number of hits across the entire barrage.
+
 | Weapon | HP | EP Cost | Ammo | Cooldown | Damage | Detection | Traits | Special Rules |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Autocannon** | Light | 1/burst | 10 Bursts (Explosive) | None | 3x 1d6 (Burst) | Any | Rapid Fire | Fires 3-round bursts. Each 1d6 resolved separately. Can fire Full Auto. |
@@ -360,14 +364,11 @@ Weapons can only be mounted in the Left Arm, Right Arm, or Torso, which dictates
 | **Thermal Lance** | Heavy | 4 | Infinite | None | 4d6 | Any | Overcharge | **Overcharge**: [+2/+4 EP for +4/+8 flat damage]. |
 | **Rail Gun** | Heavy | 0 | 5 Slugs (Inert) | None | 3d6 + 10 | Any | AP 3, Overcharge | Inert slugs. **Requires Overcharge to fire**: [+6 EP]. |
 
-### 5.1 Autocannon Munitions & Firing Modes
+### 5.1 Autocannon Munitions
 When equipping an Autocannon, players choose how to load its 10-Burst ammunition supply. They can load all 10 Bursts with **one** ammo type, or split the supply between the two types at build time (e.g., 5 AP Bursts and 5 HEI Bursts), declaring which type is being fired before rolling to hit.
 - **Armor Piercing (AP 1)**: Ignores up to 1 point of the target's Armor DR per hit.
 - **High Explosive Incendiary (HEI)**: Adds a flat +1 modifier to any Critical Hit rolls caused by this weapon.
-
-**Firing Modes**:
-- **Single Burst (1 EP)**: Consumes 1 Burst of ammo. Roll 1 Hit Location. Roll 3x 1d6 damage, resolving each 1d6 hit against the target location's Armor DR separately. The target's Evasion (EVA) reduces the *number of hits*: for every point of Evasion, one of the 1d6 hits misses entirely.
-- **Full Auto (X EP)**: Consumes X Bursts of ammo (up to the amount remaining in the magazine), costing 1 EP per burst fired. Roll 1 Hit Location for the entire attack. Roll 3X individual 1d6 damage rolls against that location, resolving each separately. Evasion reduces the total number of hits (e.g., a target with 4 EVA causes 4 of the 1d6 hits to miss).
+- **Tracer Rounds (Target Marking)**: Apply a **-1 damage penalty** to every 1d6 damage die rolled for the weapon (minimum 0 damage per die). However, if even a single tracer round hits the target (i.e., is not negated by Evasion), the target becomes "Painted". All subsequent attacks from *any friendly Frame (including the attacker)* ignore 1 point of the target's Evasion (EVA) for the rest of the Combat Phase.
 
 ### 5.2 Guided Missile Systems
 Missiles must be configured with a guidance package and a warhead at build time:

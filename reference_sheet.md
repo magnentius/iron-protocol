@@ -28,14 +28,14 @@ graph TD
 - **Movement Limit**: A Frame cannot enter more hexes than its weight class Movement Limit per turn.
 - **Leg vs. Torso Facing**: At the end of activation, torso facing can twist up to 60 degrees left/right of leg facing for free.
 
-### 3. Combat Phase (Initiative Order)
+3. **Combat Phase (Initiative Order)**
 *Resolve attacks in order of highest Initiative to lowest Initiative (instantly resolved).*
-1. **Select Weapon & Pay EP Cost**.
+1. **Select Weapon & Pay EP Cost** *(Overcharge: Extra EP MUST come from the Capacitor. Triggers 1-Turn Cooldown).*
 2. **Verify Line of Sight (LOS) and Arc** (Torso = Forward Arc, Left Arm = Left Side Arc, Right Arm = Right Side Arc).
 3. **Verify Sensor Lock** (Visual, Infrared, or Microwave).
 4. **Determine Hit Location**: Roll 2d6.
 5. **Roll Damage**: Roll weapon damage dice (+1d6 damage bonus if shooting from 2+ elevation levels higher).
-6. **Apply Target Evasion**: Subtract target's current EVA points from damage.
+6. **Apply Target Evasion**: Subtract target's current EVA points from damage. *(Exceptions: For Burst weapons like Autocannons, EVA reduces the total number of 1d6 hits instead of damage points. For AoE weapons, EVA is ignored entirely).*
 7. **Apply Armor DR**: Subtract hit location's current Armor DR from remaining damage.
 8. **Resolve Damage**: Excess damage reduces hit location's Internal Structure (IS). If damage penetrates, permanently reduce that location's Armor DR by 1 (to minimum of 0).
 9. **Roll Critical Hits**: If IS took 1+ damage, roll 1d6 on the location's Critical Table.
@@ -127,7 +127,7 @@ graph TD
 * **2: Capacitor Leak**. Capacitor Max reduced by 2; lose 2 stored EP.
 * **3: Reactor Damage**. Reactor output permanently reduced by 2 EP/turn.
 * **4: Gyro Lock**. Torso twists cost 2 EP (no longer free).
-* **5: Ammo Explosion**. If carrying ammunition, explodes for 3d6 damage bypassing armor (otherwise treat as Reactor Damage).
+* **5: Ammo Explosion**. If carrying explosive ammunition (Autocannons/Missiles), it explodes for 3d6 damage bypassing Torso armor. Inert ammo (Rail Guns) does not explode (treat as Reactor Damage instead).
 * **6: Core Melt**. Reactor explodes. Deal 2d6 damage to all adjacent hexes. Frame destroyed.
 
 #### 2. Arm Criticals
@@ -152,4 +152,12 @@ graph TD
 * **3: Pilot Stunned**. Frame generates 0 EP next turn and Capacitor drained to 0 (cannot move or fire).
 * **4: Sensor Array Destroyed**. Radar/IR locks disabled. Target blind beyond adjacent hexes.
 * **5: Cockpit Breach**. Pilot suffers toxic/pressure venting. Initiative permanently reduced by 3.
-* **6: Pilot K.O. / Frame Shutdown**. Frame is permanently disabled.
+* **6+: Pilot K.O. / Frame Shutdown**. The Frame is permanently disabled and out of combat.
+
+---
+
+## 🎖️ Pilot Vows (Optional Rules)
+* **Vow of Honor (Meiyo)**: Must target higher-tier (Init/Tonnage) enemies if in Torso Arc. *Penalty*: +1 EP weapon cost.
+* **Vow of Mercy (Jin)**: Must target limbs before Torso/Head. *Penalty*: -2 To-Hit penalty.
+* **Vow of Honesty (Makoto)**: Cannot use AMC, ECM, or Smoke. *Penalty*: Capacitor Max reduced to 0.
+* **Vow of Loyalty (Chuugi)**: Cannot move away from damaged allies within 3 hexes. *Penalty*: -3 EP Reactor output.
