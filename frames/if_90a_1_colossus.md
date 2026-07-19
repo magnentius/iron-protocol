@@ -1,6 +1,6 @@
 # 🌋 IF-90A-1 "Colossus" (Heavy Assault Frame)
 
-![IF-90A-1 "Colossus" Technical Sketch](images/if_90a_1_colossus.jpg)
+![IF-90A-1 "Colossus" Technical Sketch](../images/if_90a_1_colossus.jpg)
 
 * **Initiative**: 3 | **Tonnage**: 90 Tons | **Points**: 625 pts | **Movement Limit**: 3 hexes | **Evasion Limit**: 1 EVA
 

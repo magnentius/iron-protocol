@@ -1,6 +1,6 @@
 # 🐺 IF-25L-1 "Jackal" (Light Recon Frame)
 
-![IF-25L-1 "Jackal" Technical Sketch](images/if_25l_1_jackal.jpg)
+![IF-25L-1 "Jackal" Technical Sketch](../images/if_25l_1_jackal.jpg)
 
 * **Initiative**: 12 | **Tonnage**: 25 Tons | **Points**: 320 pts | **Movement Limit**: 7 hexes | **Evasion Limit**: 6 EVA
 

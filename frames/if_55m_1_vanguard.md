@@ -1,6 +1,6 @@
 # ⚔️ IF-55M-1 "Vanguard" (Medium Skirmisher Frame)
 
-![IF-55M-1 "Vanguard" Technical Sketch](images/if_55m_1_vanguard.jpg)
+![IF-55M-1 "Vanguard" Technical Sketch](../images/if_55m_1_vanguard.jpg)
 
 * **Initiative**: 6 | **Tonnage**: 55 Tons | **Points**: 425 pts | **Movement Limit**: 5 hexes | **Evasion Limit**: 4 EVA
 

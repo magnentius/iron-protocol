@@ -1,6 +1,6 @@
 # 🛡️ IF-75H-1 "Paladin" (Heavy Fire-Support Frame)
 
-![IF-75H-1 "Paladin" Technical Sketch](images/if_75h_1_paladin.jpg)
+![IF-75H-1 "Paladin" Technical Sketch](../images/if_75h_1_paladin.jpg)
 
 * **Initiative**: 5 | **Tonnage**: 75 Tons | **Points**: 520 pts | **Movement Limit**: 4 hexes | **Evasion Limit**: 2 EVA
 

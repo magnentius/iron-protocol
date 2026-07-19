@@ -1,6 +1,6 @@
 # 🛠️ IF-45M-1 "Specter" (Medium Stealth Frame)
 
-![IF-45M-1 "Specter" Technical Sketch](images/if_45m_1_specter.jpg)
+![IF-45M-1 "Specter" Technical Sketch](../images/if_45m_1_specter.jpg)
 
 * **Initiative**: 10 | **Tonnage**: 45 Tons | **Points**: 395 pts | **Movement Limit**: 5 hexes | **Evasion Limit**: 5 EVA
 
