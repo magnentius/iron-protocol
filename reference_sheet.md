@@ -49,7 +49,7 @@ graph TD
 
 ## ⚖️ Chassis & Weight Class Reference
 
-| Chassis Class | Tonnage | Mass Value | Base Limits (Move / EVA) | Hard Caps (Move / EVA) |
+| Chassis Class | Tonnage | Mass Value | Base Limits (Move / EVA) | Maximum Limits (Move / EVA) |
 | :--- | :---: | :---: | :---: | :---: |
 | **Light** | 20–35 Tons | 1 | 5 hexes / 4 EVA | **Max** 7 hexes / 6 EVA |
 | **Medium** | 40–55 Tons | 2 | 4 hexes / 3 EVA | **Max** 5 hexes / 5 EVA |

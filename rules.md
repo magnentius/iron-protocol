@@ -521,36 +521,31 @@ To build balanced forces for casual or competitive play, players agree on a maxi
 ### 7.2 Base Chassis & Custom Frames
 If players wish to construct custom Iron Frames from scratch instead of using the pre-generated technical readouts (like the Vanguard or Specter), they must purchase a **Base Chassis** and spend points to upgrade it. 
 
-Every Frame is defined by its physical **Tonnage** (Weight Class). Tonnage determines the Frame's starting baseline stats and its absolute maximum limits (**Hard Caps**).
+Every Frame is defined by its physical **Tonnage** (Weight Class). Tonnage determines the Frame's starting baseline stats and its absolute maximum limits (**Limits**).
 
 **Chassis Limits Table:**
 
-| Chassis Class | Tonnage | Base Stats (Init / Move / EVA / Reactor / Cap) | Hard Caps (Max Allowable Upgrades) | Base Cost |
-| :--- | :---: | :--- | :--- | :--- |
-| **Light** | 20–35 Tons | Init 8 \| Move 5 \| 4 EVA \| Reactor 6 \| Cap 2 | Init 12 \| Move 7 \| 6 EVA \| Reactor 9 \| Cap 4 | 150 pts |
-| **Medium** | 40–55 Tons | Init 6 \| Move 4 \| 3 EVA \| Reactor 6 \| Cap 2 | Init 10 \| Move 5 \| 5 EVA \| Reactor 9 \| Cap 4 | 200 pts |
-| **Heavy** | 60–75 Tons | Init 4 \| Move 3 \| 1 EVA \| Reactor 5 \| Cap 2 | Init 6 \| Move 4 \| 2 EVA \| Reactor 8 \| Cap 4 | 250 pts |
-| **Assault** | 80–100 Tons | Init 2 \| Move 2 \| 0 EVA \| Reactor 5 \| Cap 2 | Init 4 \| Move 3 \| 1 EVA \| Reactor 7 \| Cap 4 | 300 pts |
+| Chassis Class | Tonnage | Hardpoints (L / M / H) | Base Stats (Init / Move / EVA / Reactor / Capacitor) | Maximum Limits (Max Allowable Upgrades) | Base Cost |
+| :--- | :---: | :---: | :--- | :--- | :--- |
+| **Light** | 20–35 Tons | 4L / 0M / 0H | Init 8 \| Move 5 \| 4 EVA \| Reactor 6 \| Capacitor 2 | Init 12 \| Move 7 \| 6 EVA \| Reactor 9 \| Capacitor 4 | 150 pts |
+| **Medium** | 40–55 Tons | 4L / 2M / 0H | Init 6 \| Move 4 \| 3 EVA \| Reactor 6 \| Capacitor 2 | Init 10 \| Move 5 \| 5 EVA \| Reactor 9 \| Capacitor 4 | 200 pts |
+| **Heavy** | 60–75 Tons | 4L / 3M / 1H | Init 4 \| Move 3 \| 1 EVA \| Reactor 5 \| Capacitor 2 | Init 6 \| Move 4 \| 2 EVA \| Reactor 8 \| Capacitor 4 | 250 pts |
+| **Assault** | 80–100 Tons | 4L / 3M / 2H | Init 2 \| Move 2 \| 0 EVA \| Reactor 5 \| Capacitor 2 | Init 4 \| Move 3 \| 1 EVA \| Reactor 7 \| Capacitor 4 | 300 pts |
 
-#### 1. Hardpoint Slots (By Weight Class)
-*Every Frame possesses a specific number of hardpoints dictating what equipment it can mount. A Frame cannot mount a piece of equipment heavier than its weight class.*
-- **Light Chassis**: 0 Heavy | 0 Medium | 4 Light
-- **Medium Chassis**: 0 Heavy | 2 Medium | 4 Light
-- **Heavy Chassis**: 1 Heavy | 3 Medium | 4 Light
-- **Assault Chassis**: 2 Heavy | 3 Medium | 4 Light
+*Note: Every Frame possesses a specific number of hardpoints dictating what equipment it can mount. A Frame cannot mount a piece of equipment heavier than its weight class.*
 
-#### 2. Engine & Mobility Upgrades
+#### 1. Engine & Mobility Upgrades
 Upgrading a Frame's chassis above its Base Stats **does not increase its Tonnage**. A 45-ton Frame remains exactly 45 tons, meaning its physical armor capacity and weapon mounting slots remain those of a Medium frame.
 
-Instead, upgrades cost **Deployment Points (pts)**. Mobility stats (Init/Move/EVA) are strictly bound by the Hard Caps of the Frame's weight class (a heavy chassis can only move so fast). However, Reactor and Capacitor upgrades have **no hard caps**, allowing Heavy and Assault frames to purchase massive power plants to fuel heavy weaponry.
+Instead, upgrades cost **Deployment Points (pts)**. Mobility stats (Init/Move/EVA) are strictly bound by the Limits of the Frame's weight class (a heavy chassis can only move so fast). However, Reactor and Capacitor upgrades have **no limits**, allowing Heavy and Assault frames to purchase massive power plants to fuel heavy weaponry.
 
-- **Initiative Upgrade**: +15 pts per +1 Init (Up to Hard Cap)
-- **Movement Upgrade**: +20 pts per +1 Move (Up to Hard Cap)
-- **Evasion Upgrade**: +15 pts per +1 EVA (Up to Hard Cap)
-- **Reactor Upgrade**: +10 pts per +1 EP generated (No Cap)
-- **Capacitor Upgrade**: +5 pts per +1 EP capacity (No Cap)
+- **Initiative Upgrade**: +15 pts per +1 Init (Up to Limit)
+- **Movement Upgrade**: +20 pts per +1 Move (Up to Limit)
+- **Evasion Upgrade**: +15 pts per +1 EVA (Up to Limit)
+- **Reactor Upgrade**: +10 pts per +1 EP generated (No Limit)
+- **Capacitor Upgrade**: +5 pts per +1 EP capacity (No Limit)
 
-#### 3. Countermeasures & Active Systems
+#### 2. Countermeasures & Active Systems
 - **Active Metamaterial Coating (AMC)** [Medium]: 30 pts
 - **Electronic Countermeasures (ECM)** [Medium]: 25 pts
 - **Flare Launcher** [Light]: 15 pts
@@ -558,7 +553,7 @@ Instead, upgrades cost **Deployment Points (pts)**. Mobility stats (Init/Move/EV
 - **Tactical Datalink** [Light]: 15 pts
 - **Jump Jets (Light/Medium only)** [Light]: 20 pts
 
-#### 4. Weapons & Armaments
+#### 3. Weapons & Armaments
 - **Autocannon** [Light]: 15 pts
 - **Laser** [Light]: 15 pts
 - **Thermal Lance** [Heavy]: 30 pts
@@ -569,7 +564,7 @@ Instead, upgrades cost **Deployment Points (pts)**. Mobility stats (Init/Move/EV
 - **Extra Ammo Bin (Guided Missiles)** [Medium]: 15 pts
 - **Extra Ammo Bin (Rail Gun)** [Heavy]: 15 pts
 
-#### 5. Named Pilots
+#### 4. Named Pilots
 - **Pilot (+1 Initiative Bonus)**: 15 pts
 - **Pilot (+2 Initiative Bonus)**: 30 pts
 - **Pilot (+3 Initiative Bonus)**: 45 pts
