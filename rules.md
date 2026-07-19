@@ -38,13 +38,15 @@
   - [6.3 Falling and the Prone State](#63-falling-and-the-prone-state)
   - [6.4 Location Destruction & Damage Transfer](#64-location-destruction--damage-transfer)
 - [7. Optional Rules](#7-optional-rules)
-  - [7.1 Squad Building & Point Values](#71-squad-building--point-values)
-  - [7.2 Visibility & Sensors](#72-visibility--sensors)
-  - [7.3 Gravity & Locomotion](#73-gravity-locomotion)
-  - [7.4 Atmospheric Composition](#74-atmospheric-composition)
+  - [7.1 Force Organization & Point Limits](#71-force-organization--point-limits)
+  - [7.2 Base Chassis & Custom Frames](#72-base-chassis--custom-frames)
+  - [7.3 Visibility & Sensors](#73-visibility--sensors)
+  - [7.4 Gravity & Locomotion](#74-gravity--locomotion)
+  - [7.5 Atmospheric Composition](#75-atmospheric-composition)
 - [8. Named Pilots & The Code of Honor](#8-named-pilots--the-code-of-honor)
-  - [8.1 Initiative Bonus](#81-initiative-bonus)
-  - [8.2 Iron Protocol Vows](#82-iron-protocol-vows)
+  - [8.1 Famous Aces](#81-famous-aces)
+  - [8.2 Initiative & Pilot Check Bonus](#82-initiative--pilot-check-bonus)
+  - [8.3 Iron Protocol Vows](#83-iron-protocol-vows)
 - [9. Iron Frame Roster](#9-iron-frame-roster)
   - [9.1 IF-25L-1 "Jackal"](#91-if-25l-1-jackal-light-recon-frame)
   - [9.2 IF-45M-1 "Specter"](#92-if-45m-1-specter-medium-stealth-frame)
@@ -478,29 +480,29 @@ A Frame must make a **Pilot Check** (rolling 2d6, target 6 or higher) in the fol
   - **Stand Up**: Costs **3 EP** during its Activation Phase. Upon standing, the pilot removes the Prone token and may set the Leg Facing to any direction for free.
   - **Pivot**: While Prone, the Frame may crawl-turn, pivoting its Leg Facing by 60 degrees. Cost: **2 EP** per 60 degrees.
 
-### 6.4 Location Destruction & Damage Transfer
+### 6.5 Location Destruction & Damage Transfer
 If the damage applied to a hit location reduces its remaining Internal Structure (IS) to 0, that location is destroyed. Any excess damage from that hit, as well as any subsequent hits to that location, are handled using the following rules:
 
-#### 1. Torso Destruction
+#### 6.5.1 Torso Destruction
 If the Torso's Internal Structure is reduced to 0, the engine core is breached. The Frame is completely destroyed.
 *   **Core Melt**: The reactor explodes immediately. All units in adjacent hexes suffer **2d6 damage** (apply Evasion and Armor DR normally).
 
-#### 2. Head Destruction
+#### 6.5.2 Head Destruction
 If the Head's Internal Structure is reduced to 0, the cockpit is vaporized or crushed, and the pilot is killed. The Frame is immediately deactivated and treated as destroyed.
 
-#### 3. Arm Destruction (Left or Right)
+#### 6.5.3 Arm Destruction (Left or Right)
 If an Arm's Internal Structure is reduced to 0, the arm is severed and blown off.
 *   **Equipment Loss**: All weapons and systems mounted in that arm are permanently destroyed and lost.
 *   **Excess Damage**: Any excess damage from the hit that destroyed the arm bypasses Evasion and Armor DR, transferring directly to the **Torso** Internal Structure.
 
-#### 4. Leg Destruction (Left or Right)
+#### 6.5.4 Leg Destruction (Left or Right)
 If a Leg's Internal Structure is reduced to 0, the leg is severed and blown off.
 *   **Immediate Fall**: The Frame immediately falls **Prone**.
 *   **Crippled Movement**: The Frame is permanently crippled and cannot walk, reverse, or jump. Its only movement option is to pivot its Leg Facing at a cost of **3 EP** per 60 degrees.
 *   **Double Leg Loss**: If both legs are destroyed, the Frame is completely disabled (treated as destroyed).
 *   **Excess Damage**: Any excess damage from the hit that destroyed the leg bypasses Evasion and Armor DR, transferring directly to the **Torso** Internal Structure.
 
-#### 5. Damage Transfer (Blow-Through)
+#### 6.5.5 Damage Transfer (Blow-Through)
 If an attack hits a location that has already been destroyed (e.g. a random hit location rolls a severed Arm or Leg), the hit is not wasted:
 *   The damage bypasses Evasion and Armor DR, transferring directly to the **Torso** Internal Structure.
 *   Damage cannot transfer further than the Torso (as Torso destruction destroys the Frame).
@@ -525,16 +527,16 @@ Every Frame is defined by its physical **Tonnage** (Weight Class). Tonnage deter
 
 **Chassis Limits Table:**
 
-| Chassis Class | Tonnage | Hardpoints (L / M / H) | Base Stats (Init / Move / EVA / Reactor / Capacitor) | Maximum Limits (Max Allowable Upgrades) | Base Cost |
+| Chassis Class | Tonnage | Hardpoints (L / M / H) | Base Stats (Init / Move / EVA / Reactor / Capacitor) | Maximum Mobility Limits (Init / Move / EVA) | Base Cost |
 | :--- | :---: | :---: | :--- | :--- | :--- |
-| **Light** | 20–35 Tons | 4L / 0M / 0H | Init 8 \| Move 5 \| 4 EVA \| Reactor 6 \| Capacitor 2 | Init 12 \| Move 7 \| 6 EVA \| Reactor 9 \| Capacitor 4 | 150 pts |
-| **Medium** | 40–55 Tons | 4L / 2M / 0H | Init 6 \| Move 4 \| 3 EVA \| Reactor 6 \| Capacitor 2 | Init 10 \| Move 5 \| 5 EVA \| Reactor 9 \| Capacitor 4 | 200 pts |
-| **Heavy** | 60–75 Tons | 4L / 3M / 1H | Init 4 \| Move 3 \| 1 EVA \| Reactor 5 \| Capacitor 2 | Init 6 \| Move 4 \| 2 EVA \| Reactor 8 \| Capacitor 4 | 250 pts |
-| **Assault** | 80–100 Tons | 4L / 3M / 2H | Init 2 \| Move 2 \| 0 EVA \| Reactor 5 \| Capacitor 2 | Init 4 \| Move 3 \| 1 EVA \| Reactor 7 \| Capacitor 4 | 300 pts |
+| **Light** | 20–35 Tons | 4L / 0M / 0H | Init 8 \| Move 5 \| 4 EVA \| Reactor 6 \| Capacitor 2 | Init 12 \| Move 7 \| 6 EVA | 150 pts |
+| **Medium** | 40–55 Tons | 4L / 2M / 0H | Init 6 \| Move 4 \| 3 EVA \| Reactor 6 \| Capacitor 2 | Init 10 \| Move 5 \| 5 EVA | 200 pts |
+| **Heavy** | 60–75 Tons | 4L / 3M / 1H | Init 4 \| Move 3 \| 1 EVA \| Reactor 5 \| Capacitor 2 | Init 6 \| Move 4 \| 2 EVA | 250 pts |
+| **Assault** | 80–100 Tons | 4L / 3M / 2H | Init 2 \| Move 2 \| 0 EVA \| Reactor 5 \| Capacitor 2 | Init 4 \| Move 3 \| 1 EVA | 300 pts |
 
 *Note: Every Frame possesses a specific number of hardpoints dictating what equipment it can mount. A Frame cannot mount a piece of equipment heavier than its weight class.*
 
-#### 1. Engine & Mobility Upgrades
+#### 7.2.1 Engine & Mobility Upgrades
 Upgrading a Frame's chassis above its Base Stats **does not increase its Tonnage**. A 45-ton Frame remains exactly 45 tons, meaning its physical armor capacity and weapon mounting slots remain those of a Medium frame.
 
 Instead, upgrades cost **Deployment Points (pts)**. Mobility stats (Init/Move/EVA) are strictly bound by the Limits of the Frame's weight class (a heavy chassis can only move so fast). However, Reactor and Capacitor upgrades have **no limits**, allowing Heavy and Assault frames to purchase massive power plants to fuel heavy weaponry.
@@ -545,7 +547,7 @@ Instead, upgrades cost **Deployment Points (pts)**. Mobility stats (Init/Move/EV
 - **Reactor Upgrade**: +10 pts per +1 EP generated (No Limit)
 - **Capacitor Upgrade**: +5 pts per +1 EP capacity (No Limit)
 
-#### 2. Countermeasures & Active Systems
+#### 7.2.2 Countermeasures & Active Systems
 - **Smoke Launcher** [Light]: 10 pts
 - **Flare Launcher** [Light]: 15 pts
 - **Tactical Datalink** [Light]: 15 pts
@@ -553,7 +555,7 @@ Instead, upgrades cost **Deployment Points (pts)**. Mobility stats (Init/Move/EV
 - **Electronic Countermeasures (ECM)** [Medium]: 25 pts
 - **Active Metamaterial Coating (AMC)** [Medium]: 30 pts
 
-#### 3. Weapons & Armaments
+#### 7.2.3 Weapons & Armaments
 - **Extra Ammo Bin (Autocannon)** [Light]: 10 pts
 - **Autocannon** [Light]: 15 pts
 - **Laser** [Light]: 15 pts
@@ -564,14 +566,14 @@ Instead, upgrades cost **Deployment Points (pts)**. Mobility stats (Init/Move/EV
 - **Thermal Lance** [Heavy]: 30 pts
 - **Rail Gun** [Heavy]: 45 pts
 
-#### 4. Named Pilots
+#### 7.2.4 Named Pilots
 - **Pilot (+1 Initiative Bonus)**: 15 pts
 - **Pilot (+2 Initiative Bonus)**: 30 pts
 - **Pilot (+3 Initiative Bonus)**: 45 pts
 
 ---
 
-### 7.2 Visibility & Sensors
+### 7.3 Visibility & Sensors
 
 | Environment | Visual (VIS) Locks | Infrared (IR) Locks | Microwave (Radar) Locks | Special Rules |
 | :--- | :--- | :--- | :--- | :--- |
@@ -584,18 +586,18 @@ Instead, upgrades cost **Deployment Points (pts)**. Mobility stats (Init/Move/EV
 
 ---
 
-### 7.3 Gravity & Locomotion
+### 7.4 Gravity & Locomotion
 Different planet masses alter the weight of the Iron Frame's chassis, impacting pilot checks, jumping, and falling damage.
 
-#### Low Gravity (0.1g – 0.4g | e.g., Moons, Asteroids)
+#### 7.4.1 Low Gravity (0.1g – 0.4g | e.g., Moons, Asteroids)
 - **High Mobility Jumps**: Jump Jets double their maximum jump range (up to 8 hexes) and only cost **1 EP per hex** to execute.
 - **Traction Loss**: Due to lack of downforce, apply a **-1 penalty** to all Pilot Checks (see Section 6.3).
 - **Soft Falls**: Falling damage is reduced to **1d6 per 2 levels fell** (rounded down, minimum 0).
 
-#### Standard Gravity (0.5g – 1.2g | e.g., Earth-like)
+#### 7.4.2 Standard Gravity (0.5g – 1.2g | e.g., Earth-like)
 - Standard rules apply.
 
-#### Heavy Gravity (1.3g – 2.0g | e.g., Super-Earths)
+#### 7.4.3 Heavy Gravity (1.3g – 2.0g | e.g., Super-Earths)
 - **Engine Strain**: Walking or reversing maneuvers cost **+1 EP** (Forward Walk costs 2 EP, Reverse costs 3 EP).
 - **No Jumping**: Gravity is too dense for thrusters; Jump Jets are disabled entirely (no Frames can jump).
 - **Solid Footing**: Frames are pinned to the ground. Apply a **+1 bonus** to all Pilot Checks.
@@ -603,24 +605,24 @@ Different planet masses alter the weight of the Iron Frame's chassis, impacting 
 
 ---
 
-### 7.4 Atmospheric Composition
+### 7.5 Atmospheric Composition
 The chemical density of the atmosphere impacts how well the Frame's radiator vents heat, and alters weapon performance.
 
-#### Nitrogen-Oxygen (Standard Earth-like)
+#### 7.5.1 Nitrogen-Oxygen (Standard Earth-like)
 - Standard rules apply.
 
-#### Thick CO2 / High PSI (Greenhouse Worlds)
+#### 7.5.2 Thick CO2 / High PSI (Greenhouse Worlds)
 - **Venting Blockage**: The dense greenhouse atmosphere retains heat. The Frame's Capacitor can store a maximum of **2 EP** between turns; any additional generated EP is lost.
 - **Corrosive Acid Rain**: Actuators degrade. Any critical hit roll on the Arms or Legs receives a **+1 modifier** (maximum of 8).
 
-#### Thin CO2 (Mars-like Worlds)
+#### 7.5.3 Thin CO2 (Mars-like Worlds)
 - **Thin Radiators**: The thin air reduces cooling loop efficiency. Unused EP stored in the Capacitor is capped at **Capacitor Max - 2**.
 
-#### Hydrogen / Methane Dense Gases (Gas Giant Moons)
+#### 7.5.4 Hydrogen / Methane Dense Gases (Gas Giant Moons)
 - **Supercooling**: Dense, freezing hydrocarbons pull heat away from the reactor. The Frame generates **+2 EP** during the Energy Phase.
 - **Combustion Hazard**: Firing energy weapons (Thermal Lance, Laser, or Disruptor Cannon) through methane gas creates minor flash ignitions. Firing an energy weapon deals **1 point of damage** to the mounting location (bypassing Armor DR to permanently reduce that location's Armor DR by 1, or dealing 1 damage directly to Internal Structure if the location has 0 DR, which triggers a Critical Check).
 
-#### Airless Vacuum (Vacuum Worlds)
+#### 7.5.5 Airless Vacuum (Vacuum Worlds)
 - **Actuator Upkeep**: Without air cooling, internal radiators must work constantly to vent heat. Every Frame's Reactor Rating is permanently reduced by **2 EP per turn** (minimum of 2 EP generated).
 - **Reaction Thrusters**: Jump jets must rely on onboard chemical propellant instead of atmospheric intake. Jumps cost **3 EP per hex** (instead of 2).
 
