@@ -71,3 +71,14 @@ When generating any image for *Iron Protocol*, always append or prefix the follo
 > **Prompt:**  
 > `Vector logo design for "Iron Protocol". A bold, high-contrast circular military emblem featuring a stylized frontal shield silhouette. Inside the shield, a clean geometric outline of a humanoid bipedal mech torso and head, framed by industrial gear teeth and crossing mechanical wings. Tabletop wargaming emblem, black and white pen and ink sketch style, clean solid lines, heavy contrast, white background, no text, no letters, no words, no titles, completely clean emblem graphic --ar 1:1`
 
+---
+
+## 📊 6. Reference Diagrams
+
+### Firing Arc Diagram
+> **Prompt:**  
+> `Technical line art schematic diagram of a wargame firing arc chart. In the center, a detailed top-down schematic outline of a bipedal mech standing on a flat-topped hexagonal grid hex, facing the top of the page. The boundary lines dividing the firing arcs are drawn strictly starting from the corners (vertices) of the central hex, extending outwards along the grid boundaries (not bisecting the hex flat sides). The surrounding hex grid is divided into four distinct shaded sectors: a large 180-degree forward wedge (covering 3 hexsides) labeled "FORWARD ARC", two 60-degree side wedges (covering 1 hexside each) labeled "LEFT SIDE ARC" and "RIGHT SIDE ARC", and a 60-degree rear wedge (covering 1 hexside) labeled "REAR ARC". The labels are written in clean retro wargaming technical font. Each sector has distinct cross-hatching line densities and shading. Black and white pen and ink sketch, clean white background, classic tabletop wargame reference manual schematic --ar 1:1`
+
+### Hit Zone Diagram
+> **Prompt:**  
+> `Technical line art schematic diagram of a tabletop wargaming hit zone chart. A central bipedal mech silhouette top-down view inside a flat-topped hex grid cell, facing the top of the page, surrounded by a large grid of multiple concentric rings of hexes. The boundary lines separating the hit zones start at the vertices of the central hex and extend outwards strictly along the staggered hexagonal grid lines (not bisecting the hex flat sides). The diagram divides the battlefield into four hit zone wedges: a broad 180-degree front zone labeled "FRONT HIT ZONE", a 60-degree left side zone labeled "LEFT SIDE HIT ZONE", a 60-degree right side zone labeled "RIGHT SIDE HIT ZONE", and a narrow 60-degree rear zone labeled "REAR HIT ZONE". Multiple boundary hexes lying directly on the staggered divider lines are clearly highlighted in white to show how the staggered boundary columns are resolved. Gritty black and white pen and ink sketch, cross-hatching, clean white background, wargaming manual reference diagram --ar 1:1`

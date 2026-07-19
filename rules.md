@@ -93,11 +93,28 @@ The game is played on a standard hexagonal grid.
   - **Leg Facing (Movement)**: The direction the legs face, which determines the direction of forward, backward, and diagonal movement.
   - **Torso Facing (Combat)**: The direction the upper body faces. By default, the torso aligns with the leg facing, but a Frame can twist its torso (see Torso Twisting).
 - **Torso Twisting**: A Frame's upper body can twist 1 hex side (60 degrees) to the left or right of its current leg facing.
-- **Firing Arcs**: Firing arcs are determined relative to the **Torso Facing**, and weapons are restricted to specific arcs based on their mounting location:
-  - **Front Arc (Torso Weapons Only)**: The 60-degree wedge directly in front of the Torso (covering 1 hexside). Only weapons mounted in the **Torso** may fire into this arc.
-  - **Left Side Arc (Left Arm Weapons Only)**: The 120-degree wedge covering the front-left and rear-left directions of the Torso (covering 2 hexsides). Only weapons mounted in the **Left Arm** may fire into this arc.
-  - **Right Side Arc (Right Arm Weapons Only)**: The 120-degree wedge covering the front-right and rear-right directions of the Torso (covering 2 hexsides). Only weapons mounted in the **Right Arm** may fire into this arc.
-  - **Rear Arc**: The 60-degree wedge directly behind the Torso (covering 1 hexside). No weapons can be fired into the Rear Arc.
+- **Firing Arcs**: Firing arcs are determined relative to the **Torso Facing**, and weapons are restricted to specific arcs based on their mounting location (see Firing Arcs Diagram):
+  - **Forward Arc (Torso Weapons Only)**: The 180-degree wedge directly in front of the Torso (covering 3 hexsides: Front-Left, Front, and Front-Right). Only weapons mounted in the **Torso** may fire into this arc.
+  - **Left Side Arc (Left Arm Weapons Only)**: The 60-degree wedge covering the direction directly to the left-rear of the Torso (covering 1 hexside: Left-Rear). Only weapons mounted in the **Left Arm** may fire into this arc.
+  - **Right Side Arc (Right Arm Weapons Only)**: The 60-degree wedge covering the direction directly to the right-rear of the Torso (covering 1 hexside: Right-Rear). Only weapons mounted in the **Right Arm** may fire into this arc.
+  - **Rear Arc**: The 60-degree wedge directly behind the Torso (covering 1 hexside: Rear). No weapons can be fired into the Rear Arc.
+
+- **Attack Directions & Hit Zones**: When a Frame is attacked, the direction of the incoming attack determines the **Hit Zone** relative to the target Frame's **Torso Facing** (see Attack Direction Diagram):
+  - **Front Hit Zone**: The 180-degree sector directly in front of the target (covering 3 hexes).
+  - **Left Side Hit Zone**: The 60-degree sector to the left of the target (covering 1 hex).
+  - **Right Side Hit Zone**: The 60-degree sector to the right of the target (covering 1 hex).
+  - **Rear Hit Zone**: The 60-degree sector directly behind the target (covering 1 hex).
+  - **Determining the Hit Zone**: Draw a straight line of sight from the center of the attacker's hex to the center of the target's hex. The sector of the target's Torso that this line passes through determines the Hit Zone.
+  - **Boundary Hexes (Target's Choice)**: If the line of attack passes exactly along the boundary between two Hit Zones (represented by the white hexes on the Attack Direction Diagram), the target Frame's player (the defender) chooses which of the two adjacent Hit Zones the attack is resolved as.
+  - **Gameplay Effects**: 
+    - *Rear Hits*: An attack originating from the target's **Rear Hit Zone** bypasses the target's movement-generated Evasion (EVA) entirely (reduce target's current EVA to 0 for this attack). The target still benefits from any static Cover modifiers.
+    - *Side Hits*: Attacks originating from the Left/Right Side Hit Zone cannot be deflected by Flares (since countermeasures are optimized for front/rear quadrants).
+    - *Vows*: Named Pilots with the `Vow of Respect` cannot declare attacks that originate from the target's **Rear Hit Zone**.
+
+![Firing Arcs Diagram](images/arcs.jpg)
+
+![Attack Directions & Hit Zones Diagram](images/zones.jpg)
+
 - **Line of Sight (LOS)**: Draw a straight line from the center of the attacking Frame's hex to the center of the target's hex. If the line passes through blocking terrain (such as hills or buildings), a Smoke template, or another Frame's hex, **Visual Line of Sight (Visual LOS)** is blocked.
   - **Interaction with Smoke**: Smoke templates block **Visual LOS** and **Visual locks** (precluding the use of Visual-guided or Visual-spectrum weapons through or into the smoke hex). However, Smoke does *not* block Infrared (IR) or Microwave (Radar) line of sight; weapons using these bands can still target and fire through smoke.
   - **Intervening Frames**: Both friendly and enemy Frames block direct Visual LOS if their hex lies along the LOS line, *provided* the intervening Frame's Weight Class is **equal to or larger** than the target Frame's Weight Class (Light, Medium, Heavy, Assault). A smaller Frame cannot block LOS to a larger target (e.g., a Light Frame cannot hide a Heavy Frame, but a Heavy Frame can hide a Light or Medium Frame).
@@ -127,7 +144,7 @@ Each Iron Frame (IF) is defined by its chassis, reactor, capacitor, and mounted 
   *(Pivoting/turning does not count toward the Movement Limit).*
 - **Armor Damage Reduction (DR)**: Each of the 5 hit locations (**Head**, **Torso**, **Left Arm**, **Right Arm**, and **Legs**) has its own Armor DR rating. When a location is hit, its current Armor DR reduces incoming damage. If damage exceeds this DR (penetrates the armor), the remaining damage is applied to that location's Internal Structure, and the location's Armor DR is permanently reduced by 1.
 - **Structural Integrity**: The maximum Internal Structure (IS) points for each of the 5 locations.
-- **Mounted Weapons**: Weapons can only be mounted in the **Left Arm**, **Right Arm**, or **Torso**. The mounting location determines the weapon's Firing Arc (Left Arm = Left Side Arc, Right Arm = Right Side Arc, Torso = Front Arc).
+- **Mounted Weapons**: Weapons can only be mounted in the **Left Arm**, **Right Arm**, or **Torso**. The mounting location determines the weapon's Firing Arc (Left Arm = Left Side Arc, Right Arm = Right Side Arc, Torso = Forward Arc).
 
 ---
 
@@ -211,7 +228,7 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
   1. **Weapon Selection**: The Colossus pilot spends 4 EP to fire the **Thermal Lance** mounted on its Left Arm.
   2. **Verify Arc and LOS**: The Vanguard is located within the Colossus's Left Side Arc (Left Arm mount). Line of Sight is clear of blocking terrain.
   3. **Verify Lock**: The Colossus has a Visual (VIS) lock on the Vanguard.
-  4. **Hit Location**: The Colossus rolls 2d6 on the Hit Location Table: rolls a 7, indicating a **Torso (Center)** hit.
+  4. **Hit Location**: The Colossus rolls 2d6 on the Hit Location Table. The attack came from the Front Hit Zone, so the Front/Rear column is used. The roll is a 7, indicating a **Torso** hit.
   5. **Roll Damage**: The Colossus rolls 2d6 for the Thermal Lance: rolls a total of 10 damage.
   6. **Apply Target Evasion**: The Vanguard has 3 EVA tokens. Subtract 3 from damage: $10 - 3 = 7$ damage remaining.
   7. **Apply Armor DR**: The Vanguard's Torso currently has an Armor DR of 5. Subtract 5 from damage: $7 - 5 = 2$ damage remaining.
@@ -357,17 +374,24 @@ Missiles must be configured with a guidance package and a warhead at build time:
 ## 6. Damage & Critical Hits
 
 ### 6.1 Hit Location Table (2d6)
-When a Frame is hit, roll 2d6 to determine the hit location:
+When a Frame is hit, the player rolls 2d6 and determines the hit location using the column corresponding to the incoming attack's **Hit Zone** (Left Side, Front/Rear, or Right Side):
 
-| Roll (2d6) | Location Hit | Special Notes |
-| :---: | :--- | :--- |
-| **2** | Head (Sensors) | Contains the Sensor Suite. Criticals blind the Frame. |
-| **3 - 4** | Left Arm | Mounted weapons/defenses in Left Arm are vulnerable. |
-| **5 - 6** | Left Leg | Criticals slow movement speed. |
-| **7** | Torso (Center) | Main frame chassis. Standard armor DR applies. |
-| **8 - 9** | Right Leg | Criticals slow movement speed. |
-| **10 - 11** | Right Arm | Mounted weapons/defenses in Right Arm are vulnerable. |
-| **12** | Torso (Core Critical) | Bypasses Torso Armor DR entirely (treat DR as 0 for this attack). Damage is dealt directly to Torso Internal Structure, and Torso DR is permanently reduced by 1. |
+| Roll (2d6) | Left Side Attack | Front / Rear Attack | Right Side Attack |
+| :---: | :--- | :--- | :--- |
+| **2** | Torso (Core Critical)* | Torso (Core Critical)* | Torso (Core Critical)* |
+| **3** | Left Leg | Right Arm | Right Leg |
+| **4** | Left Arm | Right Arm | Right Arm |
+| **5** | Left Arm | Right Leg | Right Arm |
+| **6** | Left Leg | Torso | Right Leg |
+| **7** | Torso | Torso | Torso |
+| **8** | Torso | Torso | Torso |
+| **9** | Torso | Left Leg | Torso |
+| **10** | Right Arm | Left Arm | Left Arm |
+| **11** | Right Leg | Left Arm | Left Leg |
+| **12** | Head (Sensors)** | Head (Sensors)** | Head (Sensors)** |
+
+*\*Torso (Core Critical): Bypasses Torso Armor DR entirely (treat DR as 0 for this attack). Damage is dealt directly to Torso Internal Structure, and Torso DR is permanently reduced by 1.*  
+*\*\*Head (Sensors): Contains the cockpit and Sensor Suite. Critical hits on the Head are highly dangerous and can stun or blind the Frame.*
 
 ### 6.2 Critical Hit Tables (1d6)
 If damage penetrates to the **Internal Structure** of a location, roll 1d6 on the corresponding table. (Remember: HEI ammo adds a flat +2 modifier to these rolls, up to a maximum of 8. For rolls of 7+, resolve the 6 effect).
@@ -391,7 +415,7 @@ If damage penetrates to the **Internal Structure** of a location, roll 1d6 on th
 #### Arms (Weapons & Actuators) Critical Table
 - **1: Weapon Calibration Error**. Weapons mounted in this arm cost +1 EP to fire.
 - **2: Weapon Damaged**. The attacking player chooses one weapon mounted in this arm; it is destroyed.
-- **3: Shoulder Joint Jammed**. Weapons mounted in this arm can only fire into the Front Arc.
+- **3: Shoulder Joint Jammed**. Weapons mounted in this arm can only fire into the Forward Arc.
 - **4: Structural Fracture**. Arm Armor DR is permanently reduced to 0.
 - **5: Ammo Feed Cut**. Ammunition-dependent weapons mounted in this arm are disabled.
 - **6+: Arm Severed**. The arm is completely destroyed. All weapons and systems mounted in this arm are lost.
@@ -582,8 +606,8 @@ Choose one Vow for your Named Pilot:
 
 #### Vow of Respect (Rei)
 *“A warrior meets their foe face-to-face. Anonymous death from behind is the weapon of cowards.”*
-- **The Constraint**: The pilot cannot target an enemy's Rear Firing Arc, nor fire indirect-guided missiles without direct Line of Sight (even if a Tactical Datalink is active).
-- **Dishonor Penalty**: If the pilot executes an attack from behind or fires an indirect weapon without direct LOS, they are dishonored, and their Evasion Limit is permanently reduced by 2 EVA points for the rest of the battle.
+- **The Constraint**: The pilot cannot target an enemy Frame from its **Rear Hit Zone**, nor fire indirect-guided missiles without direct Line of Sight (even if a Tactical Datalink is active).
+- **Dishonor Penalty**: If the pilot executes an attack from the Rear Hit Zone or fires an indirect weapon without direct LOS, they are dishonored, and their Evasion Limit is permanently reduced by 2 EVA points for the rest of the battle.
 
 #### Vow of Honor (Meiyo)
 *“Seek only the strongest. There is no glory in crushing the weak.”*

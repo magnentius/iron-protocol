@@ -31,7 +31,7 @@ graph TD
 ### 3. Combat Phase (Initiative Order)
 *Resolve attacks in order of highest Initiative to lowest Initiative (instantly resolved).*
 1. **Select Weapon & Pay EP Cost**.
-2. **Verify Line of Sight (LOS) and Arc** (Torso = Front Arc, Left Arm = Left Side Arc, Right Arm = Right Side Arc).
+2. **Verify Line of Sight (LOS) and Arc** (Torso = Forward Arc, Left Arm = Left Side Arc, Right Arm = Right Side Arc).
 3. **Verify Sensor Lock** (Visual, Infrared, or Microwave).
 4. **Determine Hit Location**: Roll 2d6.
 5. **Roll Damage**: Roll weapon damage dice (+1d6 damage bonus if shooting from 2+ elevation levels higher).
@@ -89,19 +89,35 @@ graph TD
 
 ---
 
+## 🛡️ Attack Directions & Hit Zones
+*Incoming attacks are resolved based on the attacker's position relative to the target's Torso Facing:*
+* **Front Hit Zone (180°)**: Directly in front (3 hexes). Standard resolution.
+* **Left/Right Side Hit Zone (60° each)**: Directly to the side (1 hex each). Attacks cannot be deflected by Flares.
+* **Rear Hit Zone (60°)**: Directly behind (1 hex). Bypasses target's movement-generated Evasion (EVA) entirely (EVA is treated as 0).
+* **Boundary Hexes (White)**: Defender (target) chooses which of the two adjacent Hit Zones the attack is resolved as.
+
+---
+
 ## 🎯 Combat Tables
 
 ### 2d6 Hit Location Table
 
-| Roll (2d6) | Location Hit | Armor/IS Modifier |
-| :---: | :--- | :--- |
-| **2** | **Head** (Sensors) | Contains the Sensor Suite. Criticals blind the Frame. |
-| **3–4** | **Left Arm** | Mounted weapons/defenses in Left Arm are vulnerable. |
-| **5–6** | **Left Leg** | Criticals slow movement speed. |
-| **7** | **Torso (Center)** | Main frame chassis. Standard armor DR applies. |
-| **8–9** | **Right Leg** | Criticals slow movement speed. |
-| **10–11** | **Right Arm** | Mounted weapons/defenses in Right Arm are vulnerable. |
-| **12** | **Torso (Core Critical)** | Bypasses Torso Armor DR entirely. Damage goes to IS. |
+| Roll (2d6) | Left Side Attack | Front / Rear Attack | Right Side Attack |
+| :---: | :--- | :--- | :--- |
+| **2** | Torso (Core Critical)* | Torso (Core Critical)* | Torso (Core Critical)* |
+| **3** | Left Leg | Right Arm | Right Leg |
+| **4** | Left Arm | Right Arm | Right Arm |
+| **5** | Left Arm | Right Leg | Right Arm |
+| **6** | Left Leg | Torso | Right Leg |
+| **7** | Torso | Torso | Torso |
+| **8** | Torso | Torso | Torso |
+| **9** | Torso | Left Leg | Torso |
+| **10** | Right Arm | Left Arm | Left Arm |
+| **11** | Right Leg | Left Arm | Left Leg |
+| **12** | Head (Sensors)** | Head (Sensors)** | Head (Sensors)** |
+
+*\*Torso (Core Critical): Bypasses Torso Armor DR entirely. Damage goes directly to Internal Structure. Torso DR permanently -1.*  
+*\*\*Head (Sensors): Contains Sensor Suite (blinds Frame on criticals) and cockpit.*
 
 ---
 
@@ -118,7 +134,7 @@ graph TD
 #### 2. Arm Criticals
 * **1: Weapon Calibration**. Weapons in this arm cost +1 EP.
 * **2: Weapon Damaged**. Attacking player chooses one weapon in this arm; it is destroyed.
-* **3: Shoulder Joint Jammed**. Weapons in this arm can only fire into Front Arc.
+* **3: Shoulder Joint Jammed**. Weapons in this arm can only fire into Forward Arc.
 * **4: Structural Fracture**. Arm Armor DR reduced to 0.
 * **5: Ammo Feed Cut**. Arm weapon ammo weapons disabled.
 * **6: Arm Severed**. All weapons/systems in this arm are lost.
