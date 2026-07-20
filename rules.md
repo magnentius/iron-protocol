@@ -235,11 +235,11 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
   2. **Verify Arc and LOS**: The Vanguard is located within the Colossus's Left Side Arc (Left Arm mount). Line of Sight is clear of blocking terrain.
   3. **Verify Lock**: The Colossus has a Visual (VIS) lock on the Vanguard.
   4. **Hit Location**: The Colossus rolls 2d6 on the Hit Location Table. The attack came from the Front Hit Zone, so the Front/Rear column is used. The roll is a 7, indicating a **Torso** hit.
-  5. **Roll Damage**: The Colossus rolls 2d6 for the Thermal Lance: rolls a total of 10 damage.
-  6. **Apply Target Evasion**: The Vanguard has 3 EVA tokens. Subtract 3 from damage: $10 - 3 = 7$ damage remaining.
-  7. **Apply Armor DR**: The Vanguard's Torso currently has an Armor DR of 5. Subtract 5 from damage: $7 - 5 = 2$ damage remaining.
+  5. **Roll Damage**: The Colossus rolls 3d6 for the Thermal Lance: rolls a total of 12 damage.
+  6. **Apply Target Evasion**: The Vanguard has 3 EVA tokens. Subtract 3 from damage: $12 - 3 = 9$ damage remaining.
+  7. **Apply Armor DR**: The Vanguard's Torso currently has an Armor DR of 5. Subtract 5 from damage: $9 - 5 = 4$ damage remaining.
   8. **Resolve Damage & Degradation**: 
-     - The remaining 2 damage penetrates the armor and is deducted directly from the Vanguard's Torso Internal Structure (reducing it from 12 to 10).
+     - The remaining 4 damage penetrates the armor and is deducted directly from the Vanguard's Torso Internal Structure (reducing it from 12 to 8).
      - Because the armor was penetrated, the Vanguard's Torso Armor DR is permanently **reduced by 1** (from 5 to 4).
   9. **Roll Critical Hit**: Since the Torso Internal Structure suffered damage, the Colossus rolls 1d6 on the Torso Critical Hit Table: rolls a 3, indicating **Reactor Damage** (the Vanguard's reactor output is permanently reduced by 2 EP per turn).
 
@@ -336,6 +336,7 @@ Frames can run active systems to deny locks and hide from sensors:
 - **Flares**: Limited charges (typically 3). When targeted by an IR-guided missile or IR-based attack, the defender may expend 1 Flare charge to completely negate the attack.
 - **Smoke Launchers**: Limited charges (typically 2). During the Activation Phase, a Frame may spend 1 EP and 1 charge to deploy a Smoke cloud in its current or an adjacent hex (place a Smoke token with a value of 2). The smoke template blocks Visual (VIS) LOS and Visual locks through that hex for as long as it remains on the board. Infrared (IR) and Microwave (Radar) sensors are unaffected and can scan through smoke unimpeded.
 - **Active Metamaterial Coating (AMC)**: Costs **2 EP** to activate in the Energy Phase. The Frame tunes its coating to absorb **one** sensor spectrum (Microwave, IR, or VIS), preventing it from being detected or locked on that spectrum. **Overcharge**: [+2 EP to cloak a 2nd spectrum simultaneously]. *(Note: Overcharging triggers the mandatory 1-Turn Cooldown, meaning the AMC will be completely offline during the following round, leaving the Frame fully exposed on all spectrums).*
+- **Pre-Combat System Deployment**: At the start of a battle (during Deployment), Frames equipped with **AMC** or **ECM** may choose to deploy with those systems **Active**. The system's base upkeep cost (2 EP for AMC, 1 EP for ECM) is automatically deducted from the Frame's generated energy pool during the Round 1 Energy Phase.
 
 ### 4.3 Tactical Datalink (Head Location)
 A Frame may be equipped with a **Tactical Datalink** housed in its Head location.
@@ -363,11 +364,11 @@ Weapons can only be mounted in the Left Arm, Right Arm, or Torso, which dictates
 | **Laser** | Light | 2 | Infinite | None | 2d6 | Any | Overcharge | **Overcharge**: [+1/+2 EP for +2/+4 flat damage]. |
 | **Guided Missiles** | Medium | 2 | 4 Salvos (Explosive) | None | Warhead Dep. | Guidance Dep. | AoE | Requires Lock. Permits indirect fire (no LOS) for all guidance types. |
 | **Disruptor Cannon** | Medium | 3 | Infinite | None | None | Any | Bypasses Evasion, Overcharge | Bypasses Armor DR (see sheet for hit effects). **Overcharge**: [+2 EP to force Crit AND drain 1d6 EP simultaneously]. |
-| **Thermal Lance** | Heavy | 4 | Infinite | None | 4d6 | Any | Overcharge | **Overcharge**: [+2/+4 EP for +4/+8 flat damage]. |
+| **Thermal Lance** | Heavy | 4 | Infinite | None | 3d6 | Any | Overcharge | **Overcharge**: [+2/+4 EP for +3/+6 flat damage]. |
 | **Rail Gun** | Heavy | 0 | 5 Slugs (Inert) | None | 3d6 + 10 | Any | AP 3, Overcharge | Inert slugs. **Requires Overcharge to fire**: [+6 EP]. |
 
 ### 5.1 Autocannon Munitions
-When equipping an Autocannon, players choose how to load its 10-Burst ammunition supply. They can load all 10 Bursts with **one** ammo type, or split the supply between the two types at build time (e.g., 5 AP Bursts and 5 HEI Bursts), declaring which type is being fired before rolling to hit.
+When equipping an Autocannon, players choose how to load its 10-Burst ammunition supply. An Autocannon's magazine feed can hold up to **two** distinct ammo types chosen from the three available options (AP, HEI, or Tracers) at build time. Players may load all 10 Bursts with a single ammo type or split the 10 Bursts between two selected types (e.g., 5 AP / 5 Tracers, or 7 HEI / 3 Tracers), declaring which type is being fired before rolling to hit.
 - **Armor Piercing (AP 1)**: Ignores up to 1 point of the target's Armor DR per hit.
 - **High Explosive Incendiary (HEI)**: Adds a flat +1 modifier to any Critical Hit rolls caused by this weapon.
 - **Tracer Rounds (Target Marking)**: Apply a **-1 damage penalty** to every 1d6 damage die rolled for the weapon (minimum 0 damage per die). However, if even a single tracer round hits the target (i.e., is not negated by Evasion), the target becomes "Painted". All subsequent attacks from *any friendly Frame (including the attacker)* ignore 1 point of the target's Evasion (EVA) for the rest of the Combat Phase.
@@ -397,8 +398,8 @@ Many weapons and utility systems share standardized mechanical behaviors, repres
 > **Trait: Overcharge [Cost for Effect]**
 > Any weapon or system with the Overcharge trait allows a pilot to dump excess EP from their Capacitor beyond the base activation cost to achieve a magnified effect. 
 > * **Capacitor Drain**: The additional EP required to trigger an Overcharge must be paid *exclusively* from banked EP in the Frame's Capacitor. Freshly generated Reactor EP cannot be used to pay Overcharge costs.
-> * **Cooldown Penalty**: Whenever a system is activated using its Overcharge mechanic (spending any amount of extra EP), that system enters a **1-Turn Cooldown**. It cannot be activated or fired at all during the following round.
-> * *(Example: A pilot overcharges their Thermal Lance. They spend 4 base EP + 4 overcharge EP = 8 EP total, rolling 4d6 Combat damage instead of the usual 2d6. The weapon then enters a 1-Turn Cooldown and cannot be fired next round).*
+> * **Overcharge**: High-yield energy weapons (Lasers, Thermal Lances, Disruptor Cannons, Rail Guns) allow a pilot to dump additional EP from the Capacitor during the Combat Phase to boost damage or induce special effects. Overcharging a weapon triggers a **1-Turn Cooldown** on that weapon.
+> *(Example: A pilot overcharges their Thermal Lance. They spend 4 base EP + 4 overcharge EP = 8 EP total, dealing **3d6 + 6 damage** instead of the usual 3d6. The weapon then enters a 1-Turn Cooldown and cannot be fired next round).*
 
 ---
 
@@ -546,6 +547,8 @@ Instead, upgrades cost **Deployment Points (pts)**. Mobility stats (Init/Move/EV
 - **Evasion Upgrade**: +15 pts per +1 EVA (Up to Limit)
 - **Reactor Upgrade**: +10 pts per +1 EP generated (No Limit)
 - **Capacitor Upgrade**: +5 pts per +1 EP capacity (No Limit)
+
+*Example: Constructing a 45-ton stealth striker (like the Specter). You pay 200 pts for the Medium Base Chassis. You purchase Init+4 (60 pts), Move+1 (20 pts), EVA+2 (30 pts), Reactor+3 (30 pts), and Capacitor+2 (10 pts). The bare chassis costs 350 pts total. Adding AMC (30 pts), Tactical Datalink (15 pts), Laser (15 pts), and Disruptor Cannon (25 pts) brings the final cost to 435 pts.*
 
 #### 7.2.2 Countermeasures & Active Systems
 - **Smoke Launcher** [Light]: 10 pts

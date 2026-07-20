@@ -6,7 +6,7 @@
 
 ### ⚡ Energy & Evasion
 * **Reactor EP (9/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5 (IR Lockable)` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9`  
-  *(Mark left-to-right for Spent EP; spending 5+ EP total makes the Frame vulnerable to IR locks. Mark right-to-left for Upkeep)*
+  *(Fill left-to-right during Energy Phase to generate EP. Erase/unmark right-to-left as EP is spent; spending 5+ EP total during the turn makes the Frame vulnerable to IR locks)*
 * **Capacitor Storage (Max 4 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4`
 * **Evasion Tracker (Max 5 EVA)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5`  
   *(Mark generated Evasion during movement; resets in End Phase)*
@@ -17,7 +17,8 @@
 * **Right Arm [Medium HP]: Disruptor Cannon** (Directed Energy Disruptor | 3 EP cost | Overcharge: [+2 EP to force Crit AND drain 1d6 EP simultaneously])  
   *Ammo*: Infinite (Bypasses EVA/DR. Normal hit: Torso [7,12] drains 1d6 EP; Limbs [3-6, 8-11]/Head [2] force Crits)
 * **Torso [Medium HP]: Active Metamaterial Coating (AMC)** (Stealth Upgrade)  
-  *Upkeep*: 2 EP (Cloaks 1 spectrum: VIS/IR/Radar) | Overcharge: [+2 EP to cloak 2nd spectrum]
+  *Upkeep*: 2 EP (Cloaks 1 spectrum) | Overcharge: [+2 EP to cloak 2nd spectrum]  
+  *Status*: `[ ] Active` | *Cloaked Band*: `[ ] VIS` | `[ ] IR` | `[ ] RAD` *(Mark 1 band; mark 2 if Overcharged)*
 * **Head [Light HP]: Tactical Datalink**: Shares locks and target telemetry in real time.
 
 ### 🛡️ Locational Status

@@ -6,7 +6,7 @@
 
 ### ⚡ Energy & Evasion
 * **Reactor EP (12/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5 (IR Lockable)` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12`  
-  *(Mark left-to-right for Spent EP; spending 5+ EP total makes the Frame vulnerable to IR locks. Mark right-to-left for Upkeep)*
+  *(Fill left-to-right during Energy Phase to generate EP. Erase/unmark right-to-left as EP is spent; spending 5+ EP total during the turn makes the Frame vulnerable to IR locks)*
 * **Capacitor Storage (Max 6 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6`
 * **Evasion Tracker (Max 4 EVA)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4`  
   *(Mark generated Evasion during movement; resets in End Phase)*
@@ -19,7 +19,8 @@
   *Ammo*: Infinite
 * **Torso [Light HP]: Defensive Flare Launcher** (Deflects locking missiles | 1 EP use cost)  
   *Charges (3 charges)*: `[ ] Charge 1` | `[ ] Charge 2` | `[ ] Charge 3`
-* **Torso [Medium HP]: ECM Suite** (Jams Microwave locks | Upkeep: 1 EP [Host only] | Overcharge: [+1 EP per +1 hex radius])
+* **Torso [Medium HP]: ECM Suite** (Jams Microwave locks | Upkeep: 1 EP [Host only] | Overcharge: [+1 EP per +1 hex radius])  
+  *Status*: `[ ] Active` | *Coverage*: `[ ] Host Only` | `[ ] +1 Hex Radius` | `[ ] +2 Hex Radius`
 * **Head [Light HP]: Tactical Datalink**: Shares locks and target telemetry in real time.
 
 ### 🛡️ Locational Status

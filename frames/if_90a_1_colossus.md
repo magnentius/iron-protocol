@@ -6,13 +6,13 @@
 
 ### ⚡ Energy & Evasion
 * **Reactor EP (18/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5 (IR Lockable)` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12` | `[ ] 13` | `[ ] 14` | `[ ] 15` | `[ ] 16` | `[ ] 17` | `[ ] 18`  
-  *(Mark left-to-right for Spent EP; spending 5+ EP total makes the Frame vulnerable to IR locks. Mark right-to-left for Upkeep)*
+  *(Fill left-to-right during Energy Phase to generate EP. Erase/unmark right-to-left as EP is spent; spending 5+ EP total during the turn makes the Frame vulnerable to IR locks)*
 * **Capacitor Storage (Max 10 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10`
 * **Evasion Tracker (Max 1 EVA)**: `[ ] 1`  
   *(Mark generated Evasion during movement; resets in End Phase)*
 
 ### 🔫 Armaments & Systems
-* **Left Arm [Heavy HP]: Thermal Lance** (4d6 Combat damage | 4 EP cost | Overcharge: [+2/+4 EP for +4/+8 flat damage] | Any Lock [VIS/IR/Radar])  
+* **Left Arm [Heavy HP]: Thermal Lance** (3d6 Combat damage | 4 EP cost | Overcharge: [+2/+4 EP for +3/+6 flat damage] | Any Lock [VIS/IR/Radar])  
   *Ammo*: Infinite
 * **Right Arm [Heavy HP]: Rail Gun** (3d6+10 damage | 0 EP base cost | Requires Overcharge to fire: [+6 EP] | AP 3)  
   *Ammo Tracker (5 Kinetic Slugs)*: `[ ] Slug 1` | `[ ] Slug 2` | `[ ] Slug 3` | `[ ] Slug 4` | `[ ] Slug 5`

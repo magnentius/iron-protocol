@@ -6,7 +6,7 @@
 
 ### ⚡ Energy & Evasion
 * **Reactor EP (14/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5 (IR Lockable)` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12` | `[ ] 13` | `[ ] 14`  
-  *(Mark left-to-right for Spent EP; spending 5+ EP total makes the Frame vulnerable to IR locks. Mark right-to-left for Upkeep)*
+  *(Fill left-to-right during Energy Phase to generate EP. Erase/unmark right-to-left as EP is spent; spending 5+ EP total during the turn makes the Frame vulnerable to IR locks)*
 * **Capacitor Storage (Max 8 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8`
 * **Evasion Tracker (Max 2 EVA)**: `[ ] 1` | `[ ] 2`  
   *(Mark generated Evasion during movement; resets in End Phase)*
