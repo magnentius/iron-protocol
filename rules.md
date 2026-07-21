@@ -11,9 +11,11 @@
 - [Introduction: The Iron Protocol](#introduction-the-iron-protocol)
   - [Why We Fight in Frames](#the-lore-of-the-protocol-why-we-fight-in-frames)
   - [Core Tenets of the Protocol](#core-tenets-of-the-protocol)
-- [1. Core Mechanics & Setup](#1-core-mechanics--setup)
-  - [1.1 The Hex Grid & Time Scale](#11-the-hex-grid--time-scale)
-  - [1.2 The Iron Frame Profile](#12-the-iron-frame-profile)
+- [1. Fundamental Concepts & Game Setup](#1-fundamental-concepts--game-setup)
+  - [1.1 Anatomy of an Iron Frame Profile](#11-anatomy-of-an-iron-frame-profile)
+  - [1.2 The Hex Grid & Facing Conventions](#12-the-hex-grid--facing-conventions)
+  - [1.3 Firing Arcs & Hit Zones](#13-firing-arcs--hit-zones)
+  - [1.4 Scenario Setup & Deployment](#14-scenario-setup--deployment)
 - [2. Turn Sequence](#2-turn-sequence)
   - [2.1 Energy Phase](#21-energy-phase)
   - [2.2 Activation Phase](#22-activation-phase-reverse-initiative-order)
@@ -84,70 +86,81 @@ Following a catastrophic AI rebellion that nearly annihilated humanity, treaties
 ![Stealth Dropship Landing](images/dropship.jpg)
 ---
 
-## 1. Core Mechanics & Setup
+## 1. Fundamental Concepts & Game Setup
 > *"Victorious warriors win first and then go to war, while defeated warriors go to war first and then seek to win." — Sun Tzu*
 
+Before launching into combat, players must understand the core profile of an Iron Frame, facing conventions, firing arcs, and game setup.
 
-### 1.1 The Hex Grid & Time Scale
-The game is played on a standard hexagonal grid.
-- **Distance Scale**: Each hex represents approximately **30 meters** of terrain.
-- **Time Scale**: A single combat turn (round) represents approximately **10 seconds** of real-time combat.
-- **Facing**: A Frame has two components of facing:
-  - **Leg Facing (Movement)**: The direction the legs face, which determines the direction of forward, backward, and diagonal movement.
-  - **Torso Facing (Combat)**: The direction the upper body faces. By default, the torso aligns with the leg facing, but a Frame can twist its torso (see Torso Twisting).
-- **Torso Twisting**: A Frame's upper body can twist 1 hex side (60 degrees) to the left or right of its current leg facing.
-- **Firing Arcs**: Firing arcs are determined relative to the **Torso Facing**, and weapons are restricted to specific arcs based on their mounting location (see Firing Arcs Diagram):
-  - **Forward Arc (Torso Weapons Only)**: The 180-degree wedge directly in front of the Torso (covering 3 hexsides: Front-Left, Front, and Front-Right). Only weapons mounted in the **Torso** may fire into this arc.
-  - **Left Side Arc (Left Arm Weapons Only)**: The 60-degree wedge covering the direction directly to the left-rear of the Torso (covering 1 hexside: Left-Rear). Only weapons mounted in the **Left Arm** may fire into this arc.
-  - **Right Side Arc (Right Arm Weapons Only)**: The 60-degree wedge covering the direction directly to the right-rear of the Torso (covering 1 hexside: Right-Rear). Only weapons mounted in the **Right Arm** may fire into this arc.
-  - **Rear Arc**: The 60-degree wedge directly behind the Torso (covering 1 hexside: Rear). No weapons can be fired into the Rear Arc.
-
-- **Attack Directions & Hit Zones**: When a Frame is attacked, the direction of the incoming attack determines the **Hit Zone** relative to the target Frame's **Torso Facing** (see Attack Direction Diagram):
-  - **Front Hit Zone**: The 180-degree sector directly in front of the target (covering 3 hexes).
-  - **Left Side Hit Zone**: The 60-degree sector to the left of the target (covering 1 hex).
-  - **Right Side Hit Zone**: The 60-degree sector to the right of the target (covering 1 hex).
-  - **Rear Hit Zone**: The 60-degree sector directly behind the target (covering 1 hex).
-  - **Determining the Hit Zone**: Draw a straight line of sight from the center of the attacker's hex to the center of the target's hex. The sector of the target's Torso that this line passes through determines the Hit Zone.
-  - **Boundary Hexes (Target's Choice)**: If the line of attack passes exactly along the boundary between two Hit Zones (represented by the white hexes on the Attack Direction Diagram), the target Frame's player (the defender) chooses which of the two adjacent Hit Zones the attack is resolved as.
-  - **Gameplay Effects**: 
-    - *Rear Hits*: An attack originating from the target's **Rear Hit Zone** bypasses the target's movement-generated Evasion (EVA) entirely (reduce target's current EVA to 0 for this attack). The target still benefits from any static Cover modifiers.
-    - *Side Hits*: Attacks originating from the Left/Right Side Hit Zone cannot be deflected by Flares (since countermeasures are optimized for front/rear quadrants).
-    - *Vows*: Named Pilots with the `Vow of Respect` cannot declare attacks that originate from the target's **Rear Hit Zone**.
-
-![Firing Arcs Diagram](images/arcs.jpg)
-
-![Attack Directions & Hit Zones Diagram](images/zones.jpg)
-
-- **Line of Sight (LOS)**: Draw a straight line from the center of the attacking Frame's hex to the center of the target's hex. If the line passes through blocking terrain (such as hills or buildings), a Smoke template, or another Frame's hex, **Visual Line of Sight (Visual LOS)** is blocked.
-  - **Interaction with Smoke**: Smoke templates block **Visual LOS** and **Visual locks** (precluding the use of Visual-guided or Visual-spectrum weapons through or into the smoke hex). However, Smoke does *not* block Infrared (IR) or Microwave (Radar) line of sight; weapons using these bands can still target and fire through smoke.
-  - **Intervening Frames**: Both friendly and enemy Frames block direct Visual LOS if their hex lies along the LOS line, *provided* the intervening Frame's Weight Class is **equal to or larger** than the target Frame's Weight Class (Light, Medium, Heavy, Assault). A smaller Frame cannot block LOS to a larger target (e.g., a Light Frame cannot hide a Heavy Frame, but a Heavy Frame can hide a Light or Medium Frame).
-  - **Interaction with Active Metamaterial Coating (AMC)**:
-    - A Frame using active **Visual-Camouflage Mode** is visually invisible. Attacking frames do not have Visual LOS to it, and it cannot be targeted using the Visual (VIS) spectrum.
-    - Additionally, because light passes through a visually camouflaged Frame, it **does not block Visual LOS** to any Frames positioned behind it.
-    - AMC modes tuned to Microwave (Radar) or Infrared (IR) suppression do not affect visual visibility, and therefore block Visual LOS normally.
-
-![Tactical Hex Grid Map](images/hexgrid.jpg)
-
-### 1.2 The Iron Frame Profile
+### 1.1 Anatomy of an Iron Frame Profile
 Each Iron Frame (IF) is defined by its chassis, reactor, capacitor, and mounted components:
-- **Initiative (2-12)**: A static value representing pilot reaction speed and chassis agility. Higher initiative frames shoot first but move last, while lower initiative frames move first but shoot last.
-- **Chassis Mass (Tonnage)**: Built on a scale from **20 to 100 Tons** (typically in increments of 5). Tonnage determines the Frame's weight class and its corresponding **Mass Value** used for collision damage:
+- **Initiative (2–12)**: A static value representing pilot reaction speed and chassis agility. Higher initiative frames shoot first but move last, while lower initiative frames move first but shoot last.
+- **Chassis Mass (Tonnage)**: Built on a scale from **20 to 100 Tons** (in 5-ton increments). Tonnage determines the Frame's weight class and its corresponding **Mass Value** used for collision damage:
   - **Light** (20–35 Tons): Mass Value = 1
   - **Medium** (40–55 Tons): Mass Value = 2
   - **Heavy** (60–75 Tons): Mass Value = 3
   - **Assault** (80–100 Tons): Mass Value = 4
-- **Reactor Rating**: The number of Energy Points (EP) generated by the Frame at the start of each turn.
-- **Capacitor Max**: The maximum amount of unused EP that can be stored in the Capacitor between turns.
+- **Reactor Rating**: The number of Energy Points (EP) generated by the Frame at the start of each turn during the Energy Phase.
+- **Capacitor Storage (Max EP)**: The maximum amount of unused EP that can be stored in the Capacitor between turns.
 - **Evasion Limit**: The maximum Evasion Points (EVA) a Frame can accumulate through movement in a single turn.
-- **Movement Limit**: The maximum number of hexes a Frame can enter (via walking, reversing, or jumping) in a single turn. This represents physical actuator limits at a 10-second scale:
+- **Movement Limit**: The maximum number of hexes a Frame can enter (via walking, reversing, or jumping) in a single turn:
   - **Light**: 6 hexes (approx. 65 km/h)
   - **Medium**: 5 hexes (approx. 54 km/h)
   - **Heavy**: 4 hexes (approx. 43 km/h)
   - **Assault**: 3 hexes (approx. 32 km/h)
   *(Pivoting/turning does not count toward the Movement Limit).*
 - **Armor Damage Reduction (DR)**: Each of the 5 hit locations (**Head**, **Torso**, **Left Arm**, **Right Arm**, and **Legs**) has its own Armor DR rating. When a location is hit, its current Armor DR reduces incoming damage. If damage exceeds this DR (penetrates the armor), the remaining damage is applied to that location's Internal Structure, and the location's Armor DR is permanently reduced by 1.
-- **Structural Integrity**: The maximum Internal Structure (IS) points for each of the 5 locations.
-- **Mounted Weapons**: Weapons can only be mounted in the **Left Arm**, **Right Arm**, or **Torso**. The mounting location determines the weapon's Firing Arc (Left Arm = Left Side Arc, Right Arm = Right Side Arc, Torso = Forward Arc).
+- **Internal Structure (IS)**: The structural framework points for each of the 5 hit locations. If a location's IS is reduced to 0, that location is destroyed.
+- **Mounted Hardpoints & Equipment**: Systems and weapons are mounted in specific locations (**Head**, **Torso**, **Left Arm**, **Right Arm**). Mounting locations determine weapon Firing Arcs.
+
+---
+
+### 1.2 The Hex Grid & Facing Conventions
+The game is played on a standard hexagonal grid.
+- **Distance Scale**: Each hex represents approximately **30 meters** of terrain.
+- **Time Scale**: A single combat turn (round) represents approximately **10 seconds** of real-time combat.
+- **Facing Conventions**: A Frame possesses two components of facing:
+  - **Leg Facing (Movement)**: The direction the legs face, which determines the direction of forward, backward, and diagonal movement.
+  - **Torso Facing (Combat)**: The direction the upper body faces. By default, the torso aligns with the leg facing, but a Frame can twist its torso at the end of its activation.
+- **Torso Twisting**: At the end of its activation, a Frame's upper body can twist 1 hex side (60 degrees) to the left or right of its current Leg Facing, setting its Torso Facing and Firing Arcs for the upcoming Combat Phase.
+
+![Tactical Hex Grid Map](images/hexgrid.jpg)
+
+---
+
+### 1.3 Firing Arcs & Hit Zones
+
+#### 1. Firing Arcs
+Firing arcs are determined relative to the Frame's **Torso Facing**. Weapons are restricted to specific firing arcs based on their mounting location:
+- **Forward Arc (Torso Weapons Only)**: The 180-degree wedge directly in front of the Torso (covering 3 hexsides: Front-Left, Front, and Front-Right). Only weapons mounted in the **Torso** may fire into this arc.
+- **Left Side Arc (Left Arm Weapons Only)**: The 60-degree wedge covering the direction directly to the left-rear of the Torso (covering 1 hexside: Left-Rear). Only weapons mounted in the **Left Arm** may fire into this arc.
+- **Right Side Arc (Right Arm Weapons Only)**: The 60-degree wedge covering the direction directly to the right-rear of the Torso (covering 1 hexside: Right-Rear). Only weapons mounted in the **Right Arm** may fire into this arc.
+- **Rear Arc**: The 60-degree wedge directly behind the Torso (covering 1 hexside: Rear). No weapons can be fired into the Rear Arc.
+
+![Firing Arcs Diagram](images/arcs.jpg)
+
+#### 2. Attack Directions & Hit Zones
+When a Frame is attacked, the direction of the incoming attack determines the **Hit Zone** relative to the target Frame's **Torso Facing**:
+- **Front Hit Zone**: The 180-degree sector directly in front of the target (covering 3 hexes). Uses the Front Hit Location column.
+- **Left Side Hit Zone**: The 60-degree sector to the left of the target (covering 1 hex). Uses the Left Side Hit Location column.
+- **Right Side Hit Zone**: The 60-degree sector to the right of the target (covering 1 hex). Uses the Right Side Hit Location column.
+- **Rear Hit Zone**: The 60-degree sector directly behind the target (covering 1 hex). Uses the Rear Hit Location column.
+- **Determining the Hit Zone**: Draw a straight line of sight from the center of the attacker's hex to the center of the target's hex. The sector of the target's Torso that this line passes through determines the Hit Zone.
+- **Boundary Hexes (Target's Choice)**: If the line of attack passes exactly along the boundary between two Hit Zones, the defender chooses which of the two adjacent Hit Zones the attack is resolved as.
+- **Gameplay Effects**: 
+  - *Rear Hits*: An attack originating from the target's **Rear Hit Zone** bypasses the target's movement-generated Evasion (EVA) entirely (reduce target's current EVA to 0 for this attack). The target still benefits from any static Cover modifiers.
+  - *Side Hits*: Attacks originating from the Left/Right Side Hit Zone cannot be deflected by Flares.
+
+![Attack Directions & Hit Zones Diagram](images/zones.jpg)
+
+---
+
+### 1.4 Scenario Setup & Deployment
+To begin a game of *Iron Protocol*, players complete the following setup steps:
+1. **Agree on Force Limit**: Players select a Deployment Point budget (e.g. 500 pts for 1v1 duel, 1000 pts for 2v2 Element combat, 1500 pts for 3v3–4v4 Platoon battles).
+2. **Select Frames & Pilots**: Players choose pre-built technical readouts from the **Iron Frame Roster (Section 8)** or construct custom frames using Section 7.2.
+3. **Map Setup**: Lay out hex map tiles. Mark elevation levels, water hexes, woods, and urban buildings.
+4. **Deploy Units**: Players roll 2d6 for Deployment Advantage (highest roll chooses their map edge). Players alternate deploying 1 Frame at a time within 2 hexes of their designated home map edge.
+5. **Pre-Combat System Activation**: At the moment of deployment, Frames equipped with **AMC** (Active Metamaterial Coating) or **ECM** (Electronic Countermeasures) may deploy with those systems **Active**. Upkeep costs (2 EP for AMC, 1 EP for ECM) are automatically deducted during the Round 1 Energy Phase.
 
 ---
 
