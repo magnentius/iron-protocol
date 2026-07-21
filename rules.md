@@ -159,8 +159,8 @@ When a Frame is attacked, the direction of the incoming attack determines the **
 To begin a game of *Iron Protocol*, players complete the following setup steps:
 1. **Agree on Force Limit**: Players select a Deployment Point budget (e.g. 435 pts for introductory 1v1, 1000 pts for 2v2 Element combat, 1500 pts for 3v3–4v4 Platoon battles).
 2. **Select Frames & Pilots**: Players choose pre-built technical readouts from the **Iron Frame Roster (Section 8)** or construct custom frames using Section 7.2.
-3. **Map Setup**: Lay out hex map tiles. Mark elevation levels, water hexes, woods, and urban buildings.
-4. **Deploy Units**: Players roll 2d6 for Deployment Advantage (highest roll chooses their map edge). Players alternate deploying 1 Frame at a time within 2 hexes of their designated home map edge.
+3. **Determine Point Bid & Advantage Player**: The player who brings a lower total force point cost (leaving an intentional point gap, commonly referred to as a **"Point Bid"**) wins the **Tactical Advantage** and chooses who is designated the **Advantage Player** for the match. If total force points are tied, players roll 2d6; the winner chooses the Advantage Player.
+4. **Map Setup & Unit Deployment**: Lay out hex map tiles. The Advantage Player chooses their home map edge. Players alternate deploying 1 Frame at a time within 2 hexes of their designated home map edge.
 5. **Pre-Combat System Activation**: At the moment of deployment, Frames equipped with **AMC** (Active Metamaterial Coating) or **ECM** (Electronic Countermeasures) may deploy with those systems **Active**. Upkeep costs (2 EP for AMC, 1 EP for ECM) are automatically deducted during the Round 1 Energy Phase.
 
 #### 1.4.1 Introductory Scenario: Trial by Fire (1v1 Duel)
@@ -198,6 +198,7 @@ At the start of the turn, players perform the following steps:
 
 ### 2.2 Activation Phase (Reverse Initiative Order)
 Frames activate one at a time, beginning with the **lowest Initiative** value and counting up.
+- **Initiative Tie-Breakers (Activation)**: If opposing Frames share the same Initiative value, the **Advantage Player** (determined during setup via Point Bid or die roll) decides which of the tied Frames activates first (choosing to activate their own unit first or forcing the opponent's tied unit to activate first).
 - **Dynamic Movement Execution**: When a Frame activates, the player decides how to move it on the fly, spending EP from their current energy pool step-by-step. This allows players to react directly to the movements of previously activated (lower-initiative) frames.
 - **Movement Limit**: A Frame cannot enter more hexes during its activation than its weight class **Movement Limit** (Light = 6, Medium = 5, Heavy = 4, Assault = 3). Changing Leg Facing (pivoting) does not count as entering a hex and is not restricted by this limit.
   - **Forward Walk (W)**: Move 1 hex forward. Cost: 1 EP.
@@ -256,6 +257,7 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
 
 ### 2.3 Combat Phase (Initiative Order)
 Frames attack in order of **highest Initiative** to **lowest Initiative**.
+- **Initiative Tie-Breakers (Combat)**: If opposing Frames share the same Initiative value, the **Advantage Player** decides which of the tied Frames declares and resolves its attack first (choosing to fire with their own unit first or allowing the opponent's tied unit to declare its attack first).
 - **Instant Resolution**: Unlike some tabletop games, damage is resolved *instantly*. If a high-initiative Frame destroys or disables a weapon on a lower-initiative Frame, that lower-initiative Frame cannot use that weapon when its turn to fire comes.
 - **Attack Sequence**:
   1. **Select Weapon & Pay EP Cost**: Deduct the weapon's EP cost from the Frame's current pool. *(Note: If a Frame's EP pool was drained by an earlier attack and it can no longer afford a weapon's EP cost, it cannot fire that weapon this turn).*
