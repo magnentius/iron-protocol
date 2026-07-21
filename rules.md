@@ -593,20 +593,33 @@ Every Frame is defined by its physical **Tonnage** (Weight Class). Tonnage deter
 
 *Note: Every Frame possesses a specific number of hardpoints dictating what equipment it can mount. A Frame cannot mount a piece of equipment heavier than its weight class.*
 
-#### 7.2.1 Engine & Mobility Upgrades
+#### 7.2.1 Base Armor DR & Internal Structure (IS)
+When purchasing a Base Chassis, it comes pre-equipped with standard baseline **Internal Structure (IS)** and **Base Armor Damage Reduction (DR)** scaled to its physical Weight Class. Internal Structure is determined strictly by Tonnage and cannot be upgraded.
+
+**Base Internal Structure (IS) & Armor DR Table:**
+
+| Chassis Class | Head (IS / DR) | Torso (IS / DR) | Arms [L/R] (IS / DR) | Legs [L/R] (IS / DR) | Max Armor DR Cap (Head / Torso / Arms / Legs) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Light (20–35T)** | 4 IS / 2 DR | 8 IS / 2 DR | 4 IS / 1 DR | 5 IS / 2 DR | 3 / 3 / 2 / 3 DR |
+| **Medium (40–55T)** | 5 IS / 3 DR | 10 IS / 4 DR | 6 IS / 2 DR | 8 IS / 3 DR | 4 / 5 / 3 / 4 DR |
+| **Heavy (60–75T)** | 6 IS / 4 DR | 16 IS / 6 DR | 9 IS / 4 DR | 12 IS / 5 DR | 5 / 7 / 5 / 6 DR |
+| **Assault (80–100T)** | 8 IS / 4 DR | 20 IS / 7 DR | 12 IS / 5 DR | 15 IS / 6 DR | 5 / 8 / 6 / 7 DR |
+
+#### 7.2.2 Engine, Mobility & Armor Upgrades
 Upgrading a Frame's chassis above its Base Stats **does not increase its Tonnage**. A 45-ton Frame remains exactly 45 tons, meaning its physical armor capacity and weapon mounting slots remain those of a Medium frame.
 
-Instead, upgrades cost **Deployment Points (pts)**. Mobility stats (Init/Move/EVA) are strictly bound by the Limits of the Frame's weight class (a heavy chassis can only move so fast). However, Reactor and Capacitor upgrades have **no limits**, allowing Heavy and Assault frames to purchase massive power plants to fuel heavy weaponry.
+Mobility stats (Init/Move/EVA) and Armor DR are strictly bound by the Limits and Caps of the Frame's weight class. However, Reactor and Capacitor upgrades have **no limits**, allowing Heavy and Assault frames to purchase massive power plants to fuel heavy weaponry.
 
-- **Initiative Upgrade**: +15 pts per +1 Init (Up to Limit)
-- **Movement Upgrade**: +20 pts per +1 Move (Up to Limit)
-- **Evasion Upgrade**: +15 pts per +1 EVA (Up to Limit)
+- **Initiative Upgrade**: +15 pts per +1 Init (Up to Chassis Limit)
+- **Movement Upgrade**: +20 pts per +1 Move (Up to Chassis Limit)
+- **Evasion Upgrade**: +15 pts per +1 EVA (Up to Chassis Limit)
+- **Armor DR Upgrade**: +5 pts per +1 Armor DR to any single location (Up to Max Armor DR Cap)
 - **Reactor Upgrade**: +10 pts per +1 EP generated (No Limit)
 - **Capacitor Upgrade**: +5 pts per +1 EP capacity (No Limit)
 
-*Example: Constructing a 45-ton stealth striker (like the Specter). You pay 200 pts for the Medium Base Chassis. You purchase Init+4 (60 pts), Move+1 (20 pts), EVA+2 (30 pts), Reactor+3 (30 pts), and Capacitor+2 (10 pts). The bare chassis costs 350 pts total. Adding AMC (30 pts), Tactical Datalink (15 pts), Laser (15 pts), and Disruptor Cannon (25 pts) brings the final cost to 435 pts.*
+*Example: Constructing a 45-ton stealth striker (like the Specter). You pay 200 pts for the Medium Base Chassis (granting Head 5 IS/3 DR, Torso 10 IS/4 DR, Arms 6 IS/2 DR, Legs 8 IS/3 DR). You purchase Init+4 (60 pts), Move+1 (20 pts), EVA+2 (30 pts), Reactor+3 (30 pts), and Capacitor+2 (10 pts). The bare chassis costs 350 pts total. Adding AMC (30 pts), Tactical Datalink (15 pts), Laser (15 pts), and Disruptor Cannon (25 pts) brings the final cost to 435 pts.*
 
-#### 7.2.2 Countermeasures & Active Systems
+#### 7.2.3 Countermeasures & Active Systems
 - **Smoke Launcher** [Light]: 10 pts
 - **Flare Launcher** [Light]: 15 pts
 - **Tactical Datalink** [Light]: 15 pts
@@ -614,7 +627,7 @@ Instead, upgrades cost **Deployment Points (pts)**. Mobility stats (Init/Move/EV
 - **Electronic Countermeasures (ECM)** [Medium]: 25 pts
 - **Active Metamaterial Coating (AMC)** [Medium]: 30 pts
 
-#### 7.2.3 Weapons & Armaments
+#### 7.2.4 Weapons & Armaments
 - **Extra Ammo Bin (Autocannon)** [Light]: 10 pts
 - **Autocannon** [Light]: 15 pts
 - **Laser** [Light]: 15 pts
@@ -625,7 +638,7 @@ Instead, upgrades cost **Deployment Points (pts)**. Mobility stats (Init/Move/EV
 - **Thermal Lance** [Heavy]: 30 pts
 - **Rail Gun** [Heavy]: 45 pts
 
-#### 7.2.4 Named Pilots
+#### 7.2.5 Named Pilots
 - **Pilot (+1 Initiative Bonus)**: 15 pts
 - **Pilot (+2 Initiative Bonus)**: 30 pts
 - **Pilot (+3 Initiative Bonus)**: 45 pts
@@ -773,7 +786,7 @@ Here are five pre-configured Iron Frames ready for combat.
 *The workhorse of the fleet. Balanced defense, solid firepower, and equipped with flares to deflect seeking missiles.*
 - **Initiative**: 6
 - **Chassis Mass (Tonnage)**: 55 Tons (Medium, Mass Value 2)
-- **Point Value**: 400 points
+- **Point Value**: 430 points
 - **Reactor Rating**: 12 EP/turn
 - **Capacitor Max**: 6 EP
 - **Evasion Limit**: 4 EVA

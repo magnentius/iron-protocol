@@ -2,7 +2,7 @@
 
 ![IF-55M-1 "Vanguard" Technical Sketch](../images/if_55m_1_vanguard.jpg)
 
-* **Initiative**: 6 | **Tonnage**: 55 Tons | **Points**: 400 pts | **Movement Limit**: 5 hexes | **Evasion Limit**: 4 EVA
+* **Initiative**: 6 | **Tonnage**: 55 Tons | **Points**: 430 pts | **Movement Limit**: 5 hexes | **Evasion Limit**: 4 EVA
 
 ### ⚡ Energy & Evasion
 * **Reactor EP (12/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5 (IR Lockable)` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12`  
