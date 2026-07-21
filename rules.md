@@ -12,7 +12,7 @@
   - [Why We Fight in Frames](#the-lore-of-the-protocol-why-we-fight-in-frames)
   - [Core Tenets of the Protocol](#core-tenets-of-the-protocol)
 - [1. Core Mechanics & Setup](#1-core-mechanics--setup)
-  - [1.1 The Hex Grid](#11-the-hex-grid)
+  - [1.1 The Hex Grid & Time Scale](#11-the-hex-grid--time-scale)
   - [1.2 The Iron Frame Profile](#12-the-iron-frame-profile)
 - [2. Turn Sequence](#2-turn-sequence)
   - [2.1 Energy Phase](#21-energy-phase)
@@ -23,8 +23,10 @@
   - [2.4 End Phase](#24-end-phase)
 - [3. Terrain & Elevation](#3-terrain--elevation)
   - [3.1 Summary of Terrain Types](#31-summary-of-terrain-types)
-  - [3.2 Terrain Explanations & Mechanics](#32-terrain-explanations--mechanics)
-  - [3.3 Elevation Levels](#33-elevation-levels)
+  - [3.2 Movement & Elevation Rules](#32-movement--elevation-rules)
+  - [3.3 Hard Cover vs. Concealment](#33-hard-cover-vs-concealment-sensors--locks)
+  - [3.4 Line of Sight (LOS) & Elevation Height Math](#34-line-of-sight-los--elevation-height-math)
+  - [3.5 Pilot Checks & Water Cooling](#35-pilot-checks--water-cooling)
 - [4. Sensors, Stealth, and Detection](#4-sensors-stealth-and-detection)
   - [4.1 The Sensor Suite](#41-the-sensor-suite-head-location)
   - [4.2 Stealth & Defensive Countermeasures](#42-stealth--defensive-countermeasures)
@@ -32,25 +34,24 @@
 - [5. Weapons & Munitions](#5-weapons--munitions)
   - [5.1 Autocannon Munitions](#51-autocannon-munitions)
   - [5.2 Guided Missile Systems](#52-guided-missile-systems)
+  - [5.3 Extra Ammunition Bins](#53-extra-ammunition-bins)
+  - [5.4 Universal System Traits](#54-universal-system-traits)
 - [6. Damage & Critical Hits](#6-damage--critical-hits)
   - [6.1 Hit Location Table](#61-hit-location-table-2d6)
   - [6.2 Critical Hit Tables](#62-critical-hit-tables-1d6)
   - [6.3 Falling and the Prone State](#63-falling-and-the-prone-state)
-  - [6.4 Location Destruction & Damage Transfer](#64-location-destruction--damage-transfer)
+  - [6.4 Pilot Checks](#64-pilot-checks)
+  - [6.5 Location Destruction & Damage Transfer](#65-location-destruction--damage-transfer)
 - [7. Optional Rules](#7-optional-rules)
   - [7.1 Force Organization & Point Limits](#71-force-organization--point-limits)
   - [7.2 Base Chassis & Custom Frames](#72-base-chassis--custom-frames)
-  - [7.3 Visibility & Sensors](#73-visibility--sensors)
-- [8. Named Pilots & The Code of Honor](#8-named-pilots--the-code-of-honor)
-  - [8.1 Famous Aces](#81-famous-aces)
-  - [8.2 Initiative & Pilot Check Bonus](#82-initiative--pilot-check-bonus)
-  - [8.3 Iron Protocol Vows](#83-iron-protocol-vows)
-- [9. Iron Frame Roster](#9-iron-frame-roster)
-  - [9.1 IF-25L-1 "Jackal"](#91-if-25l-1-jackal-light-recon-frame)
-  - [9.2 IF-45M-1 "Specter"](#92-if-45m-1-specter-medium-stealth-frame)
-  - [9.3 IF-55M-1 "Vanguard"](#93-if-55m-1-vanguard-medium-skirmisher-frame)
-  - [9.4 IF-75H-1 "Paladin"](#94-if-75h-1-paladin-heavy-fire-support-frame)
-  - [9.5 IF-90A-1 "Colossus"](#95-if-90a-1-colossus-heavy-assault-frame)
+  - [7.3 Named Pilots & The Code of Honor](#73-named-pilots--the-code-of-honor)
+- [8. Iron Frame Roster](#8-iron-frame-roster)
+  - [8.1 IF-25L-1 "Jackal"](#81-if-25l-1-jackal-light-recon-frame)
+  - [8.2 IF-45M-1 "Specter"](#82-if-45m-1-specter-medium-stealth-frame)
+  - [8.3 IF-55M-1 "Vanguard"](#83-if-55m-1-vanguard-medium-skirmisher-frame)
+  - [8.4 IF-75H-1 "Paladin"](#84-if-75h-1-paladin-heavy-fire-support-frame)
+  - [8.5 IF-90A-1 "Colossus"](#85-if-90a-1-colossus-heavy-assault-frame)
 
 ---
 
@@ -645,26 +646,13 @@ Mobility stats (Init/Move/EVA) and Armor DR are strictly bound by the Limits and
 
 ---
 
-### 7.3 Visibility & Sensors
-
-| Environment | Visual (VIS) Locks | Infrared (IR) Locks | Microwave (Radar) Locks | Special Rules |
-| :--- | :--- | :--- | :--- | :--- |
-| **Clear Day** | Unlimited | Unlimited | Unlimited | Standard rules. |
-| **Darkness (Night)** | Limited (3 hexes) | Unlimited | Unlimited | VIS locks capped at 3 hexes unless using **Night Vision/Thermal Scanners** (1 EP upkeep). |
-| **Dense Fog / Rain** | Limited (4 hexes) | Limited (4 hexes) | Unlimited | Heavy moisture diffuses light and thermal signatures. |
-| **Dust Storm** | Limited (2 hexes) | Limited (6 hexes) | Limited (4 hexes) | Friction heats dust, creating thermal and electromagnetic noise. |
-
-- **Night Vision / Thermal Scanners**: Any Frame can activate Night Vision sensors during the Energy Phase for **1 EP**. This removes the visual lock limit in Darkness out to a range of 8 hexes. Night Vision does not bypass Fog or Dust storms. *(Note: Night Vision is a standard, built-in capability of all Sensor Suites and costs 0 points).*
-
----
-
-## 8. Named Pilots & The Code of Honor
+### 7.3 Named Pilots & The Code of Honor
 > *"The true science of martial arts means practicing them in such a way that they will be useful at any time, and to teach them in such a way that they will be useful in all things." — Miyamoto Musashi*
 
 
 In *Iron Protocol*, pilots are not anonymous grunts. You can field legendary **Named Pilots** who represent the elite houses, coalitions, and orders.
 
-### 8.1 Famous Aces
+#### 7.3.1 Famous Aces
 While players are encouraged to create their own pilots, here are a few legendary aces that stalk the battlefields of *Iron Protocol*:
 
 - **Kaito Kuroda ("Wraith")**  
@@ -688,7 +676,7 @@ While players are encouraged to create their own pilots, here are a few legendar
   - **Sworn Vow**: Vow of Mercy (Jin)  
   - **Point Cost**: 45 pts
 
-### 8.2 Initiative & Pilot Check Bonus
+#### 7.3.2 Initiative & Pilot Check Bonus
 Equipping a Named Pilot on an Iron Frame grants a flat Initiative bonus of **+1, +2, or +3** (declared at build time, up to a maximum final Initiative of 12). This represents their tactical foresight and combat reflexes.
 - **Pilot Checks**: In addition to modifying the Frame's Initiative, the Named Pilot adds their Initiative bonus (+1, +2, or +3) as a flat modifier to all **Pilot Checks** (to avoid falling Prone). If the pilot is dishonored, they immediately lose this bonus as well.
 - **Point Cost (Optional)**: If playing with the optional point rules (see Section 7.1), Named Pilots cost points based on their Initiative bonus:
@@ -696,49 +684,49 @@ Equipping a Named Pilot on an Iron Frame grants a flat Initiative bonus of **+1,
   - **+2 Initiative & Pilot Checks**: 30 pts
   - **+3 Initiative & Pilot Checks**: 45 pts
 
-### 8.3 Iron Protocol Vows
+#### 7.3.3 Iron Protocol Vows
 Every Named Pilot is sworn to a specific vow under the Iron Protocol, reflecting their martial pride. If a pilot violates their vow during a battle, they are **dishonored**: they immediately lose their Initiative bonus for the rest of the battle, and suffer additional penalties.
 
 Choose one Vow for your Named Pilot:
 
-#### Vow of Courage (Yuu)
+##### Vow of Courage (Yuu)
 *“The warrior does not retreat; we are the anvil upon which the enemy breaks.”*
 - **The Constraint**: The pilot cannot use the **Reverse (R)** movement command.
 - **Dishonor Penalty**: If the Frame ever reverses, it is dishonored. In addition to losing the Initiative bonus, its Reactor Rating is reduced by 2 EP per turn for the rest of the battle.
 
-#### Vow of Respect (Rei)
+##### Vow of Respect (Rei)
 *“A warrior meets their foe face-to-face. Anonymous death from behind is the weapon of cowards.”*
 - **The Constraint**: The pilot cannot target an enemy Frame from its **Rear Hit Zone**, nor fire indirect-guided missiles without direct Line of Sight (even if a Tactical Datalink is active).
 - **Dishonor Penalty**: If the pilot executes an attack from the Rear Hit Zone or fires an indirect weapon without direct LOS, they are dishonored, and their Evasion Limit is permanently reduced by 2 EVA points for the rest of the battle.
 
-#### Vow of Honor (Meiyo)
+##### Vow of Honor (Meiyo)
 *“Seek only the strongest. There is no glory in crushing the weak.”*
 - **The Constraint**: If a higher-initiative or higher-tonnage enemy Frame is detected and within the pilot's Torso Firing Arc, the pilot **must** target a higher-priority Frame instead of any lower-tier targets. (If both a higher-tonnage and higher-initiative target are present, the pilot may choose between them, but cannot fire at a target that is inferior in *both* categories).
 - **Dishonor Penalty**: If the pilot fires at a weaker target when a more prestigious target was valid, they are dishonored, and their weapons' EP costs increase by +1 EP per shot for the rest of the battle.
 
-#### Vow of Mercy (Jin)
+##### Vow of Mercy (Jin)
 *“Victory is in the disarm, not the slaughter. A dead enemy learns nothing.”*
 - **The Constraint**: The pilot cannot target the Torso or Head of an enemy Frame if its Arms or Legs still have remaining Internal Structure. They must attempt to dismantle or disable the limbs first.
 - **Dishonor Penalty**: If the pilot intentionally targets the Torso or Head while a limb remains functional, they are dishonored. Plagued by a crisis of conscience, their Frame suffers a permanent -2 modifier to all future To-Hit rolls.
 
-#### Vow of Honesty (Makoto)
+##### Vow of Honesty (Makoto)
 *“Deception is a crutch. I will stand in the light and let them witness their end.”*
 - **The Constraint**: The pilot cannot activate Active Metamaterial Coating (AMC), Smoke Launchers, or ECM, nor can they benefit from the umbrella of allied ECM or Smoke.
 - **Dishonor Penalty**: If the pilot activates or relies on any active stealth/EW system to hide, they are dishonored. Their Capacitor Max is immediately and permanently reduced to 0 (they refuse to store energy out of shame).
 
-#### Vow of Loyalty (Chuugi)
+##### Vow of Loyalty (Chuugi)
 *“My shield is the wall that protects my kin. I will fall before they do.”*
 - **The Constraint**: If a friendly Frame within 3 hexes has lower current Armor DR or Internal Structure than the pilot, the pilot cannot move further away from that ally.
 - **Dishonor Penalty**: If the pilot abandons a damaged ally by intentionally moving outside the 3-hex radius, they are dishonored, and immediately suffer an automatic Reactor penalty of -3 EP per turn permanently.
 
 ---
 
-## 9. Iron Frame Roster
+## 8. Iron Frame Roster
 > *"Battles are won by slaughter and maneuver. The greater the general, the more he contributes in maneuver, the less he demands in slaughter." — Winston Churchill*
 
 Here are five pre-configured Iron Frames ready for combat.
 
-### 9.1 IF-25L-1 "Jackal" (Light Recon Frame)
+### 8.1 IF-25L-1 "Jackal" (Light Recon Frame)
 ![IF-25L-1 "Jackal" Technical Sketch](images/if_25l_1_jackal.jpg)
 
 *A fragile but blisteringly fast scout frame. It relies on its extreme evasion and jump jets to outmaneuver heavier foes, darting in to deliver surgical strikes before leaping to safety.*
@@ -759,7 +747,7 @@ Here are five pre-configured Iron Frames ready for combat.
   - **Left Arm** [Light HP]: Laser (1d6 Combat + 1d6 End damage)
   - **Right Arm** [Light HP]: Autocannon (10 Bursts, loaded with 10 AP)
 
-### 9.2 IF-45M-1 "Specter" (Medium Stealth Frame)
+### 8.2 IF-45M-1 "Specter" (Medium Stealth Frame)
 ![IF-45M-1 "Specter" Technical Sketch](images/if_45m_1_specter.jpg)
 
 *A fast, stealthy frame designed to infiltrate enemy lines, disrupt sensors, and escape using high evasion and metamaterial cloaking.*
@@ -780,7 +768,7 @@ Here are five pre-configured Iron Frames ready for combat.
   - **Left Arm** [Light HP]: Laser (1d6 Combat + 1d6 End damage)
   - **Right Arm** [Medium HP]: Disruptor Cannon
 
-### 9.3 IF-55M-1 "Vanguard" (Medium Skirmisher Frame)
+### 8.3 IF-55M-1 "Vanguard" (Medium Skirmisher Frame)
 ![IF-55M-1 "Vanguard" Technical Sketch](images/if_55m_1_vanguard.jpg)
 
 *The workhorse of the fleet. Balanced defense, solid firepower, and equipped with flares to deflect seeking missiles.*
@@ -802,7 +790,7 @@ Here are five pre-configured Iron Frames ready for combat.
   - **Left Arm** [Light HP]: Autocannon (10 Bursts, loaded with 5 AP / 5 HEI)
   - **Right Arm** [Light HP]: Laser (1d6 Combat + 1d6 End damage)
 
-### 9.4 IF-75H-1 "Paladin" (Heavy Fire-Support Frame)
+### 8.4 IF-75H-1 "Paladin" (Heavy Fire-Support Frame)
 ![IF-75H-1 "Paladin" Technical Sketch](images/if_75h_1_paladin.jpg)
 
 *A heavy bombardment frame equipped to deliver high-impact kinetic support and rain cluster munitions, protected by layered defensive launchers.*
@@ -825,7 +813,7 @@ Here are five pre-configured Iron Frames ready for combat.
   - **Left Arm** [Light HP]: Autocannon (10 AP Bursts)
   - **Torso** [Medium HP]: Guided Missile Launcher (4 Salvos, Microwave [Radar] Guided, Cluster Warheads)
 
-### 9.5 IF-90A-1 "Colossus" (Heavy Assault Frame)
+### 8.5 IF-90A-1 "Colossus" (Heavy Assault Frame)
 ![IF-90A-1 "Colossus" Technical Sketch](images/if_90a_1_colossus.jpg)
 
 *A walking fortress. Generates massive amounts of energy to feed its Rail Gun and Thermal Lance, relying on heavy armor and smoke screens for protection.*
