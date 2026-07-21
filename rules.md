@@ -16,6 +16,7 @@
   - [1.2 The Hex Grid & Facing Conventions](#12-the-hex-grid--facing-conventions)
   - [1.3 Firing Arcs & Hit Zones](#13-firing-arcs--hit-zones)
   - [1.4 Scenario Setup & Deployment](#14-scenario-setup--deployment)
+    - [1.4.1 Introductory Scenario: Trial by Fire](#141-introductory-scenario-trial-by-fire-1v1-duel)
 - [2. Turn Sequence](#2-turn-sequence)
   - [2.1 Energy Phase](#21-energy-phase)
   - [2.2 Activation Phase](#22-activation-phase-reverse-initiative-order)
@@ -156,11 +157,28 @@ When a Frame is attacked, the direction of the incoming attack determines the **
 
 ### 1.4 Scenario Setup & Deployment
 To begin a game of *Iron Protocol*, players complete the following setup steps:
-1. **Agree on Force Limit**: Players select a Deployment Point budget (e.g. 500 pts for 1v1 duel, 1000 pts for 2v2 Element combat, 1500 pts for 3v3–4v4 Platoon battles).
+1. **Agree on Force Limit**: Players select a Deployment Point budget (e.g. 435 pts for introductory 1v1, 1000 pts for 2v2 Element combat, 1500 pts for 3v3–4v4 Platoon battles).
 2. **Select Frames & Pilots**: Players choose pre-built technical readouts from the **Iron Frame Roster (Section 8)** or construct custom frames using Section 7.2.
 3. **Map Setup**: Lay out hex map tiles. Mark elevation levels, water hexes, woods, and urban buildings.
 4. **Deploy Units**: Players roll 2d6 for Deployment Advantage (highest roll chooses their map edge). Players alternate deploying 1 Frame at a time within 2 hexes of their designated home map edge.
 5. **Pre-Combat System Activation**: At the moment of deployment, Frames equipped with **AMC** (Active Metamaterial Coating) or **ECM** (Electronic Countermeasures) may deploy with those systems **Active**. Upkeep costs (2 EP for AMC, 1 EP for ECM) are automatically deducted during the Round 1 Energy Phase.
+
+#### 1.4.1 Introductory Scenario: Trial by Fire (1v1 Duel)
+Recommended for first-time players learning the *Iron Protocol* rules engine.
+
+- **Point Budget**: 435 Points per player.
+- **Recommended Matchup**: 
+  - **Player 1**: **IF-55M-1 "Vanguard"** (430 pts) — Balanced skirmisher featuring dual-feed Autocannon, Laser, ECM, and Flares.
+  - **Player 2**: **IF-45M-1 "Specter"** (435 pts) — High-agility stealth striker featuring AMC Cloaking, Disruptor Cannon, and Laser.
+  *(Alternative Option: Vanguard vs. Vanguard mirror match).*
+- **Map Size**: 16 x 16 Hexes.
+- **Terrain**: 
+  - 1 Central Level 1 Hill (Elevation movement & LOS testing)
+  - 2 Patches of Light Woods (+1 EVA Cover)
+  - 2 Urban Building Hexes (Level 2 height, solid LOS blockage)
+  - 1 Shallow Water Hex (+1 EP Reactor Cooling)
+- **Deployment**: Opposing map edges (12 hexes apart).
+- **Victory Condition**: Destroy the opposing Iron Frame (reduce Head, Torso, or both Legs to 0 IS) or force its surrender.
 
 ---
 

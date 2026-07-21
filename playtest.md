@@ -4,6 +4,24 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 
 ---
 
+## Scenario 0: Trial by Fire (1v1 Introductory)
+**Focus**: Fundamentals — Movement & Facing, Energy Management, Evasion vs. Cover, Kinetic vs. Energy Damage, and Armor DR Degradation.
+
+### Setup
+*   **Point Budget**: 435 Points per player.
+*   **Map Size**: 16 x 16 Hexes
+*   **Terrain**: Industrial Sector outskirts (1x Level 1 Central Hill, 2x Light Woods hexes [+1 EVA Cover], 2x Level 2 Building Hexes [Solid LOS Block], 1x Shallow Water Hex [+1 EP Reactor Cooling]).
+*   **Player 1 (The Skirmisher)**: 1x **IF-55M-1 "Vanguard"** (430 pts)
+*   **Player 2 (The Phantom)**: 1x **IF-45M-1 "Specter"** (435 pts)
+    *(Alternative Option: Vanguard vs. Vanguard mirror match).*
+
+### Testing Parameters (What to look for)
+1.  **Energy Phase & Capacitor Banking**: Does the initial EP allocation feel intuitive for new players? Does banking 1–2 EP in the Capacitor create strategic depth?
+2.  **Movement & Facing**: Do players actively use Torso Twisting to align their Forward Arc (Torso) or Arm Arcs with targets while keeping their front armor toward enemy fire?
+3.  **Damage & Armor Degradation**: Does locational Armor DR degradation (reducing DR on penetrating hits) create an satisfying, tangible sensation of dismantling an opponent's chassis?
+
+---
+
 ## Scenario 1: The Ghost and the Wall (2v2)
 **Focus**: Sensors, Stealth (AMC/ECM), Electronic Warfare, and the Overcharge cooldown economy.
 
