@@ -174,8 +174,12 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
   - **Jump Jet (J)**: Only available to **Light** and **Medium** weight classes (20–55 Tons). Heavy and Assault Frames cannot be equipped with Jump Jets and cannot jump.
     - *Cost*: 2 EP per hex.
     - *Movement*: The Frame jumps in a straight line to a hex within its maximum jump distance (default maximum of 4 hexes). It bypasses all intervening terrain, obstacles, and other Frames.
-    - *Landing & Kinetic Drop Strike*:
-      - Jumping into an unoccupied hex triggers a **Pilot Check** upon landing (see Section 6.3).
+    - *Landing Mechanics*:
+      - **Clear & Paved Landing**: Landing in a Clear or Paved hex is an **automatic clean landing**. Set Leg Facing for free.
+      - **Hazardous & Feature Landing**: Landing in **Rough, Deep Water, Building Roofs, Light Woods, or Heavy Woods** requires a **Pilot Check (TN 6+)** upon touchdown:
+        $$\text{Landing Check} = 2d6 + \text{Mass Value} + \text{Terrain Modifier}$$
+        - *Success (6+)*: Clean landing! Set Leg Facing for free.
+        - *Failure (< 6)*: The Frame stumbles and falls **Prone** in the landing hex. (If landing in Heavy Woods, the canopy impact also inflicts **1 point of Armor DR degradation** to the Torso).
       - **Kinetic Drop Strike**: Alternatively, a pilot may target an occupied hex to perform a Kinetic Drop Strike.
       - **Drop Strike Damage**: Both Frames suffer damage rolled using a pool of $d6$ dice:
         $$\text{Drop Strike Damage Dice} = (\text{Jumping Frame's Mass Value} \times \text{Hexes Jumped}) / 2 \text{ (rounded up)}$$
@@ -269,13 +273,18 @@ Combat under the Iron Protocol occurs across diverse Earth battlefields and cont
 | **Water (Shallow)** | +1 EP | None | Knee-deep liquid. Evasion capped at **2 EVA**. Generates **+1 EP** in Energy Phase. |
 | **Water (Deep)** | +2 EP | None | Waist-deep liquid. Evasion capped at **1 EVA**. **-1 penalty** to Pilot Checks. Generates **+2 EP** in Energy Phase. |
 | **Woods (Light)** | +1 EP | Light Cover (+1 EVA) | Sparse trees. Blocks VIS locks if 2+ hexes intervene. |
-| **Woods (Heavy)** | +2 EP | Heavy Cover (+2 EVA) | Dense forest. Blocks VIS locks if 1+ hexes intervene; blocks IR if 3+ hexes. |
+| **Woods (Heavy)** | +2 EP | Heavy Cover (+2 EVA) | Dense forest. Blocks VIS locks if 1+ hexes; blocks IR if 3+ hexes. **Impassable to Heavy/Assault Frames on foot.** |
 | **Urban (Building)** | Impassable (Ground) | Solid Barrier | Structures block all locks (VIS/IR/Radar) up to height. Heavy Cover (+2 EVA) if adjacent. |
 
 ---
 
 ### 3.2 Movement & Elevation Rules
 The battlefield is three-dimensional, divided into vertical **Levels** (Level 0 is default ground level; each level = **6 meters**). All Iron Frames are **2 levels tall** (12 meters), occupying vertical space from Level X to Level X + 2.
+
+#### Chassis Bulk & Forest Restrictions
+Due to their immense physical scale and bulk:
+- **Light (20–35T)** and **Medium (40–55T)** Frames may maneuver through Heavy Woods normally (+2 EP entry cost).
+- **Heavy (60–75T)** and **Assault (80–100T)** Frames **cannot walk or reverse into Heavy Woods hexes** on foot. *(Exception: Heavy and Assault Frames equipped with Jump Jets may jump over or overtop Heavy Woods hexes).*
 
 #### Elevation Movement Table
 
@@ -286,6 +295,17 @@ The battlefield is three-dimensional, divided into vertical **Levels** (Level 0 
 | **Climbing Down (-1 Level)** | Base Terrain Cost | Step down onto 1 level lower terrain (+0 extra EP). |
 | **Steep Cliff ($\ge$ 2 Levels)** | Impassable on foot | Cannot walk or reverse. Must use **Jump Jets** to traverse. |
 | **Forced Fall ($\ge$ 2 Levels)** | — | Frame falls **Prone** on landing. Takes **1d6 damage per level fell** to a random location. |
+
+#### Jump Jet Terrain Landing Table
+
+| Landing Location | Pilot Check (TN 6+)? | Terrain Modifier | Failure Effect (< 6) |
+| :--- | :---: | :---: | :--- |
+| **Clear / Paved** | **No** (Automatic) | +0 (Clear) / +1 (Paved) | Clean landing. |
+| **Rough Terrain** | **Yes** | **-1** | Falls **Prone** in landing hex. |
+| **Water (Deep)** | **Yes** | **-1** | Falls **Prone** in water. |
+| **Building Roof** | **Yes** | **-1** | Falls **Prone** on roof. |
+| **Light Woods** | **Yes** | **-1** | Falls **Prone** in canopy. |
+| **Heavy Woods** *(Light/Med only)* | **Yes** | **-2** | Falls **Prone** + 1 Torso Armor DR loss. |
 
 ---
 
