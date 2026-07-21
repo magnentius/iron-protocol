@@ -41,8 +41,6 @@
   - [7.1 Force Organization & Point Limits](#71-force-organization--point-limits)
   - [7.2 Base Chassis & Custom Frames](#72-base-chassis--custom-frames)
   - [7.3 Visibility & Sensors](#73-visibility--sensors)
-  - [7.4 Gravity & Locomotion](#74-gravity--locomotion)
-  - [7.5 Atmospheric Composition](#75-atmospheric-composition)
 - [8. Named Pilots & The Code of Honor](#8-named-pilots--the-code-of-honor)
   - [8.1 Famous Aces](#81-famous-aces)
   - [8.2 Initiative & Pilot Check Bonus](#82-initiative--pilot-check-bonus)
@@ -57,25 +55,25 @@
 ---
 
 ## Introduction: The Iron Protocol
-In the war-torn stars of the far future, planetary warfare is not decided by faceless drone swarms, heavy tank divisions, or indiscriminate orbital bombardment. Instead, conflicts are resolved by the pilots of massive, heavily armed walking weapon platforms known as **Iron Frames**. 
+In the war-torn era of a devastated Earth, surface warfare is not decided by faceless drone swarms, heavy tank divisions, or indiscriminate strategic missile strikes. Instead, factional conflicts and territorial disputes are resolved by the pilots of massive, heavily armed walking weapon platforms known as **Iron Frames**. 
 
-These elite pilots adhere to the **Iron Protocol**—an ancient, unyielding code of martial honor and combat conduct inspired by Earth's historical Bushido. The Protocol dictates that conflicts must be settled on planetary surfaces in designated engagement zones, frame-to-frame, where tactical energy management, maneuverability, and pilot skill determine the victor. To violate the Protocol is to invite immediate dishonor, galactic exile, and execution by all coalitions.
+These elite pilots adhere to the **Iron Protocol**—an ancient, unyielding code of martial honor and combat conduct inspired by Earth's historical Bushido. The Protocol dictates that territorial conflicts must be settled within designated engagement zones, frame-to-frame, where tactical energy management, maneuverability, and pilot skill determine the victor. To violate the Protocol is to invite immediate dishonor, global outlaw status, and swift retaliation by all allied factions.
 
 ### The Lore of the Protocol: Why We Fight in Frames
 
-The emergence of the Iron Protocol was born of necessity, forged from the ashes of the **Cinder Wars**—a period of total industrial warfare that left dozens of settled planets as lifeless, radioactive dust. To prevent extinction, the warring factions signed the Accords, establishing the Protocol to govern all future conflicts.
+The emergence of the Iron Protocol was born of necessity, forged from the ashes of the **Cinder Wars**—a period of total industrial warfare that left entire continents scorched, cities in ruins, and Earth's biosphere on the brink of complete collapse. To prevent human extinction, the surviving nation-states and corporations signed the Accords, establishing the Protocol to govern all future terrestrial conflicts.
 
-#### 1. The Preservation of Biospheres
-Habitable worlds are warfare's ultimate prize, but they are exceedingly rare and precious. Conventional mass warfare—carpet bombing, tactical nuclear strikes, and massive tank divisions tearing up agricultural land—irreversibly ruins planetary biospheres. The Iron Protocol strictly outlaws weapons of mass destruction, orbital bombardment, and heavy tracked planetary armor. Battles are confined to designated, unpopulated "Honor Fields" to preserve planetary infrastructure and ecologies for the victor.
+#### 1. The Preservation of Biospheres & Infrastructure
+Earth's remaining arable land, clean water reserves, and surviving industrial infrastructure are humanity's most precious assets. Conventional mass warfare—carpet bombing, tactical nuclear strikes, and massive tank divisions tearing up agricultural land—irreversibly ruins the planet's remaining ecosystems. The Iron Protocol strictly outlaws weapons of mass destruction, strategic bombing, and heavy tracked armor. Battles are confined to designated, unpopulated "Honor Fields" and containment zones to preserve surviving biospheres for the victor.
 
-#### 2. The Iron Aegis (Planetary Shielding)
-Every settled world is protected by the **Iron Aegis**—a grid of planetary defense shields, surface-to-orbit lasers, and hyper-velocity missile silos. Any starship attempting to conduct orbital bombardment is instantly targeted and destroyed. Surface invasions must be launched via stealth drop-pods containing highly localized ground forces, bypassing the defensive network. 
+#### 2. The Iron Aegis (Defensive Grid Networks)
+Every major continent and sovereign sector is protected by the **Iron Aegis**—a dense network of anti-ballistic missile silos, automated point-defense artillery, and kinetic interception grids. Any attempt to launch long-range missile strikes or strategic air raids is instantly targeted and neutralized. Ground forces must be deployed via low-altitude stealth dropships directly into tactical engagement zones, bypassing regional defense grids.
 
 #### 3. Bipedal Superiority Over Tanks & Aircraft
-Frontier worlds are jagged, unpaved, and volatile. Tectonic shifts, dense alien forests, and ruins of ancient mega-structures make standard tracked vehicles (tanks) useless; they are easily bottlenecked in canyons or trapped by rough terrain. Fighter aircraft are blinded by the heavy atmospheric dust, electromagnetic storms, and thermal anomalies common on these worlds. **Iron Frames**, with their articulated bipedal limbs and vector thrusters, possess unmatched all-terrain mobility, allowing them to climb crags, leap chasms, and pivot dynamically in close-quarters combat.
+Modern Earth battlefields are jagged, unpaved, and volatile. Tectonic fractures, ruined mega-cities, flooded coastal craters, and dense electromagnetic anomalies make standard tracked tanks useless; they are easily bottlenecked in urban canyons or trapped by debris. Fighter aircraft are blinded by heavy particulate smog, thermal storms, and local jamming. **Iron Frames**, with their articulated bipedal limbs and vector thrusters, possess unmatched all-terrain mobility, allowing them to climb rubble, leap chasms, and pivot dynamically in close-quarters combat.
 
 #### 4. The Ban on Autonomous Warfare (The Human Core)
-Following a catastrophic AI rebellion, treaties strictly outlaw autonomous combat drones and artificial combat intelligences. War must be fought by humans, exposing themselves to direct risk. The Iron Frame serves as an extension of the pilot's own body, synchronizing via neural datalink. War is no longer a matter of industrial factory output, but a test of personal discipline, honor, and martial skill.
+Following a catastrophic AI rebellion that nearly annihilated humanity, treaties strictly outlaw autonomous combat drones and artificial combat intelligences. War must be fought by human pilots, exposing themselves to direct risk. The Iron Frame serves as an extension of the pilot's own body, synchronizing via neural datalink. War is no longer a matter of automated factory output, but a test of personal discipline, honor, and martial skill.
 
 ### Core Tenets of the Protocol
 - **Honor in the Arc**: Foe must face foe. Torso twisting represents the deliberate, disciplined adjustments of a pilot's stance to align weapons with the enemy.
@@ -198,7 +196,7 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
 
 #### 2.2.1 Movement Examples
 - **Example 1 (Tactical Maneuvering)**: An IF-55M-1 "Vanguard" (Reactor 12) starts its activation on Level 0 with a full energy pool of 12 EP. 
-  1. It performs a **Forward Walk** (1 EP) into an adjacent Level 1 Pavement hex. (Cost: 1 EP + 1 EP climbing cost = 2 EP total).
+  1. It performs a **Forward Walk** (1 EP) into an adjacent Level 1 Clear hex. (Cost: 1 EP + 1 EP climbing cost = 2 EP total).
   2. It performs a **Pivot/Turn** (1 EP) to rotate its Leg Facing 60 degrees left.
   3. It performs a **Forward Walk** (1 EP) into a Light Woods hex on Level 1. (Cost: 1 EP + 1 EP woods entry cost = 2 EP total).
   4. It performs a second **Forward Walk** (1 EP) through the woods on Level 1. (Cost: 1 EP + 1 EP woods entry cost = 2 EP total).
@@ -212,6 +210,13 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
   - *Evasion accumulated*: Jumping generates 2 EVA per hex. 3 hexes $\times$ 2 = 6 EVA, which is capped at the Specter's Evasion Limit of **5 EVA**.
   - *Landing*: Upon landing, the pilot sets the Specter's Leg Facing toward the enemy's rear quadrant for free.
   - *Final Step*: The pilot leaves the torso aligned forward to keep its arm-mounted Disruptor Cannon pointed at the target. The Specter has 6 EP remaining to fire its weapons in the Combat Phase.
+
+- **Example 3 (Water Cooling & Urban Cover)**: An IF-25L-1 "Jackal" (Base Reactor 8) starts its turn standing in a Shallow Water hex.
+  1. **Energy Phase**: The water submerged legs cool the reactor, generating **+1 extra EP** (total energy pool = 9 EP).
+  2. **Activation Phase**: The Jackal performs 2 **Forward Walks** (2 EP) out of the water into a Paved street hex (gaining 2 EVA).
+  3. It performs a **Pivot** (1 EP) and a **Forward Walk** (1 EP) into a hex adjacent to a Level 2 **Urban Building** (gaining 3 total EVA).
+  - *EP Expenditure*: $2 + 1 + 1 = 4$ EP. The Jackal has 5 EP remaining to fire its Autocannon or Laser.
+  - *Defensive Status*: Positioned adjacent to the building, the Jackal gains **Heavy Cover (+2 EVA)** against incoming attacks crossing the building's hexside, boosting its effective Evasion from 3 EVA to **5 EVA**.
 
 ### 2.3 Combat Phase (Initiative Order)
 Frames attack in order of **highest Initiative** to **lowest Initiative**.
@@ -252,63 +257,94 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
 ## 3. Terrain & Elevation
 > *"The terrain is the foundation of victory. Know the ground, know the weather; your victory will then be total." — Sun Tzu*
 
-Combat under the Iron Protocol occurs on diverse planetary surfaces. The map's hexes are classified by terrain type, which alters movement costs, provides cover, or impacts pilot checks.
+Combat under the Iron Protocol occurs across diverse Earth battlefields and containment sectors. The map's hexes are classified by terrain type, which alters movement costs, provides cover, or impacts pilot checks.
 
 ### 3.1 Summary of Terrain Types
 
-| Terrain Type | Extra EP Cost to Enter | Defensive Cover | Special Rules |
+| Terrain Type | Extra EP Cost | Defensive Cover | Special Rules |
 | :--- | :---: | :--- | :--- |
 | **Clear** | +0 EP | None | Standard terrain. |
-| **Pavement** | +0 EP | None | High traction. +1 bonus to all Pilot Checks. |
-| **Rough** | +1 EP | None | Uneven footing. -1 penalty to all Pilot Checks. |
-| **Rubble** | +2 EP | Light Cover (+1 Evasion) | Dangerous debris. -2 penalty to all Pilot Checks. |
-| **Sand** | +1 EP | None | Shifting soil. Frame cannot generate more than 2 EVA in a turn while in Sand. |
-| **Water** | +2 EP | None | Deep liquid. Frame's Evasion Limit is capped at 1 EVA. Reactor generates +1 EP in the Energy Phase. |
-| **Marsh** | +1 EP | Light Cover (+1 Evasion) | Wet muck. Frame's Evasion Limit is capped at 2 EVA. -1 penalty to all Pilot Checks. Generates +1 EP in the Energy Phase. |
-| **Woods (Light)** | +1 EP | Light Cover (+1 Evasion) | Sparse trees. Blocks Visual (VIS) LOS if 2+ Light Woods/Jungle hexes intervene, but does not block Infrared (IR). |
-| **Woods (Heavy)** | +2 EP | Heavy Cover (+2 Evasion) | Dense forest. Blocks Visual (VIS) LOS if 1+ Heavy Woods/Jungle hexes intervene, but does not block Infrared (IR). |
-| **Jungle (Light)** | +1 EP | Light Cover (+1 Evasion) | Sparse canopy. Blocks Visual (VIS) LOS if 2+ Light Woods/Jungle hexes intervene, but does not block Infrared (IR). |
-| **Jungle (Heavy)** | +2 EP | Heavy Cover (+2 Evasion) | Dense canopy. Blocks Visual (VIS) LOS if 1+ Heavy Woods/Jungle hexes intervene, but does not block Infrared (IR). |
+| **Paved** | +0 EP | None | High traction surface. **+1 bonus** to all Pilot Checks. |
+| **Rough** | +1 EP | None | Uneven footing. **-1 penalty** to all Pilot Checks. |
+| **Water (Shallow)** | +1 EP | None | Knee-deep liquid. Evasion capped at **2 EVA**. Generates **+1 EP** in Energy Phase. |
+| **Water (Deep)** | +2 EP | None | Waist-deep liquid. Evasion capped at **1 EVA**. **-1 penalty** to Pilot Checks. Generates **+2 EP** in Energy Phase. |
+| **Woods (Light)** | +1 EP | Light Cover (+1 EVA) | Sparse trees. Blocks VIS locks if 2+ hexes intervene. |
+| **Woods (Heavy)** | +2 EP | Heavy Cover (+2 EVA) | Dense forest. Blocks VIS locks if 1+ hexes intervene; blocks IR if 3+ hexes. |
+| **Urban (Building)** | Impassable (Ground) | Solid Barrier | Structures block all locks (VIS/IR/Radar) up to height. Heavy Cover (+2 EVA) if adjacent. |
 
-### 3.2 Terrain Explanations & Mechanics
+---
 
-#### Cover Modifiers
-- **Light Cover**: When a Frame in Light Cover is targeted by an attack, add a temporary **+1 EVA** to its current Evasion value for damage reduction.
-- **Heavy Cover**: When a Frame in Heavy Cover is targeted by an attack, add a temporary **+2 EVA** to its current Evasion value for damage reduction.
-- **Line of Sight Blockage**: Woods and Jungle block sensor locks and Line of Sight on specific bands. If a weapon's line of sight passes through **2 or more intervening hexes of Light Woods/Jungle**, or **1 intervening hex of Heavy Woods/Jungle**, **Visual (VIS)** LOS and locks are blocked. **Infrared (IR)** and **Microwave (Radar)** locks are unaffected by vegetation and can target through any amount of woods or jungle unimpeded. **Exception**: If **3 or more** intervening hexes of Heavy Woods/Jungle are present, **Infrared (IR)** locks are also blocked.
+### 3.2 Movement & Elevation Rules
+The battlefield is three-dimensional, divided into vertical **Levels** (Level 0 is default ground level; each level = **6 meters**). All Iron Frames are **2 levels tall** (12 meters), occupying vertical space from Level X to Level X + 2.
 
-#### Vegetation Canopy Height (Visual LOS Only)
-Woods and Jungle hexes have a vertical canopy that can block **Visual (VIS)** Line of Sight when elevation is involved. This canopy height is added to the hex's ground elevation level to determine if VIS LOS is obstructed. **Infrared (IR)** and **Microwave (Radar)** sensors see through all vegetation canopy regardless of height.
-- **Light Woods / Light Jungle**: Canopy is **1 level tall** (6m). A Light Woods hex at ground Level 0 has a VIS obstruction height of **1**.
-- **Heavy Woods / Heavy Jungle**: Canopy is **2 levels tall** (12m). A Heavy Woods hex at ground Level 0 has a VIS obstruction height of **2**.
-- **VIS LOS Check**: An intervening vegetation hex blocks Visual LOS if its obstruction height (ground level + canopy height) is **greater than or equal to** the top height of the lower Frame ($\min(A+2, B+2)$), using the same formula as Elevation LOS (Section 3.3).
-- *(Example: Two Frames on Level 0 [top height 2]. An intervening Light Woods hex [obstruction height 0+1=1] does NOT block VIS LOS [1 < 2]. An intervening Heavy Woods hex [obstruction height 0+2=2] DOES block VIS LOS [2 ≥ 2]. A Frame on Level 1 [top height 3] can see over Heavy Woods at Level 0 [obstruction height 2 < 3]).*
+#### Elevation Movement Table
 
-#### Pilot Check Adjustments
-- When resolving a collision or Kinetic Drop Strike landing check (see Section 6.3), apply the terrain modifier of the hex the Frame is standing in directly to its Pilot Check Roll. (Example: A Light Frame [Mass Value 1] in Rubble that collided at Speed Factor 2 makes a Pilot Check of $2d6 + 1 \text{ (Mass)} - 2 \text{ (Speed)} - 2 \text{ (Rubble)} = 2d6 - 3$, needing a final total of 6 or higher to stay standing).
+| Elevation Change | EP Cost | Movement & Fall Rules |
+| :--- | :---: | :--- |
+| **Same Level (0)** | Base Terrain Cost | Standard movement. |
+| **Climbing Up (+1 Level)** | Terrain Cost + **1 EP** | Step up onto 1 level higher terrain. |
+| **Climbing Down (-1 Level)** | Base Terrain Cost | Step down onto 1 level lower terrain (+0 extra EP). |
+| **Steep Cliff ($\ge$ 2 Levels)** | Impassable on foot | Cannot walk or reverse. Must use **Jump Jets** to traverse. |
+| **Forced Fall ($\ge$ 2 Levels)** | — | Frame falls **Prone** on landing. Takes **1d6 damage per level fell** to a random location. |
 
-#### Environmental Cooling (Water)
-- Iron Frames standing in **Water** benefit from the liquid cooling their reactor assemblies. During the Energy Phase, if a Frame starts its turn in a Water hex, it generates **+1 EP** (which can exceed its default Reactor Rating).
+---
 
-### 3.3 Elevation Levels
-The battlefield is three-dimensional, divided into vertical **Levels**. Terrain levels are entirely independent of the Terrain Type of that hex.
-- **Scale**: The default level of the map is **Level 0**. Each level represents **6 meters** of height.
-  - *Positive Levels*: Level 1 is +6m, Level 2 is +12m, etc.
-  - *Negative Sublevels*: Level -1 is -6m, Level -2 is -12m, etc.
-- **Frame Height**: For Line of Sight and targeting purposes, all Iron Frames are considered **2 levels high** (12 meters tall). A Frame standing on Level X occupies vertical space from Level X to Level X + 2.
+### 3.3 Hard Cover vs. Concealment (Sensors & Locks)
 
-#### Elevation Line of Sight (LOS)
-An intervening hex of Level Y blocks Line of Sight between an Attacker standing on Level A (top height A + 2) and a Target standing on Level B (top height B + 2) if the intervening level Y is greater than or equal to the top height of the lower Frame:
-$$\text{LOS Blocked if } Y \geq \min(A + 2, B + 2)$$
-*(Example: Two Frames on Level 0 [top height 2] can see each other over a Level 1 hill [height 1]. However, a Level 2 hill [height 2] will block their Line of Sight completely).*
+Understanding the distinction between **Hard Cover** (which reduces damage when targeted) and **Concealment** (which prevents sensor locks entirely) is vital to tactical survival.
 
-#### Movement & Level Changes
-Traversing elevation changes costs additional energy:
-- **Climbing Up (+1 Level)**: Entering a hex that is exactly **1 level higher** than the Frame's current hex costs **+1 EP** (added to the terrain's base entry cost).
-- **Climbing Down (-1 Level)**: Entering a hex that is exactly **1 level lower** than the Frame's current hex costs **+0 extra EP** (standard terrain cost).
-- **Steep Cliffs (2+ Levels)**: A Frame cannot walk or reverse into a hex with a level difference of **2 or more levels** (higher or lower) relative to its current hex. 
-  - *Exception*: Frames equipped with Jump Jets may jump over steep cliffs.
-- **Falling**: If a Frame is forced into a lower hex of 2+ levels (e.g. pushed off a ledge by a collision or Drop Strike displacement), it immediately falls **Prone** upon landing and suffers **1d6 damage per level fell** to a random location (reduced by that location's Armor DR normally).
+#### 1. Hard Cover (Defensive Damage Reduction)
+Hard cover represents physical obstacles that absorb kinetic energy or diffuse beam weapons when a Frame is targeted:
+- **Light Cover (+1 EVA)**: Standing in **Light Woods** adds a temporary **+1 EVA** bonus to the target's current Evasion value when resolving incoming damage.
+- **Heavy Cover (+2 EVA)**: Standing in **Heavy Woods** or standing **adjacent to an Urban Building** (when Line of Sight crosses the building's hexside) adds a temporary **+2 EVA** bonus to the target's Evasion value.
+
+#### 2. Concealment & Sensor Lock Blockage (Spectrum Matrix)
+If an intervening terrain feature blocks Line of Sight on a specific sensor spectrum, a Frame **cannot declare an attack** using a weapon that requires that spectrum.
+
+| Intervening Terrain Feature | Visual (VIS) Lock | Infrared (IR) Lock | Microwave (Radar) Lock |
+| :--- | :---: | :---: | :---: |
+| **Light Woods (1 hex)** | Clear | Clear | Clear |
+| **Light Woods (2+ hexes)** | **BLOCKED** | Clear | Clear |
+| **Heavy Woods (1+ hexes)** | **BLOCKED** | Clear | Clear |
+| **Heavy Woods (3+ hexes)** | **BLOCKED** | **BLOCKED** | Clear |
+| **Urban Building (Any)** | **BLOCKED** | **BLOCKED** | **BLOCKED** |
+| **Smoke Template** | **BLOCKED** | Clear | Clear |
+| **Elevation / Hill ($\ge$ Top Height)** | **BLOCKED** | **BLOCKED** | **BLOCKED** |
+
+#### Summary of Foliage & Vegetation Blockage:
+- **Light Woods**: Requires **2 or more intervening hexes** to block Visual (VIS) locks. Does not block IR or Radar.
+- **Heavy Woods**: A single **1 intervening hex** is sufficient to completely block Visual (VIS) locks. Requires **3 or more intervening hexes** to absorb and block Infrared (IR) thermal locks. Does not block Radar.
+
+---
+
+### 3.4 Line of Sight (LOS) & Elevation Height Math
+
+Line of Sight (LOS) between an Attacker (standing on Level A, top height $A+2$) and a Target (standing on Level B, top height $B+2$) is checked against all intervening hexes.
+
+#### 1. Terrain & Elevation LOS Formula
+An intervening hex of elevation level $Y$ or building height $Y$ blocks **all** sensor locks (VIS, IR, Radar) if:
+$$\text{LOS Blocked if } Y \ge \min(A + 2, B + 2)$$
+*(Example: Two Frames on Level 0 [top height 2] can see over a Level 1 hill [height 1]. A Level 2 hill [height 2] blocks Line of Sight completely).*
+
+#### 2. Vegetation Canopy Height (Visual LOS Only)
+Trees have vertical foliage that adds to ground level for **Visual (VIS)** LOS only. IR and Radar sensors ignore canopy height:
+- **Light Woods Canopy**: Adds **+1 Level** of Visual obstruction height (e.g., Level 0 Light Woods = VIS height 1).
+- **Heavy Woods Canopy**: Adds **+2 Levels** of Visual obstruction height (e.g., Level 0 Heavy Woods = VIS height 2).
+
+---
+
+### 3.5 Pilot Checks & Water Cooling
+
+#### 1. Terrain Pilot Check Adjustments
+Apply the standing hex's terrain modifier to all **Pilot Check** rolls (collision recovery, Drop Strike landing):
+- **Paved**: **+1 bonus** to Pilot Checks (high traction).
+- **Rough**: **-1 penalty** to Pilot Checks (uneven footing).
+- **Water (Deep)**: **-1 penalty** to Pilot Checks (water drag).
+
+#### 2. Environmental Cooling (Water)
+Standing in liquid provides passive cooling to an Iron Frame's reactor during the **Energy Phase**:
+- **Water (Shallow)**: Generates **+1 extra EP** during the Energy Phase. Evasion Limit is capped at **2 EVA**.
+- **Water (Deep)**: Generates **+2 extra EP** during the Energy Phase (extreme submerged cooling). Entry costs **+2 EP**, Evasion Limit is capped at **1 EVA**, and Pilot Checks take a **-1 penalty**.
 
 ---
 
@@ -323,11 +359,11 @@ Every Frame has a sensor suite consisting of three bands, housed in the Head loc
    - *Requires*: Direct Line of Sight (blocked by Elevation normally). To lock a target hidden behind solid Elevation, a Frame must receive telemetry via a **Tactical Datalink** from a friendly spotter with clear VIS LOS.
    - *Blocked by*: Smoke templates, heavy forests, or Visual-Camouflage (VIS) AMC.
 2. **Infrared (IR)**: Medium wavelength (approx. 700 nm–1 mm). Thermal sensors detecting heat signatures.
-   - *Requires*: Direct Line of Sight (blocked by Elevation normally), but entirely ignores Woods, Jungle, and Smoke penalties. To lock a target hidden behind solid Elevation, a Frame must receive telemetry via a **Tactical Datalink** from a friendly spotter with clear IR LOS.
+   - *Requires*: Direct Line of Sight (blocked by Elevation normally), but entirely ignores Woods and Smoke penalties. To lock a target hidden behind solid Elevation, a Frame must receive telemetry via a **Tactical Datalink** from a friendly spotter with clear IR LOS.
    - *Sensitivity*: Targets become visible and targetable on IR for the remainder of the turn the moment they spend their **5th EP** of the turn (cumulatively across the Energy, Activation, or Combat phases).
    - *Blocked by*: Flares or Infrared-Suppression (IR) AMC.
 3. **Microwave (Radar)**: Longest wavelength (approx. 1 mm–1 m). Active microwave radio detection.
-   - *Requires*: Direct Line of Sight (blocked by Elevation normally), but entirely ignores Woods, Jungle, and Smoke penalties. To lock a target hidden behind solid Elevation, a Frame must receive telemetry via a **Tactical Datalink** from a friendly spotter with clear Radar LOS.
+   - *Requires*: Direct Line of Sight (blocked by Elevation normally), but entirely ignores Woods and Smoke penalties. To lock a target hidden behind solid Elevation, a Frame must receive telemetry via a **Tactical Datalink** from a friendly spotter with clear Radar LOS.
    - *Blocked by*: Active ECM, Microwave-Absorbent (Radar) AMC, or solid Elevation (Hills/Mountains).
 
 ### 4.2 Stealth & Defensive Countermeasures
@@ -586,48 +622,6 @@ Instead, upgrades cost **Deployment Points (pts)**. Mobility stats (Init/Move/EV
 | **Dust Storm** | Limited (2 hexes) | Limited (6 hexes) | Limited (4 hexes) | Friction heats dust, creating thermal and electromagnetic noise. |
 
 - **Night Vision / Thermal Scanners**: Any Frame can activate Night Vision sensors during the Energy Phase for **1 EP**. This removes the visual lock limit in Darkness out to a range of 8 hexes. Night Vision does not bypass Fog or Dust storms. *(Note: Night Vision is a standard, built-in capability of all Sensor Suites and costs 0 points).*
-
----
-
-### 7.4 Gravity & Locomotion
-Different planet masses alter the weight of the Iron Frame's chassis, impacting pilot checks, jumping, and falling damage.
-
-#### 7.4.1 Low Gravity (0.1g – 0.4g | e.g., Moons, Asteroids)
-- **High Mobility Jumps**: Jump Jets double their maximum jump range (up to 8 hexes) and only cost **1 EP per hex** to execute.
-- **Traction Loss**: Due to lack of downforce, apply a **-1 penalty** to all Pilot Checks (see Section 6.3).
-- **Soft Falls**: Falling damage is reduced to **1d6 per 2 levels fell** (rounded down, minimum 0).
-
-#### 7.4.2 Standard Gravity (0.5g – 1.2g | e.g., Earth-like)
-- Standard rules apply.
-
-#### 7.4.3 Heavy Gravity (1.3g – 2.0g | e.g., Super-Earths)
-- **Engine Strain**: Walking or reversing maneuvers cost **+1 EP** (Forward Walk costs 2 EP, Reverse costs 3 EP).
-- **No Jumping**: Gravity is too dense for thrusters; Jump Jets are disabled entirely (no Frames can jump).
-- **Solid Footing**: Frames are pinned to the ground. Apply a **+1 bonus** to all Pilot Checks.
-- **Crushing Falls**: Falling damage is doubled (**2d6 per level fell**).
-
----
-
-### 7.5 Atmospheric Composition
-The chemical density of the atmosphere impacts how well the Frame's radiator vents heat, and alters weapon performance.
-
-#### 7.5.1 Nitrogen-Oxygen (Standard Earth-like)
-- Standard rules apply.
-
-#### 7.5.2 Thick CO2 / High PSI (Greenhouse Worlds)
-- **Venting Blockage**: The dense greenhouse atmosphere retains heat. The Frame's Capacitor can store a maximum of **2 EP** between turns; any additional generated EP is lost.
-- **Corrosive Acid Rain**: Actuators degrade. Any critical hit roll on the Arms or Legs receives a **+1 modifier** (maximum of 8).
-
-#### 7.5.3 Thin CO2 (Mars-like Worlds)
-- **Thin Radiators**: The thin air reduces cooling loop efficiency. Unused EP stored in the Capacitor is capped at **Capacitor Max - 2**.
-
-#### 7.5.4 Hydrogen / Methane Dense Gases (Gas Giant Moons)
-- **Supercooling**: Dense, freezing hydrocarbons pull heat away from the reactor. The Frame generates **+2 EP** during the Energy Phase.
-- **Combustion Hazard**: Firing energy weapons (Thermal Lance, Laser, or Disruptor Cannon) through methane gas creates minor flash ignitions. Firing an energy weapon deals **1 point of damage** to the mounting location (bypassing Armor DR to permanently reduce that location's Armor DR by 1, or dealing 1 damage directly to Internal Structure if the location has 0 DR, which triggers a Critical Check).
-
-#### 7.5.5 Airless Vacuum (Vacuum Worlds)
-- **Actuator Upkeep**: Without air cooling, internal radiators must work constantly to vent heat. Every Frame's Reactor Rating is permanently reduced by **2 EP per turn** (minimum of 2 EP generated).
-- **Reaction Thrusters**: Jump jets must rely on onboard chemical propellant instead of atmospheric intake. Jumps cost **3 EP per hex** (instead of 2).
 
 ---
 

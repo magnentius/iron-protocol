@@ -25,11 +25,11 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 ---
 
 ## Scenario 2: Honorable Attrition (3v3)
-**Focus**: The Vow System, Vacuum Environment (EP starvation), Movement modifiers, and Tactical Datalinks.
+**Focus**: The Vow System, Extreme Environmental Hazards (EP starvation), Movement modifiers, and Tactical Datalinks.
 
 ### Setup
 *   **Map Size**: 36 x 36 Hexes
-*   **Terrain**: Airless Vacuum Moon (Permanent -2 EP generation per frame). Scattered Craters (-1 Elevation) and jagged spires (Block LOS).
+*   **Terrain**: Arctic EMP Wasteland Sector (Severe thermal drain: -2 EP generation per frame). Scattered Craters (-1 Elevation) and jagged spires (Block LOS).
 *   **Team A (The Spears)**: 
     *   1x **IF-55M-1 "Vanguard"** (Piloted by **Kenji "Shogun" Takahashi** — Vow of Courage)
     *   1x **IF-75H-1 "Paladin"** 
@@ -39,10 +39,10 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
     *   2x **IF-55M-1 "Vanguards"**
 
 ### Testing Parameters (What to look for)
-1.  **EP Starvation**: With the Vacuum reducing EP generation by 2, can frames still reasonably afford to Overcharge their weapons (Thermal Lances/Rail Guns) by banking in the Capacitor? Does the game slow down too much?
+1.  **EP Starvation**: With severe arctic environmental interference reducing EP generation by 2, can frames still reasonably afford to Overcharge their weapons (Thermal Lances/Rail Guns) by banking in the Capacitor? Does the game slow down too much?
 2.  **The Courage Check**: Kenji Takahashi's *Vow of Courage* forbids reversing. Does this make him an easy target to kite around the craters, or does his +2 Initiative allow him to corner his prey?
 3.  **The Respect Check**: Kaito Kuroda's *Vow of Respect* forbids rear-arc attacks. Can the enemy team exploit this by deliberately exposing their backs to him to force a dishonor penalty?
-4.  **Datalink Abuse**: Can Team A's Jackal spot targets from safety and allow the Paladin to rain indirect missiles, or does the Vacuum environment limit the Paladin's ability to fire enough salvos?
+4.  **Datalink Abuse**: Can Team A's Jackal spot targets from safety and allow the Paladin to rain indirect missiles, or does the arctic environment limit the Paladin's ability to fire enough salvos?
 
 ---
 
@@ -51,7 +51,7 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 
 ### Setup
 *   **Map Size**: 48 x 48 Hexes (Large)
-*   **Terrain**: Open Plains (Clear) with occasional Swamps (Costs 3 EP to move through) and patches of Light Forest.
+*   **Terrain**: Open Plains (Clear) with occasional Deep Water features (Costs +2 EP to move through, caps EVA at 1, generates +2 EP cooling) and patches of Light Woods.
 *   **Team A (Super-Heavies)**: 
     *   2x **IF-90A-1 "Colossus"** 
     *   1x **IF-75H-1 "Paladin"**
@@ -72,7 +72,7 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 
 ### Setup
 *   **Map Size**: 24 x 24 Hexes
-*   **Terrain**: Dense Forest (Cover +1 Armor DR, Blocks LOS if 3+ hexes deep).
+*   **Terrain**: Dense Forest (Light Woods grants +1 EVA Cover, blocks VIS LOS if 2+ hexes deep; Heavy Woods grants +2 EVA Cover, blocks VIS LOS if 1+ hexes deep).
 *   **Team A (The Boss)**: 
     *   1x **IF-90A-1 "Colossus"** (Piloted by **Kenji Takahashi** — Vow of Courage)
 *   **Team B (The Pack)**: 
@@ -97,8 +97,8 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
     *   1x **IF-55M-1 "Vanguard"** (Standard Pilot)
 
 ### Testing Parameters (What to look for)
-1.  **The Baseline Economy**: Without any vacuum modifiers or extreme terrain, how many turns does it typically take for a Vanguard to bank enough EP to Overcharge its Laser?
-2.  **Cover Dynamics**: Does moving from boulder to boulder (+1 Armor DR from Cover) significantly lengthen the TTK (Time To Kill), or do flanking maneuvers easily negate cover?
+1.  **The Baseline Economy**: Without any extreme environmental modifiers or extreme terrain, how many turns does it typically take for a Vanguard to bank enough EP to Overcharge its Laser?
+2.  **Cover Dynamics**: Does moving from boulder to boulder (+1 EVA from Light Cover) significantly lengthen the TTK (Time To Kill), or do flanking maneuvers easily negate cover?
 
 ---
 
