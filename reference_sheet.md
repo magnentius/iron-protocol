@@ -78,10 +78,10 @@ graph TD
 ## 💥 Collision & Pilot Checks
 *Triggers when a Frame enters an occupied hex (standard movement or Drop Strike landing).*
 * **Collision Damage**:
-  $$\text{Damage Sufferred} = \text{Opponent's Mass Value} \times \text{Movement Speed (hexes entered)}$$
+  **Damage Suffered = Opponent's Mass Value × Movement Speed (hexes entered)**
   *(Damage is reduced by Evasion and Armor DR normally).*
 * **Pilot Check (Both Frames)**:
-  $$\text{Pilot Check} = 2d6 + \text{Mass Value} - \text{Movement Speed (or hexes jumped)} + \text{Pilot Initiative Bonus (if applicable)}$$
+  **Pilot Check = 2d6 + Mass Value − Movement Speed (or hexes jumped) + Pilot Initiative Bonus (if applicable)**
   - **Success (6+)**: The Frame stands firm.
   - **Failure (5 or less)**: The Frame falls **Prone** (Evasion reduced to 0, cannot Torso Twist, walk, or reverse. Suffers a **-1d6 damage penalty** to all weapon rolls).
   - **Stand Up**: Costs **3 EP** during the Activation Phase.

@@ -210,12 +210,12 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
     - *Landing Mechanics*:
       - **Clear & Paved Landing**: Landing in a Clear or Paved hex is an **automatic clean landing**. Set Leg Facing for free.
       - **Hazardous & Feature Landing**: Landing in **Rough, Deep Water, Building Roofs, Light Woods, or Heavy Woods** requires a **Pilot Check (TN 6+)** upon touchdown:
-        $$\text{Landing Check} = 2d6 + \text{Mass Value} + \text{Terrain Modifier}$$
+        **Landing Check = 2d6 + Mass Value + Terrain Modifier**
         - *Success (6+)*: Clean landing! Set Leg Facing for free.
         - *Failure (< 6)*: The Frame stumbles and falls **Prone** in the landing hex. (If landing in Heavy Woods, the canopy impact also inflicts **1 point of Armor DR degradation** to the Torso).
       - **Kinetic Drop Strike**: Alternatively, a pilot may target an occupied hex to perform a Kinetic Drop Strike.
-      - **Drop Strike Damage**: Both Frames suffer damage rolled using a pool of $d6$ dice:
-        $$\text{Drop Strike Damage Dice} = (\text{Jumping Frame's Mass Value} \times \text{Hexes Jumped}) / 2 \text{ (rounded up)}$$
+      - **Drop Strike Damage**: Both Frames suffer damage rolled using a pool of d6 dice:
+        **Drop Strike Damage Dice = (Jumping Frame's Mass Value × Hexes Jumped) ÷ 2 (rounded up)**
         - The target Frame suffers the full result in damage (e.g. 3d6 rolled as 1, 4, 6 = 11 damage).
         - The jumping Frame suffers half the result in damage (e.g. 11 / 2 = 6 damage).
         - Roll a 1d6 Hit Location for both the target and the jumper to determine where the damage lands.
@@ -224,8 +224,8 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
     - *Evasion*: Due to the high velocity and ballistic trajectory of flight, jumping generates **2 EVA per hex jumped** (up to the Frame's Evasion Limit).
 - **Collisions & Blocking**: If a Frame's movement path would enter a hex occupied by another Frame, a collision occurs. The moving Frame immediately stops in the last unoccupied hex, its activation ends, and both frames suffer damage.
   - **Collision Damage**: Both the moving Frame and the stationary target Frame suffer damage to a random location determined by rolling on the Hit Location Table individually. Evasion (EVA) points do **not** reduce collision damage, as the impact is physical and unavoidable.
-  - **Damage Calculation**: The damage is rolled using a pool of $d6$ dice based on the moving Frame's **Mass Value** (Light = 1, Medium = 2, Heavy = 3, Assault = 4) and its speed (the number of hexes moved in the current activation before impact):
-    $$\text{Collision Damage Dice Pool} = \text{Mass Value} \times \text{Speed Factor}$$
+  - **Damage Calculation**: The damage is rolled using a pool of d6 dice based on the moving Frame's **Mass Value** (Light = 1, Medium = 2, Heavy = 3, Assault = 4) and its speed (the number of hexes moved in the current activation before impact):
+    **Collision Damage Dice Pool = Mass Value × Speed Factor**
     Where **Speed Factor** is the number of hexes moved in this activation prior to impact divided by 2 (rounded up, minimum of 1).
   - **Pilot Check**: After resolving collision damage, both Frames must check if they fall Prone (see Section 6.3).
 - **Accumulating Evasion**: For every hex a Frame successfully exits during its activation *(changing facing/pivoting does not exit a hex and generates 0 EVA)*, it gains 1 **Evasion Point (EVA)**, up to its Evasion Limit. These EVA points are tracked using tokens and represent the difficulty of targeting a moving frame.
@@ -237,14 +237,14 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
   2. It performs a **Pivot/Turn** (1 EP) to rotate its Leg Facing 60 degrees left.
   3. It performs a **Forward Walk** (1 EP) into a Light Woods hex on Level 1. (Cost: 1 EP + 1 EP woods entry cost = 2 EP total).
   4. It performs a second **Forward Walk** (1 EP) through the woods on Level 1. (Cost: 1 EP + 1 EP woods entry cost = 2 EP total).
-  - *EP Expenditure*: $2 + 1 + 2 + 2 = 7$ EP. The Vanguard has 5 EP remaining in its pool to spend on active systems or firing weapons during the Combat Phase.
+  - *EP Expenditure*: 2 + 1 + 2 + 2 = 7 EP. The Vanguard has 5 EP remaining in its pool to spend on active systems or firing weapons during the Combat Phase.
   - *Evasion accumulated*: It exited 3 hexes during its movement, earning **3 EVA tokens** (well within its Evasion Limit of 4 EVA).
   - *Final Step*: The pilot performs a free **Torso Twist** 60 degrees right to point its torso-mounted guided missiles toward the target's expected location.
 
 - **Example 2 (Jump Jet Cliff-Jumping)**: An IF-45M-1 "Specter" (Reactor 9, Capacitor 3, total 12 EP available) starts its activation at the base of a steep Level 2 cliff (Level 0 hex adjacent to a Level 2 hex).
   1. It declares a **Jump Jet** maneuver targeting an unoccupied Level 2 hex 3 spaces away, directly on top of the cliff (bypassing the steep height difference which blocks standard walking).
-  - *EP Expenditure*: 3 hexes jumped $\times$ 2 EP = 6 EP. 
-  - *Evasion accumulated*: Jumping generates 2 EVA per hex. 3 hexes $\times$ 2 = 6 EVA, which is capped at the Specter's Evasion Limit of **5 EVA**.
+  - *EP Expenditure*: 3 hexes jumped × 2 EP = 6 EP. 
+  - *Evasion accumulated*: Jumping generates 2 EVA per hex. 3 hexes × 2 = 6 EVA, which is capped at the Specter's Evasion Limit of **5 EVA**.
   - *Landing*: Upon landing, the pilot sets the Specter's Leg Facing toward the enemy's rear quadrant for free.
   - *Final Step*: The pilot leaves the torso aligned forward to keep its arm-mounted Disruptor Cannon pointed at the target. The Specter has 6 EP remaining to fire its weapons in the Combat Phase.
 
@@ -252,7 +252,7 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
   1. **Energy Phase**: The water submerged legs cool the reactor, generating **+1 extra EP** (total energy pool = 9 EP).
   2. **Activation Phase**: The Jackal performs 2 **Forward Walks** (2 EP) out of the water into a Paved street hex (gaining 2 EVA).
   3. It performs a **Pivot** (1 EP) and a **Forward Walk** (1 EP) into a hex adjacent to a Level 2 **Urban Building** (gaining 3 total EVA).
-  - *EP Expenditure*: $2 + 1 + 1 = 4$ EP. The Jackal has 5 EP remaining to fire its Autocannon or Laser.
+  - *EP Expenditure*: 2 + 1 + 1 = 4 EP. The Jackal has 5 EP remaining to fire its Autocannon or Laser.
   - *Defensive Status*: Positioned adjacent to the building, the Jackal gains **Heavy Cover (+2 EVA)** against incoming attacks crossing the building's hexside, boosting its effective Evasion from 3 EVA to **5 EVA**.
 
 ### 2.3 Combat Phase (Initiative Order)
@@ -279,8 +279,8 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
   3. **Verify Lock**: The Colossus has a Visual (VIS) lock on the Vanguard.
   4. **Hit Location**: The Colossus rolls 2d6 on the Hit Location Table. The attack came from the Front Hit Zone, so the Front/Rear column is used. The roll is a 7, indicating a **Torso** hit.
   5. **Roll Damage**: The Colossus rolls 3d6 for the Thermal Lance: rolls a total of 12 damage.
-  6. **Apply Target Evasion**: The Vanguard has 3 EVA tokens. Subtract 3 from damage: $12 - 3 = 9$ damage remaining.
-  7. **Apply Armor DR**: The Vanguard's Torso currently has an Armor DR of 5. Subtract 5 from damage: $9 - 5 = 4$ damage remaining.
+  6. **Apply Target Evasion**: The Vanguard has 3 EVA tokens. Subtract 3 from damage: 12 − 3 = 9 damage remaining.
+  7. **Apply Armor DR**: The Vanguard's Torso currently has an Armor DR of 5. Subtract 5 from damage: 9 − 5 = 4 damage remaining.
   8. **Resolve Damage & Degradation**: 
      - The remaining 4 damage penetrates the armor and is deducted directly from the Vanguard's Torso Internal Structure (reducing it from 12 to 8).
      - Because the armor was penetrated, the Vanguard's Torso Armor DR is permanently **reduced by 1** (from 5 to 4).
@@ -327,8 +327,8 @@ Due to their immense physical scale and bulk:
 | **Same Level (0)** | Base Terrain Cost | Standard movement. |
 | **Climbing Up (+1 Level)** | Terrain Cost + **1 EP** | Step up onto 1 level higher terrain. |
 | **Climbing Down (-1 Level)** | Base Terrain Cost | Step down onto 1 level lower terrain (+0 extra EP). |
-| **Steep Cliff ($\ge$ 2 Levels)** | Impassable on foot | Cannot walk or reverse. Must use **Jump Jets** to traverse. |
-| **Forced Fall ($\ge$ 2 Levels)** | — | Frame falls **Prone** on landing. Takes **1d6 damage per level fell** to a random location. |
+| **Steep Cliff (≥ 2 Levels)** | Impassable on foot | Cannot walk or reverse. Must use **Jump Jets** to traverse. |
+| **Forced Fall (≥ 2 Levels)** | — | Frame falls **Prone** on landing. Takes **1d6 damage per level fell** to a random location. |
 
 #### Jump Jet Terrain Landing Table
 
@@ -363,7 +363,7 @@ If an intervening terrain feature blocks Line of Sight on a specific sensor spec
 | **Heavy Woods (3+ hexes)** | **BLOCKED** | **BLOCKED** | Clear |
 | **Urban Building (Any)** | **BLOCKED** | **BLOCKED** | **BLOCKED** |
 | **Smoke Template** | **BLOCKED** | Clear | Clear |
-| **Elevation / Hill ($\ge$ Top Height)** | **BLOCKED** | **BLOCKED** | **BLOCKED** |
+| **Elevation / Hill (≥ Top Height)** | **BLOCKED** | **BLOCKED** | **BLOCKED** |
 
 #### Summary of Foliage & Vegetation Blockage:
 - **Light Woods**: Requires **2 or more intervening hexes** to block Visual (VIS) locks. Does not block IR or Radar.
@@ -373,11 +373,11 @@ If an intervening terrain feature blocks Line of Sight on a specific sensor spec
 
 ### 3.4 Line of Sight (LOS) & Elevation Height Math
 
-Line of Sight (LOS) between an Attacker (standing on Level A, top height $A+2$) and a Target (standing on Level B, top height $B+2$) is checked against all intervening hexes.
+Line of Sight (LOS) between an Attacker (standing on Level A, top height A+2) and a Target (standing on Level B, top height B+2) is checked against all intervening hexes.
 
 #### 1. Terrain & Elevation LOS Formula
-An intervening hex of elevation level $Y$ or building height $Y$ blocks **all** sensor locks (VIS, IR, Radar) if:
-$$\text{LOS Blocked if } Y \ge \min(A + 2, B + 2)$$
+An intervening hex of elevation level Y or building height Y blocks **all** sensor locks (VIS, IR, Radar) if:
+> **LOS Blocked if Y ≥ min(A + 2, B + 2)**
 *(Example: Two Frames on Level 0 [top height 2] can see over a Level 1 hill [height 1]. A Level 2 hill [height 2] blocks Line of Sight completely).*
 
 #### 2. Vegetation Canopy Height (Visual LOS Only)
@@ -446,7 +446,7 @@ Weapons can only be mounted in the Left Arm, Right Arm, or Torso, which dictates
 
 - **Rapid Fire**: Weapons with this trait fire in bursts. When firing a Rapid Fire weapon, the target's Evasion (EVA) reduces the *number of hits* (one hit misses entirely per EVA point) rather than subtracting from the total damage. Rapid Fire weapons can be fired in two modes:
   - **Single Burst (Base EP Cost)**: Consumes 1 Burst of ammo. Roll 1 Hit Location. Roll the weapon's burst damage dice (e.g., 3x 1d6) and resolve each die against the target location's Armor DR separately.
-  - **Full Auto (X $\times$ Base EP)**: Consumes X Bursts of ammo (up to the magazine limit), paying the base EP cost for each burst. Roll 1 Hit Location. Roll the damage dice for *all* bursts combined against that location, resolving each separately. Evasion reduces the total number of hits across the entire barrage.
+  - **Full Auto (X × Base EP)**: Consumes X Bursts of ammo (up to the magazine limit), paying the base EP cost for each burst. Roll 1 Hit Location. Roll the damage dice for *all* bursts combined against that location, resolving each separately. Evasion reduces the total number of hits across the entire barrage.
 
 | Weapon | HP | EP Cost | Ammo | Cooldown | Damage | Detection | Traits | Special Rules |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
@@ -559,7 +559,7 @@ When an Iron Frame is knocked over during combat (via collision, Drop Strike, or
 A Frame must make a **Pilot Check** (rolling 2d6, target 6 or higher) in the following situations:
 - **Avoiding Falling Prone**:
   - *Collisions*: (See Section 2.2 for Collision rules).
-  - *Kinetic Drop Strike*: The **Target Frame** is automatically knocked Prone. The **Jumping Frame** must make a Pilot Check upon landing. $\text{Check} = 2d6 + \text{Mass} - \text{Hexes Jumped} + \text{Pilot Bonus}$.
+  - *Kinetic Drop Strike*: The **Target Frame** is automatically knocked Prone. The **Jumping Frame** must make a Pilot Check upon landing. Check = 2d6 + Mass − Hexes Jumped + Pilot Bonus.
   - *Leg Severed*: A Frame automatically falls Prone if a leg is severed (no check allowed).
 - **Fighting Through Sensor Scrambles**:
   - *EMP Recovery*: If a Frame's sensors are scrambled by an EMP, the pilot must pass a Pilot Check (2d6) to establish a VIS, IR, or Radar lock. Failure means the lock cannot be established.
