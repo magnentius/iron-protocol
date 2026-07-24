@@ -70,21 +70,46 @@ The emergence of the Iron Protocol was born of necessity, forged from the ashes 
 #### 1. The Preservation of Biospheres & Infrastructure
 Earth's remaining arable land, clean water reserves, and surviving industrial infrastructure are humanity's most precious assets. Conventional mass warfare—carpet bombing, tactical nuclear strikes, and massive tank divisions tearing up agricultural land—irreversibly ruins the planet's remaining ecosystems. The Iron Protocol strictly outlaws weapons of mass destruction, strategic bombing, and heavy tracked armor. Battles are confined to designated, unpopulated "Honor Fields" and containment zones to preserve surviving biospheres for the victor.
 
-#### 2. The Iron Aegis (Defensive Grid Networks)
-Every major continent and sovereign sector is protected by the **Iron Aegis**—a dense network of anti-ballistic missile silos, automated point-defense artillery, and kinetic interception grids. Any attempt to launch long-range missile strikes or strategic air raids is instantly targeted and neutralized. Ground forces must be deployed via low-altitude stealth dropships directly into tactical engagement zones, bypassing regional defense grids.
+#### 2. The Kessler Shroud (No Missiles, GPS, or Orbitals)
+Ballistic missiles travel a suborbital arc that peaks between 800 and 1,200 kilometers above the surface—directly through what was once called Low Earth Orbit. During the final years of the Cinder Wars, competing powers launched hundreds of anti-satellite weapons in a desperate bid to blind each other's targeting and communications networks. They succeeded—and in doing so, triggered a runaway debris cascade now known as the **Kessler Shroud**.
 
-#### 3. Bipedal Superiority Over Tanks & Aircraft
-Modern Earth battlefields are jagged, unpaved, and volatile. Tectonic fractures, ruined mega-cities, flooded coastal craters, and dense electromagnetic anomalies make standard tracked tanks useless; they are easily bottlenecked in urban canyons or trapped by debris. Fighter aircraft are blinded by heavy particulate smog, thermal storms, and local jamming. **Iron Frames**, with their articulated bipedal limbs and vector thrusters, possess unmatched all-terrain mobility, allowing them to climb rubble, leap chasms, and pivot dynamically in close-quarters combat.
+The Shroud is a permanent, self-sustaining belt of fragmented steel, shattered solar panels, and pulverized satellite bus material traveling at orbital velocity. Any object that reaches sufficient altitude is struck within minutes. Warhead casings are shredded before they reach apogee. Guidance fins are stripped away in milliseconds. The debris field does not discriminate: civilian resupply drones, military recon packages, and ICBM re-entry vehicles all meet the same fate. Humanity effectively walled itself out of space.
 
-#### 4. The Ban on Autonomous Warfare (The Human Core)
-Following a catastrophic AI rebellion that nearly annihilated humanity, treaties strictly outlaw autonomous combat drones and artificial combat intelligences. War must be fought by human pilots, exposing themselves to direct risk. The Iron Frame serves as an extension of the pilot's own body, synchronizing via neural datalink. War is no longer a matter of automated factory output, but a test of personal discipline, honor, and martial skill.
+The strategic consequences were immediate and permanent. Long-range ballistic weapons became useless overnight. Every GPS constellation was destroyed within weeks of the cascade beginning—navigation satellites occupy exactly the altitude range the Shroud now owns. Reconnaissance satellites, weather platforms, and communications relays followed. No faction has achieved orbital insertion in over sixty years, and none expect to in their lifetimes.
+
+Without satellite imaging, battlefield intelligence has collapsed back to line-of-sight. Pilots navigate by inertial systems, dead reckoning, and pre-war topographic maps that grow less accurate each year as tectonic activity reshapes the terrain. There is no overhead view of the engagement zone, no GPS waypoint to lock onto, no real-time feed from orbit. What a pilot cannot see from their cockpit or tactical sensors, they do not know. The Shroud has not thinned—if anything, the cascade continues to generate new debris from its own collisions. Earth is, for the foreseeable future, a closed world. Wars must be fought on the ground, within atmosphere, at ranges where a pilot can engage the enemy directly.
+
+#### 3. Bipedal Superiority Over Tracked Armor
+Modern Earth battlefields are jagged, unpaved, and volatile. Tectonic fractures, ruined mega-cities, flooded coastal craters, and mountains of urban debris make standard tracked tanks useless; heavy armored vehicles are easily bottlenecked in ruined canyons or trapped by rubble. 
+
+**Iron Frames**, with their articulated bipedal limbs and vector thrusters, possess unmatched all-terrain mobility. A Frame can climb urban ruins, leap over chasms using Jump Jets, duck behind heavy cover, and pivot dynamically in close-quarters combat. Where a 60-ton tank gets stuck in a trench, a 60-ton Heavy Frame can step over it, leap past it, or use its arms to clear a pathway.
+
+#### 4. The Failure of Air Power (Fuel Scarcity & Fusion Supremacy)
+Fighter aircraft seem like the obvious escalation—fast, lethal, hard to stop. In the pre-Cinder era they defined warfare. But the post-Collapse world rendered air power economically and logistically unviable.
+
+The primary bottleneck is **fuel scarcity**. Conventional fighter jets require immense volumes of refined high-density aviation fuels. The Cinder Wars completely exhausted Earth's fossil fuel reserves, and the industrial infrastructure needed to synthesize jet fuels in quantity was destroyed in the early bombings. Launching a single jet sortie consumes a faction's entire monthly stockpile of refined chemical propellant in a matter of minutes.
+
+**Iron Frames**, by contrast, are built around self-contained compact **fusion reactors**. A Frame generates virtually limitless operational energy—fueling its mobility, thrusters, and energy weapons from trace amounts of hydrogen isotopes for months on end without needing a logistical supply train.
+
+Furthermore, aircraft suffer severe operational limits in the post-Cinder environment:
+- **Environment & Sensors**: Ruined megacities are shrouded in thermal inversion layers, dense industrial smog, and tectonic dust. Supersonic jets cannot maneuver in tight debris canyons, and long-range high-altitude radar desyncs in particulate clutter. Ground combat relies instead on short-range tactical sensors—Visual (VIS), Thermal/Infrared (IR), and directional Microwave (Radar)—mounted directly on Frames.
+- **Inability to Hold Ground**: Air power cannot hold territory. A jet can bomb a bridge or factory, but the Protocol strictly forbids destroying surviving infrastructure. What the Protocol demands is *territorial control*: a force that can stand in a hex, occupy a ruin, guard an asset, and deny it to the enemy.
+- **Runway Vulnerability**: Jets require pristine runways and massive maintenance facilities—prime targets in a world of scarce infrastructure. Fusion-powered Frames can be field-maintained, marched overland, or transported by rail and heavy transport barges directly to tactical engagement zones.
+
+#### 5. The Failure of Personal Champions
+The simplest alternative—settle disputes with a duel between individual champions—was tried in the early post-Cinder era and collapsed within a generation. A faction's best warrior is a single point of failure: one stray bullet, one bout of illness, one lucky knife in a back alley and the dispute is void, the treaty collapsed, the war re-ignited. More critically, powerful leaders simply refused to risk themselves personally, sending proxies who could always be disavowed. Personal duels offered no *institutional* weight. 
+
+An Iron Frame is different. It represents an enormous capital investment—rare materials, years of fabrication, a trained pilot whose neural datalink takes a decade to calibrate. When a Frame steps onto the Honor Field, a faction has committed its treasury, its engineering corps, and a living pilot to the outcome. The stakes are real and verifiable. Losing a Frame is a wound that takes years to recover from. This is what gives the Protocol its teeth: not honor alone, but the irreplaceable cost of the machine.
+
+#### 6. The Ban on Autonomous Warfare (The Human Core)
+Following a catastrophic AI rebellion that nearly annihilated humanity, international treaties strictly outlaw autonomous combat drones and artificial combat intelligences. War must be fought by human pilots, exposing themselves to direct risk. The Iron Frame serves as an extension of the pilot's own body, synchronizing via a neural datalink. War is no longer a matter of automated factory output, but a test of personal discipline, honor, and martial skill.
 
 ### Core Tenets of the Protocol
-- **Honor in the Arc**: Foe must face foe. Torso twisting represents the deliberate, disciplined adjustments of a pilot's stance to align weapons with the enemy.
-- **Mastery of Energy**: An Iron Frame's reactor is the pilot's lifeblood. Distributing energy between thruster moves, active countermeasures, and weapons systems is the ultimate test of martial discipline.
-- **Precision Striking**: The Protocol forbids mindless destruction. Pilots target specific components—locating and disabling weapons, shields, and sensors systematically to neutralize the opponent with precision.
+- **Honor in the Arc**: Foe must face foe. Torso twisting represents the deliberate, disciplined adjustment of a pilot's stance to align weapons with the enemy.
+- **Mastery of Energy**: An Iron Frame's reactor is the pilot's lifeblood. Distributing energy (EP) between movement, active countermeasures (Chaff, ECM, Smoke), and weapon overcharges is the ultimate test of tactical discipline.
+- **Precision Striking**: The Protocol forbids mindless carpet destruction. Pilots target specific locations—systematically degrading armor plates, disabling weapons, burning out thrusters, and blinding sensor suites to neutralize the opponent with precision.
+- **The Martial Vows**: Elite pilots swear ancient oaths before entering the Honor Field (such as the *Vow of Courage*, *Vow of Respect*, *Vow of Honor*, or *Vow of Loyalty*). These vows grant martial focus but impose unyielding tactical restrictions—breaking a vow mid-combat dishonors the pilot and severely degrades their Frame's neural performance.
 
-![Stealth Dropship Landing](images/dropship.jpg)
 ---
 
 ## 1. Fundamental Concepts & Game Setup
