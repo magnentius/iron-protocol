@@ -235,12 +235,12 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
     - *Landing Mechanics*:
       - **Clear & Paved Landing**: Landing in a Clear or Paved hex is an **automatic clean landing**. Set Leg Facing for free.
       - **Hazardous & Feature Landing**: Landing in **Rough, Deep Water, Building Roofs, Light Woods, or Heavy Woods** requires a **Pilot Check (TN 6+)** upon touchdown:
-        **Landing Check = 2d6 + Mass Value + Terrain Modifier**
+        **Landing Check = 2d6 vs TN 6+**
         - *Success (6+)*: Clean landing! Set Leg Facing for free.
         - *Failure (< 6)*: The Frame stumbles and falls **Prone** in the landing hex. (If landing in Heavy Woods, the canopy impact also inflicts **1 point of Armor DR degradation** to the Torso).
       - **Kinetic Drop Strike**: Alternatively, a pilot may target an occupied hex to perform a Kinetic Drop Strike.
       - **Drop Strike Damage**: Both Frames suffer damage rolled using a pool of d6 dice:
-        **Drop Strike Damage Dice = (Jumping Frame's Mass Value × Hexes Jumped) ÷ 2 (rounded up)**
+        **Drop Strike Damage Dice = Jumping Frame's Mass Value + Hexes Jumped**
         - The target Frame suffers the full result in damage (e.g. 3d6 rolled as 1, 4, 6 = 11 damage).
         - The jumping Frame suffers half the result in damage (e.g. 11 / 2 = 6 damage).
         - Roll a 1d6 Hit Location for both the target and the jumper to determine where the damage lands.
@@ -250,8 +250,7 @@ Frames activate one at a time, beginning with the **lowest Initiative** value an
 - **Collisions & Blocking**: If a Frame's movement path would enter a hex occupied by another Frame, a collision occurs. The moving Frame immediately stops in the last unoccupied hex, its activation ends, and both frames suffer damage.
   - **Collision Damage**: Both the moving Frame and the stationary target Frame suffer damage to a random location determined by rolling on the Hit Location Table individually. Evasion (EVA) points do **not** reduce collision damage, as the impact is physical and unavoidable.
   - **Damage Calculation**: The damage is rolled using a pool of d6 dice based on the moving Frame's **Mass Value** (Light = 1, Medium = 2, Heavy = 3, Assault = 4) and its speed (the number of hexes moved in the current activation before impact):
-    **Collision Damage Dice Pool = Mass Value × Speed Factor**
-    Where **Speed Factor** is the number of hexes moved in this activation prior to impact divided by 2 (rounded up, minimum of 1).
+    **Collision Damage Dice Pool = Mass Value + Speed**
   - **Pilot Check**: After resolving collision damage, both Frames must check if they fall Prone (see Section 6.3).
 - **Accumulating Evasion**: For every hex a Frame successfully exits during its activation *(changing facing/pivoting does not exit a hex and generates 0 EVA)*, it gains 1 **Evasion Point (EVA)**, up to its Evasion Limit. These EVA points are tracked using tokens and represent the difficulty of targeting a moving frame.
 - **Torso Twist**: At the very end of its activation (after all movement is completed), the Frame may perform a free Torso Twist. The player can rotate the upper body of the Frame 1 hex side (60 degrees) to the left or right of its current Leg Facing, or reset it to align with the Leg Facing. This sets the Frame's Torso Facing (and Firing Arcs) for the upcoming Combat Phase. The torso remains in this position until the Frame activates in the next turn's Activation Phase.
@@ -332,7 +331,7 @@ Combat under the Iron Protocol occurs across diverse Earth battlefields and cont
 | **Water (Shallow)** | +1 EP | None | Knee-deep liquid. Evasion capped at **2 EVA**. Generates **+1 EP** in Energy Phase. |
 | **Water (Deep)** | +2 EP | None | Waist-deep liquid. Evasion capped at **1 EVA**. **-1 penalty** to Pilot Checks. Generates **+2 EP** in Energy Phase. |
 | **Woods (Light)** | +1 EP | Light Cover (+1 EVA) | Sparse trees. Blocks VIS locks if 2+ hexes intervene. |
-| **Woods (Heavy)** | +2 EP | Heavy Cover (+2 EVA) | Dense forest. Blocks VIS locks if 1+ hexes; blocks IR if 3+ hexes. **Impassable to Heavy/Assault Frames on foot.** |
+| **Woods (Heavy)** | +2 EP | Heavy Cover (+2 EVA) | Dense forest. Blocks VIS and IR locks if 2+ hexes. **Impassable to Heavy/Assault Frames on foot.** |
 | **Urban (Building)** | Impassable (Ground) | Solid Barrier | Structures block all locks (VIS/IR/Radar) up to height. Heavy Cover (+2 EVA) if adjacent. |
 
 ---
@@ -357,14 +356,14 @@ Due to their immense physical scale and bulk:
 
 #### Jump Jet Terrain Landing Table
 
-| Landing Location | Pilot Check (TN 6+)? | Terrain Modifier | Failure Effect (< 6) |
-| :--- | :---: | :---: | :--- |
-| **Clear / Paved** | **No** (Automatic) | +0 (Clear) / +1 (Paved) | Clean landing. |
-| **Rough Terrain** | **Yes** | **-1** | Falls **Prone** in landing hex. |
-| **Water (Deep)** | **Yes** | **-1** | Falls **Prone** in water. |
-| **Building Roof** | **Yes** | **-1** | Falls **Prone** on roof. |
-| **Light Woods** | **Yes** | **-1** | Falls **Prone** in canopy. |
-| **Heavy Woods** *(Light/Med only)* | **Yes** | **-2** | Falls **Prone** + 1 Torso Armor DR loss. |
+| Landing Location | Pilot Check (TN 6+)? | Failure Effect (< 6) |
+| :--- | :---: | :--- |
+| **Clear / Paved** | **No** (Automatic) | Clean landing. |
+| **Rough Terrain** | **Yes** | Falls **Prone** in landing hex. |
+| **Water (Deep)** | **Yes** | Falls **Prone** in water. |
+| **Building Roof** | **Yes** | Falls **Prone** on roof. |
+| **Light Woods** | **Yes** | Falls **Prone** in canopy. |
+| **Heavy Woods** *(Light/Med only)* | **Yes** | Falls **Prone** + 1 Torso Armor DR loss. |
 
 ---
 
@@ -384,15 +383,15 @@ If an intervening terrain feature blocks Line of Sight on a specific sensor spec
 | :--- | :---: | :---: | :---: |
 | **Light Woods (1 hex)** | Clear | Clear | Clear |
 | **Light Woods (2+ hexes)** | **BLOCKED** | Clear | Clear |
-| **Heavy Woods (1+ hexes)** | **BLOCKED** | Clear | Clear |
-| **Heavy Woods (3+ hexes)** | **BLOCKED** | **BLOCKED** | Clear |
+| **Heavy Woods (1 hex)** | Clear | Clear | Clear |
+| **Heavy Woods (2+ hexes)** | **BLOCKED** | **BLOCKED** | Clear |
 | **Urban Building (Any)** | **BLOCKED** | **BLOCKED** | **BLOCKED** |
 | **Smoke Template** | **BLOCKED** | Clear | Clear |
 | **Elevation / Hill (≥ Top Height)** | **BLOCKED** | **BLOCKED** | **BLOCKED** |
 
 #### Summary of Foliage & Vegetation Blockage:
 - **Light Woods**: Requires **2 or more intervening hexes** to block Visual (VIS) locks. Does not block IR or Radar.
-- **Heavy Woods**: A single **1 intervening hex** is sufficient to completely block Visual (VIS) locks. Requires **3 or more intervening hexes** to absorb and block Infrared (IR) thermal locks. Does not block Radar.
+- **Heavy Woods**: Requires **2 or more intervening hexes** to block both Visual (VIS) and Infrared (IR) locks. Does not block Radar.
 
 ---
 
@@ -743,39 +742,39 @@ Equipping a Named Pilot on an Iron Frame grants a flat Initiative bonus of **+1,
   - **+3 Initiative & Pilot Checks**: 45 pts
 
 #### 7.3.3 Iron Protocol Vows
-Every Named Pilot is sworn to a specific vow under the Iron Protocol, reflecting their martial pride. If a pilot violates their vow during a battle, they are **dishonored**: they immediately lose their Initiative bonus for the rest of the battle, and suffer additional penalties.
+Every Named Pilot is sworn to a specific vow under the Iron Protocol, reflecting their martial pride. If a pilot violates their vow during a battle, they are **dishonored**: they immediately lose their Initiative bonus, and all their weapons cost +1 EP to fire for the remainder of the battle.
 
 Choose one Vow for your Named Pilot:
 
 ##### Vow of Courage (Yuu)
 *“The warrior does not retreat; we are the anvil upon which the enemy breaks.”*
 - **The Constraint**: The pilot cannot use the **Reverse (R)** movement command.
-- **Dishonor Penalty**: If the Frame ever reverses, it is dishonored. In addition to losing the Initiative bonus, its Reactor Rating is reduced by 2 EP per turn for the rest of the battle.
+- **Dishonor Penalty**: The pilot is dishonored (see standard penalty).
 
 ##### Vow of Respect (Rei)
 *“A warrior meets their foe face-to-face. Anonymous death from behind is the weapon of cowards.”*
 - **The Constraint**: The pilot cannot target an enemy Frame from its **Rear Hit Zone**, nor fire indirect-guided missiles without direct Line of Sight (even if a Tactical Datalink is active).
-- **Dishonor Penalty**: If the pilot executes an attack from the Rear Hit Zone or fires an indirect weapon without direct LOS, they are dishonored, and their Evasion Limit is permanently reduced by 2 EVA points for the rest of the battle.
+- **Dishonor Penalty**: The pilot is dishonored (see standard penalty).
 
 ##### Vow of Honor (Meiyo)
 *“Seek only the strongest. There is no glory in crushing the weak.”*
 - **The Constraint**: If a higher-initiative or higher-tonnage enemy Frame is detected and within the pilot's Torso Firing Arc, the pilot **must** target a higher-priority Frame instead of any lower-tier targets. (If both a higher-tonnage and higher-initiative target are present, the pilot may choose between them, but cannot fire at a target that is inferior in *both* categories).
-- **Dishonor Penalty**: If the pilot fires at a weaker target when a more prestigious target was valid, they are dishonored, and their weapons' EP costs increase by +1 EP per shot for the rest of the battle.
+- **Dishonor Penalty**: The pilot is dishonored (see standard penalty).
 
 ##### Vow of Mercy (Jin)
 *“Victory is in the disarm, not the slaughter. A dead enemy learns nothing.”*
 - **The Constraint**: The pilot cannot target the Torso or Head of an enemy Frame if its Arms or Legs still have remaining Internal Structure. They must attempt to dismantle or disable the limbs first.
-- **Dishonor Penalty**: If the pilot intentionally targets the Torso or Head while a limb remains functional, they are dishonored. Plagued by a crisis of conscience, their Frame suffers a permanent -2 modifier to all future To-Hit rolls.
+- **Dishonor Penalty**: The pilot is dishonored (see standard penalty).
 
 ##### Vow of Honesty (Makoto)
 *“Deception is a crutch. I will stand in the light and let them witness their end.”*
 - **The Constraint**: The pilot cannot activate Active Metamaterial Coating (AMC), Smoke Launchers, or ECM, nor can they benefit from the umbrella of allied ECM or Smoke.
-- **Dishonor Penalty**: If the pilot activates or relies on any active stealth/EW system to hide, they are dishonored. Their Capacitor Max is immediately and permanently reduced to 0 (they refuse to store energy out of shame).
+- **Dishonor Penalty**: The pilot is dishonored (see standard penalty).
 
 ##### Vow of Loyalty (Chuugi)
 *“My shield is the wall that protects my kin. I will fall before they do.”*
 - **The Constraint**: If a friendly Frame within 3 hexes has lower current Armor DR or Internal Structure than the pilot, the pilot cannot move further away from that ally.
-- **Dishonor Penalty**: If the pilot abandons a damaged ally by intentionally moving outside the 3-hex radius, they are dishonored, and immediately suffer an automatic Reactor penalty of -3 EP per turn permanently.
+- **Dishonor Penalty**: The pilot is dishonored (see standard penalty).
 
 ---
 
