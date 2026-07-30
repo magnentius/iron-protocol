@@ -462,7 +462,7 @@ A Frame may be equipped with a **Tactical Datalink** housed in its Head location
 ## 5. Weapons & Munitions
 > *"God is on the side with the best artillery." — Napoleon Bonaparte*
 
-Weapons can only be mounted in the Left Arm, Right Arm, or Torso, which dictates their firing arcs (see Section 1.1).
+Weapons can only be mounted in the Left Arm, Right Arm, or Torso, which dictates their firing arcs (see Section 1.1). A hardpoint may mount a weapon or system of its size class or any smaller size class (e.g., a Heavy Hardpoint may mount a Heavy, Medium, or Light weapon).
 
 - **Armor Piercing (AP X)**: Weapons or munitions designated as **AP X** ignore up to **X** points of the target's Armor DR when calculating damage. (For example, an AP 3 weapon fired at a location with Armor DR 5 treats that location's DR as 2).
 
@@ -649,7 +649,7 @@ Every Frame is defined by its physical **Tonnage** (Weight Class). Tonnage deter
 | **Heavy** | 60–75 Tons | 4L / 3M / 1H | Init 4 \| Move 3 \| 1 EVA \| Reactor 5 \| Capacitor 2 | Init 6 \| Move 4 \| 2 EVA | 250 pts |
 | **Assault** | 80–100 Tons | 4L / 3M / 2H | Init 2 \| Move 2 \| 0 EVA \| Reactor 5 \| Capacitor 2 | Init 4 \| Move 3 \| 1 EVA | 300 pts |
 
-*Note: Every Frame possesses a specific number of hardpoints dictating what equipment it can mount. A Frame cannot mount a piece of equipment heavier than its weight class.*
+*Note: Every Frame possesses a specific number of hardpoints dictating what equipment it can mount. A hardpoint can accommodate equipment of its size or smaller (e.g., a Medium hardpoint can mount a Medium or Light weapon). A Frame cannot mount a piece of equipment heavier than its weight class.*
 
 #### 7.2.1 Base Armor DR & Internal Structure (IS)
 When purchasing a Base Chassis, it comes pre-equipped with standard baseline **Internal Structure (IS)** and **Base Armor Damage Reduction (DR)** scaled to its physical Weight Class. Internal Structure is determined strictly by Tonnage and cannot be upgraded.
