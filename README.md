@@ -21,8 +21,9 @@
 ## 📂 Repository Guide
 
 * 📓 **[rules.md](rules.md)**: The full master rulebook, including core phases, terrain modifiers, planetary hazards, custom pilot vows, and pre-configured frame technical readouts.
-* 📋 **[reference_sheet.md](reference_sheet.md)**: A printable quick reference sheet player aid, consolidating turn sequences, the sensor matrix, pilot check equations, and hit/critical tables on one page.
+* 📋 **[reference.md](reference.md)**: A printable quick reference sheet player aid, consolidating turn sequences, the sensor matrix, pilot check equations, and hit/critical tables on one page.
 * 🛠️ **[Frames Directory](frames/)**: Printable character sheets for the five standard frames (**IF-25L-1 Jackal**, **IF-45M-1 Specter**, **IF-55M-1 Vanguard**, **IF-75H-1 Paladin**, and **IF-90A-1 Colossus**) featuring tracking bubbles for energy pools, armor DR, structure damage, critical hits, and weapon ammunition bursts.
+* 📱 **[Battle Tracker](docs/)**: A mobile web app that carries the bookkeeping for you — energy and capacitor charge, evasion, locational armor and structure, ammunition, cooldowns, and the permanent critical-hit effects that are easy to lose track of. It includes a guided attack resolver that walks the Combat Phase sequence and shows its arithmetic, and two players on separate phones can share one live battle via a room code. See **[docs/README.md](docs/README.md)** to run or deploy it.
 
 ---
 

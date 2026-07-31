@@ -34,6 +34,25 @@
 
 ---
 
+## ⚙️ Special Resolution Cases
+
+| Case | Ruling |
+| :--- | :--- |
+| **Overcharge Allowance** | Whatever was banked in the Capacitor at the start of the turn is the cap on Overcharge EP for that turn. Bank nothing, Overcharge nothing. |
+| **Rapid Fire + Evasion** | Each EVA point cancels the **single highest** remaining die. Survivors each resolve against the DR the location had when the attack began. |
+| **Rapid Fire + Armor** | The whole attack degrades Armor DR by **1 total**, and rolls **one** Critical, however many dice got through. |
+| **One attack per weapon** | Each mounted weapon fires **once per Combat Phase**, however much EP is left. Fire each of your weapons once, in any order. |
+| **Full Auto** | Maximum **3 Bursts** per attack. One Hit Location for the whole barrage — the only way to put more rounds into a single spot. |
+| **Disruptor Cannon** | No damage. Bypasses EVA and DR. Torso hit drains **1d6 EP**; any other location forces a **Critical**. Overcharge does both. |
+| **AoE** | Bypasses Evasion *and* terrain Cover. Armor DR still applies. |
+| **Prone (-1d6)** | Drop one die, keep flat bonuses (Rail Gun becomes 2d6+10). Rapid Fire loses one die per Burst. No effect on the Disruptor or EMP. |
+| **Collision** | Armor DR applies; EVA does not. Both Frames roll the *moving* Frame's Mass + Speed pool. |
+| **Damage Transfer** | Excess from a severed limb, and hits on an already-severed limb, go straight to Torso IS — bypassing EVA and DR, and **not** degrading Torso armor. |
+| **Tracers** | Paint the target if not negated by Evasion, even when Armor DR stops the round cold. |
+| **Flares** | Negate one attack made on an **IR lock**, from the **Front or Rear** zone only, declared before the Hit Location roll. |
+
+---
+
 ## 📡 Sensor, Lock & Stealth Matrix
 
 | Defense System / Terrain | Visual (VIS) Locks | Infrared (IR) Locks | Microwave (Radar) Locks |
@@ -45,7 +64,7 @@
 | **AMC (Visual-Camouflage)** | **BLOCKED** (invisible) | *Clear* | *Clear* |
 | **AMC (IR-Suppression)** | *Clear* | **BLOCKED** | *Clear* |
 | **AMC (Microwave-Absorbent)**| *Clear* | *Clear* | **BLOCKED** |
-| **Flares Countermeasure** | *Clear* | **Breaks seeking lock** | *Clear* |
+| **Flares Countermeasure** | *Clear* | **Negates the attack** | *Clear* |
 
 * **Infrared (IR) Lock Requirement**: Target must have spent **5+ EP** in its last activation to generate a heat signature.
 * **Microwave (Radar)**: Direct LOS. Ignores Woods/Smoke. Blocked by solid Elevation.
@@ -81,6 +100,13 @@
 - **Defense**: Evasion (EVA) is reduced to 0. Still benefits from Terrain Cover.
 - **Combat**: Cannot torso twist. Suffers a **-1d6 penalty** to all weapon damage rolls.
 - **Maneuvering**: Cannot walk, reverse, or jump. Must **Stand Up** (costs **3 EP**) to resume movement.
+
+### Severed Leg (Crippled Frames)
+- **Falls Prone immediately** — no Pilot Check is allowed, the limb is gone.
+- **May still fight**, at the Prone penalties above.
+- **May attempt to Stand Up**: 3 EP **and a Pilot Check**. Success sheds every Prone penalty (full damage dice, torso twist restored). Failure keeps it down and the 3 EP is spent anyway.
+- **Never walks, reverses or jumps again**, standing or not. Pivot only, at **3 EP** per 60°.
+- **Both legs gone = Frame destroyed.**
 
 ---
 

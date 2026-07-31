@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Iron Protocol">
+  <rect width="512" height="512" rx="96" fill="#0b0e13"/>
+  <path d="M256 68l150 86v204l-150 86-150-86V154z" fill="none" stroke="#4dd2ff" stroke-width="20" stroke-linejoin="round"/>
+  <path d="M256 148l82 47v112l-82 47-82-47V195z" fill="#4dd2ff" opacity=".18"/>
+  <rect x="216" y="196" width="80" height="26" rx="6" fill="#4dd2ff"/>
+  <rect x="228" y="240" width="56" height="76" rx="8" fill="#4dd2ff"/>
+  <rect x="186" y="240" width="26" height="58" rx="8" fill="#4dd2ff" opacity=".75"/>
+  <rect x="300" y="240" width="26" height="58" rx="8" fill="#4dd2ff" opacity=".75"/>
+</svg>

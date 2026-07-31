@@ -1,0 +1,51 @@
+{
+  "_comment": [
+    "Realtime Database security rules for the Iron Protocol battle tracker.",
+    "Paste these into Firebase Console -> Realtime Database -> Rules.",
+    "",
+    "Access is by knowledge of the 4-character room code alone: anyone who has the",
+    "code can read and write that battle. That is appropriate here — a battle",
+    "document holds nothing sensitive, and the two players are sitting at the same",
+    "table — but be aware it is not authentication. Anyone who guesses a code can",
+    "edit that battle, and codes are short.",
+    "",
+    "What these rules do enforce: writes are confined to /battles/<CODE>, codes must",
+    "look like room codes, a battle must carry the fields the app expects, and",
+    "nothing can be written outside /battles."
+  ],
+
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "battles": {
+      "$code": {
+        ".read": "$code.matches(/^[A-Z0-9]{4,8}$/)",
+        ".write": "$code.matches(/^[A-Z0-9]{4,8}$/) && newData.exists()",
+
+        ".validate": "newData.hasChildren(['id', 'round', 'phase'])",
+
+        "id": { ".validate": "newData.isString() && newData.val().length <= 8" },
+        "round": { ".validate": "newData.isNumber() && newData.val() >= 1" },
+        "phase": { ".validate": "newData.isString() && newData.val().matches(/^(energy|activation|combat|end)$/)" },
+        "createdAt": { ".validate": "newData.isNumber()" },
+        "energyGenerated": { ".validate": "newData.isBoolean()" },
+        "advantagePlayer": { ".validate": "newData.isString() || !newData.exists()" },
+
+        "frames": {
+          "$frameId": {
+            ".validate": "newData.hasChildren(['id', 'presetKey', 'ownerId'])",
+            "ownerId": { ".validate": "newData.isString() && newData.val().length <= 32" },
+            "presetKey": { ".validate": "newData.val().matches(/^(jackal|specter|vanguard|paladin|colossus)$/)" }
+          }
+        },
+
+        "log": {
+          ".validate": "newData.hasChildren() || !newData.exists()"
+        },
+
+        "$other": { ".validate": false }
+      }
+    }
+  }
+}

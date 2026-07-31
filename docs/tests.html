@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iron Protocol — Rules Engine Tests</title>
+<style>
+  :root { color-scheme: dark; }
+  body {
+    background: #0e1116; color: #d7dde5; margin: 0; padding: 1.5rem 1rem 4rem;
+    font: 14px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  h1 { font-size: 1.1rem; letter-spacing: .08em; text-transform: uppercase; color: #7fd1ff; margin: 0 0 .25rem; }
+  .sub { color: #7a8798; margin-bottom: 1.5rem; }
+  #summary { position: sticky; top: 0; background: #0e1116; padding: .75rem 0; border-bottom: 1px solid #232a34; margin-bottom: 1rem; font-size: 1rem; }
+  .ok { color: #5fd38d; }
+  .fail { color: #ff6b6b; }
+  section { margin-bottom: 1.5rem; }
+  h2 { font-size: .8rem; text-transform: uppercase; letter-spacing: .1em; color: #7a8798; border-bottom: 1px solid #232a34; padding-bottom: .35rem; margin: 0 0 .5rem; }
+  .case { padding: .2rem 0 .2rem 1.4rem; text-indent: -1.4rem; }
+  .case.fail { background: #2a1418; }
+  .detail { color: #ff9d9d; padding-left: 1.4rem; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<h1>Iron Protocol — Rules Engine Tests</h1>
+<div class="sub">Asserts <code>js/rules.js</code> against rules.md. Serve over http:// — ES modules will not load from file://</div>
+<div id="summary">Running…</div>
+<div id="out"></div>
+
+<script type="module">
+import { run } from './tests.js';
+
+const out = document.getElementById('out');
+let passed = 0, failed = 0, section = null;
+
+run({
+  describe(name) {
+    section = document.createElement('section');
+    section.innerHTML = `<h2>${name}</h2>`;
+    out.appendChild(section);
+  },
+  it(name, fn) {
+    const row = document.createElement('div');
+    row.className = 'case';
+    try {
+      fn();
+      passed++;
+      row.innerHTML = `<span class="ok">PASS</span> ${name}`;
+    } catch (err) {
+      failed++;
+      row.className = 'case fail';
+      row.innerHTML = `<span class="fail">FAIL</span> ${name}`;
+      section.appendChild(row);
+      const detail = document.createElement('div');
+      detail.className = 'detail';
+      detail.textContent = err.message;
+      section.appendChild(detail);
+      return;
+    }
+    section.appendChild(row);
+  },
+  eq(actual, expected, label = '') {
+    const a = JSON.stringify(actual), e = JSON.stringify(expected);
+    if (a !== e) throw new Error(`${label}\n  expected: ${e}\n  actual:   ${a}`);
+  },
+  ok(value, label = 'expected truthy') {
+    if (!value) throw new Error(label);
+  },
+});
+
+const summary = document.getElementById('summary');
+summary.innerHTML = failed === 0
+  ? `<span class="ok">${passed} passed</span>`
+  : `<span class="ok">${passed} passed</span> &nbsp; <span class="fail">${failed} failed</span>`;
+document.title = `${failed ? `${failed} FAILED` : 'All passed'} — Iron Protocol Tests`;
+</script>
+</body>
+</html>

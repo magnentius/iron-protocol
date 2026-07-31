@@ -35,8 +35,8 @@
 | Roll | Head | Torso | Arms (L / R) | Legs (L / R) |
 | :---: | :--- | :--- | :--- | :--- |
 | **1** | `[ ]` **Sensor Flicker** *(Max 5 hexes)* | `[ ]` **System Glitch** *(-1 EP next turn)* | `[ ] / [ ]` **Weapon Calib.** *(+1 EP cost)* | `[ ] / [ ]` **Toe Act.** *(-1 Pilot Check)* |
-| **2** | `[ ]` **Comm Static** *(No Datalink)* | `[ ]` **Cap Leak** *(-2 Cap Max)* | `[ ] / [ ]` **Weapon Damaged** *(-1d6 dmg)* | `[ ] / [ ]` **Knee Lock** *(-1 Move Limit)* |
+| **2** | `[ ]` **Comm Static** *(No Datalink)* | `[ ]` **Cap Leak** *(-2 Cap Max)* | `[ ] / [ ]` **Weapon Damaged** *(Attacker picks 1)* | `[ ] / [ ]` **Knee Lock** *(+1 EP per hex)* |
 | **3** | `[ ]` **Pilot Stunned** *(0 EP next)* | `[ ]` **Reactor Dmg** *(-2 EP/turn)* | `[ ] / [ ]` **Shoulder Jam** *(Fwd Arc only)* | `[ ] / [ ]` **Hip Act.** *(-1 EVA Limit)* |
-| **4** | `[ ]` **Life Support** *(Pilot takes 1 dmg/turn)* | `[ ]` **Engine Hit** *(+1 Heat/turn)* | `[ ] / [ ]` **Actuator Hit** *(-1 Hit)* | `[ ] / [ ]` **Ankle Act.** *(-2 Move Limit)* |
-| **5** | `[ ]` **Sensors Dest.** *(No Locks)* | `[ ]` **Gyro Hit** *(-1 EVA Limit)* | `[ ] / [ ]` **Ammo Feed Cut** *(Disabled)* | `[ ] / [ ]` **Leg Blown Off** *(Prone)* |
-| **6+** | `[ ]` **Cockpit Breach** *(Pilot Killed)* | `[ ]` **Reactor Core** *(Destroyed)* | `[ ] / [ ]` **Arm Severed** *(Destroyed)* | `[ ] / [ ]` **Leg Severed** *(Destroyed)* |
+| **4** | `[ ]` **Sensors Down** *(No Locks)* | `[ ]` **Gyro Lock** *(No Torso Twist)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* | `[ ] / [ ]` **Armor Blown** *(DR to 0)* |
+| **5** | `[ ]` **Cockpit Breach** *(-3 Init)* | `[ ]` **Ammo Expl.** *(Internal Blast)* | `[ ] / [ ]` **Ammo Cut** *(Cannot Fire)* | `[ ] / [ ]` **Thruster Wreck** *(Cannot Jump)* |
+| **6** | `[ ]` **Pilot K.O.** *(Dead)* | `[ ]` **Core Melt** *(Destroyed)* | `[ ] / [ ]` **Arm Severed** *(Destroyed)* | `[ ] / [ ]` **Leg Severed** *(Immobilized)* |
