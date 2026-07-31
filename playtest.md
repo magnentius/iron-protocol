@@ -10,14 +10,14 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 ### Setup
 *   **Point Budget**: 435 Points per player.
 *   **Map Size**: 16 x 16 Hexes
-*   **Terrain**: Industrial Sector outskirts (1x Level 1 Central Hill, 2x Light Woods hexes [+1 EVA Cover], 2x Level 2 Building Hexes [Solid LOS Block], 1x Shallow Water Hex [+1 EP Reactor Cooling]).
+*   **Terrain**: Industrial Sector outskirts (1x Level 1 Central Hill, 2x Light Woods hexes [Light Cover], 2x Level 2 Building Hexes [Solid LOS Block], 1x Shallow Water Hex [+1 EP Reactor Cooling]).
 *   **Player 1 (The Skirmisher)**: 1x **IF-55M-1 "Vanguard"** (430 pts) — *5-Point Bid wins Tactical Advantage! Vanguard is designated Advantage Player.*
 *   **Player 2 (The Phantom)**: 1x **IF-45M-1 "Specter"** (435 pts)
     *(Alternative Option: Vanguard vs. Vanguard mirror match; points tied at 430 pts, roll 2d6 at setup to determine Advantage Player).*
 
 ### Testing Parameters (What to look for)
 1.  **Energy Phase & Capacitor Banking**: Does the initial EP allocation feel intuitive for new players? Does banking 1–2 EP in the Capacitor create strategic depth?
-2.  **Point Bid & Advantage Player**: Does the 5-point bid (Vanguard 430 pts vs. Specter 435 pts) feel rewarding by granting Advantage Player tie-breaker control?
+2.  **Point Bid & Advantage Player**: Does the 5-point bid (Vanguard 445 pts vs. Specter 435 pts (Note: Vanguard is now more expensive!)) feel rewarding by granting Advantage Player tie-breaker control?
 3.  **Movement & Facing**: Do players actively use Torso Twisting to align their Forward Arc (Torso) or Arm Arcs with targets while keeping their front armor toward enemy fire?
 4.  **Damage & Armor Degradation**: Does locational Armor DR degradation (reducing DR on penetrating hits) create a satisfying, tangible sensation of dismantling an opponent's chassis?
 
@@ -39,7 +39,7 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 ### Testing Parameters (What to look for)
 1.  **Stealth Balance**: Can the Specter use its AMC Overcharge to effectively stay hidden, or does the 1-turn cooldown leave it too vulnerable to the Colossus's Missiles?
 2.  **ECM Value**: Is the Vanguard's ECM umbrella (Overcharged) enough to protect the Colossus from the Specter's Disruptor Cannon?
-3.  **Vow Check**: Does Lyra's *Vow of Mercy* (forcing her to target limbs before the Torso) make her useless against the Colossus's massive HP pool, or does the Disruptor Cannon's crit-forcing ability make dismantling the heavy frame viable?
+3.  **Vow Check**: Does Lyra's *Vow of Mercy* (forcing her to target limbs before the Torso) make her useless against the Colossus's massive Armor DR, or does the Disruptor Cannon's crit-forcing ability make dismantling the heavy frame viable?
 
 ---
 
@@ -70,7 +70,7 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 
 ### Setup
 *   **Map Size**: 48 x 48 Hexes (Large)
-*   **Terrain**: Open Plains (Clear) with occasional Deep Water features (Costs +2 EP to move through, caps EVA at 1, generates +2 EP cooling) and patches of Light Woods.
+*   **Terrain**: Open Plains (Clear) with occasional Deep Water features (Costs +2 EP to move through, cannot gain the Flanking state, generates +2 EP cooling) and patches of Light Woods.
 *   **Team A (Super-Heavies)**: 
     *   2x **IF-90A-1 "Colossus"** 
     *   1x **IF-75H-1 "Paladin"**
@@ -80,7 +80,7 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 
 ### Testing Parameters (What to look for)
 1.  **Rail Gun Viability**: The Colossus's Rail Gun requires a full 6 EP Overcharge to fire. In a massive 4v4 slugfest, does the Colossus survive long enough to spool up and fire the Rail Gun multiple times? Is the 3d6+10 (AP 3) damage fair against the Paladins' heavy armor?
-2.  **Cluster & AoE**: When four Paladins fire cluster and HE missiles into a tightly packed formation, does the AoE splash damage scale too quickly? Does it feel unfair that Evasion is ignored by AoE?
+2.  **Cluster & AoE**: When four Paladins fire cluster and HE missiles into a tightly packed formation, does the AoE splash damage scale too quickly? Does it feel unfair that Flanking is ignored by AoE?
 3.  **Critical Cascade**: With so much heavy firepower on the board, how frequently do Ammo Explosions and Reactor Core Meltdowns happen? If a Colossus's core melts down, does the resulting 2d6 AoE damage wipe out adjacent allies?
 4.  **Armor Degradation**: Is it too hard to strip Armor DR without the old "Sustained Beam" rule, or does the sheer volume of 1d6 Autocannon bursts naturally whittle armor down to 0 fast enough?
 
@@ -91,7 +91,7 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 
 ### Setup
 *   **Map Size**: 24 x 24 Hexes
-*   **Terrain**: Dense Forest (Light Woods grants +1 EVA Cover, blocks VIS LOS if 2+ hexes deep; Heavy Woods grants +2 EVA Cover, blocks VIS LOS if 1+ hexes deep).
+*   **Terrain**: Dense Forest (Light Woods grants 1 Reroll (Cover), blocks VIS LOS if 2+ hexes deep; Heavy Woods grants 2 Rerolls (Cover), blocks VIS LOS if 1+ hexes deep).
 *   **Team A (The Boss)**: 
     *   1x **IF-90A-1 "Colossus"** (Piloted by **Kenji Takahashi** — Vow of Courage)
 *   **Team B (The Pack)**: 
@@ -100,7 +100,7 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 ### Testing Parameters (What to look for)
 1.  **Action Economy**: Can a single Assault frame with high Initiative survive against 4 Light frames, or do the Jackals completely dominate the turn sequence?
 2.  **Facing & Arcs**: The Jackals will attempt to stay in the Colossus's Rear Arc to bypass its massive frontal armor. Can the Colossus pivot enough to defend its rear? 
-3.  **The Autocannon Threat**: Jackals rely heavily on AP Autocannons. Are 10 AP bursts enough to chew through a Colossus's heavy armor, or will they run out of ammo before the Colossus falls?
+3.  **The Autocannon Threat**: Jackals rely heavily on AP Autocannons. Are Autocannons enough to chew through a Colossus's heavy armor, or will they roll their Ammo Die and jam before the Colossus falls?
 
 ---
 
@@ -117,12 +117,12 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 
 ### Testing Parameters (What to look for)
 1.  **The Baseline Economy**: Without any extreme environmental modifiers or extreme terrain, how many turns does it typically take for a Vanguard to bank enough EP to Overcharge its Laser?
-2.  **Cover Dynamics**: Does moving from boulder to boulder (+1 EVA from Light Cover) significantly lengthen the TTK (Time To Kill), or do flanking maneuvers easily negate cover?
+2.  **Cover Dynamics**: Does moving from boulder to boulder (forces 1 reroll from Light Cover) significantly lengthen the TTK (Time To Kill), or do flanking maneuvers easily negate cover?
 
 ---
 
 ## Scenario 6: The Scout Skirmish (1v1 Light Class)
-**Focus**: High Evasion, Jump Jets, and fragile Internal Structure.
+**Focus**: Flanking, Jump Jets, and fragile Armor DR.
 
 ### Setup
 *   **Map Size**: 18 x 18 Hexes
@@ -133,8 +133,8 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
     *   1x **IF-25L-1 "Jackal"** (Standard Pilot)
 
 ### Testing Parameters (What to look for)
-1.  **Evasion vs Accuracy**: When both frames are generating 4-5 Evasion per turn and jumping from rooftop to rooftop, is it too hard to land hits, or do the lock-on mechanics keep the fight moving?
-2.  **Lethality**: With only Light HP pools, does the first frame to land a solid hit automatically win, or is there room for a comeback?
+1.  **Evasion vs Accuracy**: When both frames are constantly gaining the Flanking state per turn and jumping from rooftop to rooftop, is it too hard to land hits, or do the lock-on mechanics keep the fight moving?
+2.  **Lethality**: With only Light Armor DR, does the first frame to land a solid hit automatically win, or is there room for a comeback?
 
 ---
 
@@ -151,4 +151,4 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 
 ### Testing Parameters (What to look for)
 1.  **Weapon Matchup**: The Colossus relies on slow, massive hits (Rail Gun/Thermal Lance), while the Paladin relies on a mix of missiles and Autocannons. Which damage philosophy strips armor and destroys components faster in a pure 1v1 slugfest?
-2.  **Critical Thresholds**: Does the Colossus's sheer HP pool make it immune to critical hits for too long, or does the Paladin's Autocannon trigger criticals reliably once armor is breached?
+2.  **Critical Thresholds**: Does the Colossus's sheer Armor DR make it immune to critical hits for too long, or does the Paladin's Autocannon trigger criticals reliably once armor is breached?
