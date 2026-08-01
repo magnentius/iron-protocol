@@ -166,3 +166,23 @@ function logEntry(entry) {
 export function logList(entries = [], limit = 15) {
   return `<div class="log">${entries.slice(0, limit).map(logEntry).join('')}</div>`;
 }
+
+/**
+ * Save text to a file. Uses an object URL rather than a data: URI so the size is
+ * not capped, and revokes it once the click has been dispatched.
+ *
+ * On iOS Safari a download may open in a preview or the share sheet instead of
+ * saving directly — that is the platform's handling of `download`, not something
+ * the page can control.
+ */
+export function downloadText(filename, text) {
+  const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
+}

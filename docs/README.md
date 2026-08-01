@@ -84,6 +84,14 @@ Energy and End Phase entries open into each frame's arithmetic; Activation and C
 the turn order, which reverses between them. Round and phase are stored as fields and shown as a
 chip, so no entry has to repeat the phase it already sits under.
 
+**Download** writes the whole battle out as a plain text transcript — header, roster, every round
+in forward order with all the detail expanded, then each frame's own log, which holds a few things
+the shared one does not (a countermeasure check is recorded against the defender alone). Plain
+text rather than JSON because the audience is a person: something to keep, paste into a thread, or
+settle an argument with. Nothing re-imports it, so a machine format would serve no one. On iOS a
+download may open in a preview or the share sheet instead of saving directly — that is Safari's
+handling of `download`, not something the page controls.
+
 **Ref tab** — the hit location table, all four critical tables with the Severity Ladder, what
 blocks or contests each sensor band, terrain, weapons, Ammo Dice, movement costs and the
 resolution cases most often argued over.
@@ -210,6 +218,7 @@ docs/
   js/
     rules.js            pure rules engine — no DOM, storage or network
     state.js            battle model, mutations, localStorage, schema guard
+    transcript.js       battle log → plain text, pure and testable
     sync.js             Firebase Realtime Database adapter
     config.js           Firebase config — yours goes here
     app.js              bootstrap, tab routing, event delegation

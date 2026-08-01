@@ -10,6 +10,7 @@ import * as R from './js/rules.js';
 import { instantiate, FRAME_PRESETS, FRAME_KEYS, costOut } from './js/data/frames.js';
 import { CRIT_TABLES, CRIT_TABLE_MAX, overkillDice, COUNTERMEASURE_CHECK_TN } from './js/data/tables.js';
 import { diffInto } from './js/sync.js';
+import { battleTranscript, transcriptFilename } from './js/transcript.js';
 import {
   addFrame, advancePhase, createFrame, createBattle, getBattle, isCompatible, logAction, setBattle,
   SCHEMA_VERSION,
@@ -1132,6 +1133,64 @@ export function run({ describe, it, eq, ok }) {
       const e = findEntry(/deployed/);
       eq([e.round, e.phase], [1, 'energy']);
     });
+  });
+
+  // --- Transcript export -----------------------------------------------------
+  describe('Battle log export');
+
+  const AT = Date.parse('2026-08-01T14:32:05');
+
+  function exported() {
+    const f = runTo('end');
+    logAction(f, 'walk', 'Walk', 'Walk — 1 EP', 1);
+    return battleTranscript(getBattle(), { now: AT });
+  }
+
+  it('carries a header, the roster and every round', () => {
+    withStorage(() => {
+      const t = exported();
+      ok(t.includes('IRON PROTOCOL — BATTLE LOG'), 'header');
+      ok(t.includes('Room ENDP'), 'room code');
+      ok(/Jackal — IF-25L/.test(t), 'roster names the frame and designation');
+      ok(t.includes('ROUND 1'), 'round heading');
+    });
+  });
+
+  it('reads forwards — oldest entry first, opposite of the display order', () => {
+    withStorage(() => {
+      // Scope past the header, which names the phase the battle is currently in.
+      const body = exported().slice(exported().indexOf('ROUND 1'));
+      ok(body.indexOf('Energy Phase') < body.indexOf('End Phase'),
+         'the Energy Phase must appear before the End Phase');
+    });
+  });
+
+  it('includes the detail that the app hides behind a tap', () => {
+    withStorage(() => {
+      const t = exported();
+      ok(/· Jackal: \+8 EP/.test(t), 'the Energy Phase arithmetic is written out');
+      ok(/· Walk — 1 EP/.test(t), 'and so is each movement step');
+    });
+  });
+
+  it('appends the per-frame logs, which hold what the shared log does not', () => {
+    withStorage(() => {
+      const t = exported();
+      ok(t.includes('FRAME LOGS'), 'section present');
+      ok(t.indexOf('FRAME LOGS') > t.indexOf('ROUND 1'), 'after the battle log');
+    });
+  });
+
+  it('names the file after the room, round and date', () => {
+    withStorage(() => {
+      runTo('end');
+      eq(transcriptFilename(getBattle(), AT), 'iron-protocol-ENDP-r1-2026-08-01.txt');
+    });
+  });
+
+  it('survives a battle with nothing logged yet', () => {
+    const t = battleTranscript(createBattle({ code: 'MTPY' }), { now: AT });
+    ok(t.includes('No entries yet.'), t.slice(0, 120));
   });
 
   it('accepts a battle it just created', () => {

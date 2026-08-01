@@ -3,11 +3,14 @@
 
 import { TERRAIN, TERRAIN_KEYS } from '../data/tables.js';
 import * as R from '../rules.js';
+import { battleTranscript, transcriptFilename } from '../transcript.js';
 import {
   PHASE_NAMES, advancePhase, deviceId, framesList, getBattle, getFrame,
   logAction, logBattle, logFrame, mutate, orderedFrames, resetBattle, runEnergyPhase,
 } from '../state.js';
-import { closeModal, cls, confirmModal, empty, esc, logList, meter, openModal, stepper, toast } from './dom.js';
+import {
+  closeModal, cls, confirmModal, downloadText, empty, esc, logList, meter, openModal, stepper, toast,
+} from './dom.js';
 import { locationStrip, setOpenFrame, statusChips } from './sheet.js';
 
 export function render() {
@@ -41,7 +44,10 @@ export function render() {
       ${framesList().filter((f) => R.isDestroyed(f)).map((f) => frameCard(f, null, battle)).join('')}` : ''}
 
     ${battle.log?.length ? `
-      <div class="section-title">Battle Log</div>
+      <div class="section-title row between">
+        <span>Battle Log</span>
+        <button class="btn sm ghost" data-action="download-log">Download</button>
+      </div>
       <div class="card tight">${logList(battle.log, 20)}</div>` : ''}
 
     <button class="btn danger block ghost" data-action="reset-battle" style="margin-top:1rem">Reset Battle</button>
@@ -260,6 +266,13 @@ export function handle(action, el) {
       setOpenFrame(frameId);
       switchTab('frames');
       return true;
+
+    case 'download-log': {
+      const battle = getBattle();
+      downloadText(transcriptFilename(battle), battleTranscript(battle));
+      toast('Battle log downloaded', 'ok');
+      return true;
+    }
 
     case 'goto-frames':
       setOpenFrame(null);
