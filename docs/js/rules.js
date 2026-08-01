@@ -1,30 +1,51 @@
 // Iron Protocol — rules engine.
 //
-// Pure logic: no DOM, no storage, no network. Functions mutate the frame object
-// passed in and return a plain report describing what happened, which the UI
-// renders and the sync layer turns into writes.
+// Pure functions only: no DOM, no I/O, no module-level mutable state. Every
+// random draw takes an injectable `rng`, so the whole engine is deterministic
+// under test. Section references point at rules.md, which is the source of truth.
 //
-// Loaded standalone by tests.html.
+// Three things worth understanding before reading further:
+//
+//   1. Armor DR is a THRESHOLD, not a pool. Damage must be strictly greater than
+//      DR to do anything at all; if it is, the location permanently loses 1 DR and
+//      the attacker rolls on the Critical Hit Table. There is no Internal Structure.
+//   2. Criticals CASCADE UPWARD. Each location tracks which slots are marked; a
+//      roll landing on a marked slot climbs to the next unmarked one. The tables
+//      are different lengths (head 5, torso 8, arms and legs 6).
+//   3. Defence is rerolls and negation, never subtraction. Flank Speed and Cover
+//      let the defender reroll the attacker's damage dice; countermeasures negate
+//      the whole attack on a Countermeasure Check.
 
 import {
-  ADJACENT_LOCATIONS,
-  AMMO_TYPES,
-  CRIT_TABLE_FOR,
-  IR_LOCK_THRESHOLD,
-  LOCATION_NAMES,
   LOCATIONS,
-  MAX_FULL_AUTO_BURSTS,
-  MOVE_COSTS,
-  PILOT_CHECK_TN,
-  SYSTEM_UPKEEP,
-  TERRAIN,
-  WEAPONS,
-  WEIGHT_CLASSES,
-  lookupCrit,
+  LOCATION_NAMES,
+  CRIT_TABLE_FOR,
+  CRIT_TABLE_MAX,
+  ADJACENT_LOCATIONS,
   lookupHitLocation,
+  lookupCrit,
+  cascadeSlot,
+  TERRAIN,
+  WEIGHT_CLASSES,
+  JUMP_CAPABLE_CLASSES,
+  HEAVY_WOODS_BLOCKED_CLASSES,
+  MOVE_COSTS,
+  FLANK_SPEED_THRESHOLD,
+  JUMP_FLANK_SPEED_HEXES,
+  overkillDice,
+  WEAPONS,
+  AMMO_TYPES,
+  AMMO_DIE,
+  COUNTERMEASURE_CHECK_TN,
+  IR_LOCK_THRESHOLD,
+  MAX_FULL_AUTO_BURSTS,
+  PILOT_CHECK_TN,
+  PILOT_CHECK_MODIFIERS,
 } from './data/tables.js';
 
-// --- Dice -------------------------------------------------------------------
+export { lookupHitLocation, lookupCrit, cascadeSlot };
+
+// --- dice ------------------------------------------------------------------
 
 export function rollDie(sides = 6, rng = Math.random) {
   return Math.floor(rng() * sides) + 1;
@@ -35,15 +56,14 @@ export function rollDice(count, sides = 6, rng = Math.random) {
 }
 
 export function roll2d6(rng = Math.random) {
-  const dice = rollDice(2, 6, rng);
-  return { dice, total: dice[0] + dice[1] };
+  const a = rollDie(6, rng);
+  const b = rollDie(6, rng);
+  return { dice: [a, b], total: a + b };
 }
 
 export const sum = (nums) => nums.reduce((a, b) => a + b, 0);
 
-// --- Derived stats ----------------------------------------------------------
-// Every permanent critical effect lives in a `*Mod` field so it keeps applying
-// on every later turn. This is the main thing the app does that paper does not.
+// --- derived stats ---------------------------------------------------------
 
 export function effectiveReactor(frame) {
   return Math.max(0, frame.reactor + (frame.reactorMod || 0));
@@ -54,579 +74,337 @@ export function effectiveCapacitorMax(frame) {
 }
 
 export function effectiveInitiative(frame) {
-  return frame.initiative + (frame.initiativeMod || 0);
+  const pilot = frame.dishonored ? 0 : (frame.pilotBonus || 0);
+  return frame.initiative + (frame.initiativeMod || 0) + pilot;
 }
 
 export function effectiveMovementLimit(frame) {
-  return Math.max(0, frame.movementLimit + (frame.movementLimitMod || 0));
-}
-
-/** Evasion Limit after Hip Actuator crits and any terrain cap (water). */
-export function effectiveEvasionLimit(frame) {
-  const base = Math.max(0, frame.evasionLimit + (frame.evasionLimitMod || 0));
-  const cap = TERRAIN[frame.terrain]?.evaCap;
-  return cap == null ? base : Math.min(base, cap);
-}
-
-export function coverBonus(frame) {
-  return TERRAIN[frame.terrain]?.cover || 0;
+  const stutter = frame.servoStutter ? 2 : 0;
+  return Math.max(0, frame.movementLimit + (frame.movementLimitMod || 0) - stutter);
 }
 
 export function massValue(frame) {
   return WEIGHT_CLASSES[frame.weightClass].massValue;
 }
 
-/**
- * Evasion applied against one specific attack.
- *
- * Movement-generated EVA is lost while Prone and is bypassed entirely by rear
- * attacks; terrain cover survives both (rules.md 1.3, 6.3). AoE and physical
- * impacts bypass Evasion outright, and since cover is expressed as bonus EVA,
- * it is bypassed too.
- */
-export function evasionAgainst(frame, { zone = 'front', aoe = false, bypassesEvasion = false } = {}) {
-  if (aoe || bypassesEvasion) return 0;
-  const movement = frame.prone || zone === 'rear' ? 0 : frame.eva || 0;
-  const painted = frame.painted ? 1 : 0; // Tracer marking (rules.md 5.1)
-  return Math.max(0, movement + coverBonus(frame) - painted);
-}
-
-/** Frames spending 5+ EP in a turn light up on infrared (rules.md 4.1). */
+/** A Frame becomes IR-lockable once it has spent this much EP in a turn (4.1). */
 export function isIRLockable(frame) {
   return (frame.epSpentThisTurn || 0) >= IR_LOCK_THRESHOLD;
 }
 
 export function isDestroyed(frame) {
-  return !!frame.destroyed;
+  if (frame.destroyed) return true;
+  if (frame.locations.torso.destroyed || frame.locations.head.destroyed) return true;
+  // Both legs gone = completely disabled (rules.md 6.5.4).
+  return frame.locations.leftLeg.destroyed && frame.locations.rightLeg.destroyed;
+}
+
+/** A leg that is severed, or whose actuator is destroyed (rules.md 6.4). */
+export function hasCrippledLeg(frame) {
+  return ['leftLeg', 'rightLeg'].some(
+    (l) => frame.locations[l].destroyed || frame.locations[l].actuatorDestroyed,
+  );
+}
+
+export function canJump(frame) {
+  return Boolean(frame.systems?.jumpJets)
+    && JUMP_CAPABLE_CLASSES.includes(frame.weightClass)
+    && !frame.jumpJetsEmpty
+    && !hasCrippledLeg(frame);
 }
 
 // --- Energy Phase (rules.md 2.1) -------------------------------------------
 
-/**
- * Generate EP, roll banked capacitor charge into the pool, pay stealth upkeep.
- * Returns a report so the UI can show the breakdown.
- */
-export function energyPhase(frame) {
-  const report = {
-    frameId: frame.id,
-    generated: 0,
-    cooling: 0,
-    glitch: 0,
-    banked: frame.capacitor || 0,
-    upkeep: 0,
-    upkeepDetail: [],
-    stunned: false,
-    pool: 0,
-  };
+export function energyPhase(frame, { terrain = frame.terrain } = {}) {
+  const report = { generated: 0, cooling: 0, upkeep: 0, glitch: 0, net: 0, steps: [] };
+  const base = effectiveReactor(frame);
+  report.generated = base;
+  report.steps.push(`Reactor generates ${base} EP`);
 
-  // Pilot Stunned: 0 EP this turn and the capacitor is drained (rules.md 6.2).
-  if (frame.pilotStunned) {
-    frame.pilotStunned = false;
-    frame.capacitor = 0;
-    frame.ep = 0;
-    frame.overchargeAvailable = 0;
-    report.stunned = true;
-    return report;
+  const cooling = TERRAIN[terrain]?.cooling || 0;
+  if (cooling) {
+    report.cooling = cooling;
+    report.steps.push(`${TERRAIN[terrain].name}: +${cooling} EP cooling`);
   }
 
-  const cooling = TERRAIN[frame.terrain]?.cooling || 0;
-  const glitch = frame.systemGlitch ? 1 : 0;
-  frame.systemGlitch = false; // one turn only
+  if (frame.systemGlitch) {
+    report.glitch = 1;
+    report.steps.push('System Glitch: −1 EP this turn');
+    frame.systemGlitch = false;
+  }
 
-  const generated = Math.max(0, effectiveReactor(frame) + cooling - glitch);
-  const banked = frame.capacitor || 0;
+  // Sustained suites bill every Energy Phase, whether they are tested or not.
+  let upkeep = 0;
+  if (frame.adaptiveSkinActive) upkeep += 2 + ((frame.adaptiveSkinBands || 1) > 1 ? 2 : 0);
+  if (frame.ecmActive) upkeep += 2 + (frame.ecmRadius || 0);
+  if (frame.calibrationDrift) upkeep += 1; // Head crit 2
+  report.upkeep = upkeep;
+  if (upkeep) report.steps.push(`System upkeep: −${upkeep} EP`);
 
-  // Overcharge may only be paid from banked capacitor EP (rules.md 5.4), so we
-  // track how much of the pool came from the capacitor.
-  frame.overchargeAvailable = banked;
+  report.net = Math.max(0, base + cooling - report.glitch - upkeep);
+
+  // Banked charge joins the pool, and the capacitor size at the moment it empties
+  // is the turn's Overcharge Allowance (rules.md 5.3).
+  frame.overchargeAvailable = frame.capacitor || 0;
+  frame.ep = report.net + (frame.capacitor || 0);
   frame.capacitor = 0;
 
-  let pool = generated + banked;
-
-  const upkeep = [];
-  if (frame.systems?.amc?.active) {
-    const bands = Math.max(1, frame.systems.amc.bands?.length || 1);
-    const cost = SYSTEM_UPKEEP.amc * bands;
-    upkeep.push({ system: 'AMC', cost, detail: `${bands} spectrum${bands > 1 ? 's' : ''}` });
-  }
-  if (frame.systems?.ecm?.active) {
-    const radius = frame.systems.ecm.radius || 0;
-    const cost = SYSTEM_UPKEEP.ecm + radius;
-    upkeep.push({ system: 'ECM', cost, detail: radius ? `+${radius} hex radius` : 'host only' });
-  }
-
-  const upkeepTotal = sum(upkeep.map((u) => u.cost));
-  pool = Math.max(0, pool - upkeepTotal);
-  frame.overchargeAvailable = Math.min(frame.overchargeAvailable, pool);
-
-  frame.ep = pool;
-  frame.epSpentThisTurn = upkeepTotal;
+  // Adaptive Skin upkeep is exempt from the IR threshold; everything else counts.
+  frame.epSpentThisTurn = Math.max(0, upkeep - (frame.adaptiveSkinActive ? 2 : 0));
   frame.hexesMoved = 0;
-
-  Object.assign(report, {
-    generated,
-    cooling,
-    glitch,
-    banked,
-    upkeep: upkeepTotal,
-    upkeepDetail: upkeep,
-    pool,
-  });
+  frame.flankSpeed = false;
+  report.steps.push(`Pool ${frame.ep} EP · Overcharge Allowance ${frame.overchargeAvailable} EP`);
   return report;
 }
 
-// --- Movement (rules.md 2.2, 3.2) ------------------------------------------
+// --- Movement (rules.md 2.2) -----------------------------------------------
 
-/**
- * EP cost of a single movement action.
- * @param action 'walk' | 'reverse' | 'pivot' | 'jump' | 'standUp' | 'torsoTwist'
- */
 export function movementCost(frame, action, { elevationDelta = 0, hexes = 1, terrain = frame.terrain } = {}) {
-  const terrainExtra = TERRAIN[terrain]?.extraEP || 0;
-  const climb = elevationDelta > 0 ? elevationDelta * MOVE_COSTS.climbUp : 0;
-  const kneeLock = frame.kneeLock ? 1 : 0;
-
+  const t = TERRAIN[terrain] || TERRAIN.clear;
   switch (action) {
     case 'walk':
-      return MOVE_COSTS.walk + terrainExtra + climb + kneeLock;
-    case 'reverse':
-      return MOVE_COSTS.reverse + terrainExtra + climb + kneeLock;
+    case 'reverse': {
+      const base = action === 'walk' ? MOVE_COSTS.walk : MOVE_COSTS.reverse;
+      const climb = elevationDelta > 0 ? MOVE_COSTS.climbUp * elevationDelta : 0;
+      return base + t.extraEP + climb + (frame.kneeLock ? 1 : 0);
+    }
+    // A jump pays 2 EP per hex and nothing else: no terrain, no climbing.
     case 'jump':
       return MOVE_COSTS.jumpPerHex * hexes;
     case 'pivot':
-      if (frame.immobilized) return MOVE_COSTS.severedLegPivot;
-      if (frame.prone) return MOVE_COSTS.pronePivot;
+      if (frame.prone) return hasCrippledLeg(frame) ? MOVE_COSTS.severedLegPivot : MOVE_COSTS.pronePivot;
       return MOVE_COSTS.pivot;
     case 'standUp':
       return MOVE_COSTS.standUp;
     case 'torsoTwist':
-      return frame.gyroLock ? 2 : 0;
+      return frame.servoLock ? 2 : 0;
     default:
       throw new Error(`Unknown movement action: ${action}`);
   }
 }
 
-/** Why a movement action is unavailable, or null if it is legal. */
 export function movementBlockedReason(frame, action, { terrain = frame.terrain, hexes = 1 } = {}) {
-  if (frame.destroyed) return 'Frame destroyed';
+  if (isDestroyed(frame)) return 'Frame destroyed';
+  const severedLeg = ['leftLeg', 'rightLeg'].some((l) => frame.locations[l].destroyed);
+  const moving = ['walk', 'reverse', 'jump'].includes(action);
 
-  // A crippled Frame may still haul itself upright on its remaining leg — it
-  // just needs a Pilot Check to do it (rules.md 6.5.4).
-  if (action === 'standUp') {
-    return frame.prone ? null : 'Not prone';
-  }
-  if (action === 'torsoTwist') {
-    return frame.prone ? 'Prone — cannot torso twist' : null;
-  }
-
-  if (frame.prone && action !== 'pivot') return 'Prone — must stand up first';
-  if (frame.immobilized && action !== 'pivot') return 'Immobilized (leg severed)';
-
+  if (severedLeg && moving) return 'Crippled — can never walk, reverse or jump again';
+  if (frame.prone && moving) return 'Prone — must Stand Up first';
   if (action === 'jump') {
-    if (!frame.systems?.jumpJets) return 'No jump jets';
-    if (frame.jumpJetsDisabled) return 'Jump jets wrecked';
-    if (hexes > 4) return 'Max jump is 4 hexes';
+    if (!frame.systems?.jumpJets) return 'No Jump Jets mounted';
+    if (!JUMP_CAPABLE_CLASSES.includes(frame.weightClass)) return 'Heavy and Assault chassis can never jump';
+    if (frame.jumpJetsEmpty) return 'Jump Jet propellant is dry';
+    if (hasCrippledLeg(frame)) return 'A Frame launches and lands on its legs';
   }
-  if (terrain === 'woodsHeavy' && (action === 'walk' || action === 'reverse')) {
-    const cls = frame.weightClass;
-    if (cls === 'heavy' || cls === 'assault') return 'Heavy Woods impassable on foot for this weight class';
+  if (['walk', 'reverse'].includes(action) && terrain === 'woodsHeavy'
+      && HEAVY_WOODS_BLOCKED_CLASSES.includes(frame.weightClass)) {
+    return 'Heavy Woods are impassable on foot to this chassis';
   }
-  if (action === 'walk' || action === 'reverse' || action === 'jump') {
-    const moved = frame.hexesMoved || 0;
-    const limit = effectiveMovementLimit(frame);
-    if (moved + (action === 'jump' ? hexes : 1) > limit) return `Movement limit reached (${limit} hexes)`;
+  if (moving && (frame.hexesMoved || 0) + hexes > effectiveMovementLimit(frame)) {
+    return `Movement Limit ${effectiveMovementLimit(frame)} reached`;
   }
   return null;
 }
 
-/**
- * Spend EP on a movement action and accrue Evasion.
- * Caller should check movementBlockedReason first.
- */
 export function performMovement(frame, action, opts = {}) {
+  const blocked = movementBlockedReason(frame, action, opts);
+  if (blocked) return { ok: false, reason: blocked };
   const cost = movementCost(frame, action, opts);
-  const spend = spendEP(frame, cost);
-  const report = { action, cost, ...spend, evaGained: 0, hexes: 0 };
-  if (!spend.ok) return report;
+  if ((frame.ep || 0) < cost) return { ok: false, reason: `Needs ${cost} EP, has ${frame.ep || 0}` };
 
-  const hexes = action === 'jump' ? opts.hexes || 1 : 1;
-
-  if (action === 'walk' || action === 'reverse' || action === 'jump') {
-    frame.hexesMoved = (frame.hexesMoved || 0) + hexes;
-    report.hexes = hexes;
-    const perHex = action === 'jump' ? 2 : 1; // jumping generates 2 EVA per hex
-    const limit = effectiveEvasionLimit(frame);
-    const before = frame.eva || 0;
-    frame.eva = Math.min(limit, before + perHex * hexes);
-    report.evaGained = frame.eva - before;
-  }
+  spendEP(frame, cost);
 
   if (action === 'standUp') {
-    if (frame.immobilized) {
-      // Balancing on one leg and the gyro: the EP is spent either way.
-      const check = pilotCheck(frame, { rng: opts.rng, forcedRoll: opts.forcedRoll ?? null });
-      report.pilotCheck = check;
+    // A crippled leg must pass a Pilot Check to rise. The EP is spent either way.
+    if (hasCrippledLeg(frame)) {
+      const check = pilotCheck(frame, { rng: opts.rng, forcedRoll: opts.forcedRoll });
       if (check.passed) frame.prone = false;
-    } else {
-      frame.prone = false;
+      return { ok: true, cost, stoodUp: check.passed, check };
     }
-  }
-  if (opts.terrain) {
-    frame.terrain = opts.terrain;
-    // Re-cap evasion if the new hex is water.
-    frame.eva = Math.min(frame.eva || 0, effectiveEvasionLimit(frame));
+    frame.prone = false;
+    return { ok: true, cost, stoodUp: true };
   }
 
-  return report;
+  const hexes = action === 'jump' ? (opts.hexes || 1) : 1;
+  if (['walk', 'reverse', 'jump'].includes(action)) {
+    frame.hexesMoved = (frame.hexesMoved || 0) + hexes;
+  }
+  if (opts.terrain) frame.terrain = opts.terrain;
+
+  updateFlankSpeed(frame, { jumpedHexes: action === 'jump' ? hexes : 0 });
+  return { ok: true, cost, flankSpeed: frame.flankSpeed };
 }
 
-// --- Energy spending --------------------------------------------------------
-
 /**
- * Deduct EP from the pool. Overcharge EP must come from banked capacitor
- * charge, tracked in frame.overchargeAvailable (rules.md 5.4).
+ * Flank Speed (rules.md 2.2): exit 4+ hexes in an activation, or complete a jump
+ * of 2+ hexes. Water denies it outright, as does being Prone. The threshold is
+ * fixed, which is why an Assault chassis capped at 3 can never reach it.
  */
-export function spendEP(frame, amount, { overcharge = 0 } = {}) {
-  if (amount > (frame.ep || 0)) {
-    return { ok: false, reason: `Needs ${amount} EP, has ${frame.ep || 0}` };
+export function updateFlankSpeed(frame, { jumpedHexes = 0 } = {}) {
+  const t = TERRAIN[frame.terrain] || TERRAIN.clear;
+  if (frame.prone || t.blocksFlankSpeed) {
+    frame.flankSpeed = false;
+    return false;
   }
-  if (overcharge > (frame.overchargeAvailable || 0)) {
-    return {
-      ok: false,
-      reason: `Overcharge needs ${overcharge} EP from the Capacitor, only ${frame.overchargeAvailable || 0} banked`,
-    };
-  }
-  frame.ep -= amount;
-  frame.overchargeAvailable = Math.max(0, (frame.overchargeAvailable || 0) - overcharge);
-  frame.epSpentThisTurn = (frame.epSpentThisTurn || 0) + amount;
-  return { ok: true, spent: amount, remaining: frame.ep };
+  const byDistance = (frame.hexesMoved || 0) >= FLANK_SPEED_THRESHOLD;
+  const byJump = jumpedHexes >= JUMP_FLANK_SPEED_HEXES;
+  frame.flankSpeed = Boolean(byDistance || byJump);
+  return frame.flankSpeed;
 }
 
-// --- Damage (rules.md 2.3, 6.1, 6.5) ---------------------------------------
+export function spendEP(frame, amount, { overcharge = 0 } = {}) {
+  if (overcharge > (frame.overchargeAvailable || 0)) {
+    return { ok: false, reason: `Overcharge Allowance is ${frame.overchargeAvailable || 0} EP` };
+  }
+  const total = amount + overcharge;
+  if ((frame.ep || 0) < total) return { ok: false, reason: `Needs ${total} EP, has ${frame.ep || 0}` };
+  frame.ep -= total;
+  frame.overchargeAvailable = (frame.overchargeAvailable || 0) - overcharge;
+  frame.epSpentThisTurn = (frame.epSpentThisTurn || 0) + total;
+  return { ok: true, spent: total };
+}
 
-export { lookupHitLocation };
+// --- Defensive rerolls (rules.md 2.3 step 7, 3.3) --------------------------
 
 /**
- * Apply one packet of damage to one location.
+ * How many of the attacker's damage dice the defender may force a reroll of.
+ * Flank Speed grants 1, Cover 1 (Light) or 2 (Heavy), and they stack.
+ * Rapid Fire bypasses Flank Speed; AoE bypasses Flank Speed and Cover both.
+ */
+export function rerollAllowance(frame, { aoe = false, rapidFire = false, transferred = false } = {}) {
+  if (aoe) return 0;
+  const cover = TERRAIN[frame.terrain]?.cover || 0;
+  const denied = rapidFire || transferred || frame.prone;
+  const flank = frame.flankSpeed && !denied ? 1 : 0;
+  const loyalty = frame.loyaltyCover || 0; // Vow of Loyalty Boon, from an ally
+  return flank + cover + loyalty;
+}
+
+/**
+ * Apply the defender's rerolls to a damage pool. Rerolls are optional and the
+ * defender chooses the dice, so the sensible policy is to reroll the highest die
+ * and stop once nothing worth rerolling remains.
+ */
+export function applyRerolls(pool, allowance, { rng = Math.random, floor = 3, forced = null } = {}) {
+  const dice = [...pool];
+  const log = [];
+  for (let i = 0; i < allowance; i += 1) {
+    const highest = Math.max(...dice);
+    if (highest <= floor) break;
+    const idx = dice.indexOf(highest);
+    dice[idx] = forced?.[i] ?? rollDie(6, rng);
+    log.push(`rerolled ${highest} → ${dice[idx]}`);
+  }
+  return { dice, log };
+}
+
+// --- Countermeasure Check (rules.md 4.2) -----------------------------------
+
+/**
+ * Every deployed countermeasure — cartridge or sustained suite — negates an
+ * attack on a 4+. Terrain never rolls; woods, buildings and elevation block
+ * outright. Only the ground is reliable.
+ */
+export function countermeasureCheck({ rng = Math.random, forcedRoll = null } = {}) {
+  const rolled = forcedRoll ?? rollDie(6, rng);
+  return { rolled, tn: COUNTERMEASURE_CHECK_TN, negated: rolled >= COUNTERMEASURE_CHECK_TN };
+}
+
+/** Which of the defender's systems can contest an attack made on this band. */
+export function availableCountermeasures(frame, band) {
+  const out = [];
+  const sys = frame.systems || {};
+  // Vow of Honesty forbids every deception system, the pilot's own and allies'.
+  if (frame.vow === 'honesty' && !frame.dishonored) return out;
+  if (band === 'ir' && sys.flares && !frame.flaresEmpty) out.push({ key: 'flares', kind: 'cartridge' });
+  if (band === 'rad' && sys.chaff && !frame.chaffEmpty) out.push({ key: 'chaff', kind: 'cartridge' });
+  if (band === 'vis' && frame.inSmoke) out.push({ key: 'smoke', kind: 'cartridge' });
+  if (band === 'rad' && frame.ecmActive) out.push({ key: 'ecm', kind: 'sustained' });
+  if (frame.adaptiveSkinActive && (frame.adaptiveSkinBandKeys || []).includes(band)) {
+    out.push({ key: 'adaptiveSkin', kind: 'sustained' });
+  }
+  return out;
+}
+
+/**
+ * Resolve one countermeasure. A cartridge is spent whether it worked or not and
+ * then rolls its Ammo Die; a sustained suite is never expended.
+ */
+export function useCountermeasure(frame, cm, { rng = Math.random, forcedRoll = null, forcedAmmoRoll = null } = {}) {
+  const check = countermeasureCheck({ rng, forcedRoll });
+  const out = { ...check, key: cm.key, kind: cm.kind, ammo: null };
+  if (cm.kind === 'cartridge' && cm.key !== 'smoke') {
+    out.ammo = rollAmmoDie(AMMO_DIE.countermeasure.empty, { rng, forcedRoll: forcedAmmoRoll });
+    if (out.ammo.empty) frame[`${cm.key}Empty`] = true;
+  }
+  return out;
+}
+
+// --- Damage (rules.md 2.3, 6.1) --------------------------------------------
+
+/**
+ * Resolve a damage total against one location.
  *
- * @param opts.evasion       EVA to subtract (see evasionAgainst)
- * @param opts.apX           Armor Piercing rating — ignores this much DR
- * @param opts.treatDRAsZero Core Critical / Disruptor: DR is 0 but still degrades
- * @param opts.direct        Transfer & Ammo Explosion: skip EVA, DR and degradation
- * @param opts.overrideDR    Resolve against this DR instead of the live value
- * @param opts.skipDegrade   Do not degrade DR here (caller degrades once per attack)
+ * Armor DR is a threshold: `damage > DR` penetrates; anything else bounces off
+ * with no effect whatsoever — no partial damage, no degradation.
+ *
+ * opts:
+ *   apX          — Armor Piercing, subtracted from DR
+ *   coreCritical — a natural 2 on the hit location table: torso DR counts as 0
+ *   transferred  — blow-through from a severed limb
+ *   skipDegrade  — Rapid Fire degrades DR once for the whole attack, not per die
  */
 export function applyDamage(frame, locKey, damage, opts = {}) {
-  const {
-    evasion = 0,
-    apX = 0,
-    treatDRAsZero = false,
-    direct = false,
-    overrideDR = null,
-    skipDegrade = false,
-  } = opts;
+  const { apX = 0, coreCritical = false, transferred = false, skipDegrade = false } = opts;
   const report = {
     location: locKey,
     locationName: LOCATION_NAMES[locKey],
     raw: damage,
-    evasion: 0,
-    afterEvasion: damage,
     dr: 0,
-    toIS: 0,
+    excess: 0,
     penetrated: false,
     drDegraded: false,
-    destroyed: false,
+    critDice: 0,
     transferred: null,
-    shouldRollCrit: false,
     steps: [],
   };
 
-  let loc = frame.locations[locKey];
+  const loc = frame.locations[locKey];
 
   // A hit on an already-severed limb blows through to the Torso (rules.md 6.5.5).
   if (loc.destroyed && locKey !== 'torso') {
-    report.steps.push(`${LOCATION_NAMES[locKey]} already destroyed — damage transfers to Torso`);
-    const transfer = applyDamage(frame, 'torso', damage, { direct: true });
-    report.transferred = transfer;
-    report.destroyed = true;
+    report.steps.push(`${LOCATION_NAMES[locKey]} is gone — the hit transfers to the Torso`);
+    report.transferred = applyDamage(frame, 'torso', damage, { apX, transferred: true });
     return report;
   }
 
-  let remaining = damage;
+  const baseDR = loc.dr;
+  const dr = coreCritical ? 0 : Math.max(0, baseDR - apX);
+  report.dr = dr;
+  if (coreCritical) report.steps.push('Core Critical — Torso Armor DR is 0 for this whole attack');
+  else if (apX) report.steps.push(`Armor DR ${baseDR} − AP ${apX} = ${dr}`);
 
-  if (!direct) {
-    report.evasion = evasion;
-    remaining = Math.max(0, remaining - evasion);
-    report.afterEvasion = remaining;
-    if (evasion) report.steps.push(`${damage} − ${evasion} EVA = ${remaining}`);
-
-    const baseDR = overrideDR ?? loc.dr;
-    const dr = treatDRAsZero ? 0 : Math.max(0, baseDR - apX);
-    report.dr = dr;
-    const afterDR = remaining - dr;
-    if (treatDRAsZero) {
-      report.steps.push(`Armor DR bypassed`);
-    } else if (dr || apX) {
-      const apNote = apX ? ` (DR ${baseDR} − AP ${apX})` : '';
-      report.steps.push(`${remaining} − ${dr} DR${apNote} = ${Math.max(0, afterDR)}`);
-    }
-    remaining = afterDR;
-  } else {
-    report.steps.push('Bypasses Evasion and Armor DR');
-  }
-
-  if (remaining <= 0) {
-    report.toIS = 0;
-    report.steps.push('Armor holds — no damage');
+  if (damage <= dr) {
+    report.steps.push(`${damage} vs DR ${dr} — the armor holds. No damage, no degradation.`);
     return report;
   }
 
   report.penetrated = true;
-  report.toIS = remaining;
-  report.shouldRollCrit = true;
+  report.excess = damage - dr;
 
-  // Penetrating the armor permanently degrades it by 1 (rules.md 2.3 step 8).
-  // Transferred and internal-blast damage never touched the armor, so it does not.
-  if (!direct && !skipDegrade && loc.dr > 0) {
+  if (!skipDegrade && loc.dr > 0) {
     loc.dr -= 1;
     report.drDegraded = true;
-    report.steps.push(`Armor penetrated — ${LOCATION_NAMES[locKey]} DR permanently ${loc.dr + 1} → ${loc.dr}`);
+    report.steps.push(`Penetrated — ${LOCATION_NAMES[locKey]} DR ${loc.dr + 1} → ${loc.dr}, permanently`);
   }
 
-  const isBefore = loc.is;
-  loc.is = Math.max(0, loc.is - remaining);
-  report.steps.push(`${remaining} to Internal Structure (${isBefore} → ${loc.is})`);
-
-  if (loc.is === 0) {
-    loc.destroyed = true;
-    report.destroyed = true;
-    const excess = remaining - isBefore;
-    report.steps.push(`${LOCATION_NAMES[locKey]} DESTROYED`);
-    applyLocationDestruction(frame, locKey, report);
-
-    // Excess from a severed limb carries into the Torso (rules.md 6.5.3/6.5.4).
-    if (excess > 0 && (locKey.endsWith('Arm') || locKey.endsWith('Leg'))) {
-      report.steps.push(`${excess} excess damage transfers to Torso`);
-      report.transferred = applyDamage(frame, 'torso', excess, { direct: true });
-    }
-  }
-
-  return report;
-}
-
-function applyLocationDestruction(frame, locKey, report) {
-  if (locKey === 'torso') {
-    frame.destroyed = true;
-    report.steps.push('Torso destroyed — reactor breach, FRAME DESTROYED (2d6 to adjacent hexes)');
-    return;
-  }
-  if (locKey === 'head') {
-    frame.destroyed = true;
-    report.steps.push('Cockpit destroyed — pilot killed, FRAME DESTROYED');
-    return;
-  }
-  if (locKey.endsWith('Arm')) {
-    disableWeaponsIn(frame, locKey, 'severed');
-    report.steps.push('All weapons and systems in the arm are lost');
-    return;
-  }
-  if (locKey.endsWith('Leg')) {
-    frame.prone = true;
-    frame.immobilized = true;
-    disableWeaponsIn(frame, locKey, 'severed');
-    const bothLegsGone = frame.locations.leftLeg.destroyed && frame.locations.rightLeg.destroyed;
-    if (bothLegsGone) {
-      frame.destroyed = true;
-      report.steps.push('Both legs destroyed — FRAME DISABLED');
-    } else {
-      report.steps.push('Frame falls Prone and is permanently immobilized');
-    }
-  }
-}
-
-/**
- * Set a location's Internal Structure directly, applying the same destruction
- * consequences the damage pipeline would. Used by the frame sheet's manual
- * steppers so hand-entered damage behaves exactly like a resolved attack.
- */
-export function setLocationStructure(frame, locKey, value) {
-  const loc = frame.locations[locKey];
-  const wasDestroyed = !!loc.destroyed;
-
-  loc.is = Math.max(0, Math.min(loc.isMax, value));
-  loc.destroyed = loc.is === 0;
-
-  if (loc.destroyed && !wasDestroyed) {
-    applyLocationDestruction(frame, locKey, { steps: [] });
-    return;
-  }
-
-  if (!loc.destroyed && wasDestroyed) {
-    // The player is correcting a mistake — walk the consequences back.
-    for (const weapon of frame.weapons) {
-      if (weapon.loc === locKey && weapon.destroyedReason === 'severed') {
-        weapon.destroyed = false;
-        delete weapon.destroyedReason;
-      }
-    }
-    const legsGone = frame.locations.leftLeg.destroyed || frame.locations.rightLeg.destroyed;
-    if (!legsGone) {
-      frame.immobilized = false;
-      frame.prone = false;
-    }
-    const coreGone = frame.locations.head.destroyed || frame.locations.torso.destroyed;
-    const bothLegsGone = frame.locations.leftLeg.destroyed && frame.locations.rightLeg.destroyed;
-    if (!coreGone && !bothLegsGone) frame.destroyed = false;
-  }
-}
-
-function disableWeaponsIn(frame, locKey, reason) {
-  for (const weapon of frame.weapons) {
-    if (weapon.loc === locKey) {
-      weapon.destroyed = true;
-      weapon.destroyedReason = reason;
-    }
-  }
-}
-
-// --- Rapid Fire (rules.md 5, Autocannon) -----------------------------------
-
-/**
- * Resolve a Rapid Fire burst. Evasion removes whole hits rather than damage
- * points; each surviving die is resolved against Armor DR separately.
- *
- * Two points the rules leave open, resolved here (see docs/README.md):
- *
- * 1. Which dice miss is unspecified. We negate the highest rolls first, matching
- *    how EVA otherwise comes off the top of a damage total.
- * 2. Every die resolves against the DR the location had when the burst started,
- *    and the burst degrades DR by 1 in total. Degrading per die would let one
- *    Full Auto barrage strip an entire armor plate in a single attack, which
- *    reads as a misapplication of the once-per-attack degradation rule.
- */
-export function resolveRapidFire(frame, locKey, dice, opts = {}) {
-  const { evasion = 0, apX = 0, damageMod = 0, treatDRAsZero = false } = opts;
-
-  const adjusted = dice.map((d) => Math.max(0, d + damageMod));
-  const order = adjusted.map((value, index) => ({ value, index })).sort((a, b) => b.value - a.value);
-  const missed = new Set(order.slice(0, Math.min(evasion, order.length)).map((d) => d.index));
-
-  const loc = frame.locations[locKey];
-  const drAtStart = loc.dr;
-
-  const report = {
-    location: locKey,
-    locationName: LOCATION_NAMES[locKey],
-    dice: adjusted,
-    missedIndexes: [...missed],
-    hits: [],
-    totalToIS: 0,
-    shouldRollCrit: false,
-    destroyed: false,
-    drDegraded: false,
-    steps: [],
-  };
-
-  if (evasion) {
-    report.steps.push(`${evasion} EVA negates ${missed.size} of ${dice.length} hits`);
-  }
-
-  let penetrated = false;
-  adjusted.forEach((value, index) => {
-    if (missed.has(index)) return;
-    if (frame.destroyed) return;
-    const hit = applyDamage(frame, locKey, value, {
-      evasion: 0,
-      apX,
-      treatDRAsZero,
-      overrideDR: drAtStart,
-      skipDegrade: true,
-    });
-    report.hits.push(hit);
-    report.totalToIS += hit.toIS;
-    if (hit.penetrated) penetrated = true;
-    if (hit.shouldRollCrit) report.shouldRollCrit = true;
-    if (hit.destroyed) report.destroyed = true;
-  });
-
-  // One penetration event per attack, however many dice got through.
-  if (penetrated && !loc.destroyed && loc.dr > 0) {
-    loc.dr -= 1;
-    report.drDegraded = true;
-    report.steps.push(`Armor penetrated — ${LOCATION_NAMES[locKey]} DR ${loc.dr + 1} → ${loc.dr}`);
-  }
-
-  return report;
-}
-
-// --- Missile warheads (rules.md 5.2) ---------------------------------------
-
-/** Cluster: 2d6 resolved once against every location. */
-export function resolveCluster(frame, rollFor) {
-  const results = [];
-  for (const locKey of LOCATIONS) {
-    if (frame.destroyed) break;
-    const damage = rollFor(locKey);
-    results.push(applyDamage(frame, locKey, damage, { evasion: 0 })); // AoE bypasses EVA
-  }
-  return results;
-}
-
-/** High Explosive: full damage to the hit location, 1d6 splash to adjacent ones. */
-export function resolveHighExplosive(frame, locKey, primaryDamage, splashFor) {
-  const primary = applyDamage(frame, locKey, primaryDamage, { evasion: 0 });
-  const splash = [];
-  for (const adjacent of ADJACENT_LOCATIONS[locKey]) {
-    if (frame.destroyed) break;
-    splash.push(applyDamage(frame, adjacent, splashFor(adjacent), { evasion: 0 }));
-  }
-  return { primary, splash };
-}
-
-/** EMP: no damage, but a critical on every location sitting at 0 Armor DR. */
-export function resolveEMP(frame, rollCritDie) {
-  frame.sensorsScrambled = true;
-  const crits = [];
-  for (const locKey of LOCATIONS) {
-    const loc = frame.locations[locKey];
-    if (loc.destroyed || loc.dr > 0) continue;
-    const crit = lookupCrit(CRIT_TABLE_FOR[locKey], rollCritDie());
-    // Keep applyCrit's return value: it carries follow-up payloads such as the
-    // weapon choices for a Weapon Damaged result.
-    const applied = applyCrit(frame, crit, locKey);
-    crits.push({ location: locKey, crit: { ...crit, ...applied, location: locKey } });
-  }
-  return { crits, scrambled: true };
-}
-
-// --- Disruptor Cannon (rules.md 5, Specter sheet) --------------------------
-
-/**
- * No damage. Bypasses Evasion and Armor DR. A Torso hit (2d6 of 7 or 12) drains
- * 1d6 EP; any other location forces a Critical Hit on that location.
- */
-export function resolveDisruptor(frame, locKey, { drainRoll = 0, critRoll = 0, overcharged = false } = {}) {
-  const report = { location: locKey, locationName: LOCATION_NAMES[locKey], drained: 0, crit: null, steps: [] };
-  const isTorsoHit = locKey === 'torso';
-
-  if (isTorsoHit || overcharged) {
-    const drain = Math.min(frame.ep || 0, drainRoll);
-    frame.ep = Math.max(0, (frame.ep || 0) - drain);
-    frame.overchargeAvailable = Math.min(frame.overchargeAvailable || 0, frame.ep);
-    report.drained = drain;
-    report.steps.push(`Drained ${drain} EP (rolled ${drainRoll})`);
-  }
-
-  if (!isTorsoHit || overcharged) {
-    const target = isTorsoHit ? 'torso' : locKey;
-    const crit = lookupCrit(CRIT_TABLE_FOR[target], critRoll);
-    // Keep applyCrit's return value: it carries follow-up payloads such as the
-    // weapon choices for a Weapon Damaged result.
-    const applied = applyCrit(frame, crit, target);
-    report.crit = { ...crit, ...applied, location: target };
-    report.steps.push(`Forced Critical on ${LOCATION_NAMES[target]}: ${crit.name}`);
-  }
-
+  report.critDice = overkillDice(report.excess);
+  const extra = report.critDice - 1;
+  report.steps.push(
+    `${damage} vs DR ${dr}, excess ${report.excess}`
+    + (extra > 0 ? ` — Overkill adds ${extra} crit ${extra === 1 ? 'die' : 'dice'}` : '')
+    + ` → ${report.critDice} Critical${report.critDice === 1 ? '' : 's'}`,
+  );
   return report;
 }
 
@@ -636,298 +414,456 @@ export function critTableFor(locKey) {
   return CRIT_TABLE_FOR[locKey];
 }
 
-/** Roll a critical for a location. `mod` is +1 for HEI ammo. */
-export function rollCrit(locKey, { mod = 0, rng = Math.random, forcedRoll = null } = {}) {
-  const raw = forcedRoll ?? rollDie(6, rng);
-  const modified = raw + mod;
-  const crit = lookupCrit(CRIT_TABLE_FOR[locKey], modified);
-  return { ...crit, rawRoll: raw, mod, modifiedRoll: modified, location: locKey };
+/** Roll one Critical, resolving Cascading Failure against slots already marked. */
+export function rollCrit(frame, locKey, { mod = 0, rng = Math.random, forcedRoll = null } = {}) {
+  const table = CRIT_TABLE_FOR[locKey];
+  const natural = forcedRoll ?? rollDie(6, rng);
+  const marked = frame.locations[locKey].crits || {};
+  const target = Math.min(CRIT_TABLE_MAX[table], Math.max(1, natural + mod));
+  const { slot, overflowed } = cascadeSlot(table, natural + mod, marked);
+  return {
+    ...lookupCrit(table, slot),
+    location: locKey,
+    natural,
+    mod,
+    cascaded: slot !== target,
+    overflowed,
+  };
 }
 
-/**
- * Apply a critical's mechanical effect to the frame. Permanent effects land in
- * durable fields so later turns keep honoring them.
- */
-export function applyCrit(frame, crit, locKey = crit.location) {
+/** Mark the slot and apply its mechanical effect. */
+export function applyCrit(frame, crit, { rng = Math.random } = {}) {
+  const locKey = crit.location;
   const loc = frame.locations[locKey];
-  const applied = { ...crit, location: locKey, notes: [] };
+  loc.crits = loc.crits || {};
+  loc.crits[crit.slot] = true;
+
+  const out = { applied: crit, followUps: [], notes: [] };
 
   switch (crit.effect) {
-    case 'sensorFlicker':
-      frame.sensorRangeCap = 5; // cleared in endPhase
+    // --- head
+    case 'sensorGhosting':
+      frame.locksDropped = true;
       break;
-    case 'commStatic':
-      frame.commStatic = true;
-      if (frame.systems) frame.systems.datalink = false;
+    case 'calibrationDrift':
+      frame.calibrationDrift = true;
       break;
-    case 'pilotStunned':
-      frame.pilotStunned = true;
+    case 'sensorBandDestroyed': {
+      const r = rollDie(6, rng);
+      const band = r <= 2 ? 'ir' : r <= 4 ? 'vis' : 'rad';
+      frame.sensorBandsDestroyed = { ...(frame.sensorBandsDestroyed || {}), [band]: true };
+      out.notes.push(`1d6 = ${r}: ${band.toUpperCase()} array permanently destroyed`);
       break;
-    case 'sensorsDown':
-      frame.sensorsDown = true;
-      break;
-    case 'initiativeDown3':
-      frame.initiativeMod = (frame.initiativeMod || 0) - 3;
-      break;
-    case 'frameDestroyed':
-      frame.destroyed = true;
+    }
+    case 'headFracture':
+      loc.dr = 0;
+      frame.datalinkSevered = true;
       break;
 
-    case 'systemGlitch':
-      frame.systemGlitch = true;
-      break;
+    // --- torso
+    case 'systemGlitch': frame.systemGlitch = true; break;
+    case 'servoLock': frame.servoLock = true; break;
     case 'capacitorLeak':
       frame.capacitorMaxMod = (frame.capacitorMaxMod || 0) - 2;
       frame.capacitor = Math.max(0, (frame.capacitor || 0) - 2);
-      frame.ep = Math.max(0, (frame.ep || 0) - 2);
       break;
-    case 'reactorDamage':
-      frame.reactorMod = (frame.reactorMod || 0) - 2;
-      break;
-    case 'gyroLock':
-      frame.gyroLock = true;
-      break;
-    case 'ammoExplosion': {
-      // Only explosive ammo cooks off; inert Rail Gun slugs and energy weapons
-      // do not. With no explosive ammo aboard, treat as Reactor Damage.
-      if (hasExplosiveAmmo(frame)) {
-        applied.pendingAmmoExplosion = true; // caller rolls 3d6, applies direct to torso
-        applied.notes.push('Explosive ammo detonates: roll 3d6 direct to Torso');
+    case 'armorToZero': loc.dr = 0; break;
+    case 'reactorDamage': frame.reactorMod = (frame.reactorMod || 0) - 2; break;
+    case 'ammoExplosion':
+      if (hasVolatileStore(frame)) {
+        emptyVolatileStores(frame);
+        out.notes.push('A volatile store cooks off — that system is Empty for good');
+        out.followUps.push({ location: 'torso', count: 2, reason: 'Ammo Explosion' });
       } else {
         frame.reactorMod = (frame.reactorMod || 0) - 2;
-        applied.notes.push('No explosive ammo aboard — resolved as Reactor Damage (−2 EP/turn)');
+        out.notes.push('Nothing left to cook off — Reactor Damage applied instead');
       }
       break;
-    }
-    case 'coreMelt':
+    case 'electricalFire': frame.electricalFire = true; break;
+    case 'containmentFailure':
       frame.destroyed = true;
-      applied.notes.push('2d6 damage to all adjacent hexes');
+      loc.destroyed = true;
+      out.notes.push('The Capacitor bank discharges: 2d6 to every adjacent hex');
       break;
 
-    case 'armWeaponsCostMore':
-      for (const w of frame.weapons) if (w.loc === locKey) w.epMod = (w.epMod || 0) + 1;
+    // --- arms
+    case 'targetingJitter':
+      frame.targetingJitter = { ...(frame.targetingJitter || {}), [locKey]: true };
       break;
-    case 'weaponDestroyedChoice': {
-      const candidates = frame.weapons.filter((w) => w.loc === locKey && !w.destroyed);
-      applied.choices = candidates.map((w) => w.id);
-      applied.notes.push(
-        candidates.length
-          ? 'Attacker chooses which weapon in this arm is destroyed'
-          : 'No weapons left in this arm — no effect',
-      );
+    case 'armWeaponsCostMore':
+      frame.armEPMod = { ...(frame.armEPMod || {}), [locKey]: ((frame.armEPMod || {})[locKey] || 0) + 1 };
+      break;
+    case 'hardpointFailure':
+      frame.hardpointFailure = { ...(frame.hardpointFailure || {}), [locKey]: true };
+      break;
+    case 'weaponDestroyed': {
+      // Each arm carries a single hardpoint, so there is nothing to choose.
+      const mounted = (frame.weapons || []).find((w) => w.loc === locKey && !w.destroyed);
+      if (mounted) { mounted.destroyed = true; out.notes.push(`${mounted.name} destroyed`); }
+      else out.notes.push('The arm was empty — slot marked, nothing lost');
       break;
     }
-    case 'shoulderJammed':
-      for (const w of frame.weapons) if (w.loc === locKey) w.forwardArcOnly = true;
-      break;
-    case 'armorToZero':
-      loc.dr = 0;
-      break;
-    case 'ammoFeedCut':
-      for (const w of frame.weapons) {
-        if (w.loc === locKey && w.ammo) w.disabled = true;
-      }
-      break;
-    case 'limbSevered':
-      loc.destroyed = true;
-      loc.is = 0;
-      applyLocationDestruction(frame, locKey, { steps: applied.notes });
+
+    // --- legs
+    case 'servoStutter': frame.servoStutter = true; break;
+    case 'kneeLock': frame.kneeLock = true; break;
+    case 'hipActuator': frame.movementLimitMod = (frame.movementLimitMod || 0) - 2; break;
+    case 'actuatorDestroyed':
+      loc.actuatorDestroyed = true;
+      frame.prone = true;
       break;
 
-    case 'pilotCheckPenalty':
-      frame.pilotCheckMod = (frame.pilotCheckMod || 0) - 1;
+    // --- shared
+    case 'limbSevered': {
+      loc.destroyed = true;
+      for (const w of frame.weapons || []) if (w.loc === locKey) w.destroyed = true;
+      if (locKey.includes('Leg')) {
+        frame.prone = true;
+        const other = locKey === 'leftLeg' ? 'rightLeg' : 'leftLeg';
+        if (frame.locations[other].destroyed) {
+          frame.destroyed = true;
+          out.notes.push('Both legs gone — the Frame is disabled (rules.md 6.5.4)');
+        }
+      }
       break;
-    case 'kneeLock':
-      frame.kneeLock = true;
-      break;
-    case 'evasionLimitDown':
-      frame.evasionLimitMod = (frame.evasionLimitMod || 0) - 1;
-      frame.eva = Math.min(frame.eva || 0, effectiveEvasionLimit(frame));
-      break;
-    case 'jumpJetsDisabled':
-      frame.jumpJetsDisabled = true;
+    }
+    case 'frameDestroyed':
+      frame.destroyed = true;
+      loc.destroyed = true;
       break;
     default:
-      throw new Error(`Unhandled critical effect: ${crit.effect}`);
+      break;
   }
 
-  frame.crits = frame.crits || [];
-  frame.crits.push({
-    location: locKey,
-    table: crit.table,
-    roll: crit.modifiedRoll ?? crit.roll,
-    name: crit.name,
-    text: crit.text,
-    round: frame.round ?? null,
-  });
-
-  return applied;
-}
-
-export function hasExplosiveAmmo(frame) {
-  return frame.weapons.some((w) => {
-    if (w.destroyed || !w.ammo) return false;
-    const def = WEAPONS[w.key];
-    if (!def?.explosiveAmmo) return false;
-    return Object.values(w.ammo).some((count) => count > 0);
-  });
-}
-
-// --- Weapons ----------------------------------------------------------------
-
-export function weaponDef(weapon) {
-  return WEAPONS[weapon.key];
+  return out;
 }
 
 /**
- * How many damage dice a weapon rolls, after the Prone penalty (rules.md 5.0, 6.3).
- *
- * Prone removes one die from the pool to a minimum of one. Flat bonuses survive
- * (a Rail Gun becomes 2d6+10), Rapid Fire loses a die from each burst, and
- * weapons that roll no damage dice are unaffected.
+ * Roll and apply `count` Criticals to one location, honouring cascade between
+ * them and queueing any follow-ups (an Ammo Explosion adds two more).
  */
-export function damageDiceCount(frame, weapon, { bursts = 1 } = {}) {
-  const def = WEAPONS[weapon.key];
-  if (!def?.damage) return 0;
-  const penalty = frame.prone ? 1 : 0;
+export function resolveCrits(frame, locKey, count, { mod = 0, rng = Math.random, forcedRolls = null } = {}) {
+  const results = [];
+  const pending = [{ locKey, count }];
+  let guard = 0;
+  while (pending.length && guard < 32) {
+    const job = pending.shift();
+    for (let i = 0; i < job.count; i += 1) {
+      guard += 1;
+      if (isDestroyed(frame)) return results;
+      const forced = forcedRolls ? forcedRolls[results.length] ?? null : null;
+      const crit = rollCrit(frame, job.locKey, { mod, rng, forcedRoll: forced });
+      const applied = applyCrit(frame, crit, { rng });
+      results.push({ crit, applied });
+      for (const f of applied.followUps) pending.push({ locKey: f.location, count: f.count });
+    }
+  }
+  return results;
+}
 
+// --- Volatile stores (rules.md 6.2, Torso slot 6) --------------------------
+
+export function hasVolatileStore(frame) {
+  const liveAmmo = (frame.weapons || []).some((w) => {
+    const def = WEAPONS[w.key];
+    return def?.explosiveAmmo && !w.empty && !w.destroyed;
+  });
+  const propellant = Boolean(frame.systems?.jumpJets) && !frame.jumpJetsEmpty;
+  return liveAmmo || propellant;
+}
+
+export function emptyVolatileStores(frame) {
+  for (const w of frame.weapons || []) {
+    if (WEAPONS[w.key]?.explosiveAmmo) w.empty = true;
+  }
+  if (frame.systems?.jumpJets) frame.jumpJetsEmpty = true;
+}
+
+// --- Ammo Die (rules.md 5.0) -----------------------------------------------
+
+/** Roll a system's Ammo Die. At or below the threshold it is Empty for good. */
+export function rollAmmoDie(threshold, { rng = Math.random, forcedRoll = null } = {}) {
+  const rolled = forcedRoll ?? rollDie(6, rng);
+  return { rolled, threshold, empty: rolled <= threshold };
+}
+
+export function ammoDieFor(weapon, { bursts = 1 } = {}) {
+  const def = WEAPONS[weapon.key];
+  if (!def?.ammoDie) return null;
   if (def.rapidFire) {
-    const perBurst = Math.max(1, def.burstDice - penalty);
-    return perBurst * bursts;
+    return bursts > 1 ? AMMO_DIE.autocannonFullAuto.empty : AMMO_DIE.autocannonSingle.empty;
   }
-  return Math.max(1, def.damage.dice - penalty);
-}
-
-/** Dice a missile warhead rolls, after the Prone penalty. */
-export function warheadDiceCount(frame, spec) {
-  if (!spec) return 0;
-  return Math.max(1, spec.dice - (frame.prone ? 1 : 0));
-}
-
-export function weaponEPCost(weapon) {
-  const base = weapon.epCost ?? WEAPONS[weapon.key].epCost;
-  return Math.max(0, base + (weapon.epMod || 0));
-}
-
-export function weaponAmmoRemaining(weapon) {
-  if (!weapon.ammo) return Infinity;
-  return sum(Object.values(weapon.ammo));
-}
-
-/** Why a weapon cannot be fired right now, or null if it can. */
-export function weaponBlockedReason(frame, weapon, { ammoType = null, bursts = 1 } = {}) {
-  if (frame.destroyed) return 'Frame destroyed';
-  if (weapon.destroyed) return 'Weapon destroyed';
-  if (weapon.disabled) return 'Ammo feed cut';
-  if (weapon.cooldown > 0) return `Cooling down (${weapon.cooldown} turn${weapon.cooldown > 1 ? 's' : ''})`;
-  // Each weapon fires once per Combat Phase (rules.md 2.3).
-  if (weapon.firedThisTurn) return 'Already fired this phase';
-
-  const def = WEAPONS[weapon.key];
-  if (def.rapidFire && bursts > MAX_FULL_AUTO_BURSTS) {
-    return `Full Auto is limited to ${MAX_FULL_AUTO_BURSTS} bursts per attack`;
-  }
-  if (weapon.ammo) {
-    const available = ammoType ? weapon.ammo[ammoType] || 0 : weaponAmmoRemaining(weapon);
-    const needed = def.rapidFire ? bursts : 1;
-    if (available < needed) return 'Out of ammunition';
-  }
-
-  const required = weaponEPCost(weapon) * (def.rapidFire ? bursts : 1);
-  const mandatory = weapon.requiresOvercharge || 0;
-  if (required + mandatory > (frame.ep || 0)) {
-    return `Needs ${required + mandatory} EP, has ${frame.ep || 0}`;
-  }
-  if (mandatory > (frame.overchargeAvailable || 0)) {
-    return `Requires ${mandatory} EP of banked Capacitor charge (has ${frame.overchargeAvailable || 0})`;
-  }
-  return null;
-}
-
-/** Deduct ammo, mark the weapon as fired, and set the cooldown after a shot. */
-export function consumeWeapon(frame, weapon, { ammoType = null, bursts = 1, overcharged = false } = {}) {
-  const def = WEAPONS[weapon.key];
-  weapon.firedThisTurn = true;
-  if (weapon.ammo) {
-    const key = ammoType || Object.keys(weapon.ammo)[0];
-    const count = def.rapidFire ? bursts : 1;
-    weapon.ammo[key] = Math.max(0, (weapon.ammo[key] || 0) - count);
-  }
-  const cooldown = def.cooldown || 0;
-  if (overcharged || cooldown) {
-    // Overcharging any weapon triggers a 1-turn cooldown (rules.md 5.4).
-    weapon.cooldown = Math.max(cooldown, overcharged ? 1 : 0);
-  }
+  return def.ammoDie.empty;
 }
 
 export function ammoTypeInfo(key) {
   return AMMO_TYPES[key] || null;
 }
 
-// --- Pilot checks (rules.md 6.4) -------------------------------------------
+// --- Weapons ---------------------------------------------------------------
+
+export function weaponDef(weapon) {
+  const def = WEAPONS[weapon.key];
+  if (!def) throw new Error(`Unknown weapon: ${weapon.key}`);
+  return def;
+}
+
+/** The sensor band a weapon needs. Missiles use whichever band their seeker had. */
+export function weaponBand(weapon) {
+  const def = weaponDef(weapon);
+  return def.detection === 'guidance' ? weapon.guidance : def.detection;
+}
+
+export function weaponEPCost(frame, weapon, { bursts = 1, overcharge = 0 } = {}) {
+  const def = weaponDef(weapon);
+  const armMod = (frame.armEPMod || {})[weapon.loc] || 0;
+  const dishonor = frame.dishonored ? 1 : 0;
+  const base = (def.rapidFire ? def.epCost * bursts : def.epCost) + armMod + dishonor;
+  return { base, overcharge, total: base + overcharge };
+}
+
+/** Damage dice, after Overcharge, Prone and Hardpoint Failure. */
+export function damageDiceCount(frame, weapon, { overchargeDice = 0 } = {}) {
+  const def = weaponDef(weapon);
+  if (!def.damage) return 0;
+  let dice = def.damage.dice + overchargeDice;
+  if (frame.prone) dice -= 1;
+  if ((frame.hardpointFailure || {})[weapon.loc]) dice -= 1;
+  return Math.max(1, dice);
+}
+
+/** Overcharge adds dice at 2 EP each, never a flat bonus (rules.md 5.3). */
+export function overchargeDiceFor(weapon, epSpent) {
+  const def = weaponDef(weapon);
+  if (!def.overcharge?.epPerDie) return 0;
+  return Math.min(def.overcharge.maxDice, Math.floor(epSpent / def.overcharge.epPerDie));
+}
+
+export function weaponBlockedReason(frame, weapon, { bursts = 1, overcharge = 0 } = {}) {
+  const def = weaponDef(weapon);
+  if (weapon.destroyed) return 'Weapon destroyed';
+  if (frame.locations[weapon.loc]?.destroyed) return `${LOCATION_NAMES[weapon.loc]} severed`;
+  if (weapon.empty) return 'Out of ammunition';
+  if (weapon.firedThisTurn) return 'Already fired this Combat Phase';
+  if ((weapon.cooldown || 0) > 0) return `Cooling down (${weapon.cooldown} turn)`;
+  if (bursts > MAX_FULL_AUTO_BURSTS) return `Full Auto is capped at ${MAX_FULL_AUTO_BURSTS} bursts`;
+
+  const band = weaponBand(weapon);
+  if (band && band !== 'any' && (frame.sensorBandsDestroyed || {})[band]) {
+    return `${band.toUpperCase()} array destroyed — cannot establish a lock`;
+  }
+  if (frame.locksDropped) return 'Sensor Ghosting — no locks held';
+
+  const need = def.requiresOvercharge || 0;
+  if (need && overcharge < need) return `Requires a ${need} EP Overcharge from the Capacitor`;
+  const cost = weaponEPCost(frame, weapon, { bursts, overcharge });
+  if (overcharge > (frame.overchargeAvailable || 0)) {
+    return `Overcharge Allowance is ${frame.overchargeAvailable || 0} EP`;
+  }
+  if ((frame.ep || 0) < cost.total) return `Needs ${cost.total} EP, has ${frame.ep || 0}`;
+  return null;
+}
+
+/** Pay for a shot, mark it fired, set any cooldown, and roll the Ammo Die. */
+export function consumeWeapon(frame, weapon, { bursts = 1, overcharge = 0, rng = Math.random, forcedAmmoRoll = null } = {}) {
+  const def = weaponDef(weapon);
+  const cost = weaponEPCost(frame, weapon, { bursts, overcharge });
+  const paid = spendEP(frame, cost.base, { overcharge });
+  if (!paid.ok) return { ok: false, reason: paid.reason };
+
+  weapon.firedThisTurn = true;
+  // Any Overcharge triggers a 1-turn cooldown, which is why the Rail Gun always
+  // cools down: firing it requires one.
+  if (overcharge > 0 || def.cooldown) {
+    weapon.cooldown = Math.max(weapon.cooldown || 0, def.cooldown || 1);
+  }
+
+  let ammo = null;
+  const threshold = ammoDieFor(weapon, { bursts });
+  if (threshold != null) {
+    ammo = rollAmmoDie(threshold, { rng, forcedRoll: forcedAmmoRoll });
+    if (ammo.empty) weapon.empty = true;
+  }
+  return { ok: true, spent: cost.total, ammo };
+}
+
+// --- Special weapon resolutions --------------------------------------------
+
+/**
+ * Rapid Fire (rules.md 5.0): each 1d6 is tested separately against the DR the
+ * location had when the attack was declared. Each BURST that puts at least one
+ * die through generates one Critical. Armor degrades by 1 in total however many
+ * rounds got through, and Overkill never applies.
+ */
+export function resolveRapidFire(frame, locKey, { bursts = 1, apX = 0, coreCritical = false, rng = Math.random, forcedDice = null } = {}) {
+  const loc = frame.locations[locKey];
+  const dr = coreCritical ? 0 : Math.max(0, loc.dr - apX);
+  const report = { location: locKey, dr, bursts: [], critDice: 0, drDegraded: false, steps: [] };
+
+  let idx = 0;
+  for (let b = 0; b < bursts; b += 1) {
+    const dice = [];
+    for (let d = 0; d < 3; d += 1) {
+      dice.push(forcedDice?.[idx] ?? rollDie(6, rng));
+      idx += 1;
+    }
+    const through = dice.filter((v) => v > dr).length;
+    report.bursts.push({ dice, through });
+    if (through > 0) report.critDice += 1;
+    report.steps.push(`Burst ${b + 1}: [${dice.join(', ')}] vs DR ${dr} — ${through} through`);
+  }
+
+  if (report.critDice > 0 && loc.dr > 0) {
+    loc.dr -= 1;
+    report.drDegraded = true;
+    report.steps.push(`${LOCATION_NAMES[locKey]} DR ${loc.dr + 1} → ${loc.dr} — once for the whole attack`);
+  }
+  if (report.critDice === 0) report.steps.push('Nothing penetrated');
+  return report;
+}
+
+/** Cluster: three locations, one per column, 2d6 to each (rules.md 5.2). */
+export function resolveCluster(frame, { rng = Math.random, forcedLocations = null, forcedDamage = null } = {}) {
+  const zones = ['left', 'front', 'right'];
+  const results = [];
+  zones.forEach((zone, i) => {
+    if (isDestroyed(frame)) return;
+    const roll = forcedLocations?.[i] ?? roll2d6(rng).total;
+    const hit = lookupHitLocation(roll, zone);
+    const damage = forcedDamage?.[i] ?? sum(rollDice(2, 6, rng));
+    results.push({ zone, roll, hit, damage, report: applyDamage(frame, hit.location, damage, { coreCritical: hit.coreCritical }) });
+  });
+  return results;
+}
+
+/** High Explosive: 3d6 primary, 1d6 splash to every adjacent location. */
+export function resolveHighExplosive(frame, locKey, { rng = Math.random, forcedPrimary = null, forcedSplash = null } = {}) {
+  const primary = forcedPrimary ?? sum(rollDice(3, 6, rng));
+  const results = [{ location: locKey, damage: primary, report: applyDamage(frame, locKey, primary) }];
+  (ADJACENT_LOCATIONS[locKey] || []).forEach((adj, i) => {
+    if (isDestroyed(frame)) return;
+    const damage = forcedSplash?.[i] ?? rollDie(6, rng);
+    results.push({ location: adj, damage, splash: true, report: applyDamage(frame, adj, damage) });
+  });
+  return results;
+}
+
+/**
+ * EMP: no damage at all, bypasses Armor DR. Scrambles sensors for a turn, severs
+ * the Datalink, and inflicts a Critical on every location already at 0 DR.
+ * Catches friendly Frames in the blast too — the caller decides who is in it.
+ */
+export function resolveEMP(frame, { rng = Math.random } = {}) {
+  frame.sensorsScrambled = true;
+  frame.datalinkSevered = true;
+  const hits = [];
+  for (const locKey of LOCATIONS) {
+    if (isDestroyed(frame)) break;
+    const loc = frame.locations[locKey];
+    if (loc.destroyed || loc.dr > 0) continue;
+    hits.push({ location: locKey, crits: resolveCrits(frame, locKey, 1, { rng }) });
+  }
+  return { scrambled: true, hits };
+}
+
+/**
+ * Disruptor: no damage. Ignores Armor DR and Flank Speed, forces a Critical on
+ * the location rolled, and drains 1d6 EP. Overcharge forces a second Critical.
+ */
+export function resolveDisruptor(frame, locKey, { overcharged = false, rng = Math.random, forcedDrain = null, forcedCrits = null } = {}) {
+  const crits = resolveCrits(frame, locKey, overcharged ? 2 : 1, { rng, forcedRolls: forcedCrits });
+  const drainRoll = forcedDrain ?? rollDie(6, rng);
+  const drained = Math.min(frame.ep || 0, drainRoll);
+  frame.ep = Math.max(0, (frame.ep || 0) - drainRoll);
+  return { crits, drainRoll, drained };
+}
+
+// --- Falling, collisions & drop strikes (rules.md 2.2, 3.2) ----------------
+
+/** Falling damage: 1d6 per Level as ONE pooled roll (rules.md 3.2). */
+export function resolveFall(frame, levels, { rng = Math.random, forcedLocation = null, forcedDamage = null } = {}) {
+  const roll = forcedLocation ?? roll2d6(rng).total;
+  const hit = lookupHitLocation(roll, 'front');
+  const damage = forcedDamage ?? sum(rollDice(levels, 6, rng));
+  const report = applyDamage(frame, hit.location, damage, { coreCritical: hit.coreCritical });
+  frame.prone = true;
+  return { levels, roll, hit, damage, report };
+}
+
+/** Collision: flat Mass Value x Speed, suffered by BOTH Frames (rules.md 2.2). */
+export function collisionDamage(movingFrame, hexesMoved) {
+  return massValue(movingFrame) * hexesMoved;
+}
+
+/** Kinetic Drop Strike: the target takes it all, the jumper takes half, rounded up. */
+export function dropStrikeDamage(jumper, hexesJumped) {
+  const full = massValue(jumper) * hexesJumped;
+  return { target: full, jumper: Math.ceil(full / 2) };
+}
+
+// --- Pilot Checks (rules.md 6.4) -------------------------------------------
 
 export function pilotCheck(frame, { modifier = 0, rng = Math.random, forcedRoll = null } = {}) {
+  const terrain = TERRAIN[frame.terrain]?.pilotMod || 0;
+  const crippledLeg = hasCrippledLeg(frame) ? PILOT_CHECK_MODIFIERS.crippledLeg : 0;
+  const pilot = frame.dishonored ? 0 : (frame.pilotBonus || 0);
+  // The Vow of Courage covers staying upright and getting back up alike.
+  const courage = frame.vow === 'courage' && !frame.dishonored ? 2 : 0;
+  const total = terrain + crippledLeg + pilot + courage + modifier;
   const roll = forcedRoll ?? roll2d6(rng).total;
-  const terrainMod = TERRAIN[frame.terrain]?.pilotMod || 0;
-  const pilotBonus = frame.pilotBonus || 0;
-  const critMod = frame.pilotCheckMod || 0;
-  const total = roll + terrainMod + pilotBonus + critMod + modifier;
   return {
     roll,
-    terrainMod,
-    pilotBonus,
-    critMod,
-    modifier,
-    total,
+    modifier: total,
+    result: roll + total,
     tn: PILOT_CHECK_TN,
-    passed: total >= PILOT_CHECK_TN,
+    passed: roll + total >= PILOT_CHECK_TN,
+    breakdown: { terrain, crippledLeg, pilot, courage, other: modifier },
   };
-}
-
-// --- Collisions & Drop Strikes (rules.md 2.2) ------------------------------
-
-export function collisionDicePool(frame, hexesMoved) {
-  return massValue(frame) + hexesMoved;
-}
-
-export function dropStrikeDicePool(jumper, hexesJumped) {
-  return massValue(jumper) + hexesJumped;
 }
 
 // --- End Phase (rules.md 2.4) ----------------------------------------------
 
-export function endPhase(frame) {
-  const capMax = effectiveCapacitorMax(frame);
-  const pool = frame.ep || 0;
-  const banked = Math.min(pool, capMax);
-  const vented = pool - banked;
+export function endPhase(frame, { rng = Math.random } = {}) {
+  const report = { banked: 0, vented: 0, capMax: 0, fire: null, steps: [] };
 
-  frame.capacitor = banked;
-  frame.overchargeAvailable = banked;
-  frame.ep = 0;
-  frame.eva = 0;
-  frame.painted = false;
-  frame.hexesMoved = 0;
-  frame.epSpentThisTurn = 0;
-  frame.sensorRangeCap = null; // Sensor Flicker lasts one turn
-  frame.sensorsScrambled = false;
-
-  for (const weapon of frame.weapons) {
-    if (weapon.cooldown > 0) weapon.cooldown -= 1;
-    weapon.firedThisTurn = false; // each weapon fires once per Combat Phase
+  // An Electrical Fire burns before anything is tidied away.
+  if (frame.electricalFire && !isDestroyed(frame)) {
+    report.fire = resolveCrits(frame, 'torso', 1, { rng });
+    report.steps.push('Electrical Fire: 1 Torso Critical');
   }
 
-  return { banked, vented, capMax };
+  const capMax = effectiveCapacitorMax(frame);
+  const banked = Math.min(capMax, frame.ep || 0);
+  report.capMax = capMax;
+  report.banked = banked;
+  report.vented = Math.max(0, (frame.ep || 0) - banked);
+  if (report.vented) report.steps.push(`${report.vented} EP vented`);
+
+  frame.capacitor = banked;
+  frame.ep = 0;
+  frame.epSpentThisTurn = 0;
+  frame.flankSpeed = false;
+  frame.hexesMoved = 0;
+  frame.servoStutter = false;   // lasts one turn
+  frame.locksDropped = false;   // Sensor Ghosting clears
+  frame.sensorsScrambled = false;
+  frame.targetingJitter = {};
+
+  for (const w of frame.weapons || []) {
+    w.firedThisTurn = false;
+    if ((w.cooldown || 0) > 0) w.cooldown -= 1;
+  }
+  return report;
 }
 
 // --- Turn order (rules.md 2.2, 2.3) ----------------------------------------
 
 /**
- * Activation runs lowest initiative first; Combat runs highest first. This flip
+ * Activation runs lowest Initiative first; Combat runs highest first. The flip
  * every round is the rule most worth automating.
  */
 export function turnOrder(frames, phase) {
-  const active = frames.filter((f) => !f.destroyed);
-  const sorted = [...active].sort((a, b) => effectiveInitiative(a) - effectiveInitiative(b));
+  const live = frames.filter((f) => !isDestroyed(f));
+  const sorted = [...live].sort((a, b) => effectiveInitiative(a) - effectiveInitiative(b));
   return phase === 'combat' ? sorted.reverse() : sorted;
 }

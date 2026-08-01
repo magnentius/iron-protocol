@@ -2,13 +2,19 @@
 //
 // Shared by tests.html (browser) and tools/run-tests.mjs (command line).
 // Register a describe/it/eq/ok harness and call run(harness).
+//
+// Every die roll here is forced, so the suite is fully deterministic. Where a
+// test encodes a worked example from rules.md, the section is named.
 
 import * as R from './js/rules.js';
-import { createFrame } from './js/state.js';
-import { CRIT_TABLES } from './js/data/tables.js';
+import { instantiate, FRAME_PRESETS, FRAME_KEYS, costOut } from './js/data/frames.js';
+import { CRIT_TABLES, CRIT_TABLE_MAX, overkillDice, COUNTERMEASURE_CHECK_TN } from './js/data/tables.js';
 import { diffInto } from './js/sync.js';
 
-const frame = (key, patch = {}) => Object.assign(createFrame(key, { ownerId: 'test' }), patch);
+const frame = (key, patch = {}) => Object.assign(instantiate(key), patch);
+/** A deterministic rng walking a fixed list of d6 results. */
+const seq = (...rolls) => { let i = 0; return () => (rolls[i++ % rolls.length] - 1) / 6 + 0.0001; };
+const diff = (a, b) => { const out = {}; diffInto(a, b, '', out); return out; };
 
 export function run({ describe, it, eq, ok }) {
   // --- Hit location table (rules.md 6.1) -------------------------------------
@@ -27,923 +33,730 @@ export function run({ describe, it, eq, ok }) {
     }
   });
 
-  it('front and rear share a column', () => {
-    for (let roll = 2; roll <= 12; roll++) {
-      eq(R.lookupHitLocation(roll, 'front').location, R.lookupHitLocation(roll, 'rear').location, `roll ${roll}`);
+  it('front and rear share a column — a rear attack finds no softer armor', () => {
+    for (let roll = 2; roll <= 12; roll += 1) {
+      eq(R.lookupHitLocation(roll, 'rear').location,
+         R.lookupHitLocation(roll, 'front').location, `roll ${roll}`);
     }
   });
 
-  it('a roll of 3 differs per hit zone', () => {
-    eq(R.lookupHitLocation(3, 'front').location, 'rightArm', 'front');
-    eq(R.lookupHitLocation(3, 'left').location, 'leftLeg', 'left side');
-    eq(R.lookupHitLocation(3, 'right').location, 'rightLeg', 'right side');
+  it('a side attack concentrates on that side of the chassis', () => {
+    eq(R.lookupHitLocation(4, 'left').location, 'leftArm');
+    eq(R.lookupHitLocation(4, 'right').location, 'rightArm');
   });
 
-  it('7 and 8 are always Torso', () => {
-    for (const zone of ['front', 'left', 'right']) {
-      eq(R.lookupHitLocation(7, zone).location, 'torso');
-      eq(R.lookupHitLocation(8, zone).location, 'torso');
-    }
+  // --- Threshold armor (rules.md 2.3) ---------------------------------------
+  describe('Armor DR is a threshold, not a pool');
+
+  it('damage equal to DR bounces off with no effect at all', () => {
+    const f = frame('vanguard'); // torso DR 6
+    const r = R.applyDamage(f, 'torso', 6);
+    eq([r.penetrated, r.critDice, r.drDegraded], [false, 0, false]);
+    eq(f.locations.torso.dr, 6, 'DR must not degrade on a blocked hit');
   });
 
-  it('9 front is Left Leg but 9 from the sides is Torso', () => {
-    eq(R.lookupHitLocation(9, 'front').location, 'leftLeg');
-    eq(R.lookupHitLocation(9, 'left').location, 'torso');
-    eq(R.lookupHitLocation(9, 'right').location, 'torso');
-  });
-
-  // --- The worked example from rules.md 2.3.1 --------------------------------
-  describe('rules.md 2.3.1 — Colossus Thermal Lance vs Vanguard');
-
-  it('12 damage − 3 EVA − 5 DR = 4 to Internal Structure', () => {
-    const vanguard = frame('vanguard', { eva: 3 });
-    const report = R.applyDamage(vanguard, 'torso', 12, { evasion: R.evasionAgainst(vanguard, { zone: 'front' }) });
-    eq(report.afterEvasion, 9, 'after evasion');
-    eq(report.dr, 5, 'armor DR applied');
-    eq(report.toIS, 4, 'damage to internal structure');
-  });
-
-  it('Torso IS drops 12 → 8 and DR permanently degrades 5 → 4', () => {
-    const vanguard = frame('vanguard', { eva: 3 });
-    R.applyDamage(vanguard, 'torso', 12, { evasion: 3 });
-    eq(vanguard.locations.torso.is, 8, 'internal structure');
-    eq(vanguard.locations.torso.dr, 4, 'armor DR');
-  });
-
-  it('a crit roll of 3 on the Torso is Reactor Damage, −2 EP/turn permanently', () => {
-    const vanguard = frame('vanguard');
-    const crit = R.rollCrit('torso', { forcedRoll: 3 });
-    eq(crit.name, 'Reactor Damage');
-    R.applyCrit(vanguard, crit);
-    eq(vanguard.reactorMod, -2, 'reactor modifier');
-    eq(R.effectiveReactor(vanguard), 10, 'effective reactor (12 − 2)');
-  });
-
-  // --- Damage pipeline --------------------------------------------------------
-  describe('Damage, Armor & Degradation');
-
-  it('armor that holds takes no damage and does not degrade', () => {
-    const f = frame('vanguard', { eva: 3 });
-    const report = R.applyDamage(f, 'torso', 7, { evasion: 3 });
-    eq(report.toIS, 0, 'no structure damage');
-    eq(report.drDegraded, false, 'DR intact');
-    eq(f.locations.torso.dr, 5, 'DR unchanged');
-    eq(f.locations.torso.is, 12, 'IS unchanged');
-  });
-
-  it('AP reduces effective DR', () => {
+  it('damage must be STRICTLY greater than DR to penetrate', () => {
     const f = frame('vanguard');
-    const report = R.applyDamage(f, 'torso', 6, { apX: 3 });
-    eq(report.dr, 2, 'DR 5 − AP 3');
-    eq(report.toIS, 4, 'damage through');
+    eq(R.applyDamage(f, 'torso', 7).penetrated, true);
+    eq(f.locations.torso.dr, 5, 'penetration degrades DR by exactly 1');
   });
 
-  it('a Core Critical bypasses DR entirely but still degrades it', () => {
-    const f = frame('colossus');
-    const report = R.applyDamage(f, 'torso', 6, { treatDRAsZero: true });
-    eq(report.toIS, 6, 'full damage to IS despite DR 7');
-    eq(f.locations.torso.dr, 6, 'DR still degrades by 1');
+  it('a penetration degrades DR once, however big the hit', () => {
+    const f = frame('colossus'); // torso DR 8
+    R.applyDamage(f, 'torso', 30);
+    eq(f.locations.torso.dr, 7);
   });
 
   it('DR never degrades below 0', () => {
     const f = frame('jackal');
-    f.locations.leftArm.dr = 0;
-    R.applyDamage(f, 'leftArm', 3);
-    eq(f.locations.leftArm.dr, 0);
+    f.locations.torso.dr = 0;
+    const r = R.applyDamage(f, 'torso', 5);
+    eq([r.penetrated, f.locations.torso.dr], [true, 0]);
   });
 
-  it('Armor DR cannot go negative from AP either', () => {
-    const f = frame('jackal');
-    const report = R.applyDamage(f, 'leftArm', 4, { apX: 5 });
-    eq(report.dr, 0, 'DR floors at 0');
-    eq(report.toIS, 4);
+  it('AP is subtracted from DR before the comparison', () => {
+    const f = frame('colossus'); // torso DR 8
+    eq(R.applyDamage(f, 'torso', 6, { apX: 3 }).penetrated, true, '6 vs effective DR 5');
   });
 
-  // --- Destruction and transfer (rules.md 6.5) --------------------------------
-  describe('Location Destruction & Damage Transfer');
-
-  it('excess damage from a severed arm transfers to the Torso', () => {
-    const f = frame('jackal'); // left arm 4 IS / 1 DR, torso 8 IS
-    const report = R.applyDamage(f, 'leftArm', 10); // 10 − 1 DR = 9, 4 destroys, 5 excess
-    ok(f.locations.leftArm.destroyed, 'arm destroyed');
-    eq(f.locations.leftArm.is, 0, 'arm IS');
-    ok(report.transferred, 'transfer report present');
-    eq(f.locations.torso.is, 3, 'torso 8 − 5 excess');
-    eq(f.locations.torso.dr, 2, 'transfer bypasses armor, so torso DR does not degrade');
-  });
-
-  it('a hit on an already-severed limb blows through to the Torso', () => {
-    const f = frame('jackal');
-    f.locations.rightArm.destroyed = true;
-    f.locations.rightArm.is = 0;
-    const report = R.applyDamage(f, 'rightArm', 5, { evasion: 2 });
-    ok(report.transferred, 'transferred');
-    eq(f.locations.torso.is, 3, 'full 5 to torso, bypassing EVA and DR');
-  });
-
-  it('severing a weapon arm destroys the weapons mounted in it', () => {
-    const f = frame('vanguard'); // left arm: 3 DR / 8 IS, autocannon mounted
-    R.applyDamage(f, 'leftArm', 11); // 11 − 3 DR = 8, exactly severs it
-    const autocannon = f.weapons.find((w) => w.loc === 'leftArm');
-    ok(autocannon.destroyed, 'weapon destroyed with the arm');
-    eq(R.weaponBlockedReason(f, autocannon), 'Weapon destroyed');
-  });
-
-  it('losing one leg knocks the frame prone and immobilizes it', () => {
-    const f = frame('vanguard'); // left leg: 4 DR / 10 IS
-    R.applyDamage(f, 'leftLeg', 14);
-    ok(f.prone, 'prone');
-    ok(f.immobilized, 'immobilized');
-    ok(!f.destroyed, 'still in the fight');
-  });
-
-  it('losing both legs disables the frame', () => {
-    const f = frame('vanguard');
-    R.applyDamage(f, 'leftLeg', 14);
-    R.applyDamage(f, 'rightLeg', 14);
-    ok(f.destroyed, 'frame disabled');
-  });
-
-  it('massive overkill on a limb blows through and kills the frame', () => {
-    const f = frame('vanguard'); // arm 3 DR / 8 IS, torso 12 IS
-    R.applyDamage(f, 'leftArm', 40); // 37 through, 8 severs the arm, 29 into a 12 IS torso
-    ok(f.locations.leftArm.destroyed, 'arm severed');
-    ok(f.destroyed, 'torso overwhelmed — frame destroyed');
-  });
-
-  it('Torso destruction destroys the frame', () => {
-    const f = frame('jackal');
-    R.applyDamage(f, 'torso', 40);
-    ok(f.destroyed);
-  });
-
-  it('Head destruction destroys the frame', () => {
-    const f = frame('jackal');
-    R.applyDamage(f, 'head', 40);
-    ok(f.destroyed);
-  });
-
-  // --- Evasion (rules.md 1.3, 3.3, 6.3) --------------------------------------
-  describe('Evasion, Cover & Hit Zones');
-
-  it('terrain cover adds to movement evasion', () => {
-    const f = frame('vanguard', { eva: 3, terrain: 'woodsLight' });
-    eq(R.evasionAgainst(f, { zone: 'front' }), 4, '3 EVA + 1 light cover');
-  });
-
-  it('a rear attack bypasses movement evasion but not cover', () => {
-    const f = frame('vanguard', { eva: 3, terrain: 'woodsHeavy' });
-    eq(R.evasionAgainst(f, { zone: 'rear' }), 2, 'heavy cover only');
-  });
-
-  it('a prone frame keeps cover but loses movement evasion', () => {
-    const f = frame('vanguard', { eva: 4, terrain: 'woodsLight', prone: true });
-    eq(R.evasionAgainst(f, { zone: 'front' }), 1, 'cover only');
-  });
-
-  it('AoE damage bypasses evasion entirely', () => {
-    const f = frame('vanguard', { eva: 4, terrain: 'woodsHeavy' });
-    eq(R.evasionAgainst(f, { aoe: true }), 0);
-  });
-
-  it('Tracer painting strips 1 EVA', () => {
-    const f = frame('vanguard', { eva: 3, painted: true });
-    eq(R.evasionAgainst(f, { zone: 'front' }), 2);
-  });
-
-  it('deep water caps the evasion limit at 1', () => {
-    const f = frame('jackal', { terrain: 'waterDeep' });
-    eq(R.effectiveEvasionLimit(f), 1, 'Jackal limit 6 capped to 1');
-  });
-
-  // --- Energy phase (rules.md 2.1) -------------------------------------------
-  describe('Energy Phase');
-
-  it('generates reactor EP and rolls banked capacitor charge into the pool', () => {
-    const f = frame('vanguard', { capacitor: 4 });
-    const report = R.energyPhase(f);
-    eq(report.generated, 12, 'reactor');
-    eq(report.pool, 16, '12 generated + 4 banked');
-    eq(f.ep, 16);
-    eq(f.overchargeAvailable, 4, 'only banked EP may pay for overcharge');
-  });
-
-  it('shallow water cooling adds 1 EP', () => {
-    const f = frame('jackal', { terrain: 'waterShallow' });
-    const report = R.energyPhase(f);
-    eq(report.generated, 9, 'reactor 8 + 1 cooling');
-  });
-
-  it('deep water cooling adds 2 EP', () => {
-    const f = frame('jackal', { terrain: 'waterDeep' });
-    eq(R.energyPhase(f).generated, 10);
-  });
-
-  it('AMC upkeep costs 2 EP for one spectrum, 4 for two', () => {
-    const one = frame('specter');
-    one.systems.amc = { active: true, bands: ['vis'] };
-    eq(R.energyPhase(one).upkeep, 2);
-
-    const two = frame('specter');
-    two.systems.amc = { active: true, bands: ['vis', 'ir'] };
-    eq(R.energyPhase(two).upkeep, 4);
-  });
-
-  it('ECM upkeep is 1 EP plus 1 per hex of radius', () => {
-    const f = frame('vanguard');
-    f.systems.ecm = { active: true, radius: 2 };
-    eq(R.energyPhase(f).upkeep, 3);
-  });
-
-  it('Pilot Stunned zeroes generation and drains the capacitor', () => {
-    const f = frame('vanguard', { capacitor: 6, pilotStunned: true });
-    const report = R.energyPhase(f);
-    ok(report.stunned, 'reported as stunned');
-    eq(f.ep, 0, 'no EP');
-    eq(f.capacitor, 0, 'capacitor drained');
-    eq(f.pilotStunned, false, 'effect consumed after one turn');
-  });
-
-  it('System Glitch costs 1 EP for one turn only', () => {
-    const f = frame('vanguard', { systemGlitch: true });
-    eq(R.energyPhase(f).generated, 11, 'reactor 12 − 1');
-    eq(R.energyPhase(f).generated, 12, 'back to normal next turn');
-  });
-
-  it('Reactor Damage keeps applying every turn', () => {
-    const f = frame('vanguard');
-    R.applyCrit(f, R.rollCrit('torso', { forcedRoll: 3 }));
-    eq(R.energyPhase(f).generated, 10);
-    eq(R.energyPhase(f).generated, 10, 'still reduced on later turns');
-  });
-
-  // --- End phase (rules.md 2.4) ----------------------------------------------
-  describe('End Phase');
-
-  it('banks unused EP up to the capacitor max and vents the rest', () => {
-    const f = frame('vanguard', { ep: 9 }); // capacitor max 6
-    const report = R.endPhase(f);
-    eq(report.banked, 6);
-    eq(report.vented, 3);
-    eq(f.capacitor, 6);
-    eq(f.ep, 0);
-  });
-
-  it('clears evasion and movement, and ticks weapon cooldowns down', () => {
-    const f = frame('paladin', { ep: 2, eva: 2, hexesMoved: 3 });
-    f.weapons.find((w) => w.key === 'railGun').cooldown = 1;
-    R.endPhase(f);
-    eq(f.eva, 0, 'evasion cleared');
-    eq(f.hexesMoved, 0, 'movement reset');
-    eq(f.weapons.find((w) => w.key === 'railGun').cooldown, 0, 'cooldown ticked');
-  });
-
-  it('Capacitor Leak permanently lowers how much can be banked', () => {
-    const f = frame('vanguard', { ep: 9 });
-    R.applyCrit(f, R.rollCrit('torso', { forcedRoll: 2 }));
-    eq(f.capacitorMaxMod, -2);
-    eq(R.endPhase(f).banked, 4, 'capacitor max 6 − 2');
-  });
-
-  // --- Movement (rules.md 2.2, 3.2) ------------------------------------------
-  describe('Movement');
-
-  it('rules.md 2.2.1 example 1 — Vanguard spends 7 EP and gains 3 EVA', () => {
-    const f = frame('vanguard', { ep: 12 });
-    R.performMovement(f, 'walk', { elevationDelta: 1, terrain: 'clear' }); // 1 + 1 climb
-    R.performMovement(f, 'pivot');                                          // 1
-    R.performMovement(f, 'walk', { terrain: 'woodsLight' });                 // 1 + 1 woods
-    R.performMovement(f, 'walk', { terrain: 'woodsLight' });                 // 1 + 1 woods
-    eq(f.ep, 5, '12 − 7 EP');
-    eq(f.eva, 3, 'three hexes exited');
-  });
-
-  it('rules.md 2.2.1 example 2 — Specter jumps 3 hexes for 6 EP, EVA capped at 5', () => {
-    const f = frame('specter', { ep: 12 });
-    R.performMovement(f, 'jump', { hexes: 3 });
-    eq(f.ep, 6, '3 hexes x 2 EP');
-    eq(f.eva, 5, '6 EVA generated, capped at the limit of 5');
-  });
-
-  it('reversing costs 2 EP', () => {
-    const f = frame('vanguard', { ep: 10 });
-    eq(R.movementCost(f, 'reverse'), 2);
-  });
-
-  it('Knee Lock adds 1 EP to walking and reversing', () => {
-    const f = frame('vanguard');
-    R.applyCrit(f, R.rollCrit('leftLeg', { forcedRoll: 2 }));
-    eq(R.movementCost(f, 'walk'), 2, 'walk');
-    eq(R.movementCost(f, 'reverse'), 3, 'reverse');
-    eq(R.movementCost(f, 'pivot'), 1, 'pivot unaffected');
-  });
-
-  it('Gyro Lock makes the torso twist cost 2 EP instead of being free', () => {
-    const f = frame('vanguard');
-    eq(R.movementCost(f, 'torsoTwist'), 0, 'free by default');
-    R.applyCrit(f, R.rollCrit('torso', { forcedRoll: 4 }));
-    eq(R.movementCost(f, 'torsoTwist'), 2);
-  });
-
-  it('standing up costs 3 EP and clears prone', () => {
-    const f = frame('vanguard', { ep: 5, prone: true });
-    R.performMovement(f, 'standUp');
-    eq(f.ep, 2);
-    eq(f.prone, false);
-  });
-
-  it('a prone frame cannot walk until it stands', () => {
-    const f = frame('vanguard', { ep: 10, prone: true });
-    eq(R.movementBlockedReason(f, 'walk'), 'Prone — must stand up first');
-    eq(R.movementBlockedReason(f, 'standUp'), null);
-  });
-
-  it('Heavy Woods are impassable on foot for Heavy and Assault frames', () => {
-    const colossus = frame('colossus', { ep: 10 });
-    ok(R.movementBlockedReason(colossus, 'walk', { terrain: 'woodsHeavy' }), 'assault blocked');
-    const specter = frame('specter', { ep: 10 });
-    eq(R.movementBlockedReason(specter, 'walk', { terrain: 'woodsHeavy' }), null, 'medium may enter');
-  });
-
-  it('the movement limit stops further movement', () => {
-    const f = frame('colossus', { ep: 20, hexesMoved: 3 }); // limit 3
-    ok(R.movementBlockedReason(f, 'walk'), 'limit reached');
-  });
-
-  it('only Light and Medium frames have jump jets available', () => {
-    const f = frame('paladin', { ep: 20 });
-    eq(R.movementBlockedReason(f, 'jump', { hexes: 2 }), 'No jump jets');
-  });
-
-  it('a wrecked thruster disables jumping', () => {
-    const f = frame('jackal', { ep: 20 });
-    eq(R.movementBlockedReason(f, 'jump', { hexes: 2 }), null, 'fine before the crit');
-    R.applyCrit(f, R.rollCrit('leftLeg', { forcedRoll: 5 }));
-    eq(R.movementBlockedReason(f, 'jump', { hexes: 2 }), 'Jump jets wrecked');
-  });
-
-  it('a severed leg leaves only pivoting, at 3 EP', () => {
-    const f = frame('vanguard', { ep: 10 });
-    R.applyDamage(f, 'leftLeg', 14);
-    eq(R.movementBlockedReason(f, 'walk'), 'Prone — must stand up first');
-    eq(R.movementCost(f, 'pivot'), 3);
-  });
-
-  // --- Crippled frames (rules.md 6.5.4) ----------------------------------------
-  describe('Crippled Frames');
-
-  it('losing a leg knocks the frame down with no check allowed', () => {
-    const f = frame('paladin', { ep: 20 });
-    R.applyDamage(f, 'leftLeg', 17); // 5 DR + 12 IS
-    ok(f.prone, 'prone');
-    ok(f.immobilized, 'crippled');
-  });
-
-  it('a crippled frame may attempt to stand, and succeeds on a passed check', () => {
-    const f = frame('paladin', { ep: 20 });
-    R.applyDamage(f, 'leftLeg', 17);
-    eq(R.movementBlockedReason(f, 'standUp'), null, 'the attempt is allowed');
-    const report = R.performMovement(f, 'standUp', { forcedRoll: 9 });
-    ok(report.pilotCheck.passed, 'check passed');
-    eq(f.prone, false, 'now standing');
-    eq(f.ep, 17, '3 EP spent');
-  });
-
-  it('a failed check leaves it down but still costs the 3 EP', () => {
-    const f = frame('paladin', { ep: 20 });
-    R.applyDamage(f, 'leftLeg', 17);
-    const report = R.performMovement(f, 'standUp', { forcedRoll: 2 });
-    eq(report.pilotCheck.passed, false);
-    ok(f.prone, 'still down');
-    eq(f.ep, 17, 'EP spent anyway');
-  });
-
-  it('a frame with both legs intact stands without any check', () => {
-    const f = frame('vanguard', { ep: 10, prone: true });
-    const report = R.performMovement(f, 'standUp');
-    eq(report.pilotCheck, undefined, 'no check rolled');
-    eq(f.prone, false);
-  });
-
-  it('standing up sheds every prone penalty', () => {
-    const f = frame('paladin', { ep: 20 });
-    R.applyDamage(f, 'leftLeg', 17);
-    const railGun = f.weapons.find((w) => w.key === 'railGun');
-    eq(R.damageDiceCount(f, railGun), 2, 'prone: 2d6 + 10');
-    eq(R.movementBlockedReason(f, 'torsoTwist'), 'Prone — cannot torso twist');
-    R.performMovement(f, 'standUp', { forcedRoll: 10 });
-    eq(R.damageDiceCount(f, railGun), 3, 'standing: full 3d6 + 10');
-    eq(R.movementBlockedReason(f, 'torsoTwist'), null, 'can traverse its torso again');
-  });
-
-  it('but it can never walk, reverse or jump again', () => {
-    const f = frame('specter', { ep: 20 });
-    R.applyDamage(f, 'leftLeg', 11);
-    R.performMovement(f, 'standUp', { forcedRoll: 12 });
-    eq(f.prone, false, 'standing');
-    eq(R.movementBlockedReason(f, 'walk'), 'Immobilized (leg severed)');
-    eq(R.movementBlockedReason(f, 'reverse'), 'Immobilized (leg severed)');
-    eq(R.movementBlockedReason(f, 'jump', { hexes: 1 }), 'Immobilized (leg severed)');
-    eq(R.movementBlockedReason(f, 'pivot'), null, 'pivoting is all that is left');
-  });
-
-  it('a named pilot is better at getting the machine back up', () => {
-    const ace = frame('paladin', { ep: 20, pilotBonus: 3 });
-    R.applyDamage(ace, 'leftLeg', 17);
-    ok(R.performMovement(ace, 'standUp', { forcedRoll: 4 }).pilotCheck.passed, '4 + 3 clears TN 6');
-    const rookie = frame('paladin', { ep: 20 });
-    R.applyDamage(rookie, 'leftLeg', 17);
-    eq(R.performMovement(rookie, 'standUp', { forcedRoll: 4 }).pilotCheck.passed, false);
-  });
-
-  it('hand-entering a kill on the sheet applies the same consequences', () => {
-    const f = frame('paladin');
-    R.setLocationStructure(f, 'leftLeg', 0);
-    ok(f.prone, 'falls prone');
-    ok(f.immobilized, 'crippled');
-    R.setLocationStructure(f, 'leftArm', 0);
-    ok(f.weapons.find((w) => w.loc === 'leftArm').destroyed, 'arm weapons lost');
-    R.setLocationStructure(f, 'rightLeg', 0);
-    ok(f.destroyed, 'both legs gone — disabled');
-  });
-
-  it('correcting a mis-entered kill walks the consequences back', () => {
-    const f = frame('paladin');
-    R.setLocationStructure(f, 'leftLeg', 0);
-    R.setLocationStructure(f, 'rightLeg', 0);
-    ok(f.destroyed, 'destroyed by the double leg loss');
-    R.setLocationStructure(f, 'rightLeg', 12); // undo the mistake
-    eq(f.destroyed, false, 'no longer destroyed');
-    ok(f.immobilized, 'but still crippled by the leg it really did lose');
-  });
-
-  it('losing the second leg still disables the frame outright', () => {
-    const f = frame('vanguard', { ep: 20 });
-    R.applyDamage(f, 'leftLeg', 14);
-    R.performMovement(f, 'standUp', { forcedRoll: 11 });
-    ok(!f.destroyed, 'fighting on after the first leg');
-    R.applyDamage(f, 'rightLeg', 14);
-    ok(f.destroyed, 'nothing left to stand on');
-  });
-
-  // --- Energy spending & overcharge (rules.md 5.4) ---------------------------
-  describe('Energy Spending & Overcharge');
-
-  it('overcharge EP must come from banked capacitor charge', () => {
-    const f = frame('vanguard', { ep: 10, overchargeAvailable: 1 });
-    const refused = R.spendEP(f, 4, { overcharge: 2 });
-    eq(refused.ok, false, 'refused with only 1 EP banked');
-    f.overchargeAvailable = 3;
-    eq(R.spendEP(f, 4, { overcharge: 2 }).ok, true, 'allowed with 3 banked');
-    eq(f.overchargeAvailable, 1, 'banked charge consumed');
-  });
-
-  it('spending is refused when the pool is too small', () => {
-    const f = frame('jackal', { ep: 1 });
-    eq(R.spendEP(f, 4).ok, false);
-    eq(f.ep, 1, 'pool untouched on refusal');
-  });
-
-  it('EP spent this turn accumulates for the infrared threshold', () => {
-    const f = frame('vanguard', { ep: 12 });
-    R.spendEP(f, 4);
-    eq(R.isIRLockable(f), false, '4 EP stays cold');
-    R.spendEP(f, 1);
-    eq(R.isIRLockable(f), true, '5 EP lights up on IR');
-  });
-
-  // --- Weapons ----------------------------------------------------------------
-  describe('Weapons');
-
-  it('a weapon on cooldown cannot fire', () => {
-    const f = frame('paladin', { ep: 20 });
-    const railGun = f.weapons.find((w) => w.key === 'railGun');
-    railGun.cooldown = 1;
-    ok(R.weaponBlockedReason(f, railGun).startsWith('Cooling down'));
-  });
-
-  it('an empty magazine blocks firing', () => {
-    const f = frame('paladin', { ep: 20 });
-    const railGun = f.weapons.find((w) => w.key === 'railGun');
-    railGun.ammo.slug = 0;
-    eq(R.weaponBlockedReason(f, railGun), 'Out of ammunition');
-  });
-
-  it('a full magazine is not reported empty just because another munition was named', () => {
-    const f = frame('paladin', { ep: 20 });
-    const autocannon = f.weapons.find((w) => w.key === 'autocannon');
-    // 'slug' belongs to the Rail Gun; the Autocannon must not be checked against it.
-    eq(R.weaponBlockedReason(f, autocannon, { ammoType: null }), null, 'no munition named');
-    eq(R.weaponBlockedReason(f, autocannon, { ammoType: 'ap' }), null, 'its own munition');
-  });
-
-  it('insufficient EP blocks firing', () => {
-    const f = frame('colossus', { ep: 2 });
-    const lance = f.weapons.find((w) => w.key === 'thermalLance');
-    ok(R.weaponBlockedReason(f, lance).startsWith('Needs 4 EP'));
-  });
-
-  it("the Colossus Rail Gun demands banked charge for its mandatory overcharge", () => {
-    const f = frame('colossus', { ep: 20, overchargeAvailable: 0 });
-    const railGun = f.weapons.find((w) => w.key === 'railGun');
-    ok(R.weaponBlockedReason(f, railGun).includes('banked Capacitor'), 'blocked without banked EP');
-    f.overchargeAvailable = 6;
-    eq(R.weaponBlockedReason(f, railGun), null, 'allowed with 6 banked');
-  });
-
-  it('Weapon Calibration Error raises the EP cost of that arm', () => {
-    const f = frame('vanguard');
-    R.applyCrit(f, R.rollCrit('rightArm', { forcedRoll: 1 }));
-    const laser = f.weapons.find((w) => w.loc === 'rightArm');
-    eq(R.weaponEPCost(laser), 3, 'laser 2 EP + 1');
-    const autocannon = f.weapons.find((w) => w.loc === 'leftArm');
-    eq(R.weaponEPCost(autocannon), 1, 'other arm unaffected');
-  });
-
-  it('Ammo Feed Cut disables ammo weapons but not energy weapons', () => {
-    const f = frame('vanguard', { ep: 12 });
-    R.applyCrit(f, R.rollCrit('leftArm', { forcedRoll: 5 }));
-    eq(R.weaponBlockedReason(f, f.weapons.find((w) => w.loc === 'leftArm')), 'Ammo feed cut');
-    eq(R.weaponBlockedReason(f, f.weapons.find((w) => w.loc === 'rightArm')), null, 'laser unaffected');
-  });
-
-  it('a weapon may only fire once per Combat Phase', () => {
-    const f = frame('colossus', { ep: 30, overchargeAvailable: 20 });
-    const lance = f.weapons.find((w) => w.key === 'thermalLance');
-    eq(R.weaponBlockedReason(f, lance), null, 'available before firing');
-    R.consumeWeapon(f, lance, {});
-    eq(R.weaponBlockedReason(f, lance), 'Already fired this phase');
-    // Its other weapons are unaffected.
-    const missiles = f.weapons.find((w) => w.key === 'guidedMissiles');
-    eq(R.weaponBlockedReason(f, missiles), null, 'a different weapon may still fire');
-  });
-
-  it('the End Phase rearms every weapon for the next round', () => {
-    const f = frame('vanguard', { ep: 12 });
-    for (const w of f.weapons) R.consumeWeapon(f, w, { ammoType: 'ap' });
-    ok(f.weapons.every((w) => w.firedThisTurn), 'all fired');
-    R.endPhase(f);
-    ok(f.weapons.every((w) => !w.firedThisTurn), 'all rearmed');
-  });
-
-  it('Full Auto is capped at 3 bursts per attack', () => {
-    const f = frame('vanguard', { ep: 20 });
-    const autocannon = f.weapons.find((w) => w.key === 'autocannon');
-    eq(R.weaponBlockedReason(f, autocannon, { ammoType: 'ap', bursts: 3 }), null, '3 is allowed');
-    ok(R.weaponBlockedReason(f, autocannon, { ammoType: 'ap', bursts: 4 })?.includes('Full Auto'), '4 is refused');
-  });
-
-  it('overcharging any weapon triggers a 1-turn cooldown', () => {
+  it('a Core Critical treats Torso DR as 0 for the whole attack', () => {
     const f = frame('colossus');
-    const lance = f.weapons.find((w) => w.key === 'thermalLance');
-    R.consumeWeapon(f, lance, { overcharged: true });
-    eq(lance.cooldown, 1);
+    const r = R.applyDamage(f, 'torso', 3, { coreCritical: true });
+    eq([r.dr, r.penetrated], [0, true]);
+    eq(r.critDice, 1, 'Overkill is measured against 0, not the real armor');
   });
 
-  it('firing consumes the chosen ammo type', () => {
-    const f = frame('vanguard');
-    const autocannon = f.weapons.find((w) => w.key === 'autocannon');
-    R.consumeWeapon(f, autocannon, { ammoType: 'hei', bursts: 2 });
-    eq(autocannon.ammo, { ap: 5, hei: 3 });
+  // --- Overkill (rules.md 2.3) ----------------------------------------------
+  describe('Overkill Margin');
+
+  it('one crit die on any penetration, plus one per full 5 points of excess', () => {
+    eq([overkillDice(1), overkillDice(4), overkillDice(5), overkillDice(10), overkillDice(11)],
+       [1, 1, 2, 3, 3]);
   });
 
-  // --- Prone damage penalty (rules.md 5.0, 6.3) --------------------------------
-  describe('Prone Damage Penalty');
-
-  it('a prone attacker rolls one die fewer', () => {
-    const f = frame('colossus');
-    const lance = f.weapons.find((w) => w.key === 'thermalLance');
-    eq(R.damageDiceCount(f, lance), 3, 'standing');
-    f.prone = true;
-    eq(R.damageDiceCount(f, lance), 2, 'prone');
+  it('rules.md 2.3 worked example: 16 damage vs DR 5 is 3 Criticals', () => {
+    const f = frame('paladin');
+    f.locations.torso.dr = 5;
+    eq(R.applyDamage(f, 'torso', 16).critDice, 3);
   });
 
-  it('flat damage bonuses survive the penalty', () => {
-    const f = frame('paladin', { prone: true });
-    const railGun = f.weapons.find((w) => w.key === 'railGun');
-    eq(R.damageDiceCount(f, railGun), 2, 'Rail Gun becomes 2d6 + 10, keeping the flat 10');
+  it('no penetration means no crit dice', () => {
+    eq(overkillDice(0), 0);
   });
 
-  it('Rapid Fire loses one die from every burst', () => {
-    const f = frame('vanguard', { prone: true });
-    const autocannon = f.weapons.find((w) => w.key === 'autocannon');
-    eq(R.damageDiceCount(f, autocannon, { bursts: 1 }), 2, 'one burst: 2 dice not 3');
-    eq(R.damageDiceCount(f, autocannon, { bursts: 3 }), 6, 'three bursts: 6 dice not 9');
+  // --- Critical tables (rules.md 6.2) ---------------------------------------
+  describe('Critical Hit Tables');
+
+  it('the tables are different lengths: head 5, torso 8, arms and legs 6', () => {
+    eq([CRIT_TABLE_MAX.head, CRIT_TABLE_MAX.torso, CRIT_TABLE_MAX.arm, CRIT_TABLE_MAX.leg],
+       [5, 8, 6, 6]);
   });
 
-  it('the pool never drops below one die', () => {
-    const f = frame('vanguard', { prone: true });
-    const laser = f.weapons.find((w) => w.key === 'laser');
-    eq(R.damageDiceCount(f, laser), 1, '2d6 becomes 1d6, not 0');
-  });
-
-  it('weapons that roll no damage dice are unaffected', () => {
-    const f = frame('specter', { prone: true });
-    const disruptor = f.weapons.find((w) => w.key === 'disruptorCannon');
-    eq(R.damageDiceCount(f, disruptor), 0);
-  });
-
-  // --- Rapid Fire (rules.md 5) -----------------------------------------------
-  describe('Rapid Fire');
-
-  it('evasion removes whole hits rather than damage points', () => {
-    const f = frame('jackal'); // torso DR 2, IS 8
-    const report = R.resolveRapidFire(f, 'torso', [6, 5, 1], { evasion: 1 });
-    eq(report.missedIndexes, [0], 'the highest die is negated');
-    eq(report.hits.length, 2, 'two dice still resolve');
-  });
-
-  it('each die is resolved against Armor DR separately', () => {
-    const f = frame('vanguard'); // torso DR 5
-    const report = R.resolveRapidFire(f, 'torso', [6, 4, 3], { evasion: 0 });
-    eq(report.totalToIS, 1, 'only the 6 beats DR 5; the 4 and 3 bounce');
-    eq(f.locations.torso.dr, 4, 'the one penetrating hit degrades DR');
-  });
-
-  it('AP ammo lets weaker dice through', () => {
-    const f = frame('vanguard');
-    const report = R.resolveRapidFire(f, 'torso', [6, 5, 5], { evasion: 0, apX: 1 });
-    eq(report.totalToIS, 4, 'DR 5 − AP 1 = 4, so 6/5/5 deal 2/1/1');
-  });
-
-  it('a burst degrades armor once, not once per penetrating die', () => {
-    const f = frame('vanguard'); // torso DR 5
-    R.resolveRapidFire(f, 'torso', [6, 6, 6], { evasion: 0 });
-    eq(f.locations.torso.dr, 4, 'one penetration event for the whole burst');
-    eq(f.locations.torso.is, 9, 'each die resolved against the DR it started at: 1+1+1');
-  });
-
-  it('Tracer rounds subtract 1 from every die', () => {
-    const f = frame('jackal'); // torso DR 2
-    const report = R.resolveRapidFire(f, 'torso', [3, 3, 1], { damageMod: -1 });
-    eq(report.dice, [2, 2, 0], 'each die reduced, floored at 0');
-    eq(report.totalToIS, 0, 'nothing beats DR 2');
-  });
-
-  it('evasion higher than the dice count negates the whole burst', () => {
-    const f = frame('vanguard');
-    const report = R.resolveRapidFire(f, 'torso', [6, 6, 6], { evasion: 5 });
-    eq(report.hits.length, 0);
-    eq(f.locations.torso.is, 12, 'untouched');
-  });
-
-  // --- Missiles (rules.md 5.2) ------------------------------------------------
-  describe('Guided Missiles');
-
-  it('Cluster warheads hit every location', () => {
-    const f = frame('colossus'); // tough enough to survive the salvo intact
-    const results = R.resolveCluster(f, () => 7);
-    eq(results.length, 6, 'all six locations');
-    ok(f.locations.head.is < 8, 'head damaged through DR 4');
-    ok(f.locations.leftLeg.is < 15, 'legs damaged through DR 6');
-    eq(f.locations.torso.is, 20, 'torso DR 7 holds against a 7');
-  });
-
-  it('a Cluster salvo that destroys the head stops there', () => {
-    const f = frame('jackal'); // head 2 DR / 4 IS — a 7 vaporises it
-    R.resolveCluster(f, () => 7);
-    ok(f.destroyed, 'frame destroyed by the head hit');
-  });
-
-  it('High Explosive splashes from the primary location to adjacent ones', () => {
-    const f = frame('vanguard');
-    const { primary, splash } = R.resolveHighExplosive(f, 'torso', 14, () => 6);
-    eq(primary.toIS, 9, '14 − 5 DR');
-    eq(splash.length, 5, 'head, both arms, both legs');
-  });
-
-  it('EMP crits only locations already stripped to 0 Armor DR', () => {
-    const f = frame('vanguard');
-    f.locations.leftArm.dr = 0;
-    const { crits } = R.resolveEMP(f, () => 1);
-    eq(crits.length, 1, 'only the exposed arm');
-    eq(crits[0].location, 'leftArm');
-    ok(f.sensorsScrambled, 'sensors scrambled');
-  });
-
-  it('an EMP Weapon Damaged crit reports its weapon choices', () => {
-    const f = frame('vanguard');
-    f.locations.leftArm.dr = 0;
-    const { crits } = R.resolveEMP(f, () => 2);
-    eq(crits[0].crit.name, 'Weapon Damaged');
-    eq(crits[0].crit.choices, [f.weapons.find((w) => w.loc === 'leftArm').id]);
-  });
-
-  // --- Disruptor Cannon -------------------------------------------------------
-  describe('Disruptor Cannon');
-
-  it('a Torso hit drains EP and deals no damage', () => {
-    const f = frame('vanguard', { ep: 10 });
-    const report = R.resolveDisruptor(f, 'torso', { drainRoll: 4 });
-    eq(report.drained, 4);
-    eq(f.ep, 6);
-    eq(f.locations.torso.is, 12, 'no structural damage');
-  });
-
-  it('a limb hit forces a critical instead', () => {
-    const f = frame('vanguard', { ep: 10 });
-    const report = R.resolveDisruptor(f, 'leftLeg', { critRoll: 3 });
-    eq(report.crit.name, 'Hip Actuator');
-    eq(f.evasionLimitMod, -1, 'crit applied');
-    eq(f.ep, 10, 'no EP drained on a limb hit');
-  });
-
-  it('overcharging does both at once', () => {
-    const f = frame('vanguard', { ep: 10 });
-    const report = R.resolveDisruptor(f, 'leftArm', { drainRoll: 3, critRoll: 1, overcharged: true });
-    eq(report.drained, 3, 'EP drained');
-    ok(report.crit, 'and a crit forced');
-  });
-
-  it('a drain cannot take more EP than the frame has', () => {
-    const f = frame('vanguard', { ep: 2 });
-    eq(R.resolveDisruptor(f, 'torso', { drainRoll: 6 }).drained, 2);
-    eq(f.ep, 0);
-  });
-
-  it('a forced Weapon Damaged crit reports the weapons the attacker may pick', () => {
-    const f = frame('vanguard', { ep: 10 }); // autocannon in the left arm
-    const report = R.resolveDisruptor(f, 'leftArm', { critRoll: 2 });
-    eq(report.crit.name, 'Weapon Damaged');
-    eq(report.crit.choices, [f.weapons.find((w) => w.loc === 'leftArm').id], 'choices reach the caller');
-  });
-
-  // --- Criticals --------------------------------------------------------------
-  describe('Critical Hits');
-
-  it('every entry on every crit table applies without error', () => {
-    for (const [table, rows] of Object.entries(CRIT_TABLES)) {
-      for (const roll of Object.keys(rows)) {
-        const loc = table === 'arm' ? 'leftArm' : table === 'leg' ? 'leftLeg' : table;
-        const f = frame('vanguard');
-        R.applyCrit(f, R.rollCrit(loc, { forcedRoll: Number(roll) }), loc);
-      }
+  it('every table places Structural Fracture on the Severity Ladder at 4', () => {
+    for (const t of ['head', 'torso', 'arm', 'leg']) {
+      ok(CRIT_TABLES[t][4].name.includes('Structural Fracture'), `${t} slot 4`);
     }
   });
 
-  it('HEI ammo adds +1 to the crit roll', () => {
-    const crit = R.rollCrit('torso', { forcedRoll: 2, mod: 1 });
-    eq(crit.modifiedRoll, 3);
-    eq(crit.name, 'Reactor Damage', 'a 2 becomes a 3');
-  });
-
-  it('a modified roll of 7 resolves as the 6 result', () => {
-    eq(R.rollCrit('torso', { forcedRoll: 6, mod: 1 }).name, 'Core Melt');
-  });
-
-  it('Ammo Explosion becomes Reactor Damage with no explosive ammo aboard', () => {
+  it('torso slots 7 and 8 cannot be rolled naturally — only cascaded into', () => {
     const f = frame('colossus');
-    for (const w of f.weapons) if (w.ammo) w.ammo = { slug: 5 }; // inert slugs only
-    f.weapons = f.weapons.filter((w) => w.key !== 'guidedMissiles'); // drop explosive warheads
-    const applied = R.applyCrit(f, R.rollCrit('torso', { forcedRoll: 5 }));
-    eq(f.reactorMod, -2, 'resolved as Reactor Damage');
-    ok(!applied.pendingAmmoExplosion, 'no detonation');
+    eq(R.rollCrit(f, 'torso', { forcedRoll: 6 }).slot, 6, 'a natural 6 is Ammo Explosion');
   });
 
-  it('Ammo Explosion detonates when explosive ammo is aboard', () => {
-    const f = frame('vanguard'); // autocannon shells are explosive
-    const applied = R.applyCrit(f, R.rollCrit('torso', { forcedRoll: 5 }));
-    ok(applied.pendingAmmoExplosion, 'detonation pending a 3d6 roll');
+  it('a natural 6 on the Head resolves as Pilot K.O., the top of a 5-slot table', () => {
+    eq(R.rollCrit(frame('colossus'), 'head', { forcedRoll: 6 }).slot, 5);
   });
 
-  it('Structural Fracture strips a limb to 0 Armor DR', () => {
+  it('Cascading Failure climbs to the next unmarked slot', () => {
     const f = frame('colossus');
-    R.applyCrit(f, R.rollCrit('leftArm', { forcedRoll: 4 }), 'leftArm');
-    eq(f.locations.leftArm.dr, 0);
+    f.locations.torso.crits = { 3: true, 4: true };
+    const c = R.rollCrit(f, 'torso', { forcedRoll: 3 });
+    eq([c.slot, c.cascaded], [5, true]);
   });
 
-  it('Cockpit Breach permanently lowers initiative by 3', () => {
+  it('HEI adds +1 before the cascade is resolved', () => {
+    eq(R.rollCrit(frame('colossus'), 'torso', { forcedRoll: 3, mod: 1 }).slot, 4);
+  });
+
+  it('Structural Fracture drops that location to DR 0', () => {
+    const f = frame('colossus');
+    R.applyCrit(f, R.rollCrit(f, 'torso', { forcedRoll: 4 }));
+    eq(f.locations.torso.dr, 0);
+  });
+
+  it('Reactor Damage is permanent', () => {
+    const f = frame('colossus');
+    R.applyCrit(f, R.rollCrit(f, 'torso', { forcedRoll: 5 }));
+    eq(R.effectiveReactor(f), 16);
+  });
+
+  it('Capacitor Leak cuts the maximum and drains what is banked', () => {
+    const f = frame('paladin', { capacitor: 8 });
+    R.applyCrit(f, R.rollCrit(f, 'torso', { forcedRoll: 3 }));
+    eq([R.effectiveCapacitorMax(f), f.capacitor], [6, 6]);
+  });
+
+  // --- Ammo Explosion (rules.md 6.2, torso 6) -------------------------------
+  describe('Ammo Explosion');
+
+  it('detonates a live store and inflicts 2 further Torso Criticals', () => {
+    const f = frame('paladin');
+    const res = R.resolveCrits(f, 'torso', 1, { rng: seq(6, 1, 2, 3) });
+    ok(res.length >= 3, `expected the explosion plus 2 follow-ups, got ${res.length}`);
+    ok(f.weapons.find((w) => w.key === 'autocannon').empty, 'explosive ammo is spent');
+  });
+
+  it('with nothing left to cook off it becomes Reactor Damage instead', () => {
+    const f = frame('colossus'); // inert slugs, no jump jets
+    for (const w of f.weapons) w.empty = true;
+    const before = R.effectiveReactor(f);
+    R.applyCrit(f, R.rollCrit(f, 'torso', { forcedRoll: 6 }));
+    eq(R.effectiveReactor(f), before - 2);
+  });
+
+  it('Rail Gun slugs are inert and never count as a volatile store', () => {
+    const f = frame('colossus');
+    for (const w of f.weapons) if (w.key !== 'railGun') w.empty = true;
+    eq(R.hasVolatileStore(f), false);
+  });
+
+  it('jump jet propellant counts as a volatile store', () => {
     const f = frame('jackal');
-    R.applyCrit(f, R.rollCrit('head', { forcedRoll: 5 }));
-    eq(R.effectiveInitiative(f), 9, '12 − 3');
+    for (const w of f.weapons) w.empty = true;
+    eq(R.hasVolatileStore(f), true);
+    f.jumpJetsEmpty = true;
+    eq(R.hasVolatileStore(f), false);
   });
 
-  it('Comm Static severs the tactical datalink', () => {
+  // --- Destruction & transfer (rules.md 6.5) --------------------------------
+  describe('Location Destruction & Damage Transfer');
+
+  it('a severed arm loses its weapon', () => {
+    const f = frame('colossus');
+    R.applyCrit(f, R.rollCrit(f, 'leftArm', { forcedRoll: 6 }));
+    ok(f.weapons.find((w) => w.loc === 'leftArm').destroyed);
+  });
+
+  it('hits on a severed limb blow through to the Torso', () => {
     const f = frame('vanguard');
-    R.applyCrit(f, R.rollCrit('head', { forcedRoll: 2 }));
-    eq(f.systems.datalink, false);
+    f.locations.leftArm.destroyed = true;
+    const r = R.applyDamage(f, 'leftArm', 9);
+    ok(r.transferred, 'expected a transfer report');
+    eq(r.transferred.location, 'torso');
+    eq(f.locations.torso.dr, 5, 'the Torso takes the degradation');
   });
 
-  it('Pilot K.O. and Core Melt destroy the frame', () => {
-    const ko = frame('vanguard');
-    R.applyCrit(ko, R.rollCrit('head', { forcedRoll: 6 }));
-    ok(ko.destroyed, 'pilot K.O.');
-
-    const melt = frame('vanguard');
-    R.applyCrit(melt, R.rollCrit('torso', { forcedRoll: 6 }));
-    ok(melt.destroyed, 'core melt');
+  it('losing BOTH legs destroys the Frame (rules.md 6.5.4)', () => {
+    const f = frame('paladin');
+    R.applyCrit(f, R.rollCrit(f, 'leftLeg', { forcedRoll: 6 }));
+    eq(R.isDestroyed(f), false, 'one leg is a crippling wound, not a kill');
+    R.applyCrit(f, R.rollCrit(f, 'rightLeg', { forcedRoll: 6 }));
+    eq(R.isDestroyed(f), true);
   });
 
-  it('Arm Severed through the crit table destroys that arm and its weapons', () => {
+  it('Containment Failure destroys the Frame', () => {
+    const f = frame('colossus');
+    f.locations.torso.crits = { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true };
+    R.applyCrit(f, R.rollCrit(f, 'torso', { forcedRoll: 1 }));
+    eq(R.isDestroyed(f), true);
+  });
+
+  it('Pilot K.O. destroys the Frame', () => {
+    const f = frame('jackal');
+    R.applyCrit(f, R.rollCrit(f, 'head', { forcedRoll: 5 }));
+    eq(R.isDestroyed(f), true);
+  });
+
+  // --- Flank Speed (rules.md 2.2) -------------------------------------------
+  describe('Flank Speed');
+
+  it('is gained by exiting 4 hexes, not 3', () => {
     const f = frame('vanguard');
-    R.applyCrit(f, R.rollCrit('leftArm', { forcedRoll: 6 }), 'leftArm');
-    ok(f.locations.leftArm.destroyed, 'arm gone');
-    ok(f.weapons.find((w) => w.loc === 'leftArm').destroyed, 'autocannon lost');
+    f.hexesMoved = 3; R.updateFlankSpeed(f); eq(f.flankSpeed, false);
+    f.hexesMoved = 4; R.updateFlankSpeed(f); eq(f.flankSpeed, true);
   });
 
-  it('crits accumulate in the frame log', () => {
+  it('a jump of 2+ hexes grants it regardless of distance moved', () => {
+    const f = frame('jackal');
+    f.hexesMoved = 2; R.updateFlankSpeed(f, { jumpedHexes: 2 });
+    eq(f.flankSpeed, true);
+  });
+
+  it('a single-hop jump does not', () => {
+    const f = frame('jackal');
+    f.hexesMoved = 1; R.updateFlankSpeed(f, { jumpedHexes: 1 });
+    eq(f.flankSpeed, false);
+  });
+
+  it('an Assault chassis is capped one hex short, permanently', () => {
+    eq(R.effectiveMovementLimit(frame('colossus')), 3);
+  });
+
+  it('water denies it outright', () => {
+    const f = frame('vanguard', { terrain: 'waterShallow', hexesMoved: 5 });
+    R.updateFlankSpeed(f);
+    eq(f.flankSpeed, false);
+  });
+
+  it('a Prone Frame cannot have it', () => {
+    const f = frame('vanguard', { prone: true, hexesMoved: 6 });
+    R.updateFlankSpeed(f);
+    eq(f.flankSpeed, false);
+  });
+
+  // --- Defensive rerolls (rules.md 2.3, 3.3) --------------------------------
+  describe('Flank Speed & Cover rerolls');
+
+  it('Flank Speed and Cover stack', () => {
+    const f = frame('vanguard', { flankSpeed: true, terrain: 'woodsHeavy' });
+    eq(R.rerollAllowance(f), 3, '1 from Flank Speed + 2 from Heavy Cover');
+  });
+
+  it('AoE bypasses Flank Speed and Cover both', () => {
+    const f = frame('vanguard', { flankSpeed: true, terrain: 'woodsHeavy' });
+    eq(R.rerollAllowance(f, { aoe: true }), 0);
+  });
+
+  it('Rapid Fire bypasses Flank Speed but not Cover', () => {
+    const f = frame('vanguard', { flankSpeed: true, terrain: 'woodsLight' });
+    eq(R.rerollAllowance(f, { rapidFire: true }), 1);
+  });
+
+  it('blow-through denies Flank Speed rerolls, Cover still applies', () => {
+    const f = frame('vanguard', { flankSpeed: true, terrain: 'woodsLight' });
+    eq(R.rerollAllowance(f, { transferred: true }), 1);
+  });
+
+  it('rerolls target the highest die and are optional', () => {
+    eq(R.applyRerolls([5, 4, 3], 1, { forced: [2] }).dice, [2, 4, 3]);
+    eq(R.applyRerolls([2, 1, 3], 2, { forced: [6, 6] }).dice, [2, 1, 3],
+       'nothing above the floor is worth rerolling');
+  });
+
+  // --- Countermeasure Check (rules.md 4.2) ----------------------------------
+  describe('Countermeasure Check');
+
+  it('negates on 4, 5 or 6 and lets 1-3 through', () => {
+    eq(COUNTERMEASURE_CHECK_TN, 4);
+    for (const roll of [1, 2, 3]) eq(R.countermeasureCheck({ forcedRoll: roll }).negated, false, `roll ${roll}`);
+    for (const roll of [4, 5, 6]) eq(R.countermeasureCheck({ forcedRoll: roll }).negated, true, `roll ${roll}`);
+  });
+
+  it('a cartridge is spent whether it worked or not', () => {
     const f = frame('vanguard');
-    R.applyCrit(f, R.rollCrit('torso', { forcedRoll: 1 }));
-    R.applyCrit(f, R.rollCrit('torso', { forcedRoll: 3 }));
-    eq(f.crits.length, 2);
+    const r = R.useCountermeasure(f, { key: 'chaff', kind: 'cartridge' }, { forcedRoll: 1, forcedAmmoRoll: 1 });
+    eq([r.negated, r.ammo.empty, f.chaffEmpty], [false, true, true]);
   });
 
-  // --- Turn order (rules.md 2.2, 2.3) ----------------------------------------
-  describe('Turn Order');
-
-  it('activation runs lowest initiative first', () => {
-    const frames = [frame('jackal'), frame('colossus'), frame('vanguard')];
-    eq(R.turnOrder(frames, 'activation').map((f) => f.initiative), [3, 6, 12]);
+  it('a sustained suite is never expended', () => {
+    const f = frame('vanguard', { ecmActive: true });
+    const r = R.useCountermeasure(f, { key: 'ecm', kind: 'sustained' }, { forcedRoll: 5 });
+    eq([r.negated, r.ammo], [true, null]);
   });
 
-  it('combat reverses to highest initiative first', () => {
-    const frames = [frame('jackal'), frame('colossus'), frame('vanguard')];
-    eq(R.turnOrder(frames, 'combat').map((f) => f.initiative), [12, 6, 3]);
+  it('offers only the systems that answer the attacking band', () => {
+    const f = frame('vanguard', { ecmActive: true });
+    eq(R.availableCountermeasures(f, 'rad').map((c) => c.key), ['chaff', 'ecm']);
+    eq(R.availableCountermeasures(f, 'ir').map((c) => c.key), ['flares']);
+    eq(R.availableCountermeasures(f, 'vis').map((c) => c.key), []);
   });
 
-  it('destroyed frames drop out of the order', () => {
-    const dead = frame('jackal', { destroyed: true });
-    eq(R.turnOrder([dead, frame('vanguard')], 'combat').length, 1);
+  it('the Vow of Honesty forbids every deception system', () => {
+    const f = frame('vanguard', { ecmActive: true, vow: 'honesty' });
+    eq(R.availableCountermeasures(f, 'rad'), []);
   });
 
-  it('a Cockpit Breach re-sorts the frame', () => {
-    const jackal = frame('jackal');
-    R.applyCrit(jackal, R.rollCrit('head', { forcedRoll: 5 })); // 12 → 9
-    const specter = frame('specter'); // 10
-    eq(R.turnOrder([jackal, specter], 'combat').map((f) => f.callsign), ['Specter', 'Jackal']);
+  // --- Ammo Die (rules.md 5.0) ----------------------------------------------
+  describe('Ammo Die');
+
+  it('an autocannon single burst runs Empty only on a 1', () => {
+    eq(R.rollAmmoDie(1, { forcedRoll: 1 }).empty, true);
+    eq(R.rollAmmoDie(1, { forcedRoll: 2 }).empty, false);
   });
 
-  // --- Pilot checks -----------------------------------------------------------
+  it('Full Auto burns the belt three times as fast — Empty on 1-3', () => {
+    const ac = frame('jackal').weapons.find((w) => w.key === 'autocannon');
+    eq([R.ammoDieFor(ac, { bursts: 1 }), R.ammoDieFor(ac, { bursts: 3 })], [1, 3]);
+  });
+
+  it('countermeasure cartridges run Empty on a 1 — roughly six uses', () => {
+    const f = frame('paladin');
+    R.useCountermeasure(f, { key: 'flares', kind: 'cartridge' }, { forcedRoll: 5, forcedAmmoRoll: 2 });
+    eq(f.flaresEmpty, false);
+    R.useCountermeasure(f, { key: 'flares', kind: 'cartridge' }, { forcedRoll: 5, forcedAmmoRoll: 1 });
+    eq(f.flaresEmpty, true);
+  });
+
+  it('an Empty weapon cannot fire', () => {
+    const f = frame('jackal', { ep: 10 });
+    const ac = f.weapons.find((w) => w.key === 'autocannon');
+    ac.empty = true;
+    eq(R.weaponBlockedReason(f, ac), 'Out of ammunition');
+  });
+
+  it('each weapon may fire only once per Combat Phase', () => {
+    const f = frame('jackal', { ep: 10 });
+    const laser = f.weapons.find((w) => w.key === 'laser');
+    laser.firedThisTurn = true;
+    eq(R.weaponBlockedReason(f, laser), 'Already fired this Combat Phase');
+  });
+
+  // --- Rapid Fire (rules.md 5.0) --------------------------------------------
+  describe('Rapid Fire');
+
+  it('each die is tested separately against the DR at declaration', () => {
+    const f = frame('specter'); // arm DR 3
+    const r = R.resolveRapidFire(f, 'leftArm', { bursts: 1, forcedDice: [6, 4, 1] });
+    eq(r.bursts[0].through, 2, '6 and 4 beat DR 3; 1 does not');
+  });
+
+  it('one Critical per BURST that gets a die through, not per die', () => {
+    const f = frame('specter');
+    eq(R.resolveRapidFire(f, 'leftArm', { bursts: 1, forcedDice: [6, 6, 6] }).critDice, 1);
+  });
+
+  it('a three-burst Full Auto produces at most 3 Criticals', () => {
+    const f = frame('specter');
+    const r = R.resolveRapidFire(f, 'leftArm', { bursts: 3, forcedDice: [6, 6, 6, 6, 6, 6, 6, 6, 6] });
+    eq(r.critDice, 3);
+  });
+
+  it('armor degrades by 1 in total, however many rounds got through', () => {
+    const f = frame('specter');
+    R.resolveRapidFire(f, 'leftArm', { bursts: 3, forcedDice: [6, 6, 6, 6, 6, 6, 6, 6, 6] });
+    eq(f.locations.leftArm.dr, 2, 'DR 3 → 2, once');
+  });
+
+  it('nothing through means no crit and no degradation', () => {
+    const f = frame('colossus'); // torso DR 8: a single d6 can never beat it
+    const r = R.resolveRapidFire(f, 'torso', { bursts: 3, forcedDice: [6, 6, 6, 6, 6, 6, 6, 6, 6] });
+    eq([r.critDice, f.locations.torso.dr], [0, 8]);
+  });
+
+  it('Rapid Fire never uses the Overkill Margin', () => {
+    const f = frame('jackal'); // arm DR 2
+    const r = R.resolveRapidFire(f, 'leftArm', { bursts: 1, forcedDice: [6, 6, 6] });
+    eq(r.critDice, 1, 'three 6s against DR 2 is still one Critical');
+  });
+
+  // --- Special weapons (rules.md 5.2) ---------------------------------------
+  describe('Guided Missiles, EMP & Disruptor');
+
+  it('Cluster rolls three locations, one per column', () => {
+    const f = frame('colossus');
+    const res = R.resolveCluster(f, { forcedLocations: [7, 7, 7], forcedDamage: [10, 10, 10] });
+    eq(res.map((r) => r.zone), ['left', 'front', 'right']);
+    eq(res.every((r) => r.hit.location === 'torso'), true);
+  });
+
+  it('High Explosive splashes 1d6 into every adjacent location', () => {
+    const f = frame('jackal');
+    const res = R.resolveHighExplosive(f, 'torso', { forcedPrimary: 12, forcedSplash: [6, 6, 6, 6, 6] });
+    eq(res.length, 6, 'the torso plus its five neighbours');
+    ok(res.slice(1).every((r) => r.splash));
+  });
+
+  it('EMP deals no damage but criticals every location already at 0 DR', () => {
+    const f = frame('jackal');
+    f.locations.leftArm.dr = 0;
+    f.locations.rightArm.dr = 0;
+    const r = R.resolveEMP(f, { rng: seq(1, 1) });
+    eq(r.hits.map((h) => h.location), ['leftArm', 'rightArm']);
+    eq(f.locations.torso.dr, 3, 'armored locations are untouched');
+    eq(f.sensorsScrambled, true);
+  });
+
+  it('EMP severs the Tactical Datalink', () => {
+    const f = frame('paladin');
+    R.resolveEMP(f);
+    eq(f.datalinkSevered, true);
+  });
+
+  it('the Disruptor forces a Critical and drains EP, ignoring armor entirely', () => {
+    const f = frame('colossus', { ep: 10 });
+    const r = R.resolveDisruptor(f, 'torso', { forcedDrain: 4, forcedCrits: [1] });
+    eq(r.crits.length, 1);
+    eq([f.ep, f.locations.torso.dr], [6, 8], 'DR is never touched by a Disruptor');
+  });
+
+  it('an Overcharged Disruptor forces a second Critical', () => {
+    const f = frame('colossus', { ep: 10 });
+    eq(R.resolveDisruptor(f, 'torso', { overcharged: true, forcedDrain: 1, forcedCrits: [1, 2] }).crits.length, 2);
+  });
+
+  // --- Energy (rules.md 2.1, 5.3) -------------------------------------------
+  describe('Energy Phase & Overcharge');
+
+  it('banked charge joins the pool and sets the Overcharge Allowance', () => {
+    const f = frame('vanguard', { capacitor: 4 });
+    R.energyPhase(f);
+    eq([f.ep, f.overchargeAvailable, f.capacitor], [16, 4, 0]);
+  });
+
+  it('a Frame that banked nothing cannot Overcharge at all', () => {
+    const f = frame('vanguard');
+    R.energyPhase(f);
+    eq(R.spendEP(f, 2, { overcharge: 2 }).ok, false);
+  });
+
+  it('sustained suites bill every Energy Phase', () => {
+    const f = frame('vanguard', { ecmActive: true });
+    const r = R.energyPhase(f);
+    eq([r.upkeep, f.ep], [2, 10]);
+  });
+
+  it('Adaptive Skin upkeep is exempt from the 5 EP IR threshold', () => {
+    const f = frame('specter', { adaptiveSkinActive: true });
+    R.energyPhase(f);
+    eq(f.epSpentThisTurn, 0, 'a Skin runs cold by design');
+    eq(R.isIRLockable(f), false);
+  });
+
+  it('spending 5 EP makes a Frame IR-lockable', () => {
+    const f = frame('vanguard');
+    R.energyPhase(f);
+    R.spendEP(f, 5);
+    eq(R.isIRLockable(f), true);
+  });
+
+  it('water cools the reactor', () => {
+    eq(R.energyPhase(frame('jackal', { terrain: 'waterShallow' })).cooling, 1);
+    eq(R.energyPhase(frame('jackal', { terrain: 'waterDeep' })).cooling, 2);
+  });
+
+  it('Overcharge adds dice, never a flat bonus', () => {
+    const f = frame('colossus');
+    const lance = f.weapons.find((w) => w.key === 'thermalLance');
+    eq(R.overchargeDiceFor(lance, 4), 2, '2 EP per die, capped at +2d6');
+    eq(R.damageDiceCount(f, lance, { overchargeDice: 2 }), 5);
+  });
+
+  it('the Rail Gun cannot fire without its 6 EP Capacitor Overcharge', () => {
+    const f = frame('paladin', { ep: 20, overchargeAvailable: 0 });
+    const rg = f.weapons.find((w) => w.key === 'railGun');
+    ok(R.weaponBlockedReason(f, rg, { overcharge: 0 }).includes('Overcharge'));
+  });
+
+  it('firing it always triggers a 1-turn cooldown', () => {
+    const f = frame('paladin', { ep: 20, overchargeAvailable: 6 });
+    const rg = f.weapons.find((w) => w.key === 'railGun');
+    R.consumeWeapon(f, rg, { overcharge: 6 });
+    eq(rg.cooldown, 1);
+  });
+
+  it('Prone costs a damage die, to a minimum of one', () => {
+    const f = frame('colossus', { prone: true });
+    const lance = f.weapons.find((w) => w.key === 'thermalLance');
+    eq(R.damageDiceCount(f, lance), 2, '3d6 → 2d6');
+  });
+
+  it('Hardpoint Failure costs another', () => {
+    const f = frame('colossus', { hardpointFailure: { leftArm: true } });
+    const lance = f.weapons.find((w) => w.key === 'thermalLance');
+    eq(R.damageDiceCount(f, lance), 2);
+  });
+
+  // --- Movement (rules.md 2.2) ----------------------------------------------
+  describe('Movement');
+
+  it('reverse costs double a walk', () => {
+    const f = frame('vanguard');
+    eq([R.movementCost(f, 'walk'), R.movementCost(f, 'reverse')], [1, 2]);
+  });
+
+  it('terrain and climbing surcharge a walk', () => {
+    eq(R.movementCost(frame('vanguard'), 'walk', { terrain: 'woodsLight', elevationDelta: 1 }), 3);
+  });
+
+  it('a jump pays 2 EP per hex and nothing else', () => {
+    eq(R.movementCost(frame('jackal'), 'jump', { hexes: 3, terrain: 'woodsHeavy', elevationDelta: 2 }), 6);
+  });
+
+  it('Knee Lock adds 1 EP per hex walked', () => {
+    eq(R.movementCost(frame('vanguard', { kneeLock: true }), 'walk'), 2);
+  });
+
+  it('a Prone Frame crawl-pivots at 2 EP, or 3 on a crippled leg', () => {
+    const f = frame('paladin', { prone: true });
+    eq(R.movementCost(f, 'pivot'), 2);
+    f.locations.leftLeg.destroyed = true;
+    eq(R.movementCost(f, 'pivot'), 3);
+  });
+
+  it('a Torso Twist is free until Servo Lock', () => {
+    eq(R.movementCost(frame('vanguard'), 'torsoTwist'), 0);
+    eq(R.movementCost(frame('vanguard', { servoLock: true }), 'torsoTwist'), 2);
+  });
+
+  it('Heavy and Assault chassis can never jump', () => {
+    ok(R.movementBlockedReason(frame('colossus', { ep: 20 }), 'jump').includes('never jump'));
+  });
+
+  it('Heavy Woods are impassable on foot to a Heavy chassis', () => {
+    const f = frame('paladin', { ep: 20 });
+    ok(R.movementBlockedReason(f, 'walk', { terrain: 'woodsHeavy' }).includes('impassable'));
+  });
+
+  it('a crippled Frame can never walk again', () => {
+    const f = frame('paladin', { ep: 20 });
+    f.locations.leftLeg.destroyed = true;
+    ok(R.movementBlockedReason(f, 'walk').includes('Crippled'));
+  });
+
+  it('the Movement Limit is enforced', () => {
+    const f = frame('colossus', { ep: 20, hexesMoved: 3 });
+    ok(R.movementBlockedReason(f, 'walk').includes('Movement Limit'));
+  });
+
+  // --- Pilot Checks (rules.md 6.4) ------------------------------------------
   describe('Pilot Checks');
 
-  it('paved ground grants +1 and rough ground −1', () => {
-    eq(R.pilotCheck(frame('vanguard', { terrain: 'paved' }), { forcedRoll: 5 }).total, 6);
-    eq(R.pilotCheck(frame('vanguard', { terrain: 'rough' }), { forcedRoll: 5 }).total, 4);
+  it('a crippled leg imposes −2, whether severed or Actuator Destroyed', () => {
+    const sev = frame('paladin'); sev.locations.leftLeg.destroyed = true;
+    const act = frame('paladin'); act.locations.leftLeg.actuatorDestroyed = true;
+    eq(R.pilotCheck(sev, { forcedRoll: 7 }).breakdown.crippledLeg, -2);
+    eq(R.pilotCheck(act, { forcedRoll: 7 }).breakdown.crippledLeg, -2);
   });
 
-  it('a named pilot bonus applies to the check', () => {
-    const f = frame('vanguard', { pilotBonus: 3 });
-    ok(R.pilotCheck(f, { forcedRoll: 4 }).passed, '4 + 3 clears TN 6');
+  it('the Vow of Courage covers rising as well as staying upright', () => {
+    const f = frame('paladin', { vow: 'courage' });
+    f.locations.leftLeg.destroyed = true;
+    eq(R.pilotCheck(f, { forcedRoll: 6 }).passed, true, '6 − 2 + 2 = 6, exactly TN');
   });
 
-  it('a Toe Actuator crit permanently penalises pilot checks', () => {
+  it('a dishonored pilot loses the bonus and the Boon', () => {
+    const f = frame('paladin', { vow: 'courage', pilotBonus: 3, dishonored: true });
+    const c = R.pilotCheck(f, { forcedRoll: 5 });
+    eq([c.breakdown.pilot, c.breakdown.courage], [0, 0]);
+  });
+
+  it('terrain modifies every check', () => {
+    eq(R.pilotCheck(frame('jackal', { terrain: 'paved' }), { forcedRoll: 5 }).breakdown.terrain, 1);
+    eq(R.pilotCheck(frame('jackal', { terrain: 'rough' }), { forcedRoll: 5 }).breakdown.terrain, -1);
+  });
+
+  it('standing on a crippled leg spends the EP whether it works or not', () => {
+    const f = frame('paladin', { ep: 10, prone: true });
+    f.locations.leftLeg.destroyed = true;
+    const r = R.performMovement(f, 'standUp', { forcedRoll: 2 });
+    eq([r.stoodUp, f.ep, f.prone], [false, 7, true]);
+  });
+
+  it('a Frame with both legs intact stands automatically', () => {
+    const f = frame('vanguard', { ep: 10, prone: true });
+    eq(R.performMovement(f, 'standUp').stoodUp, true);
+  });
+
+  // --- Falls, collisions, drop strikes (rules.md 2.2, 3.2) ------------------
+  describe('Falling, Collisions & Drop Strikes');
+
+  it('a fall rolls 1d6 per Level as ONE pooled roll', () => {
     const f = frame('vanguard');
-    R.applyCrit(f, R.rollCrit('leftLeg', { forcedRoll: 1 }));
-    eq(R.pilotCheck(f, { forcedRoll: 6 }).total, 5);
+    const r = R.resolveFall(f, 3, { forcedLocation: 7, forcedDamage: 11 });
+    eq([r.damage, r.report.penetrated, f.prone], [11, true, true]);
   });
 
-  // --- Collisions -------------------------------------------------------------
-  describe('Collisions & Drop Strikes');
-
-  it('collision dice are mass value plus hexes moved', () => {
-    eq(R.collisionDicePool(frame('colossus'), 3), 7, 'assault mass 4 + 3 hexes');
-    eq(R.collisionDicePool(frame('jackal'), 5), 6, 'light mass 1 + 5 hexes');
+  it('collision damage is Mass Value x Speed', () => {
+    eq(R.collisionDamage(frame('jackal'), 4), 4, 'a Light frame at full tilt manages 4');
+    eq(R.collisionDamage(frame('colossus'), 3), 12);
   });
 
-  it('drop strike dice are the jumper mass plus hexes jumped', () => {
-    eq(R.dropStrikeDicePool(frame('specter'), 4), 6);
+  it('a Drop Strike gives the jumper half, rounded up', () => {
+    eq(R.dropStrikeDamage(frame('jackal'), 4), { target: 4, jumper: 2 });
+    eq(R.dropStrikeDamage(frame('specter'), 3), { target: 6, jumper: 3 });
   });
 
-  // --- Sync diff ---------------------------------------------------------------
-  // This is what stops two phones overwriting each other, so assert it directly.
+  // --- End Phase (rules.md 2.4) ---------------------------------------------
+  describe('End Phase');
+
+  it('banks up to the Capacitor Max and vents the rest', () => {
+    const f = frame('jackal', { ep: 8 }); // capacitor max 3
+    const r = R.endPhase(f);
+    eq([r.banked, r.vented, f.capacitor, f.ep], [3, 5, 3, 0]);
+  });
+
+  it('clears Flank Speed and one-turn effects', () => {
+    const f = frame('vanguard', { flankSpeed: true, servoStutter: true, hexesMoved: 5 });
+    R.endPhase(f);
+    eq([f.flankSpeed, f.servoStutter, f.hexesMoved], [false, false, 0]);
+  });
+
+  it('decrements cooldowns and clears the once-per-phase fired flag', () => {
+    const f = frame('paladin');
+    const rg = f.weapons.find((w) => w.key === 'railGun');
+    rg.cooldown = 1; rg.firedThisTurn = true;
+    R.endPhase(f);
+    eq([rg.cooldown, rg.firedThisTurn], [0, false]);
+  });
+
+  it('an Electrical Fire burns one Torso Critical every End Phase', () => {
+    const f = frame('colossus', { electricalFire: true });
+    const r = R.endPhase(f, { rng: seq(1) });
+    ok(r.fire && r.fire.length === 1);
+    eq(f.locations.torso.crits[1], true);
+  });
+
+  // --- Turn order (rules.md 2.2, 2.3) ---------------------------------------
+  describe('Turn Order');
+
+  it('Activation is lowest Initiative first, Combat highest first', () => {
+    const frames = [frame('jackal'), frame('colossus'), frame('vanguard')];
+    eq(R.turnOrder(frames, 'activation').map((f) => f.name), ['Colossus', 'Vanguard', 'Jackal']);
+    eq(R.turnOrder(frames, 'combat').map((f) => f.name), ['Jackal', 'Vanguard', 'Colossus']);
+  });
+
+  it('a named pilot bonus shifts the order', () => {
+    const ace = frame('colossus', { pilotBonus: 3 });
+    eq(R.effectiveInitiative(ace), 6);
+    eq(R.turnOrder([ace, frame('paladin')], 'combat').map((f) => f.name), ['Colossus', 'Paladin']);
+  });
+
+  it('destroyed Frames drop out of the order', () => {
+    eq(R.turnOrder([frame('jackal', { destroyed: true }), frame('vanguard')], 'combat').length, 1);
+  });
+
+  // --- Worked example (rules.md 2.3.1) --------------------------------------
+  describe('rules.md 2.3.1 — Colossus Thermal Lance vs Vanguard');
+
+  it('reproduces the book exactly, step for step', () => {
+    const vanguard = frame('vanguard', { flankSpeed: true });
+
+    // 6. Roll damage: 3d6 comes up 5, 4, 3 = 12
+    const pool = [5, 4, 3];
+    eq(R.sum(pool), 12);
+
+    // 7. The Vanguard has Flank Speed: one reroll, and the 5 becomes a 2
+    eq(R.rerollAllowance(vanguard), 1);
+    const { dice } = R.applyRerolls(pool, 1, { forced: [2] });
+    eq(R.sum(dice), 9, 'new total 2 + 4 + 3');
+
+    // 8-10. 9 vs Torso DR 6 penetrates; DR degrades; excess 3 earns no Overkill
+    const report = R.applyDamage(vanguard, 'torso', R.sum(dice));
+    eq([report.dr, report.penetrated, report.excess], [6, true, 3]);
+    eq(vanguard.locations.torso.dr, 5, 'DR 6 → 5, permanently');
+    eq(report.critDice, 1, 'excess 3 is under 5, so no extra crit dice');
+
+    // 11. A crit roll of 3 on the Torso table is Capacitor Leak
+    const crit = R.rollCrit(vanguard, 'torso', { forcedRoll: 3 });
+    eq(crit.name, 'Capacitor Leak');
+    R.applyCrit(vanguard, crit);
+    eq(R.effectiveCapacitorMax(vanguard), 4, 'Capacitor Max 6 → 4');
+  });
+
+  // --- Frame data (rules.md 7.2, 8, frames/*.md) ----------------------------
+  describe('Frame Data');
+
+  it('every roster frame costs out to its printed point value exactly', () => {
+    for (const key of FRAME_KEYS) {
+      const p = FRAME_PRESETS[key];
+      eq(costOut(p), p.points, p.name);
+    }
+  });
+
+  it('no frame carries Internal Structure or an Evasion stat', () => {
+    for (const key of FRAME_KEYS) {
+      const f = instantiate(key);
+      eq(f.evasionLimit, undefined, key);
+      for (const loc of Object.values(f.locations)) eq(loc.is, undefined, key);
+    }
+  });
+
+  it('crit slots are a map, so per-slot sync writes never collide', () => {
+    const f = instantiate('colossus');
+    eq(Array.isArray(f.locations.torso.crits), false);
+    f.locations.torso.crits[4] = true;
+    eq(f.locations.torso.crits, { 4: true });
+  });
+
+  it('the Colossus is the only chassis that can never reach Flank Speed', () => {
+    eq(FRAME_KEYS.filter((k) => FRAME_PRESETS[k].movementLimit < 4), ['colossus']);
+  });
+
+  it('armor DR matches the printed frame sheets', () => {
+    eq(FRAME_PRESETS.colossus.locations, { head: 6, torso: 8, leftArm: 6, rightArm: 6, leftLeg: 7, rightLeg: 7 });
+    eq(FRAME_PRESETS.jackal.locations, { head: 3, torso: 3, leftArm: 2, rightArm: 2, leftLeg: 3, rightLeg: 3 });
+  });
+
+  // --- Sync (docs/js/sync.js) -----------------------------------------------
   describe('Sync — path diff');
 
-  const diff = (prev, next) => { const out = {}; diffInto(prev, next, '', out); return out; };
-
-  it('emits nothing when nothing changed', () => {
-    eq(diff({ a: 1, b: { c: 2 } }, { a: 1, b: { c: 2 } }), {});
-  });
-
-  it('emits only the leaf path that changed', () => {
+  it('emits only the paths that changed', () => {
     eq(diff({ a: 1, b: { c: 2, d: 3 } }, { a: 1, b: { c: 9, d: 3 } }), { 'b/c': 9 });
   });
 
-  it('two players editing different frames produce disjoint paths', () => {
-    const before = {
-      frames: {
-        vanguard: { ep: 12, locations: { torso: { is: 12, dr: 5 } } },
-        colossus: { ep: 18, locations: { torso: { is: 20, dr: 7 } } },
-      },
-    };
-    const after = JSON.parse(JSON.stringify(before));
-    after.frames.vanguard.ep = 9;                       // player A moves
-    after.frames.colossus.locations.torso.is = 16;      // player B takes a hit
-    const paths = Object.keys(diff(before, after));
-    eq(paths.sort(), ['frames/colossus/locations/torso/is', 'frames/vanguard/ep']);
+  it('marking one crit slot writes one path', () => {
+    const out = {};
+    diffInto({ crits: { 1: true } }, { crits: { 1: true, 4: true } }, 'locations/torso', out);
+    eq(out, { 'locations/torso/crits/4': true });
+  });
+
+  it('two players marking different slots do not collide', () => {
+    const a = diff({ crits: {} }, { crits: { 3: true } });
+    const b = diff({ crits: {} }, { crits: { 6: true } });
+    eq([Object.keys(a)[0], Object.keys(b)[0]], ['crits/3', 'crits/6']);
   });
 
   it('deletes removed keys with null rather than dropping them', () => {
     eq(diff({ frames: { a: { ep: 1 } } }, { frames: {} }), { 'frames/a': null });
-  });
-
-  it('treats arrays as atomic leaves', () => {
-    const out = diff({ w: [{ ammo: 5 }] }, { w: [{ ammo: 4 }] });
-    eq(Object.keys(out), ['w'], 'the whole array is written, not w/0/ammo');
-  });
-
-  it('a newly deployed frame is written as one atomic object', () => {
-    const out = diff({ frames: {} }, { frames: { specter: { ep: 9, id: 'specter' } } });
-    eq(Object.keys(out), ['frames/specter'], 'one write, not a path per field');
-    eq(out['frames/specter'], { ep: 9, id: 'specter' });
   });
 }
