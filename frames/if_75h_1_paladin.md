@@ -17,12 +17,12 @@
   *Ammo Die*: 1d6 (AP 1; Empty on 1, or 1-3 on Full Auto)
 * **Torso [Medium HP]: Guided Missile Launcher** (4 EP cost | Infrared [IR] Guided | Cluster Warheads: roll 3 Hit Locations — one per column — and deal 2d6 to each)  
   *Ammo Die*: 1d6 (Empty on 1-2)
-* **Torso [Light HP]: Defensive Smoke Launcher** (Blocks Visual sightlines | 1 EP use cost)  
-  *Ammo Die*: 1d6 (Empty on 1-2)
-* **Torso [Light HP]: Defensive Flare Launcher** (Negates one attack made on an **IR** lock | no EP cost)  
-  *Ammo Die*: 1d6 (Empty on 1-2)
-* **Torso [Light HP]: Defensive Chaff Dispenser** (Negates one attack made on a **Radar** lock | no EP cost)  
-  *Ammo Die*: 1d6 (Empty on 1-2)
+* **Torso [Light HP]: Defensive Smoke Launcher** (Contests Visual locks traced through it — Countermeasure Check 4+ | 1 EP use cost)  
+  *Ammo Die*: 1d6 (Empty on **1**)
+* **Torso [Light HP]: Defensive Flare Launcher** (Contests an **IR**-locked attack — Countermeasure Check 4+ | no EP cost)  
+  *Ammo Die*: 1d6 (Empty on **1**)
+* **Torso [Light HP]: Defensive Chaff Dispenser** (Contests a **Radar**-locked attack — Countermeasure Check 4+ | no EP cost)  
+  *Ammo Die*: 1d6 (Empty on **1**)
 * **Head [Light HP]: Tactical Datalink**: Shares locks and target telemetry in real time.
 
 ### 🛡️ Locational Status

@@ -14,9 +14,9 @@
 * **Left Arm [Light HP]: Laser** (2d6 Combat damage | 2 EP cost | Overcharge: [+2 EP per +1d6, max +2d6] | Requires a **VIS** lock)  
   *Ammo*: Infinite
 * **Right Arm [Medium HP]: Disruptor Cannon** (Directed Energy Disruptor | 3 EP cost | Requires a **Radar** lock | Always: 1 Crit + drain 1d6 EP | Overcharge: [+2 EP for a second Crit])  
-  *Ammo*: Infinite (Once it has its lock, it bypasses Flank Speed, Cover and Armor DR entirely — but Chaff negates it outright, and ECM contests it on a Jamming Check)
+  *Ammo*: Infinite (Once it has its lock, it bypasses Flank Speed, Cover and Armor DR entirely — but Chaff and ECM each contest it on a Countermeasure Check)
 * **Torso [Medium HP]: Adaptive Skin** (Stealth Upgrade)  
-  *Upkeep*: 2 EP (Contests 1 spectrum — Jamming Check 4+) | Overcharge: [+2 EP to cloak 2nd spectrum]  
+  *Upkeep*: 2 EP (Contests 1 spectrum — Countermeasure Check 4+) | Overcharge: [+2 EP to cloak 2nd spectrum]  
   *Status*: `[ ] Active` | *Cloaked Band*: `[ ] VIS` | `[ ] IR` | `[ ] RAD` *(Mark 1 band; mark 2 if Overcharged)*
 * **Head [Light HP]: Tactical Datalink**: Shares locks and target telemetry in real time.
 

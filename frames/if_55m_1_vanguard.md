@@ -15,11 +15,11 @@
   *Ammo Die*: 1d6 (AP 1; Empty on 1, or 1-3 on Full Auto)
 * **Right Arm [Light HP]: Laser** (2d6 Combat damage | 2 EP cost | Overcharge: [+2 EP per +1d6, max +2d6] | Requires a **VIS** lock)  
   *Ammo*: Infinite
-* **Torso [Light HP]: Defensive Flare Launcher** (Negates one attack made on an **IR** lock | no EP cost)  
-  *Ammo Die*: 1d6 (Empty on 1-2)
-* **Torso [Light HP]: Defensive Chaff Dispenser** (Negates one attack made on a **Radar** lock | no EP cost)  
-  *Ammo Die*: 1d6 (Empty on 1-2)
-* **Torso [Medium HP]: ECM Suite** (Contests Microwave locks — Jamming Check 4+ | Upkeep: 2 EP [Host only] | Overcharge: [+1 EP per +1 hex radius])  
+* **Torso [Light HP]: Defensive Flare Launcher** (Contests an **IR**-locked attack — Countermeasure Check 4+ | no EP cost)  
+  *Ammo Die*: 1d6 (Empty on **1**)
+* **Torso [Light HP]: Defensive Chaff Dispenser** (Contests a **Radar**-locked attack — Countermeasure Check 4+ | no EP cost)  
+  *Ammo Die*: 1d6 (Empty on **1**)
+* **Torso [Medium HP]: ECM Suite** (Contests Microwave locks — Countermeasure Check 4+ | Upkeep: 2 EP [Host only] | Overcharge: [+1 EP per +1 hex radius])  
   *Status*: `[ ] Active` | *Coverage*: `[ ] Host Only` | `[ ] +1 Hex Radius` | `[ ] +2 Hex Radius`
 * **Head [Light HP]: Tactical Datalink**: Shares locks and target telemetry in real time.
 

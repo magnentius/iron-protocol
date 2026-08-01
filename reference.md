@@ -4,7 +4,7 @@
 
 ### 1. Energy Phase
 1. **Energy Generation**: Every Frame generates EP equal to its Reactor Rating. Add to stored Capacitor EP.
-2. **Stealth Upkeep**: Spend EP to maintain an active Adaptive Skin (2 EP) or ECM suite (2 EP). Both contest locks on a **Jamming Check (4+)** rather than denying them outright.
+2. **Stealth Upkeep**: Spend EP to maintain an active Adaptive Skin (2 EP) or ECM suite (2 EP). Both contest locks on a **Countermeasure Check (4+)**.
 
 ### 2. Activation Phase (Reverse Initiative Order)
 *Frames activate from lowest Initiative to highest Initiative. Spend EP step-by-step.*
@@ -30,8 +30,8 @@
 2. **Verify Line of Sight (LOS) and Arc** (Torso = Forward Arc only; Arms = Forward Arc **plus** their own Side Arc).
 3. **Verify Sensor Lock** (Visual, Infrared, or Microwave).
 4. **Defender's Countermeasures** *(before Hit Location)*:
-   - **Flares / Chaff**: negate the attack **outright** if it used an IR / Radar lock. No roll. Then roll the Ammo Die (Empty on 1-2).
-   - **Jamming Check**: if the target is covered by an active **ECM** suite or an **Adaptive Skin** tuned to this attack's band, the defender rolls **1d6** — on **4+** the lock fails and the attack is negated. The suite stays active either way.
+   - **Countermeasure Check (4+)**: roll 1d6 — on **4, 5 or 6** the lock fails and the attack is negated entirely. Rolled when the defender launches Flares (vs IR) or Chaff (vs Radar), when a Visual lock is traced through **Smoke**, or when the target is under an active **ECM** suite or an **Adaptive Skin** tuned to this band.
+   - A launched cartridge is spent whether it worked or not — roll its Ammo Die (Empty on **1**). A sustained suite is never expended. **Terrain never rolls**: woods, buildings and elevation block outright.
 5. **Determine Hit Location**: Roll 2d6.
 6. **Roll Damage**: Roll weapon damage dice.
 7. **Apply Flank Speed & Cover (Rerolls)**: Defender **may** force rerolls of the attacker's damage dice — Flank Speed (1) and Cover (Light 1, Heavy 2), stacking. Optional: never reroll a die that is already low.
@@ -55,7 +55,7 @@
 | **Rapid Fire** | Bypasses Flank Speed; Cover still applies. Each **Burst** that puts a die through generates **1 Critical**. Never uses Overkill. The whole attack degrades Armor DR by **1 total**. |
 | **One attack per weapon** | Each mounted weapon fires **once per Combat Phase**, however much EP is left. Fire each of your weapons once, in any order. |
 | **Full Auto** | Maximum **3 Bursts** per attack (One Hit Location). Roll Ammo Die (1d6) after resolving; depletes on 1, 2, or 3. |
-| **Disruptor Cannon** | No damage. Ignores Armor DR and Flank Speed (still needs LOS + a **Radar** lock). **Every hit** forces 1 Critical on the location rolled **and** drains 1d6 EP. Overcharge (+2 EP): a second Critical. |
+| **Disruptor Cannon** | No damage. Ignores Armor DR and Flank Speed (still needs LOS + a **Radar** lock that survives any Countermeasure Check). **Every hit** forces 1 Critical on the location rolled **and** drains 1d6 EP. Overcharge (+2 EP): a second Critical. |
 | **AoE** | Bypasses Flank Speed *and* terrain Cover. Armor DR still applies. |
 | **Prone (-1d6)** | Drop one die, keep any flat bonus (Rail Gun becomes 4d6). Rapid Fire loses one die per Burst. No effect on the Disruptor or EMP. |
 | **Collision** | Armor DR applies; Flank Speed does not apply. Both Frames suffer flat damage: Mass Value x Speed. |
@@ -69,15 +69,15 @@
 ## 📡 Sensor, Lock & Stealth Matrix
 
 ### Weapon Detection Requirements
-*A weapon cannot fire at all without a lock on its band. Terrain, Smoke, Flares and Chaff deny a band outright; ECM and the Adaptive Skin contest it on a Jamming Check (4+).*
+*A weapon cannot fire at all without a lock on its band. Terrain (woods, buildings, elevation) denies a band outright; every deployed countermeasure — Flares, Chaff, Smoke, ECM, Adaptive Skin — contests it on a **Countermeasure Check (4+)**.*
 
 | Weapon | Needs | Silenced by |
 | :--- | :---: | :--- |
-| **Laser** | VIS | Smoke and Woods outright; Visual-mode Skin on a Jamming Check |
-| **Thermal Lance** | IR | Flares outright / target running cold; Infrared-mode Skin on a Jamming Check |
-| **Rail Gun** | Radar | Chaff outright; ECM / Microwave-mode Skin on a Jamming Check |
+| **Laser** | VIS | Woods outright; Smoke or Visual-mode Skin on a Check |
+| **Thermal Lance** | IR | Target running cold outright; Flares or Infrared-mode Skin on a Check |
+| **Rail Gun** | Radar | Chaff, ECM or Microwave-mode Skin, each on a Check |
 | **Autocannon** | Any | — (only a total blackout) |
-| **Disruptor Cannon** | **Radar** | Chaff outright; ECM / Microwave-mode Skin on a Jamming Check |
+| **Disruptor Cannon** | **Radar** | Chaff, ECM or Microwave-mode Skin, each on a Check |
 | **Guided Missiles** | its guidance band | whatever blocks that band |
 
 
@@ -225,5 +225,5 @@
 | **Respect** (Rei) | No Rear-Zone attacks; no indirect fire | **+1** to Crit rolls vs a target's **Front** Hit Zone |
 | **Honor** (Meiyo) | Must engage the higher-tonnage / higher-Initiative foe if you can bear a weapon on it | **+1 damage die** against a Frame that outclasses you |
 | **Mercy** (Jin) | Pull every Head/Torso result while the target has **all four** limbs intact; free once any one limb is destroyed (per location on multi-hit attacks) | **+1** to Crit rolls vs **Arms and Legs** |
-| **Honesty** (Makoto) | No Skin, Smoke, Flares, Chaff or ECM — yours or an ally's | Enemy **Adaptive Skins and ECM do not function** against your locks (no Jamming Check). Chaff/Flares/Smoke still work |
+| **Honesty** (Makoto) | No Skin, Smoke, Flares, Chaff or ECM — yours or an ally's | Enemy **Adaptive Skins and ECM do not function** against your locks (no Check rolled). Chaff/Flares/Smoke still contest normally |
 | **Loyalty** (Chuugi) | Cannot move away from a more-damaged ally within 3 hexes | Friendlies within 3 hexes force **1 extra reroll** when attacked |
