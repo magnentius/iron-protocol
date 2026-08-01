@@ -183,12 +183,12 @@ To begin a game of *Iron Protocol*, players complete the following setup steps:
 2. **Select Frames & Pilots**: Players choose pre-built technical readouts from the **Iron Frame Roster (Section 8)** or construct custom frames using Section 7.2.
 3. **Determine Point Bid & Advantage Player**: The player who brings a lower total force point cost (leaving an intentional point gap, commonly referred to as a **"Point Bid"**) wins the **Tactical Advantage** and chooses who is designated the **Advantage Player** for the match. If total force points are tied, players roll 2d6; the winner chooses the Advantage Player.
 4. **Map Setup & Unit Deployment**: Lay out hex map tiles. The Advantage Player chooses their home map edge. Players alternate deploying 1 Frame at a time within 2 hexes of their designated home map edge.
-5. **Pre-Combat System Activation**: At the moment of deployment, Frames equipped with an **Adaptive Skin** or **ECM** (Electronic Countermeasures) may deploy with those systems **Active**. Upkeep costs (2 EP for Adaptive Skin, 1 EP for ECM) are automatically deducted during the Round 1 Energy Phase.
+5. **Pre-Combat System Activation**: At the moment of deployment, Frames equipped with an **Adaptive Skin** or **ECM** (Electronic Countermeasures) may deploy with those systems **Active**. Upkeep costs (2 EP for Adaptive Skin, 2 EP for ECM) are automatically deducted during the Round 1 Energy Phase.
 
 #### 1.4.1 Introductory Scenario: Trial by Fire (1v1 Duel)
 Recommended for first-time players learning the *Iron Protocol* rules engine.
 
-- **Point Budget**: 435 Points per player.
+- **Point Budget**: 500 Points per player.
 - **Recommended Matchup — Vanguard Mirror**: Both players field an **IF-55M-1 "Vanguard"** (455 pts). A mirror match is the clearest way to learn the engine: with identical Frames, every difference in the outcome comes from pilot decisions rather than from the matchup. It teaches the three things that decide games — banking EP for Overcharges, maneuvering to gain Flank Speed, and choosing between a Single Burst and Full Auto — without any asymmetry to untangle at the same time.
 - **Second Game — Vanguard vs. Specter**: Once both players are comfortable, field the **IF-55M-1 "Vanguard"** (455 pts) against the **IF-45M-1 "Specter"** (435 pts). This is a deliberately asymmetric matchup and it rewards knowing the Specter's line:
   - The Specter cannot win a straight damage race. Its Laser cannot penetrate the Vanguard's Torso armor while the Vanguard is moving, and its Disruptor Cannon deals no damage at all — but the Disruptor lands its effect on every hit it is *allowed* to make, whatever the Vanguard's armor or speed.
@@ -328,7 +328,7 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
   1. **Weapon Selection**: The Colossus pilot spends 4 EP to fire the **Thermal Lance** mounted on its Left Arm.
   2. **Verify Arc and LOS**: The Vanguard is located within the Colossus's Left Side Arc (Left Arm mount). Line of Sight is clear of blocking terrain.
   3. **Verify Lock**: The Thermal Lance requires an **Infrared (IR)** lock. The Vanguard spent 7 EP this turn — well past the 5 EP threshold — so its heat bloom is plainly visible and the lock holds. *(Had the Vanguard run cold, or had it fired Flares, the Lance could not have been used at all, however much energy the Colossus had.)*
-  4. **Defender's Countermeasures**: The Vanguard declines to launch Flares — it is holding its three cartridges for the Colossus's Rail Gun, which it cannot answer any other way. It is not running its ECM this turn either, so no Jamming Check is rolled and the attack proceeds.
+  4. **Defender's Countermeasures**: The Vanguard declines to launch Flares. It has only about three cartridges, its Torso armor is still fresh, and the Colossus will fire the Lance again next turn against thinner plate — better to absorb this one. *(Its Chaff answers a different band entirely and is being saved for the Rail Gun.)* It is not running its ECM this turn either, so no Jamming Check is rolled and the attack proceeds.
   5. **Hit Location**: The Colossus rolls 2d6 on the Hit Location Table. The attack came from the Front Hit Zone, so the Front/Rear column is used. The roll is a 7, indicating a **Torso** hit.
   6. **Roll Damage**: The Colossus rolls 3d6 for the Thermal Lance: rolls a 5, 4, 3 (Total 12).
   7. **Apply Flank Speed & Cover**: The Vanguard has **Flank Speed** (having met the 4-hex threshold), granting it one reroll. Seeing a 5 in the attacker's pool, the Vanguard's pilot elects to use it and forces that die to be rerolled. The new roll is a 2. The new damage total is 2, 4, 3 (Total 9). *(Had the Colossus rolled nothing above a 3, the Vanguard would simply have declined the reroll.)*
@@ -384,7 +384,7 @@ Due to their immense physical scale and bulk:
 
 #### Falling Damage
 Whenever a Frame is forced off a drop of 2 or more Levels, it lands hard:
-- **Damage**: Roll **1d6 per Level fallen as a single pooled roll** — a three-level drop is one roll of 3d6, not three separate rolls of 1d6. *(This matters: a lone 1d6 cannot beat the Torso DR of any Medium or heavier chassis at all, so resolving each Level separately would make even a catastrophic fall completely harmless.)*
+- **Damage**: Roll **1d6 per Level fallen as a single pooled roll** — a three-level drop is one roll of 3d6, not three separate rolls of 1d6. *(This matters: a lone 1d6 needs a natural 6 to beat even a base Medium Torso, and cannot touch a Heavy or Assault one at all, so resolving each Level separately would make even a catastrophic fall very nearly harmless.)*
 - **Location**: Roll **2d6 on the Hit Location Table**, using the **Front / Rear** column — a fall has no facing.
 - **Resolution**: The total is tested against that location's **Armor DR normally**, exactly as a weapon hit would be. Flank Speed grants no rerolls against the ground.
 - **The Frame lands Prone.**
@@ -516,14 +516,14 @@ Weapons can only be mounted in the Left Arm, Right Arm, or Torso, which dictates
 #### Detection Requirements
 Every weapon lists the sensor spectrum it needs in order to fire. **A weapon cannot be used at all unless the attacker holds a lock on its required spectrum** — a Frame blinded on that band is holding a dead gun, however much energy it has left.
 
-- **Laser [VIS]**: an optical weapon, aimed down the same cameras it burns through. **Smoke and woods blind it.**
-- **Thermal Lance [IR]**: a thermal weapon that tracks its target's own heat bloom. **Flares defeat it, and a target running cold cannot be locked at all.**
+- **Laser [VIS]**: an optical weapon, aimed down the same cameras it burns through. **Smoke and woods blind it outright; a Visual-mode Adaptive Skin contests it on a Jamming Check.**
+- **Thermal Lance [IR]**: a thermal weapon that tracks its target's own heat bloom. **Flares defeat it outright and a target running cold cannot be locked at all; an Infrared-mode Adaptive Skin contests it on a Jamming Check.**
 - **Rail Gun [Radar]**: a hypersonic slug needs precise ranging to lead the target. **Chaff shuts it down outright; ECM contests it on a Jamming Check.**
 - **Autocannon [Any]**: short-ranged and forgiving, fired over open sights. Any lock will serve.
 - **Disruptor Cannon [Radar]**: coupling a pulse into a specific run of actuator wiring takes precise ranging on the target's internal geometry. **Chaff shuts it down outright; ECM contests it on a Jamming Check.**
 - **Guided Missiles [Guidance]**: whichever band the seeker head was built for (see Section 5.2).
 
-*This is what gives Electronic Warfare its teeth. A countermeasure is no longer a vague inconvenience — it takes a specific gun off the board. Deciding which spectrum to deny is therefore a decision about which of the enemy's weapons you most want silenced, and an attacker carrying weapons on two different bands is far harder to disarm than one relying on a single spectrum.*
+*This is what gives Electronic Warfare its teeth. A countermeasure is no longer a vague inconvenience — it decides which of the enemy's guns can be brought to bear at all. Terrain, Smoke, Flares and Chaff deny a band **outright**; a sustained ECM suite or Adaptive Skin contests it on a **Jamming Check**, roughly halving what that weapon achieves. Either way, choosing which spectrum to attack is a decision about which of the enemy's weapons you most want silenced, and an attacker carrying weapons on two different bands is far harder to disarm than one relying on a single spectrum.*
 
 - **Armor Piercing (AP X)**: Weapons or munitions designated as **AP X** ignore up to **X** points of the target's Armor DR when calculating damage. (For example, an AP 3 weapon fired at a location with Armor DR 5 treats that location's DR as 2).
 
@@ -571,7 +571,7 @@ Every system that carries an Ammo Die runs out the same way — nothing is reloa
 Several weapons resolve differently from the standard damage sequence. Their full behavior is given here rather than only on the frame sheets.
 
 #### Disruptor Cannon Hit Effects
-The Disruptor Cannon deals **no damage**. It fires a tightly focused electromagnetic pulse that couples directly into a Frame's actuator wiring and control runs, inducing currents in the machine rather than punching through it. **Armor DR and Flank Speed are irrelevant** — plating it does not need to breach, and a moving target is no harder to flood than a stationary one. It still requires line of sight, an arc and a **Microwave (Radar) lock** like any other weapon: a hill between you and the target stops it exactly as it stops everything else, and so do Chaff, an active ECM suite, or an Adaptive Skin running in Microwave mode. On **any** hit, resolve both of the following:
+The Disruptor Cannon deals **no damage**. It fires a tightly focused electromagnetic pulse that couples directly into a Frame's actuator wiring and control runs, inducing currents in the machine rather than punching through it. **Armor DR and Flank Speed are irrelevant** — plating it does not need to breach, and a moving target is no harder to flood than a stationary one. It still requires line of sight, an arc and a **Microwave (Radar) lock** like any other weapon: a hill between you and the target stops it exactly as it stops everything else, and so does a Chaff cartridge. An active ECM suite or an Adaptive Skin in Microwave mode does not stop it outright, but contests every shot on a **Jamming Check**. On **any** hit, resolve both of the following:
 - **Actuator Burnout**: Roll **1d6 immediately on the Critical Hit Table of the location rolled** and apply the result. This critical occurs even though the armor was never penetrated.
 - **Power Bus Surge**: The target immediately **loses 1d6 EP** from its current energy pool (to a minimum of 0).
 - **Overcharge [+2 EP]**: The pulse is sustained. Force a **second Critical Hit** on the same location — which, under Cascading Failure, will climb to the next unmarked slot.
@@ -604,9 +604,9 @@ When equipping an Autocannon, players must select a single ammunition type to lo
 ### 5.2 Guided Missile Systems
 Missiles must be configured with a guidance package and a warhead at build time:
 - **Guidance Systems**:
-  - *Microwave (Radar)-Guided*: Permits indirect fire (ignoring Elevation/LOS blocks). Requires a Microwave (Radar) lock (which must be provided by a Tactical Datalink spotter if the firing Frame lacks direct LOS). Blocked by active ECM or Microwave-Absorbent Active Coating.
-  - *Infrared (IR)-Guided*: Permits indirect fire (ignoring Elevation/LOS blocks). Requires an Infrared (IR) lock (which must be provided by a Tactical Datalink spotter if the firing Frame lacks direct LOS). Target must have spent 5+ EP this turn. Blocked by Flares or Infrared-Suppression Active Coating.
-  - *Visual (VIS)-Guided*: Permits indirect fire (ignoring Elevation/LOS blocks, utilizing onboard optical cameras during terminal descent). Requires a Visual (VIS) lock (which must be provided by a Tactical Datalink spotter if the firing Frame lacks direct LOS). Blocked by Smoke or Visual-Camouflage Active Coating.
+  - *Microwave (Radar)-Guided*: Permits indirect fire (ignoring Elevation/LOS blocks). Requires a Microwave (Radar) lock (which must be provided by a Tactical Datalink spotter if the firing Frame lacks direct LOS). Chaff denies the lock outright; an active ECM suite or a Microwave-mode **Adaptive Skin** contests it on a Jamming Check.
+  - *Infrared (IR)-Guided*: Permits indirect fire (ignoring Elevation/LOS blocks). Requires an Infrared (IR) lock (which must be provided by a Tactical Datalink spotter if the firing Frame lacks direct LOS). Target must have spent 5+ EP this turn. Flares deny the lock outright; an Infrared-mode **Adaptive Skin** contests it on a Jamming Check.
+  - *Visual (VIS)-Guided*: Permits indirect fire (ignoring Elevation/LOS blocks, utilizing onboard optical cameras during terminal descent). Requires a Visual (VIS) lock (which must be provided by a Tactical Datalink spotter if the firing Frame lacks direct LOS). Smoke denies the lock outright; a Visual-mode **Adaptive Skin** contests it on a Jamming Check.
 - **Warheads**:
   - *High Explosive (HE)*: Roll 1 Hit Location. Deals 3d6 damage to the primary hit location, and **1d6 splash damage** to all adjacent locations on the target Frame (e.g., if the Torso is hit, the Head, Arms, and Legs take splash damage).
   - *Cluster*: Sandblasts the target with a wide spread. Roll three times for Hit Locations: once on the **Left Side** column, once on the **Front/Rear** column, and once on the **Right Side** column. The Cluster Missile deals **2d6 damage** to each of these three rolled locations. Resolve this damage individually against each location's Armor DR.
@@ -689,7 +689,7 @@ The Head table stops at 5, because a cockpit hit that reaches the top kills the 
 #### Arms (Weapons & Actuators) Critical Table
 - **1: Targeting Jitter**. Weapons mounted in this arm suffer a -1 damage penalty on their next attack.
 - **2: Actuator Strain**. Weapons mounted in this arm cost +1 EP to fire.
-- **3: Hardpoint Failure**. All attacks made with weapons in this arm permanently roll 1 fewer damage die (to a minimum of 1).
+- **3: Hardpoint Failure**. All attacks made with weapons in this arm permanently roll 1 fewer damage die (to a minimum of 1). *(As with the Prone penalty, a Rapid Fire weapon loses one die from **each** Burst — an Autocannon burst becomes 2x 1d6.)*
 - **4: Structural Fracture**. This arm's Armor DR is permanently reduced to **0**.
 - **5: Weapon Destroyed**. The weapon mounted in this arm is destroyed outright — mount, feed and all. Because each arm carries a single hardpoint (see Section 7.2.0), this silences the arm completely without severing it. If the arm was empty, the slot is simply marked and nothing is lost.
 - **6+: Arm Severed**. The arm is completely destroyed. All weapons and systems mounted in this arm are lost.
@@ -717,7 +717,7 @@ The following modifiers apply to every Pilot Check, cumulatively:
 | Standing in **Paved** terrain | +1 |
 | Standing in **Rough** terrain | −1 |
 | Standing in **Deep Water** | −1 |
-| Each **Toe Actuator** critical suffered | −1 |
+| Fighting on a **severed Leg** | −2 |
 
 The following modifiers apply only to the check they are named for:
 
@@ -745,7 +745,7 @@ A Frame must make a Pilot Check in the following situations:
   - **Pivot**: While Prone, the Frame may crawl-turn, pivoting its Leg Facing by 60 degrees. Cost: **2 EP** per 60 degrees (**3 EP** if a leg has been severed).
 
 ### 6.5 Location Destruction & Damage Transfer
-If the 6 slot on a location's Critical Hit table is marked (or cascaded into), that location is destroyed. Any subsequent hits to that location are handled using the following rules:
+A location is destroyed when the **top slot of its own table** is marked, whether rolled directly or reached by cascade. That slot differs by location: the **Head at 5**, the **Torso at 8**, and an **Arm or Leg at 6**. (Torso slot 6 is an Ammo Explosion, which is survivable — it is not the destruction rung.) Any subsequent hits to a destroyed location are handled using the following rules:
 
 #### 6.5.1 Torso Destruction
 If the Torso is destroyed, the engine core is breached. The Frame is completely destroyed.
@@ -761,8 +761,8 @@ If an Arm is destroyed, it is severed and blown off.
 #### 6.5.4 Leg Destruction (Left or Right)
 If a Leg is destroyed, it is blown off.
 *   **Immediate Fall**: The Frame immediately falls **Prone**. No Pilot Check is permitted; the limb is gone and no amount of skill keeps the machine upright.
-*   **Fighting From the Ground**: A crippled Frame is not out of the battle. It may still fire every weapon it has, subject to the standard Prone penalties in Section 6.3.
-*   **Hauling Itself Upright**: A Frame with one severed leg **may attempt to Stand Up**, balancing on its remaining leg and gyro. This costs the usual **3 EP** and requires a **Pilot Check**:
+*   **Fighting From the Ground**: A crippled Frame is not out of the battle. It may still fire every weapon it has, subject to the standard Prone penalties in Section 6.4.
+*   **Hauling Itself Upright**: A Frame with one severed leg **may attempt to Stand Up**, balancing on its remaining leg and gyro. This costs the usual **3 EP** and requires a **Pilot Check**, taken at the standing **−2 penalty a severed leg imposes on every check** (see Section 6.4) — an unaided pilot succeeds a little over 40% of the time, so getting a crippled Frame back on its foot is a real gamble, and an ace's bonus is worth a great deal here:
     - *Success (6+)*: The Frame rises. It is standing, and immediately sheds every Prone penalty — it regains its full damage dice and may torso twist again. Set its Leg Facing to any direction for free.
     - *Failure (< 6)*: The Frame slips back down. The 3 EP is spent regardless, and it may try again on a later activation.
     - A standing crippled Frame that is knocked down again (by a collision, a Drop Strike, or a second leg wound) must repeat the attempt.
@@ -932,7 +932,7 @@ Every Named Pilot is sworn to a specific vow under the Iron Protocol, reflecting
 ##### Vow of Courage (Yuu)
 *“The warrior does not retreat; we are the anvil upon which the enemy breaks.”*
 - **The Constraint**: The pilot cannot use the **Reverse (R)** movement command.
-- **The Boon**: A pilot who has never learned to give ground has learned instead how to absorb a blow. Gain **+2 to every Pilot Check made to avoid falling Prone**, including collisions, Drop Strikes and hazardous landings.
+- **The Boon**: A pilot who has never learned to give ground has learned instead how to absorb a blow — and how to get back up. Gain **+2 to every Pilot Check made to stay on your feet or to rise back onto them**: collisions, Drop Strikes, hazardous landings, and hauling a crippled Frame upright on a severed leg alike. *(It does not apply to the Pilot Check for shaking off an EMP — that is a matter of sensors, not footing.)*
 - **Dishonor Penalty**: The pilot is dishonored (see standard penalty).
 
 ##### Vow of Respect (Rei)

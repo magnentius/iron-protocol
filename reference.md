@@ -69,7 +69,7 @@
 ## 📡 Sensor, Lock & Stealth Matrix
 
 ### Weapon Detection Requirements
-*A weapon cannot fire at all without a lock on its band. Denying a spectrum takes a specific gun off the board.*
+*A weapon cannot fire at all without a lock on its band. Terrain, Smoke, Flares and Chaff deny a band outright; ECM and the Adaptive Skin contest it on a Jamming Check (4+).*
 
 | Weapon | Needs | Silenced by |
 | :--- | :---: | :--- |
@@ -136,7 +136,7 @@
 ### Severed Leg (Crippled Frames)
 - **Falls Prone immediately** — no Pilot Check is allowed, the limb is gone.
 - **May still fight**, at the Prone penalties above.
-- **May attempt to Stand Up**: 3 EP **and a Pilot Check**. Success sheds every Prone penalty (full damage dice, torso twist restored). Failure keeps it down and the 3 EP is spent anyway.
+- **May attempt to Stand Up**: 3 EP **and a Pilot Check at −2** (a severed leg penalises every Pilot Check). Success sheds every Prone penalty (full damage dice, torso twist restored). Failure keeps it down and the 3 EP is spent anyway.
 - **Never walks, reverses or jumps again**, standing or not. Pivot only, at **3 EP** per 60°.
 - **Both legs gone = Frame destroyed.**
 
@@ -195,7 +195,7 @@
 2. **Actuator Strain**: Weapons in arm cost +1 EP to fire.
 3. **Hardpoint Failure**: Roll 1 fewer damage die (min 1) with this arm's weapons.
 4. **Structural Fracture**: This arm's Armor DR reduced to 0.
-5. **Weapon Destroyed**: Attacker chooses one weapon in arm; it is destroyed. *(Empty arm: slot marked, nothing lost.)*
+5. **Weapon Destroyed**: The weapon in this arm is destroyed — each arm has one hardpoint, so this silences it completely without severing it. *(Empty arm: slot marked, nothing lost.)*
 6+. **Arm Severed**: All weapons/systems in arm lost.
 
 **Leg Criticals**
@@ -221,7 +221,7 @@
 
 | Vow | Constraint | Boon |
 | :--- | :--- | :--- |
-| **Courage** (Yuu) | Never Reverse | **+2** to Pilot Checks to avoid falling Prone |
+| **Courage** (Yuu) | Never Reverse | **+2** to Pilot Checks to stay upright **or to rise** (not EMP recovery) |
 | **Respect** (Rei) | No Rear-Zone attacks; no indirect fire | **+1** to Crit rolls vs a target's **Front** Hit Zone |
 | **Honor** (Meiyo) | Must engage the higher-tonnage / higher-Initiative foe if you can bear a weapon on it | **+1 damage die** against a Frame that outclasses you |
 | **Mercy** (Jin) | Pull every Head/Torso result while any limb survives (per location on multi-hit attacks) | **+1** to Crit rolls vs **Arms and Legs** |
