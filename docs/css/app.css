@@ -73,7 +73,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; }
 
 .sync-pill {
   display: inline-flex; align-items: center; gap: .35rem;
-  padding: .3rem .6rem; border-radius: 999px;
+  min-height: var(--tap); padding: 0 .8rem; border-radius: 999px;
   border: 1px solid var(--border); background: var(--surface);
   font-size: .7rem; color: var(--muted); white-space: nowrap;
 }
@@ -139,7 +139,7 @@ main { padding: .8rem .8rem 1.5rem; max-width: 720px; margin: 0 auto; }
 .btn.danger { border-color: #4a2320; color: var(--danger); }
 .btn.ghost { background: transparent; }
 .btn.block { width: 100%; }
-.btn.sm { min-height: 34px; padding: 0 .7rem; font-size: .8rem; }
+.btn.sm { min-height: var(--tap); padding: 0 .75rem; font-size: .8rem; }
 .btn:disabled { opacity: .38; }
 .btn:disabled:active { transform: none; }
 
@@ -169,7 +169,7 @@ select, input[type="text"], input[type="number"] {
 
 .stepper { display: flex; align-items: center; gap: .1rem; }
 .stepper button {
-  width: var(--tap); height: 38px;
+  width: var(--tap); height: var(--tap);
   background: var(--surface-2); border: 1px solid var(--border);
   font-size: 1.2rem; line-height: 1; color: var(--text);
 }
@@ -177,7 +177,7 @@ select, input[type="text"], input[type="number"] {
 .stepper button:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
 .stepper button:disabled { opacity: .3; }
 .stepper .value {
-  min-width: 3.2rem; height: 38px; display: flex; align-items: center; justify-content: center;
+  min-width: 3.2rem; height: var(--tap); display: flex; align-items: center; justify-content: center;
   background: var(--surface-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
   font-variant-numeric: tabular-nums; font-weight: 600;
 }
@@ -260,10 +260,13 @@ select, input[type="text"], input[type="number"] {
 /* --- Pips (ammo, flares, smoke) -------------------------------------------- */
 
 .pips { display: flex; flex-wrap: wrap; gap: 4px; }
+/* Full-height touch targets. They stretch to fill the row, so a Jackal's short
+   DR track gets generous boxes and a Colossus torso still fits nine across. */
 .pips button {
-  width: 26px; height: 26px; border-radius: 5px;
+  flex: 1 1 30px; min-width: 30px; max-width: 56px;
+  height: var(--tap); border-radius: 6px;
   border: 1px solid var(--border); background: var(--surface-2);
-  font-size: .65rem; color: var(--dim);
+  font-size: .78rem; color: var(--dim);
 }
 .pips button.live { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
 .pips button.spent { background: #10151c; color: #3a4553; }
