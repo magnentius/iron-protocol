@@ -1,12 +1,21 @@
 // Frame sheet — the digital equivalent of frames/*.md, with the derived numbers
 // kept live. Everything here is manually adjustable; the attack resolver writes
 // to the same fields.
+//
+// The two trackers deliberately mirror the paper sheet, because players will
+// often have both in front of them:
+//   Armor DR   — a row of boxes crossed off from the highest down
+//   Criticals  — the location's slots, marked as they are taken
 
-import { AMMO_TYPES, LOCATIONS, LOCATION_NAMES, SENSOR_BANDS, TERRAIN, TERRAIN_KEYS } from '../data/tables.js';
+import {
+  CRIT_TABLES, CRIT_TABLE_FOR, CRIT_TABLE_MAX,
+  LOCATIONS, LOCATION_NAMES, SENSOR_BANDS, TERRAIN, TERRAIN_KEYS,
+  AMMO_TYPES, AMMO_DIE,
+} from '../data/tables.js';
 import * as R from '../rules.js';
 import { deviceId, getFrame, logFrame, mutate, myFrames, framesList, removeFrame, addFrame } from '../state.js';
 import { FRAME_PRESETS } from '../data/frames.js';
-import { bar, chip, closeModal, cls, confirmModal, esc, meter, openModal, stepper, toast } from './dom.js';
+import { chip, closeModal, cls, confirmModal, esc, meter, openModal, stepper, toast } from './dom.js';
 
 let openFrameId = null;
 
@@ -42,7 +51,7 @@ function renderRoster() {
 function frameListItem(frame) {
   const mine = frame.ownerId === deviceId();
   return `
-    <div class="card frame-card ${cls(frame.team === 'b' && 'team-b', mine && 'mine', frame.destroyed && 'destroyed')}"
+    <div class="card frame-card ${cls(frame.team === 'b' && 'team-b', mine && 'mine', R.isDestroyed(frame) && 'destroyed')}"
          data-action="open-frame" data-frame="${frame.id}" style="padding-left:.9rem">
       <div class="frame-head">
         <div class="grow">
@@ -56,36 +65,46 @@ function frameListItem(frame) {
     </div>`;
 }
 
+const SHORT = { head: 'HD', torso: 'CT', leftArm: 'LA', rightArm: 'RA', leftLeg: 'LL', rightLeg: 'RL' };
+
+/** Compact per-location readout: remaining DR over marked crit slots. */
 export function locationStrip(frame) {
   return `<div class="loc-strip">${LOCATIONS.map((key) => {
     const loc = frame.locations[key];
-    const short = { head: 'HD', torso: 'CT', leftArm: 'LA', rightArm: 'RA', leftLeg: 'LL', rightLeg: 'RL' }[key];
+    const table = CRIT_TABLE_FOR[key];
+    const marked = Object.keys(loc.crits || {}).length;
     return `
       <div class="loc ${loc.destroyed ? 'gone' : ''}">
-        ${bar(loc.dr, loc.drMax, 'armor')}
-        ${bar(loc.is, loc.isMax, 'structure')}
-        <span>${short}</span>
+        <div class="mono" style="font-size:.78rem;font-weight:700">${loc.dr}</div>
+        <div class="tiny dim">${marked}/${CRIT_TABLE_MAX[table]}</div>
+        <span>${SHORT[key]}</span>
       </div>`;
   }).join('')}</div>`;
 }
 
 export function statusChips(frame) {
   const chips = [];
-  if (frame.destroyed) chips.push(chip('DESTROYED', 'danger'));
+  if (R.isDestroyed(frame)) chips.push(chip('DESTROYED', 'danger'));
   if (frame.prone) chips.push(chip('Prone', 'warn'));
-  if (frame.immobilized) chips.push(chip('Immobilized', 'danger'));
+  if (frame.flankSpeed) chips.push(chip('Flank Speed', 'ok'));
+  if (R.hasCrippledLeg(frame)) chips.push(chip('Crippled leg −2', 'danger'));
   if (R.isIRLockable(frame)) chips.push(chip('IR Lockable', 'warn'));
-  if (frame.systems?.amc?.active) {
-    chips.push(chip(`AMC ${frame.systems.amc.bands.map((b) => SENSOR_BANDS[b]).join('+') || 'on'}`, 'accent'));
+  if (frame.adaptiveSkinActive) {
+    const bands = (frame.adaptiveSkinBandKeys || []).map((b) => SENSOR_BANDS[b]).join(' + ');
+    chips.push(chip(`Skin ${bands || 'on'}`, 'accent'));
   }
-  if (frame.systems?.ecm?.active) chips.push(chip(`ECM${frame.systems.ecm.radius ? ` +${frame.systems.ecm.radius}` : ''}`, 'accent'));
-  if (frame.painted) chips.push(chip('Painted', 'warn'));
+  if (frame.ecmActive) chips.push(chip(`ECM${frame.ecmRadius ? ` +${frame.ecmRadius}` : ''}`, 'accent'));
+  if (frame.electricalFire) chips.push(chip('Electrical Fire', 'danger'));
   if (frame.sensorsScrambled) chips.push(chip('Sensors Scrambled', 'warn'));
-  if (frame.sensorsDown) chips.push(chip('Sensors Destroyed', 'danger'));
+  if (frame.locksDropped) chips.push(chip('Locks Dropped', 'warn'));
+  for (const [band, on] of Object.entries(frame.sensorBandsDestroyed || {})) {
+    if (on) chips.push(chip(`${SENSOR_BANDS[band]} array gone`, 'danger'));
+  }
   if (frame.kneeLock) chips.push(chip('Knee Lock', 'warn'));
-  if (frame.gyroLock) chips.push(chip('Gyro Lock', 'warn'));
-  if (frame.jumpJetsDisabled) chips.push(chip('Thruster Wrecked', 'warn'));
-  if (frame.commStatic) chips.push(chip('No Datalink', 'warn'));
+  if (frame.servoLock) chips.push(chip('Servo Lock', 'warn'));
+  if (frame.datalinkSevered) chips.push(chip('No Datalink', 'warn'));
+  if (frame.jumpJetsEmpty) chips.push(chip('Propellant dry', 'warn'));
+  if (frame.dishonored) chips.push(chip('Dishonored', 'danger'));
   if (frame.terrain !== 'clear') chips.push(chip(TERRAIN[frame.terrain].name));
   return chips.length ? `<div class="row wrap" style="gap:.3rem;margin-top:.5rem">${chips.join('')}</div>` : '';
 }
@@ -94,8 +113,8 @@ export function statusChips(frame) {
 
 function renderSheet(frame) {
   const mine = frame.ownerId === deviceId();
-  const evaLimit = R.effectiveEvasionLimit(frame);
   const capMax = R.effectiveCapacitorMax(frame);
+  const rerolls = R.rerollAllowance(frame);
 
   return `
     <div class="row between" style="margin-bottom:.6rem">
@@ -103,14 +122,14 @@ function renderSheet(frame) {
       ${mine ? `<button class="btn sm danger" data-action="delete-frame" data-frame="${frame.id}">Withdraw</button>` : ''}
     </div>
 
-    <div class="card frame-card ${cls(frame.team === 'b' && 'team-b', frame.destroyed && 'destroyed')}" style="padding-left:.9rem">
+    <div class="card frame-card ${cls(frame.team === 'b' && 'team-b', R.isDestroyed(frame) && 'destroyed')}" style="padding-left:.9rem">
       <div class="frame-head">
         <div class="grow">
           <div class="name">${esc(frame.callsign)}</div>
           <div class="desig">${esc(frame.designation)} · ${esc(frame.role)}</div>
           <div class="tiny dim" style="margin-top:.2rem">
             ${frame.tons}T ${esc(TERRAIN[frame.terrain].name)} · Mass ${R.massValue(frame)} ·
-            Move ${frame.hexesMoved}/${R.effectiveMovementLimit(frame)} hexes
+            Move ${frame.hexesMoved || 0}/${R.effectiveMovementLimit(frame)} hexes
           </div>
         </div>
         <div class="init-badge"><b>${R.effectiveInitiative(frame)}</b><span>Init</span></div>
@@ -118,24 +137,37 @@ function renderSheet(frame) {
       ${statusChips(frame)}
     </div>
 
-    <div class="section-title">Energy &amp; Evasion</div>
+    <div class="section-title">Energy</div>
     <div class="card">
       <div class="row between" style="margin-bottom:.5rem">
         <div class="grow">${meter('Energy Pool', frame.ep, Math.max(R.effectiveReactor(frame) + capMax, 1), 'ep')}</div>
         ${stepper('adjust-ep', frame.ep, { min: 0, max: 99, params: { frame: frame.id } })}
       </div>
-      <div class="row between" style="margin-bottom:.5rem">
-        <div class="grow">${meter('Capacitor (banked)', frame.capacitor, capMax, 'cap')}</div>
-        ${stepper('adjust-cap', frame.capacitor, { min: 0, max: capMax, params: { frame: frame.id } })}
-      </div>
       <div class="row between">
-        <div class="grow">${meter('Evasion', frame.eva, Math.max(evaLimit, 1), 'eva')}</div>
-        ${stepper('adjust-eva', frame.eva, { min: 0, max: evaLimit, params: { frame: frame.id } })}
+        <div class="grow">${meter('Capacitor (banked)', frame.capacitor, Math.max(capMax, 1), 'cap')}</div>
+        ${stepper('adjust-cap', frame.capacitor, { min: 0, max: capMax, params: { frame: frame.id } })}
       </div>
       <div class="row wrap tiny dim" style="gap:.5rem;margin-top:.6rem;justify-content:space-between">
         <span>Reactor ${R.effectiveReactor(frame)}${frame.reactorMod ? ` (${frame.reactorMod})` : ''}/turn</span>
-        <span>Overcharge available ${frame.overchargeAvailable || 0} EP</span>
-        <span>Spent this turn ${frame.epSpentThisTurn || 0}${R.isIRLockable(frame) ? ' — IR lockable' : ''}</span>
+        <span>Overcharge Allowance ${frame.overchargeAvailable || 0} EP</span>
+        <span>Spent ${frame.epSpentThisTurn || 0}${R.isIRLockable(frame) ? ' — IR lockable' : ''}</span>
+      </div>
+    </div>
+
+    <div class="section-title">Defence</div>
+    <div class="card">
+      <div class="row between" style="gap:.5rem">
+        <div class="grow">
+          <div style="font-weight:600">Flank Speed</div>
+          <div class="tiny dim">Exit 4+ hexes, or complete a 2+ hex jump. Denied by water and by being Prone.</div>
+        </div>
+        <button class="btn sm ${frame.flankSpeed ? 'primary' : ''}" data-action="toggle-flank" data-frame="${frame.id}">
+          ${frame.flankSpeed ? 'Active' : 'Off'}
+        </button>
+      </div>
+      <div class="tiny dim" style="margin-top:.6rem">
+        Damage-dice rerolls available to this Frame: <b>${rerolls}</b>
+        ${rerolls ? ` (${[frame.flankSpeed && !frame.prone ? 'Flank Speed 1' : '', TERRAIN[frame.terrain].cover ? `Cover ${TERRAIN[frame.terrain].cover}` : ''].filter(Boolean).join(' + ')})` : ''}
       </div>
     </div>
 
@@ -150,15 +182,6 @@ function renderSheet(frame) {
     <div class="section-title">Systems &amp; Position</div>
     ${systemsCard(frame)}
 
-    ${frame.crits.length ? `
-      <div class="section-title">Critical Damage (${frame.crits.length})</div>
-      <div class="card tight"><div class="log">
-        ${frame.crits.map((c) => `
-          <div class="log-entry" style="border-left-color:var(--danger)">
-            <b>${esc(LOCATION_NAMES[c.location])} · ${esc(c.name)}</b><br>${esc(c.text)}
-          </div>`).join('')}
-      </div></div>` : ''}
-
     ${frame.log?.length ? `
       <div class="section-title">Frame Log</div>
       <div class="card tight"><div class="log">
@@ -167,106 +190,130 @@ function renderSheet(frame) {
   `;
 }
 
+/**
+ * One location: the Armor DR box track, then its critical slots.
+ * Tapping a DR box sets DR to that value; tapping a crit slot toggles it.
+ */
 function locationRow(frame, key) {
   const loc = frame.locations[key];
+  const table = CRIT_TABLE_FOR[key];
+  const max = CRIT_TABLE_MAX[table];
+
+  const drBoxes = Array.from({ length: loc.drMax + 1 }, (_, i) => {
+    const value = loc.drMax - i; // highest first, as printed
+    return `<button type="button" class="${value <= loc.dr ? 'live' : 'spent'}"
+      data-action="set-dr" data-frame="${frame.id}" data-loc="${key}" data-value="${value}">${value}</button>`;
+  }).join('');
+
+  const critSlots = Array.from({ length: max }, (_, i) => {
+    const slot = i + 1;
+    const marked = Boolean((loc.crits || {})[slot]);
+    const entry = CRIT_TABLES[table][slot];
+    return `<button type="button" class="${marked ? 'spent' : 'live'}" title="${esc(entry.name)}"
+      data-action="toggle-crit" data-frame="${frame.id}" data-loc="${key}" data-slot="${slot}">${slot}</button>`;
+  }).join('');
+
+  const markedList = Object.keys(loc.crits || {})
+    .map(Number).sort((a, b) => a - b)
+    .map((slot) => CRIT_TABLES[table][slot])
+    .filter(Boolean);
+
   return `
-    <div class="loc-row ${loc.destroyed ? 'gone' : ''}">
-      <div class="grow">
-        <div class="loc-name">${esc(LOCATION_NAMES[key])}${loc.destroyed ? ' <span class="chip danger">Destroyed</span>' : ''}</div>
-        <div class="track" style="margin-top:.35rem">
-          <div class="track-line">
-            <span class="tag">Armor</span>
-            ${bar(loc.dr, loc.drMax, 'armor')}
-            <span class="num"><b>${loc.dr}</b>/${loc.drMax}</span>
-          </div>
-          <div class="track-line">
-            <span class="tag">Struct</span>
-            ${bar(loc.is, loc.isMax, 'structure')}
-            <span class="num"><b>${loc.is}</b>/${loc.isMax}</span>
-          </div>
+    <div class="loc-row ${loc.destroyed ? 'gone' : ''}" style="display:block">
+      <div class="row between">
+        <div class="loc-name">
+          ${esc(LOCATION_NAMES[key])}
+          ${loc.destroyed ? ' <span class="chip danger">Destroyed</span>' : ''}
+          ${loc.actuatorDestroyed && !loc.destroyed ? ' <span class="chip danger">Actuator gone</span>' : ''}
         </div>
+        <div class="mono small">DR <b>${loc.dr}</b>/${loc.drMax}</div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:.3rem">
-        ${stepper('adjust-dr', loc.dr, { min: 0, max: loc.drMax, params: { frame: frame.id, loc: key } })}
-        ${stepper('adjust-is', loc.is, { min: 0, max: loc.isMax, params: { frame: frame.id, loc: key } })}
+
+      <div class="pips" style="margin-top:.35rem">${drBoxes}</div>
+
+      <div class="row between" style="margin-top:.5rem">
+        <span class="tiny dim">Criticals — tap to mark. Cascades climb to the next open slot.</span>
+        <span class="tiny dim">${markedList.length}/${max}</span>
       </div>
+      <div class="pips" style="margin-top:.25rem">${critSlots}</div>
+
+      ${markedList.length ? `
+        <div class="tiny" style="margin-top:.4rem;color:var(--danger)">
+          ${markedList.map((c) => esc(c.name)).join(' · ')}
+        </div>` : ''}
     </div>`;
 }
 
 function weaponCard(frame, weapon) {
   const def = R.weaponDef(weapon);
   const blocked = R.weaponBlockedReason(frame, weapon);
-  const cost = R.weaponEPCost(weapon);
+  const cost = R.weaponEPCost(frame, weapon);
+  const band = R.weaponBand(weapon);
 
   const damageText = def.damage
-    ? `${def.damage.dice}d${def.damage.sides}${def.damage.flat ? `+${def.damage.flat}` : ''}${def.burstDice ? ` × ${def.burstDice} per burst` : ''}`
+    ? `${R.damageDiceCount(frame, weapon)}d6${def.burstDice ? ` × ${def.burstDice} per burst` : ''}`
     : def.warheads ? `${esc(def.warheads[weapon.warhead]?.name || '')} warhead` : 'No damage';
 
   const traits = [];
+  if (band && band !== 'any') traits.push(`${SENSOR_BANDS[band] || band.toUpperCase()} lock`);
   if (def.ap) traits.push(`AP ${def.ap}`);
   if (def.rapidFire) traits.push('Rapid Fire');
   if (def.aoe) traits.push('AoE');
-  if (def.bypassesArmor) traits.push('Bypasses DR');
-  if (def.bypassesEvasion) traits.push('Bypasses EVA');
-  if (weapon.forwardArcOnly) traits.push('Forward arc only');
-  if (weapon.requiresOvercharge) traits.push(`Requires +${weapon.requiresOvercharge} EP overcharge`);
+  if (def.bypassesArmor) traits.push('Ignores Armor DR');
+  if (def.bypassesFlankSpeed) traits.push('Ignores Flank Speed');
+  if (def.requiresOvercharge) traits.push(`Must Overcharge +${def.requiresOvercharge} EP`);
+  if (def.overcharge?.epPerDie) traits.push(`Overcharge +1d6 per ${def.overcharge.epPerDie} EP, max +${def.overcharge.maxDice}d6`);
+  if (weapon.ammoType) traits.push(AMMO_TYPES[weapon.ammoType]?.name || weapon.ammoType);
+
+  const ammoThreshold = R.ammoDieFor(weapon);
 
   return `
     <div class="card ${weapon.destroyed ? 'destroyed' : ''}" style="${weapon.destroyed ? 'opacity:.5' : ''}">
       <div class="row between">
         <div class="grow">
-          <div style="font-weight:600">${esc(weapon.name)}</div>
-          <div class="tiny dim">${esc(LOCATION_NAMES[weapon.loc])} · ${cost} EP · ${damageText}</div>
+          <div style="font-weight:600">${esc(def.name)}</div>
+          <div class="tiny dim">${esc(LOCATION_NAMES[weapon.loc])} · ${cost.base} EP · ${damageText}</div>
         </div>
         ${weapon.cooldown ? chip(`Cooldown ${weapon.cooldown}`, 'warn') : ''}
         ${weapon.firedThisTurn && !weapon.cooldown ? chip('Fired', 'accent') : ''}
+        ${weapon.empty ? chip('EMPTY', 'danger') : ''}
       </div>
       ${traits.length ? `<div class="row wrap" style="gap:.3rem;margin-top:.4rem">${traits.map((t) => chip(t)).join('')}</div>` : ''}
-      ${weapon.ammo ? ammoRows(frame, weapon) : `<div class="tiny dim" style="margin-top:.4rem">Ammunition: infinite</div>`}
+      ${ammoThreshold != null ? `
+        <div class="row between" style="margin-top:.5rem;gap:.5rem">
+          <div class="grow tiny dim">
+            Ammo Die 1d6 — Empty on ${ammoThreshold === 1 ? '1' : `1-${ammoThreshold}`}.
+            Nothing reloads in the field.
+          </div>
+          <button class="btn sm ${weapon.empty ? 'danger' : ''}" data-action="toggle-empty"
+                  data-frame="${frame.id}" data-weapon="${weapon.id}">
+            ${weapon.empty ? 'Empty' : 'Loaded'}
+          </button>
+        </div>` : `<div class="tiny dim" style="margin-top:.4rem">Ammunition: infinite</div>`}
       ${blocked && !weapon.destroyed ? `<div class="tiny" style="color:var(--warn);margin-top:.4rem">${esc(blocked)}</div>` : ''}
     </div>`;
 }
 
-function ammoRows(frame, weapon) {
-  return Object.entries(weapon.ammo).map(([type, count]) => {
-    const max = weapon.ammoMax[type] || 0;
-    const info = AMMO_TYPES[type];
-    const label = info ? info.name : type === 'slug' ? 'Slugs' : type === 'salvo' ? 'Salvos' : type;
-    return `
-      <div class="row between" style="margin-top:.5rem;gap:.5rem">
-        <div class="grow">
-          <div class="tiny muted">${esc(label)}${info?.note ? ` — ${esc(info.note)}` : ''}</div>
-          <div class="pips" style="margin-top:.25rem">
-            ${Array.from({ length: max }, (_, i) => `
-              <button type="button" class="${i < count ? 'live' : 'spent'}"
-                data-action="set-ammo" data-frame="${frame.id}" data-weapon="${weapon.id}"
-                data-type="${esc(type)}" data-count="${i < count ? i : i + 1}">${i + 1}</button>`).join('')}
-          </div>
-        </div>
-        <div class="mono small nowrap">${count}/${max}</div>
-      </div>`;
-  }).join('');
-}
-
 function systemsCard(frame) {
-  const s = frame.systems;
+  const s = frame.systems || {};
   const parts = [];
 
-  if (s.amc) {
+  if (s.adaptiveSkin) {
+    const bands = frame.adaptiveSkinBandKeys || [];
     parts.push(`
       <div class="row between" style="margin-bottom:.5rem">
         <div class="grow">
-          <div style="font-weight:600">Active Metamaterial Coating</div>
-          <div class="tiny dim">2 EP per cloaked spectrum, paid in the Energy Phase</div>
+          <div style="font-weight:600">Adaptive Skin</div>
+          <div class="tiny dim">2 EP upkeep, +2 to cloak a second band. Contests locks on a Countermeasure Check (4+).</div>
         </div>
-        <button class="btn sm ${s.amc.active ? 'primary' : ''}" data-action="toggle-amc" data-frame="${frame.id}">
-          ${s.amc.active ? 'Active' : 'Off'}
+        <button class="btn sm ${frame.adaptiveSkinActive ? 'primary' : ''}" data-action="toggle-skin" data-frame="${frame.id}">
+          ${frame.adaptiveSkinActive ? 'Active' : 'Off'}
         </button>
       </div>
       <div class="row wrap" style="gap:.3rem;margin-bottom:.7rem">
         ${Object.entries(SENSOR_BANDS).map(([band, name]) => `
-          <button class="btn sm ${s.amc.bands.includes(band) ? 'primary' : ''}"
-            data-action="toggle-amc-band" data-frame="${frame.id}" data-band="${band}">${esc(name)}</button>`).join('')}
+          <button class="btn sm ${bands.includes(band) ? 'primary' : ''}"
+            data-action="toggle-skin-band" data-frame="${frame.id}" data-band="${band}">${esc(name)}</button>`).join('')}
       </div>`);
   }
 
@@ -275,49 +322,63 @@ function systemsCard(frame) {
       <div class="row between" style="margin-bottom:.5rem">
         <div class="grow">
           <div style="font-weight:600">ECM Suite</div>
-          <div class="tiny dim">1 EP + 1 per hex of radius</div>
+          <div class="tiny dim">2 EP upkeep, +1 per hex of radius. Contests Radar locks on a Countermeasure Check (4+).</div>
         </div>
-        <button class="btn sm ${s.ecm.active ? 'primary' : ''}" data-action="toggle-ecm" data-frame="${frame.id}">
-          ${s.ecm.active ? 'Active' : 'Off'}
+        <button class="btn sm ${frame.ecmActive ? 'primary' : ''}" data-action="toggle-ecm" data-frame="${frame.id}">
+          ${frame.ecmActive ? 'Active' : 'Off'}
         </button>
       </div>
       <div class="row between" style="margin-bottom:.7rem">
-        <span class="small muted">Radius</span>
-        ${stepper('adjust-ecm-radius', s.ecm.radius, { min: 0, max: 5, params: { frame: frame.id } })}
+        <span class="small muted">Radius (hexes)</span>
+        ${stepper('adjust-ecm-radius', frame.ecmRadius || 0, { min: 0, max: 5, params: { frame: frame.id } })}
       </div>`);
   }
 
-  for (const [key, label, hint] of [['flares', 'Flares', 'Negates an incoming IR-guided attack'], ['smoke', 'Smoke', 'Blocks visual line of sight']]) {
-    if (!s[`${key}Max`]) continue;
+  // Cartridge launchers: no counters, just loaded or Empty (rules.md 5.0).
+  const CARTRIDGES = [
+    ['flares', 'Flare Launcher', 'Contests an IR-locked attack. Free to fire.'],
+    ['chaff', 'Chaff Dispenser', 'Contests a Radar-locked attack. Free to fire.'],
+    ['smoke', 'Smoke Launcher', 'Contests Visual locks traced through it. 1 EP to deploy.'],
+  ];
+  for (const [key, label, hint] of CARTRIDGES) {
+    if (!s[key]) continue;
+    const isEmpty = Boolean(frame[`${key}Empty`]);
     parts.push(`
       <div class="row between" style="margin-bottom:.6rem;gap:.5rem">
         <div class="grow">
           <div style="font-weight:600">${label}</div>
-          <div class="tiny dim">${hint}</div>
+          <div class="tiny dim">${hint} Ammo Die: Empty on 1 — about ${AMMO_DIE.countermeasure.expect}.</div>
         </div>
-        <div class="pips">
-          ${Array.from({ length: s[`${key}Max`] }, (_, i) => `
-            <button type="button" class="${i < s[key] ? 'live' : 'spent'}"
-              data-action="set-charges" data-frame="${frame.id}" data-system="${key}"
-              data-count="${i < s[key] ? i : i + 1}">${i + 1}</button>`).join('')}
+        <button class="btn sm ${isEmpty ? 'danger' : ''}" data-action="toggle-cartridge"
+                data-frame="${frame.id}" data-system="${key}">${isEmpty ? 'Empty' : 'Loaded'}</button>
+      </div>`);
+  }
+
+  if (s.jumpJets) {
+    parts.push(`
+      <div class="row between" style="margin-bottom:.6rem;gap:.5rem">
+        <div class="grow">
+          <div style="font-weight:600">Jump Jets</div>
+          <div class="tiny dim">2 EP per hex. A 2+ hex jump grants Flank Speed. Propellant is a volatile store.</div>
         </div>
+        <button class="btn sm ${frame.jumpJetsEmpty ? 'danger' : ''}" data-action="toggle-jets"
+                data-frame="${frame.id}">${frame.jumpJetsEmpty ? 'Dry' : 'Fuelled'}</button>
       </div>`);
   }
 
   const flags = [];
-  if (s.jumpJets) flags.push(frame.jumpJetsDisabled ? chip('Jump Jets wrecked', 'danger') : chip('Jump Jets', 'ok'));
-  if (s.datalink) flags.push(chip('Tactical Datalink', 'ok'));
-  else if (frame.commStatic) flags.push(chip('Datalink severed', 'danger'));
+  if (s.datalink) flags.push(frame.datalinkSevered ? chip('Datalink severed', 'danger') : chip('Tactical Datalink', 'ok'));
+  if (R.hasVolatileStore(frame)) flags.push(chip('Volatile store aboard', 'warn'));
 
   return `
     <div class="card">
       ${parts.join('')}
       ${flags.length ? `<div class="row wrap" style="gap:.3rem;margin-bottom:.7rem">${flags.join('')}</div>` : ''}
 
-      <div class="row between" style="margin-bottom:.6rem;gap:.5rem">
+      <div class="row between" style="margin-bottom:.4rem;gap:.5rem">
         <div class="grow">
           <div style="font-weight:600">Terrain</div>
-          <div class="tiny dim">Sets cover, movement cost, evasion cap and reactor cooling</div>
+          <div class="tiny dim">Sets Cover rerolls, movement cost and reactor cooling</div>
         </div>
       </div>
       <select data-action="set-terrain" data-frame="${frame.id}" style="margin-bottom:.7rem">
@@ -325,9 +386,9 @@ function systemsCard(frame) {
           const t = TERRAIN[key];
           const notes = [
             t.extraEP ? `+${t.extraEP} EP` : '',
-            t.cover ? `+${t.cover} EVA cover` : '',
+            t.cover ? `${t.cover} Cover reroll${t.cover > 1 ? 's' : ''}` : '',
             t.cooling ? `+${t.cooling} EP cooling` : '',
-            t.evaCap != null ? `EVA cap ${t.evaCap}` : '',
+            t.blocksFlankSpeed ? 'no Flank Speed' : '',
             t.pilotMod ? `${t.pilotMod > 0 ? '+' : ''}${t.pilotMod} pilot` : '',
           ].filter(Boolean).join(', ');
           return `<option value="${key}" ${frame.terrain === key ? 'selected' : ''}>${esc(t.name)}${notes ? ` — ${esc(notes)}` : ''}</option>`;
@@ -340,6 +401,10 @@ function systemsCard(frame) {
         </button>
         <button class="btn grow" data-action="pilot-check" data-frame="${frame.id}">Pilot Check</button>
       </div>
+      ${frame.prone ? `
+        <button class="btn block" data-action="stand-up" data-frame="${frame.id}" style="margin-top:.5rem">
+          Stand Up — 3 EP${R.hasCrippledLeg(frame) ? ' and a Pilot Check at −2' : ''}
+        </button>` : ''}
     </div>`;
 }
 
@@ -373,83 +438,110 @@ export function handle(action, el) {
     case 'adjust-ep':
       mutate(() => { const f = getFrame(frameId); f.ep = Math.max(0, f.ep + delta); });
       return true;
+
     case 'adjust-cap':
       mutate(() => {
         const f = getFrame(frameId);
         f.capacitor = Math.max(0, Math.min(R.effectiveCapacitorMax(f), f.capacitor + delta));
-        f.overchargeAvailable = f.capacitor;
-      });
-      return true;
-    case 'adjust-eva':
-      mutate(() => {
-        const f = getFrame(frameId);
-        f.eva = Math.max(0, Math.min(R.effectiveEvasionLimit(f), f.eva + delta));
       });
       return true;
 
-    case 'adjust-dr':
+    // Tap a box on the Armor DR track to set it directly, as on paper.
+    case 'set-dr':
       mutate(() => {
         const loc = getFrame(frameId).locations[el.dataset.loc];
-        loc.dr = Math.max(0, Math.min(loc.drMax, loc.dr + delta));
+        loc.dr = Math.max(0, Math.min(loc.drMax, Number(el.dataset.value)));
       });
       return true;
 
-    case 'adjust-is':
+    /**
+     * Toggle a critical slot by hand. Marking one runs the real effect through
+     * the engine, so a hand-entered critical behaves exactly like a resolved
+     * one — losing a weapon, dropping DR to 0, falling Prone, and so on.
+     * Unmarking only clears the box; it cannot un-apply what the effect did.
+     */
+    case 'toggle-crit':
       mutate(() => {
         const f = getFrame(frameId);
         const locKey = el.dataset.loc;
-        const before = f.locations[locKey].is;
-        // Route through the engine so a hand-entered kill applies the same
-        // consequences as a resolved attack: lost weapons, falls, immobilization.
-        R.setLocationStructure(f, locKey, before + delta);
+        const slot = Number(el.dataset.slot);
         const loc = f.locations[locKey];
-        if (loc.destroyed && before > 0) {
-          logFrame(f, `${LOCATION_NAMES[locKey]} destroyed`);
-          if (f.destroyed) logFrame(f, 'Frame destroyed');
-          else if (f.immobilized) logFrame(f, 'Fell prone and is permanently crippled');
+        loc.crits = loc.crits || {};
+        if (loc.crits[slot]) {
+          delete loc.crits[slot];
+          logFrame(f, `${LOCATION_NAMES[locKey]} critical slot ${slot} cleared by hand`);
+          return;
         }
+        const table = CRIT_TABLE_FOR[locKey];
+        const entry = CRIT_TABLES[table][slot];
+        R.applyCrit(f, { ...entry, slot, table, location: locKey });
+        logFrame(f, `${LOCATION_NAMES[locKey]}: ${entry.name}`);
+        if (R.isDestroyed(f)) logFrame(f, 'Frame destroyed');
       });
       return true;
 
-    case 'set-ammo':
+    case 'toggle-empty':
       mutate(() => {
         const w = getFrame(frameId).weapons.find((x) => x.id === el.dataset.weapon);
-        w.ammo[el.dataset.type] = Number(el.dataset.count);
+        w.empty = !w.empty;
       });
       return true;
 
-    case 'set-charges':
+    case 'toggle-cartridge':
       mutate(() => {
-        getFrame(frameId).systems[el.dataset.system] = Number(el.dataset.count);
+        const f = getFrame(frameId);
+        const key = `${el.dataset.system}Empty`;
+        f[key] = !f[key];
       });
       return true;
 
-    case 'toggle-amc':
+    case 'toggle-jets':
+      mutate(() => { const f = getFrame(frameId); f.jumpJetsEmpty = !f.jumpJetsEmpty; });
+      return true;
+
+    case 'toggle-skin':
       mutate(() => {
-        const s = getFrame(frameId).systems.amc;
-        s.active = !s.active;
-        if (s.active && !s.bands.length) s.bands = ['vis'];
+        const f = getFrame(frameId);
+        f.adaptiveSkinActive = !f.adaptiveSkinActive;
+        if (f.adaptiveSkinActive && !(f.adaptiveSkinBandKeys || []).length) f.adaptiveSkinBandKeys = ['vis'];
+        f.adaptiveSkinBands = Math.max(1, (f.adaptiveSkinBandKeys || []).length);
       });
       return true;
 
-    case 'toggle-amc-band':
+    case 'toggle-skin-band':
       mutate(() => {
-        const s = getFrame(frameId).systems.amc;
+        const f = getFrame(frameId);
         const band = el.dataset.band;
-        if (s.bands.includes(band)) s.bands = s.bands.filter((b) => b !== band);
-        else if (s.bands.length < 2) s.bands = [...s.bands, band];
-        else toast('AMC can cloak at most two spectrums', 'error');
+        const bands = f.adaptiveSkinBandKeys || [];
+        if (bands.includes(band)) f.adaptiveSkinBandKeys = bands.filter((b) => b !== band);
+        else if (bands.length < 2) f.adaptiveSkinBandKeys = [...bands, band];
+        else toast('An Adaptive Skin can cloak at most two spectrums', 'error');
+        f.adaptiveSkinBands = Math.max(1, (f.adaptiveSkinBandKeys || []).length);
       });
       return true;
 
     case 'toggle-ecm':
-      mutate(() => { const s = getFrame(frameId).systems.ecm; s.active = !s.active; });
+      mutate(() => { const f = getFrame(frameId); f.ecmActive = !f.ecmActive; });
       return true;
 
     case 'adjust-ecm-radius':
       mutate(() => {
-        const s = getFrame(frameId).systems.ecm;
-        s.radius = Math.max(0, Math.min(5, s.radius + delta));
+        const f = getFrame(frameId);
+        f.ecmRadius = Math.max(0, Math.min(5, (f.ecmRadius || 0) + delta));
+      });
+      return true;
+
+    case 'toggle-flank':
+      mutate(() => {
+        const f = getFrame(frameId);
+        if (f.flankSpeed) { f.flankSpeed = false; return; }
+        // Set the state the rules would have produced, then let the engine
+        // decide whether it is actually allowed here.
+        f.hexesMoved = Math.max(f.hexesMoved || 0, 4);
+        R.updateFlankSpeed(f);
+        if (!f.flankSpeed) {
+          toast(f.prone ? 'A Prone Frame cannot gain Flank Speed' : 'This terrain denies Flank Speed', 'error');
+        }
       });
       return true;
 
@@ -457,21 +549,36 @@ export function handle(action, el) {
       mutate(() => {
         const f = getFrame(frameId);
         f.prone = !f.prone;
-        if (f.prone) f.eva = 0;
+        if (f.prone) f.flankSpeed = false;
       });
       return true;
+
+    case 'stand-up': {
+      const f = getFrame(frameId);
+      const result = mutate(() => R.performMovement(f, 'standUp'));
+      if (!result.ok) { toast(result.reason, 'error'); return true; }
+      if (result.check) {
+        mutate(() => logFrame(f, `Stand Up: ${result.check.roll}${result.check.modifier ? ` ${result.check.modifier > 0 ? '+' : ''}${result.check.modifier}` : ''} = ${result.check.result} vs 6+ — ${result.stoodUp ? 'up' : 'failed, 3 EP spent'}`));
+        toast(result.stoodUp ? 'Back on its feet' : 'Failed to rise — the 3 EP is spent regardless', result.stoodUp ? 'ok' : 'error');
+      } else {
+        mutate(() => logFrame(f, 'Stood up (3 EP)'));
+      }
+      return true;
+    }
 
     case 'pilot-check': {
       const f = getFrame(frameId);
       const result = R.pilotCheck(f);
+      const b = result.breakdown;
       const mods = [
-        result.terrainMod && `${result.terrainMod > 0 ? '+' : ''}${result.terrainMod} terrain`,
-        result.pilotBonus && `+${result.pilotBonus} pilot`,
-        result.critMod && `${result.critMod} damage`,
+        b.terrain && `${b.terrain > 0 ? '+' : ''}${b.terrain} terrain`,
+        b.crippledLeg && `${b.crippledLeg} crippled leg`,
+        b.pilot && `+${b.pilot} pilot`,
+        b.courage && `+${b.courage} Vow of Courage`,
       ].filter(Boolean).join(', ');
-      mutate(() => logFrame(f, `Pilot Check: ${result.roll}${mods ? ` (${mods})` : ''} = ${result.total} vs 6+ — ${result.passed ? 'passed' : 'FAILED, falls Prone'}`));
-      if (!result.passed) mutate(() => { f.prone = true; f.eva = 0; });
-      toast(`Pilot Check ${result.total} vs 6+ — ${result.passed ? 'passed' : 'failed, now Prone'}`, result.passed ? 'ok' : 'error');
+      mutate(() => logFrame(f, `Pilot Check: ${result.roll}${mods ? ` (${mods})` : ''} = ${result.result} vs 6+ — ${result.passed ? 'passed' : 'FAILED, falls Prone'}`));
+      if (!result.passed) mutate(() => { f.prone = true; f.flankSpeed = false; });
+      toast(`Pilot Check ${result.result} vs 6+ — ${result.passed ? 'passed' : 'failed, now Prone'}`, result.passed ? 'ok' : 'error');
       return true;
     }
 
@@ -485,7 +592,7 @@ export function handleChange(action, el) {
     mutate(() => {
       const f = getFrame(el.dataset.frame);
       f.terrain = el.value;
-      f.eva = Math.min(f.eva, R.effectiveEvasionLimit(f));
+      R.updateFlankSpeed(f); // water denies it outright
     });
     return true;
   }
@@ -503,7 +610,7 @@ function showFramePicker() {
          <button type="button" data-action="pick-frame" data-preset="${p.key}">
            <div>
              <div style="font-weight:600">${esc(p.name)}</div>
-             <div class="stat">${esc(p.designation)} · ${p.tons}T · Init ${p.initiative} · Reactor ${p.reactor} · ${p.evasionLimit} EVA</div>
+             <div class="stat">${esc(p.designation)} · ${p.tons}T · Init ${p.initiative} · Reactor ${p.reactor} · Torso DR ${p.locations.torso}</div>
            </div>
            <div class="pts">${p.points} pts</div>
          </button>`).join('')}
