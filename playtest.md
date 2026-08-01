@@ -211,3 +211,56 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 3.  **Electrical Fire**: it will almost certainly come up. Is **3 EP plus a 4+** a fair price to smother, or is walking into the drainage channel — free, automatic, no roll — so obviously better that the EP option is never taken? If the water is strictly superior, the smothering rule may not be earning its place.
 4.  **Living with permanent effects**: Capacitor Leak, Servo Lock and a dead sensor band are all in play from turn one. Does tracking them feel manageable on paper, and do they change decisions, or are they forgotten by turn three? *(This is the single strongest argument for the Battle Tracker, so it is worth knowing how bad it is without one.)*
 5.  **Is a wreck worth fighting?**: §6.5.4 argues that a crippled Frame is "still a Rail Gun platform… dangerous to approach, trivial to walk away from." Test that claim. Would a player in a larger battle keep this Frame in the fight, or write it off and spend their attention elsewhere?
+
+---
+
+## Scenario 10: Dead Air (2v3, Electromagnetic Warfare)
+**Focus**: EMP warheads — area denial, the 0-Armor clause, sensor scrambling, Tactical Datalink failure, and friendly fire.
+
+*The EMP warhead is the only munition in the game that deals no damage of any kind, targets a **hex** rather than a Frame, and cannot tell friend from foe. Nothing else in this document tests it.*
+
+### Setup
+*   **Map Size**: 22 x 22 Hexes
+*   **Terrain**: A canal crossing. A single **Paved** causeway four hexes wide runs the length of the map, flanked by **Deep Water**. Two Level 2 Buildings sit at the far end. *(The causeway matters: it is the only ground a Column can cross in formation, and it is exactly the shape of an EMP blast.)*
+*   **Team A (The Pulse) — 1135 pts**:
+    *   1x **IF-90A-1 "Colossus"** — 680 pts *(its launcher carries the **EMP** warhead, Visual-guided)*
+    *   1x **IF-55M-1 "Vanguard"** — 455 pts
+*   **Team B (The Column) — 1185 pts**:
+    *   1x **IF-55M-1 "Vanguard"** — 455 pts
+    *   2x **IF-25L-1 "Jackal"** — 365 pts each
+
+> *The Column is deliberately light and numerous — thin armor reaches 0 DR quickly, which is the only condition under which an EMP does anything permanent.*
+
+### Testing Parameters (What to look for)
+1.  **Is a weapon that deals no damage worth a Medium hardpoint?**: the EMP costs 4 EP and 20 pts and cannot destroy anything by itself. Its entire value is denial. In a game where a Thermal Lance in the same weight bracket lands over a critical per attack, does the pulse justify the mount?
+2.  **The 0-Armor clause**: an EMP inflicts a Critical Hit on **every location that currently has 0 Armor DR**. On a fresh Frame that is nothing at all; against a Jackal whose torso has been stripped it may be several criticals at once, across several Frames, for a single 4 EP salvo. Does this correctly reward softening a target first, or does it sit unused because armor rarely reaches 0 before a Frame dies?
+3.  **Friendly fire**: the blast covers the target hex **and all six adjacent hexes**, and explicitly does not spare allies. Can the Colossus find a firing solution that catches two Jackals without also catching its own Vanguard, and does the threat of it change how Team A advances?
+4.  **Sensor scrambling**: an affected Frame must pass a **Pilot Check** to establish *any* lock on the following turn — and an EMP also severs the **Tactical Datalink**. A Frame that fails is not merely inaccurate, it is disarmed for a turn. Is a whole team losing a turn of shooting to one salvo too swingy for a single 4 EP attack?
+5.  **Can it be stopped?**: the Colossus's launcher is **Visual-guided**, so a Smoke template or a Visual-mode Adaptive Skin contests the lock on a Countermeasure Check like anything else. Does Team B ever think to break the Visual band specifically, or does the EMP feel unanswerable because it deals no damage to react to?
+
+---
+
+## Scenario 11: Three Oaths (3v3, The Untested Vows)
+**Focus**: The Vows of **Honor**, **Loyalty** and **Honesty** — the three that no other scenario fields — and how they interfere with one another on the same team.
+
+*Loyalty in particular cannot be evaluated anywhere else in this document: its Boon only functions with allies within 3 hexes, so every 1v1 scenario is blind to it.*
+
+### Setup
+*   **Map Size**: 28 x 28 Hexes
+*   **Terrain**: Open rolling steppe — mostly Clear, with three Level 1 rises and two patches of Light Woods. Deliberately sparse: these vows are about *choices*, and heavy terrain would hide the consequences.
+*   **Team A (The Sworn) — 1345 pts**:
+    *   1x **IF-45M-1 "Specter"** — Named Pilot, **+3**, **Vow of Honor** — 480 pts
+    *   1x **IF-55M-1 "Vanguard"** — Named Pilot, **+2**, **Vow of Loyalty** — 485 pts
+    *   1x **IF-25L-1 "Jackal"** — Named Pilot, **+1**, **Vow of Honesty** — 380 pts
+*   **Team B (The Coalition) — 1345 pts**:
+    *   1x **IF-45M-1 "Specter"** — 435 pts *(carries an **Adaptive Skin**)*
+    *   2x **IF-55M-1 "Vanguard"** — 455 pts each *(each carries an **ECM** suite)*
+
+> *Points are exactly level. Team B's list is chosen so the Honesty Boon has something to bite on — one Adaptive Skin and two ECM umbrellas — and so the Honor pilot, in a 45-ton Specter, always has a heavier enemy in view.*
+
+### Testing Parameters (What to look for)
+1.  **Honor — the biggest Boon in the game**: +1 damage die is worth roughly **29% faster kills**, but it only fires against a Frame of higher tonnage or Initiative, and the constraint *forces* the pilot to engage that Frame. Does the constraint ever hurt — being made to shoot a fresh Vanguard while a crippled one walks away — or does it always point where you wanted to shoot anyway? If the latter, the vow is a pure upgrade and should cost something.
+2.  **Loyalty — does the Boon justify the leash?**: every friendly Frame within 3 hexes gains one extra damage reroll, worth about **+19% durability each**, and with two allies in range that is the most total value any vow produces. The price is that the pilot may not move away from a more damaged ally within 3 hexes. Does that become a trap — a wounded ally anchoring the Vanguard in the open — and does the required clumping make the whole team a gift to Cluster and HE munitions?
+3.  **Honesty — a free vow on the right Frame**: the Jackal carries no Skin, Smoke, Flares, Chaff or ECM, so the constraint costs it **nothing in hardware**, while the Boon switches off Team B's Skin *and* both ECM suites against its locks. Is that simply the correct pick, and is a vow that is free on one chassis and costs a Vanguard 55 points of kit acceptable design?
+4.  **The oaths interfere — watch this one closely**: Honesty forbids benefiting from **allied** ECM, so the Jackal cannot shelter under its own Vanguard's umbrella. Loyalty wants the team within 3 hexes. The two vows are pulling the Jackal in opposite directions — it must stay close for the reroll but gains nothing from the jamming that closeness normally buys. Does that read as interesting tension or as a trap for a player who did not check?
+5.  **Dishonor in practice**: losing a vow costs the Boon, the Initiative bonus, the Pilot Check bonus, and +1 EP on every weapon for the rest of the battle. With three sworn pilots on one team, does anyone actually break — and can Team B *make* them break, by refusing an Honor target or by exposing a wounded Frame to bait the Loyalty pilot?
