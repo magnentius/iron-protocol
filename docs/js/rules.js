@@ -191,6 +191,9 @@ export function movementBlockedReason(frame, action, { terrain = frame.terrain, 
 
   if (severedLeg && moving) return 'Crippled — can never walk, reverse or jump again';
   if (frame.prone && moving) return 'Prone — must Stand Up first';
+  // Standing up while already upright would silently burn the 3 EP.
+  if (action === 'standUp' && !frame.prone) return 'Already standing';
+  if (action === 'torsoTwist') return torsoTwistBlockedReason(frame);
   if (action === 'jump') {
     // Report the restriction that cannot be fixed before the one that can:
     // an Assault chassis is not missing jets, it may never mount them at all.
@@ -259,6 +262,12 @@ export function weaponArc(frame, weapon) {
 }
 
 export function performMovement(frame, action, opts = {}) {
+  // A torso twist is a facing change, not movement. Delegate so this entry point
+  // cannot spend the EP without actually turning the torso.
+  if (action === 'torsoTwist') {
+    if (!opts.facing) return { ok: false, reason: 'A torso twist needs a facing — use twistTorso()' };
+    return twistTorso(frame, opts.facing, opts);
+  }
   const blocked = movementBlockedReason(frame, action, opts);
   if (blocked) return { ok: false, reason: blocked };
   const cost = movementCost(frame, action, opts);

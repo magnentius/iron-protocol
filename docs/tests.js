@@ -704,6 +704,36 @@ export function run({ describe, it, eq, ok }) {
     eq(one.flankSpeed, false);
   });
 
+  it('Stand Up is refused when the Frame is already standing', () => {
+    const f = frame('vanguard', { ep: 12 });
+    eq(R.movementBlockedReason(f, 'standUp'), 'Already standing');
+  });
+
+  it('and refusing it does not silently burn the 3 EP', () => {
+    const f = frame('vanguard', { ep: 12 });
+    const r = R.performMovement(f, 'standUp');
+    eq([r.ok, f.ep], [false, 12], 'the EP must be untouched');
+  });
+
+  it('a Prone Frame can still stand', () => {
+    const f = frame('vanguard', { ep: 12, prone: true });
+    eq(R.movementBlockedReason(f, 'standUp'), null);
+    eq([R.performMovement(f, 'standUp').ok, f.prone, f.ep], [true, false, 9]);
+  });
+
+  it('no movement action both costs EP and does nothing', () => {
+    // Guards against the class of bug where a control looks wired but is not.
+    for (const action of ['walk', 'reverse', 'jump', 'standUp', 'torsoTwist']) {
+      const f = frame('jackal', { ep: 30, prone: action === 'standUp' });
+      if (R.movementBlockedReason(f, action, { hexes: 2 })) continue;
+      const before = JSON.stringify([f.hexesMoved, f.prone, f.flankSpeed, f.torsoFacing, f.jumpJetsEmpty]);
+      const res = R.performMovement(f, action, { hexes: 2, forcedAmmoRoll: 6, facing: 'left' });
+      if (!res.ok) continue; // refusing outright is fine; silently charging is not
+      const after = JSON.stringify([f.hexesMoved, f.prone, f.flankSpeed, f.torsoFacing, f.jumpJetsEmpty]);
+      ok(before !== after, `${action} spent EP but changed nothing else`);
+    }
+  });
+
   // --- Pilot Checks (rules.md 6.4) ------------------------------------------
   describe('Pilot Checks');
 
