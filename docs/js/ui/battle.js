@@ -35,9 +35,9 @@ export function render() {
     </div>
     ${order.map((frame, i) => frameCard(frame, i + 1, battle)).join('')}
 
-    ${framesList().some((f) => f.destroyed) ? `
+    ${framesList().some((f) => R.isDestroyed(f)) ? `
       <div class="section-title">Out of Action</div>
-      ${framesList().filter((f) => f.destroyed).map((f) => frameCard(f, null, battle)).join('')}` : ''}
+      ${framesList().filter((f) => R.isDestroyed(f)).map((f) => frameCard(f, null, battle)).join('')}` : ''}
 
     ${battle.log?.length ? `
       <div class="section-title">Battle Log</div>
@@ -80,20 +80,20 @@ function phaseCard(battle, order) {
 function phaseHint(phase) {
   return {
     energy: 'Reactors generate EP and banked capacitor charge rolls into the pool. Stealth upkeep is deducted automatically.',
-    activation: 'Frames move from lowest initiative to highest. Spend EP step by step; evasion accrues as you go.',
+    activation: 'Frames move from lowest initiative to highest. Spend EP step by step; exit 4+ hexes for Flank Speed.',
     combat: 'Frames fire from highest initiative to lowest, resolved instantly. Use the Attack tab.',
-    end: 'Advancing banks unused EP into capacitors, clears evasion and ticks cooldowns down.',
+    end: 'Advancing banks unused EP into capacitors, clears Flank Speed and ticks cooldowns down.',
   }[phase];
 }
 
 function frameCard(frame, position, battle) {
   const mine = frame.ownerId === deviceId();
   const capMax = R.effectiveCapacitorMax(frame);
-  const evaLimit = R.effectiveEvasionLimit(frame);
-  const showMovement = battle.phase === 'activation' && mine && !frame.destroyed;
+  const rerolls = R.rerollAllowance(frame);
+  const showMovement = battle.phase === 'activation' && mine && !R.isDestroyed(frame);
 
   return `
-    <div class="card frame-card ${cls(frame.team === 'b' && 'team-b', mine && 'mine', frame.destroyed && 'destroyed')}"
+    <div class="card frame-card ${cls(frame.team === 'b' && 'team-b', mine && 'mine', R.isDestroyed(frame) && 'destroyed')}"
          style="padding-left:.9rem">
       <div class="frame-head">
         ${position ? `<div class="order-num">${position}</div>` : ''}
@@ -104,11 +104,11 @@ function frameCard(frame, position, battle) {
         <div class="init-badge"><b>${R.effectiveInitiative(frame)}</b><span>Init</span></div>
       </div>
 
-      ${frame.destroyed ? '' : `
+      ${R.isDestroyed(frame) ? '' : `
         <div class="row" style="gap:.7rem;margin-top:.6rem">
           <div class="grow">${meter('EP', frame.ep, Math.max(R.effectiveReactor(frame) + capMax, 1), 'ep')}</div>
           <div class="grow">${meter('Cap', frame.capacitor, Math.max(capMax, 1), 'cap')}</div>
-          <div class="grow">${meter('EVA', frame.eva, Math.max(evaLimit, 1), 'eva')}</div>
+          <div class="grow">${meter('Rerolls', rerolls, Math.max(rerolls, 1), 'reroll')}</div>
         </div>`}
 
       ${statusChips(frame)}
@@ -143,7 +143,7 @@ function movementPanel(frame) {
           const disabled = blocked || noEP;
           const title = blocked || (noEP ? `Needs ${cost} EP` : '');
           // Standing on a severed leg is a gamble, not a certainty.
-          const risky = a.action === 'standUp' && frame.immobilized;
+          const risky = a.action === 'standUp' && R.hasCrippledLeg(frame);
           const label = risky ? 'Stand Up (check)' : a.label;
           return `<button class="btn sm" data-action="move" data-frame="${frame.id}" data-move="${a.action}"
                     ${disabled ? 'disabled' : ''} title="${esc(risky ? 'Pilot Check to rise on one leg — EP spent either way' : title)}">
@@ -209,7 +209,7 @@ export function handle(action, el) {
           const c = result.pilotCheck;
           logFrame(frame, `Stand up on one leg — ${result.cost} EP, Pilot Check ${c.total} vs 6+: ${c.passed ? 'up' : 'slipped back down'}`);
         } else {
-          logFrame(frame, `${labelFor(move)} — ${result.cost} EP${result.evaGained ? `, +${result.evaGained} EVA` : ''}`);
+          logFrame(frame, `${labelFor(move)} — ${result.cost} EP${result.flankSpeed ? ', Flank Speed gained' : ''}`);
         }
         return result;
       });
@@ -272,7 +272,7 @@ function showJumpModal(frame) {
   const body = () => {
     const cost = R.movementCost(frame, 'jump', { hexes });
     const blocked = R.movementBlockedReason(frame, 'jump', { hexes });
-    const eva = Math.min(R.effectiveEvasionLimit(frame), (frame.eva || 0) + hexes * 2);
+    const grantsFlank = hexes >= 2;
     return `
       <h2 style="font-size:1.05rem;margin-bottom:.2rem">Jump Jets</h2>
       <p class="small muted" style="margin-top:0">Straight line, up to 4 hexes, bypassing intervening terrain.</p>
@@ -282,7 +282,7 @@ function showJumpModal(frame) {
       </div>
       <div class="math">
         <div>${hexes} hex${hexes === 1 ? '' : 'es'} × 2 EP = ${cost} EP</div>
-        <div>Evasion ${frame.eva} → ${eva} (2 per hex, limit ${R.effectiveEvasionLimit(frame)})</div>
+        <div>${grantsFlank ? 'A jump of 2+ hexes grants <b>Flank Speed</b> on landing' : 'A single-hop jump is repositioning — no Flank Speed'}</div>
         ${blocked ? `<div style="color:var(--danger)">${esc(blocked)}</div>` : ''}
         ${cost > frame.ep ? `<div style="color:var(--danger)">Not enough EP (has ${frame.ep})</div>` : ''}
       </div>
@@ -302,7 +302,7 @@ function showJumpModal(frame) {
     if (action === 'do-jump') {
       mutate(() => {
         const result = R.performMovement(frame, 'jump', { hexes });
-        logFrame(frame, `Jump ${hexes} hex${hexes === 1 ? '' : 'es'} — ${result.cost} EP, +${result.evaGained} EVA`);
+        logFrame(frame, `Jump ${hexes} hex${hexes === 1 ? '' : 'es'} — ${result.cost} EP${result.flankSpeed ? ', Flank Speed gained' : ''}`);
       });
       closeModal();
       toast(`Jumped ${hexes} hexes`, 'ok');
@@ -316,16 +316,16 @@ function showJumpModal(frame) {
 // --- Collision modal ----------------------------------------------------------------
 
 function showCollisionModal(frame) {
-  const others = framesList().filter((f) => f.id !== frame.id && !f.destroyed);
+  const others = framesList().filter((f) => f.id !== frame.id && !R.isDestroyed(f));
   let targetId = others[0]?.id || null;
   let hexes = Math.max(1, frame.hexesMoved || 1);
 
   const body = () => {
     const target = targetId ? getFrame(targetId) : null;
-    const pool = R.collisionDicePool(frame, hexes);
+    const damage = R.collisionDamage(frame, hexes);
     return `
       <h2 style="font-size:1.05rem;margin-bottom:.2rem">Collision</h2>
-      <p class="small muted" style="margin-top:0">Both frames take ${pool}d6 to a random location. Evasion does not apply.</p>
+      <p class="small muted" style="margin-top:0">Both frames take a flat ${damage} to a random location. Armor DR applies; Flank Speed does not.</p>
       ${others.length ? `
         <label class="tiny dim">Collided with</label>
         <select data-action="collision-target" style="margin-bottom:.6rem">
@@ -336,7 +336,7 @@ function showCollisionModal(frame) {
         ${stepper('collision-hexes', hexes, { min: 0, max: 10 })}
       </div>
       <div class="math">
-        <div>Mass ${R.massValue(frame)} + speed ${hexes} = <span class="final">${pool}d6</span> to each frame</div>
+        <div>Mass ${R.massValue(frame)} × speed ${hexes} = <span class="final">${damage} flat</span> to each frame</div>
         ${target ? `<div>Target: ${esc(target.callsign)}</div>` : ''}
         <div>Both pilots then check 2d6 vs 6+ or fall Prone</div>
       </div>
@@ -355,24 +355,25 @@ function showCollisionModal(frame) {
     if (action === 'collision-target') { targetId = el.value; return true; }
     if (action === 'do-collision') {
       const target = getFrame(targetId);
-      const pool = R.collisionDicePool(frame, hexes);
+      // Flat damage derived from the MOVING frame's mass, suffered by both.
+      const damage = R.collisionDamage(frame, hexes);
       const lines = [];
       mutate((battle) => {
         for (const victim of [frame, target]) {
-          const damage = R.sum(R.rollDice(pool));
-          const { location } = R.lookupHitLocation(R.roll2d6().total, 'front');
-          // Armor DR applies to collisions; Evasion does not (rules.md 2.2).
-          const report = R.applyDamage(victim, location, damage, { evasion: 0 });
+          const hit = R.lookupHitLocation(R.roll2d6().total, 'front');
+          // Armor DR applies to collisions; Flank Speed does not (rules.md 2.2).
+          const report = R.applyDamage(victim, hit.location, damage, { coreCritical: hit.coreCritical });
+          const landed = report.transferred || report;
           let critNote = '';
-          if (report.shouldRollCrit) {
-            const crit = R.rollCrit(location);
-            R.applyCrit(victim, crit, location);
-            critNote = `, ${crit.name}`;
+          if (landed.critDice) {
+            const crits = R.resolveCrits(victim, landed.location, landed.critDice);
+            critNote = crits.length ? `, ${crits.map((c) => c.crit.name).join(' + ')}` : '';
           }
           const check = R.pilotCheck(victim);
-          if (!check.passed) { victim.prone = true; victim.eva = 0; }
-          lines.push(`${victim.callsign}: ${damage} to ${report.locationName}${critNote}, pilot check ${check.total} — ${check.passed ? 'stays up' : 'falls Prone'}`);
-          logFrame(victim, `Collision: ${damage} damage to ${report.locationName}${critNote}; ${check.passed ? 'kept footing' : 'fell Prone'}`);
+          if (!check.passed) { victim.prone = true; victim.flankSpeed = false; }
+          const outcome = landed.penetrated ? `${damage} through ${report.locationName}${critNote}` : `${damage} bounced off ${report.locationName}`;
+          lines.push(`${victim.callsign}: ${outcome}, pilot check ${check.result} — ${check.passed ? 'stays up' : 'falls Prone'}`);
+          logFrame(victim, `Collision: ${outcome}; ${check.passed ? 'kept footing' : 'fell Prone'}`);
         }
         logBattle(battle, `Collision between ${frame.callsign} and ${target.callsign}`);
       });

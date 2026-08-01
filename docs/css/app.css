@@ -18,7 +18,6 @@
   --warn: #ffb347;
   --ok: #57d38c;
   --armor: #6ea8d8;
-  --structure: #d98b5f;
 
   --team-a: #4dd2ff;
   --team-b: #ffa64d;
@@ -195,9 +194,8 @@ select, input[type="text"], input[type="number"] {
 .bar > i { display: block; height: 100%; border-radius: 3px; transition: width .18s ease; }
 .bar > i.ep { background: var(--accent); }
 .bar > i.cap { background: #7a6fd8; }
-.bar > i.eva { background: var(--ok); }
+.bar > i.reroll { background: var(--ok); }
 .bar > i.armor { background: var(--armor); }
-.bar > i.structure { background: var(--structure); }
 
 /* --- Frame cards ----------------------------------------------------------- */
 
