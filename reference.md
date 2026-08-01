@@ -224,6 +224,6 @@
 | **Courage** (Yuu) | Never Reverse | **+2** to Pilot Checks to stay upright **or to rise** (not EMP recovery) |
 | **Respect** (Rei) | No Rear-Zone attacks; no indirect fire | **+1** to Crit rolls vs a target's **Front** Hit Zone |
 | **Honor** (Meiyo) | Must engage the higher-tonnage / higher-Initiative foe if you can bear a weapon on it | **+1 damage die** against a Frame that outclasses you |
-| **Mercy** (Jin) | Pull every Head/Torso result while any limb survives (per location on multi-hit attacks) | **+1** to Crit rolls vs **Arms and Legs** |
+| **Mercy** (Jin) | Pull every Head/Torso result while the target has **all four** limbs intact; free once any one limb is destroyed (per location on multi-hit attacks) | **+1** to Crit rolls vs **Arms and Legs** |
 | **Honesty** (Makoto) | No Skin, Smoke, Flares, Chaff or ECM — yours or an ally's | Enemy **Adaptive Skins do not function** against your locks |
 | **Loyalty** (Chuugi) | Cannot move away from a more-damaged ally within 3 hexes | Friendlies within 3 hexes force **1 extra reroll** when attacked |

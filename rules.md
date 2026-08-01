@@ -949,10 +949,10 @@ Every Named Pilot is sworn to a specific vow under the Iron Protocol, reflecting
 
 ##### Vow of Mercy (Jin)
 *“Victory is in the disarm, not the slaughter. A dead enemy learns nothing.”*
-- **The Constraint**: Hit locations are rolled, not chosen, so this vow governs what the pilot does with the roll. While the target Frame still has **any** Arm or Leg that is not destroyed, a Mercy pilot who rolls a **Head or Torso** result against it must **pull that shot**: it inflicts nothing — no damage, no Armor DR degradation, no Critical Hit, and no Disruptor EP drain — though the EP and ammunition are still spent. Once every limb on the target has been destroyed, the pilot may strike the core freely.
-  - **Multi-location attacks are resolved one location at a time.** A Cluster salvo rolls three locations and an HE warhead splashes into every adjacent one; each Head or Torso result among them is pulled individually, while the limb results resolve normally. A Mercy pilot's cluster munitions strip a Frame's arms and legs while leaving its cockpit untouched.
+- **The Constraint**: Hit locations are rolled, not chosen, so this vow governs what the pilot does with the roll. While the target Frame still has **all four** of its Arms and Legs intact, a Mercy pilot who rolls a **Head or Torso** result against it must **pull that shot**: it inflicts nothing — no damage, no Armor DR degradation, no Critical Hit, and no Disruptor EP drain — though the EP and ammunition are still spent. The pilot must land a crippling blow before going for the kill: **once any one of the target's limbs has been destroyed, its core may be struck freely.**
+  - **Multi-location attacks are resolved one location at a time.** A Cluster salvo rolls three locations and an HE warhead splashes into every adjacent one; each Head or Torso result among them is pulled individually, while the limb results resolve normally. A Mercy pilot's opening cluster strips a Frame's arms and legs while leaving its cockpit untouched — and the moment one of those limbs comes off, the rest of the salvo may go wherever it lands.
 - **The Boon**: A lifetime spent dismantling machines rather than destroying them. Gain **+1 to Critical Hit rolls** made against **Arms and Legs**.
-- **Breaking the Vow**: Choosing to resolve a Head or Torso result normally while the target still has an intact limb dishonors the pilot.
+- **Breaking the Vow**: Choosing to resolve a Head or Torso result normally while the target still has **all four** limbs intact dishonors the pilot.
 - **Dishonor Penalty**: The pilot is dishonored (see standard penalty).
 
 ##### Vow of Honesty (Makoto)
