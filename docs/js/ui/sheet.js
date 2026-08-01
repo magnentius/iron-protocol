@@ -13,7 +13,7 @@ import {
   AMMO_TYPES, AMMO_DIE,
 } from '../data/tables.js';
 import * as R from '../rules.js';
-import { deviceId, getFrame, logFrame, mutate, myFrames, framesList, removeFrame, addFrame } from '../state.js';
+import { deviceId, getFrame, logAction, logFrame, mutate, myFrames, framesList, removeFrame, addFrame } from '../state.js';
 import { FRAME_PRESETS } from '../data/frames.js';
 import { chip, closeModal, cls, confirmModal, esc, logList, meter, openModal, stepper, toast } from './dom.js';
 
@@ -473,14 +473,16 @@ export function handle(action, el) {
         loc.crits = loc.crits || {};
         if (loc.crits[slot]) {
           delete loc.crits[slot];
-          logFrame(f, `${LOCATION_NAMES[locKey]} critical slot ${slot} cleared by hand`);
+          logAction(f, `crit-${locKey}`, `${LOCATION_NAMES[locKey]} crit cleared`,
+            `${LOCATION_NAMES[locKey]} critical slot ${slot} cleared by hand`);
           return;
         }
         const table = CRIT_TABLE_FOR[locKey];
         const entry = CRIT_TABLES[table][slot];
         R.applyCrit(f, { ...entry, slot, table, location: locKey });
-        logFrame(f, `${LOCATION_NAMES[locKey]}: ${entry.name}`);
-        if (R.isDestroyed(f)) logFrame(f, 'Frame destroyed');
+        logAction(f, `crit-${locKey}`, `${LOCATION_NAMES[locKey]} critical`,
+          `${LOCATION_NAMES[locKey]}: ${entry.name}`);
+        if (R.isDestroyed(f)) logAction(f, 'destroyed', 'Destroyed', 'Frame destroyed');
       });
       return true;
 
@@ -562,10 +564,11 @@ export function handle(action, el) {
       const result = mutate(() => R.performMovement(f, 'standUp'));
       if (!result.ok) { toast(result.reason, 'error'); return true; }
       if (result.check) {
-        mutate(() => logFrame(f, `Stand Up: ${result.check.roll}${result.check.modifier ? ` ${result.check.modifier > 0 ? '+' : ''}${result.check.modifier}` : ''} = ${result.check.result} vs 6+ — ${result.stoodUp ? 'up' : 'failed, 3 EP spent'}`));
+        mutate(() => logAction(f, 'stand-up', 'Stand Up',
+          `Stand Up: ${result.check.roll}${result.check.modifier ? ` ${result.check.modifier > 0 ? '+' : ''}${result.check.modifier}` : ''} = ${result.check.result} vs 6+ — ${result.stoodUp ? 'up' : 'failed, 3 EP spent'}`, result.cost));
         toast(result.stoodUp ? 'Back on its feet' : 'Failed to rise — the 3 EP is spent regardless', result.stoodUp ? 'ok' : 'error');
       } else {
-        mutate(() => logFrame(f, 'Stood up (3 EP)'));
+        mutate(() => logAction(f, 'stand-up', 'Stand Up', 'Stood up (3 EP)', result.cost));
       }
       return true;
     }
@@ -580,7 +583,8 @@ export function handle(action, el) {
         b.pilot && `+${b.pilot} pilot`,
         b.courage && `+${b.courage} Vow of Courage`,
       ].filter(Boolean).join(', ');
-      mutate(() => logFrame(f, `Pilot Check: ${result.roll}${mods ? ` (${mods})` : ''} = ${result.result} vs 6+ — ${result.passed ? 'passed' : 'FAILED, falls Prone'}`));
+      mutate(() => logAction(f, 'pilot-check', 'Pilot Check',
+        `Pilot Check: ${result.roll}${mods ? ` (${mods})` : ''} = ${result.result} vs 6+ — ${result.passed ? 'passed' : 'FAILED, falls Prone'}`));
       if (!result.passed) mutate(() => { f.prone = true; f.flankSpeed = false; });
       toast(`Pilot Check ${result.result} vs 6+ — ${result.passed ? 'passed' : 'failed, now Prone'}`, result.passed ? 'ok' : 'error');
       return true;

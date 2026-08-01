@@ -76,7 +76,10 @@ tapping it**, so you can roll physical dice and just enter the numbers.
 
 The **battle log** records the start of every phase, and any entry with working behind it expands
 on tap to show it: an attack opens into the weapon and column, the EP spent, the Ammo Die, each
-burst's dice against the DR it was tested on, the permanent DR loss and every critical rolled. The
+burst's dice against the DR it was tested on, the permanent DR loss and every critical rolled.
+Activation actions — movement, torso twists, stand-ups, pilot checks, hand-marked criticals — are
+recorded too. Movement is entered a step at a time, so consecutive steps of the same kind by the
+same frame collapse into one line (*Jackal: Walk ×4 — 5 EP*) with each step kept as detail. The
 Energy and End Phase entries open into each frame's arithmetic; Activation and Combat open into
 the turn order, which reverses between them. Round and phase are stored as fields and shown as a
 chip, so no entry has to repeat the phase it already sits under.

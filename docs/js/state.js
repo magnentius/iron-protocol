@@ -314,6 +314,48 @@ export function logFrame(frame, text, detail = null) {
   if (frame.log.length > 50) frame.log.length = 50;
 }
 
+/**
+ * Record an Activation Phase action in both logs.
+ *
+ * Movement was reaching the frame log only, so the battle log had nothing to
+ * show for the whole phase but its own marker. Mirroring it naively would trade
+ * silence for noise: movement is entered a step at a time, and a player crossing
+ * five hexes taps Walk five times.
+ *
+ * So consecutive steps of the same kind by the same frame, in the same phase,
+ * coalesce into one entry — "Jackal: Walk ×4 — 5 EP" — with every individual
+ * step kept as detail. The summary stays readable and nothing is lost.
+ */
+export function logAction(frame, key, label, line, cost = 0) {
+  const b = getBattle();
+  logFrame(frame, line);
+
+  const head = b.log?.[0];
+  const sameRun = head?.kind === 'move' && head.frameId === frame.id && head.moveKey === key
+    && head.round === b.round && head.phase === b.phase;
+
+  if (sameRun) {
+    head.count += 1;
+    head.cost += cost;
+    head.detail.push(line);
+    head.text = movementText(frame, label, head);
+    head.at = Date.now();
+    return;
+  }
+
+  const entry = {
+    at: Date.now(), round: b.round, phase: b.phase, kind: 'move',
+    frameId: frame.id, moveKey: key, count: 1, cost, detail: [line], text: '',
+  };
+  entry.text = movementText(frame, label, entry);
+  b.log.unshift(entry);
+  if (b.log.length > 200) b.log.length = 200;
+}
+
+function movementText(frame, label, e) {
+  return `${frame.callsign}: ${label}${e.count > 1 ? ` ×${e.count}` : ''}${e.cost ? ` — ${e.cost} EP` : ''}`;
+}
+
 // --- Phase advance ----------------------------------------------------------
 
 /** One frame's Energy Phase result, phrased the same wherever it is recorded. */

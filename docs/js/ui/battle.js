@@ -5,7 +5,7 @@ import { TERRAIN, TERRAIN_KEYS } from '../data/tables.js';
 import * as R from '../rules.js';
 import {
   PHASE_NAMES, advancePhase, deviceId, framesList, getBattle, getFrame,
-  logBattle, logFrame, mutate, orderedFrames, resetBattle, runEnergyPhase,
+  logAction, logBattle, logFrame, mutate, orderedFrames, resetBattle, runEnergyPhase,
 } from '../state.js';
 import { closeModal, cls, confirmModal, empty, esc, logList, meter, openModal, stepper, toast } from './dom.js';
 import { locationStrip, setOpenFrame, statusChips } from './sheet.js';
@@ -272,7 +272,8 @@ export function handle(action, el) {
       const result = mutate(() => R.twistTorso(frame, facing));
       if (!result.ok) { toast(result.reason, 'error'); return true; }
       const NAME = { left: 'left', center: 'centre', right: 'right' };
-      mutate(() => logFrame(frame, `Torso twisted ${NAME[result.from]} → ${NAME[result.to]}${result.cost ? ` (${result.cost} EP, Servo Lock)` : ''}`));
+      mutate(() => logAction(frame, 'twist', 'Torso twist',
+        `Torso twisted ${NAME[result.from]} → ${NAME[result.to]}${result.cost ? ` (${result.cost} EP, Servo Lock)` : ''}`, result.cost));
       toast(`Torso now facing ${NAME[facing]}`, 'ok');
       return true;
     }
@@ -288,9 +289,11 @@ export function handle(action, el) {
         if (result.pilotCheck) {
           // Standing on a severed leg: the EP is spent whether it works or not.
           const c = result.pilotCheck;
-          logFrame(frame, `Stand up on one leg — ${result.cost} EP, Pilot Check ${c.total} vs 6+: ${c.passed ? 'up' : 'slipped back down'}`);
+          logAction(frame, `${move}-check`, labelFor(move),
+            `Stand up on one leg — ${result.cost} EP, Pilot Check ${c.total} vs 6+: ${c.passed ? 'up' : 'slipped back down'}`, result.cost);
         } else {
-          logFrame(frame, `${labelFor(move)} — ${result.cost} EP${result.flankSpeed ? ', Flank Speed gained' : ''}`);
+          logAction(frame, move, labelFor(move),
+            `${labelFor(move)} — ${result.cost} EP${result.flankSpeed ? ', Flank Speed gained' : ''}`, result.cost);
         }
         return result;
       });
@@ -311,7 +314,7 @@ export function handle(action, el) {
       if (blocked) { toast(blocked, 'error'); return true; }
       const report = mutate(() => {
         const result = R.performMovement(frame, 'walk', { elevationDelta: 1 });
-        if (result.ok !== false) logFrame(frame, `Walk +1 level — ${result.cost} EP`);
+        if (result.ok !== false) logAction(frame, 'walk-up', 'Walk +1 level', `Walk +1 level — ${result.cost} EP`, result.cost);
         return result;
       });
       if (report.ok === false) toast(report.reason, 'error');
@@ -385,7 +388,8 @@ function showJumpModal(frame) {
       const result = mutate(() => {
         const r = R.performMovement(frame, 'jump', { hexes });
         const dry = r.propellant?.empty ? ', propellant now DRY' : '';
-        logFrame(frame, `Jump ${hexes} hex${hexes === 1 ? '' : 'es'} — ${r.cost} EP${r.flankSpeed ? ', Flank Speed gained' : ''}${dry}`);
+        logAction(frame, 'jump', `Jump ${hexes} hex${hexes === 1 ? '' : 'es'}`,
+          `Jump ${hexes} hex${hexes === 1 ? '' : 'es'} — ${r.cost} EP${r.flankSpeed ? ', Flank Speed gained' : ''}${dry}`, r.cost);
         return r;
       });
       closeModal();
@@ -462,7 +466,11 @@ function showCollisionModal(frame) {
           lines.push(`${victim.callsign}: ${outcome}, pilot check ${check.result} — ${check.passed ? 'stays up' : 'falls Prone'}`);
           logFrame(victim, `Collision: ${outcome}; ${check.passed ? 'kept footing' : 'fell Prone'}`);
         }
-        logBattle(battle, `Collision between ${frame.callsign} and ${target.callsign}`);
+        // `lines` already holds both frames' full resolution — location, whether
+        // it went through, criticals and the pilot check. Attach it rather than
+        // leaving the log saying only that a collision happened.
+        logBattle(battle, `Collision between ${frame.callsign} and ${target.callsign}`,
+          [`${damage} damage to both — Mass × ${hexes} hex${hexes === 1 ? '' : 'es'}`, ...lines]);
       });
       closeModal();
       toast(lines.join(' · '), 'ok');

@@ -11,7 +11,8 @@ import { instantiate, FRAME_PRESETS, FRAME_KEYS, costOut } from './js/data/frame
 import { CRIT_TABLES, CRIT_TABLE_MAX, overkillDice, COUNTERMEASURE_CHECK_TN } from './js/data/tables.js';
 import { diffInto } from './js/sync.js';
 import {
-  addFrame, advancePhase, createFrame, createBattle, getBattle, isCompatible, setBattle, SCHEMA_VERSION,
+  addFrame, advancePhase, createFrame, createBattle, getBattle, isCompatible, logAction, setBattle,
+  SCHEMA_VERSION,
 } from './js/state.js';
 
 const frame = (key, patch = {}) => Object.assign(instantiate(key), patch);
@@ -1073,6 +1074,54 @@ export function run({ describe, it, eq, ok }) {
       const late = findEntry(/Paladin deployed/);
       ok(late.detail, 'the deploy entry carries its energy, since it missed the phase entry');
       eq(/\+14 EP/.test(late.detail[0]), true, late.detail[0]);
+    });
+  });
+
+  it('Activation Phase actions reach the battle log, not just the frame', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'ACTV' }), { silent: true });
+      const f = addFrame('jackal', { ownerId: 't' });
+      logAction(f, 'walk', 'Walk', 'Walk — 1 EP', 1);
+      const e = getBattle().log[0];
+      eq(e.text, 'Jackal: Walk — 1 EP');
+      eq(f.log[0].text, 'Walk — 1 EP', 'and still reaches the frame log');
+    });
+  });
+
+  it('repeated steps of the same kind coalesce instead of flooding the log', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'COAL' }), { silent: true });
+      const f = addFrame('jackal', { ownerId: 't' });
+      const before = getBattle().log.length;
+      for (let i = 0; i < 4; i += 1) logAction(f, 'walk', 'Walk', `Walk — 1 EP`, 1);
+      const log = getBattle().log;
+      eq(log.length, before + 1, 'four taps, one entry');
+      eq(log[0].text, 'Jackal: Walk ×4 — 4 EP');
+      eq(log[0].detail.length, 4, 'every individual step is still there');
+    });
+  });
+
+  it('a different action starts a new entry rather than merging', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'MIXD' }), { silent: true });
+      const f = addFrame('jackal', { ownerId: 't' });
+      logAction(f, 'walk', 'Walk', 'Walk — 1 EP', 1);
+      logAction(f, 'pivot', 'Pivot', 'Pivot — 1 EP', 1);
+      logAction(f, 'walk', 'Walk', 'Walk — 1 EP', 1);
+      eq(getBattle().log.slice(0, 3).map((e) => e.text),
+         ['Jackal: Walk — 1 EP', 'Jackal: Pivot — 1 EP', 'Jackal: Walk — 1 EP']);
+    });
+  });
+
+  it('two frames moving in turn do not merge into each other', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'TWOF' }), { silent: true });
+      const a = addFrame('jackal', { ownerId: 't' });
+      const b = addFrame('paladin', { ownerId: 't' });
+      logAction(a, 'walk', 'Walk', 'Walk — 1 EP', 1);
+      logAction(b, 'walk', 'Walk', 'Walk — 1 EP', 1);
+      eq(getBattle().log.slice(0, 2).map((e) => e.text),
+         ['Paladin: Walk — 1 EP', 'Jackal: Walk — 1 EP']);
     });
   });
 
