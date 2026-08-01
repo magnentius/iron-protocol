@@ -745,8 +745,17 @@ function applyAttack() {
       : result.crits.length ? result.crits.map((c) => c.name).join(' · ')
       : 'No damage and no degradation — the plate stopped it.';
 
-    logBattle(battle, `${a.callsign} → ${t.callsign}: ${result.headline}`);
-    logFrame(t, result.headline);
+    // The whole resolution, not just the verdict. result.steps already carries
+    // every die, the DR comparison and each critical — it was being discarded,
+    // which left the log saying that something happened but never what.
+    const detail = [
+      `${def.name} · ${HIT_ZONES[state.zone]} column`,
+      ...result.steps,
+      ...result.crits.map((c) => `Critical: ${c.name}`),
+    ];
+    logBattle(battle, `${a.callsign} → ${t.callsign}: ${result.headline}`, detail);
+    logFrame(t, `Hit by ${a.callsign}'s ${def.name}: ${result.headline}`, detail);
+    logFrame(a, `${def.name} → ${t.callsign}: ${result.headline}`, detail);
   });
 
   state.result = result;

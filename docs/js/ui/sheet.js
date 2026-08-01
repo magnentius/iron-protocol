@@ -15,7 +15,7 @@ import {
 import * as R from '../rules.js';
 import { deviceId, getFrame, logFrame, mutate, myFrames, framesList, removeFrame, addFrame } from '../state.js';
 import { FRAME_PRESETS } from '../data/frames.js';
-import { chip, closeModal, cls, confirmModal, esc, meter, openModal, stepper, toast } from './dom.js';
+import { chip, closeModal, cls, confirmModal, esc, logList, meter, openModal, stepper, toast } from './dom.js';
 
 let openFrameId = null;
 
@@ -189,9 +189,7 @@ function renderSheet(frame) {
 
     ${frame.log?.length ? `
       <div class="section-title">Frame Log</div>
-      <div class="card tight"><div class="log">
-        ${frame.log.slice(0, 12).map((e) => `<div class="log-entry">${esc(e.text)}</div>`).join('')}
-      </div></div>` : ''}
+      <div class="card tight">${logList(frame.log, 15)}</div>` : ''}
   `;
 }
 

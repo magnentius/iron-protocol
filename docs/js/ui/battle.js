@@ -7,7 +7,7 @@ import {
   PHASE_NAMES, advancePhase, deviceId, framesList, getBattle, getFrame,
   logBattle, logFrame, mutate, orderedFrames, resetBattle, runEnergyPhase,
 } from '../state.js';
-import { closeModal, cls, confirmModal, empty, esc, meter, openModal, stepper, toast } from './dom.js';
+import { closeModal, cls, confirmModal, empty, esc, logList, meter, openModal, stepper, toast } from './dom.js';
 import { locationStrip, setOpenFrame, statusChips } from './sheet.js';
 
 export function render() {
@@ -42,10 +42,7 @@ export function render() {
 
     ${battle.log?.length ? `
       <div class="section-title">Battle Log</div>
-      <div class="card tight"><div class="log">
-        ${battle.log.slice(0, 15).map((entry) => `
-          <div class="log-entry"><span class="dim tiny">R${entry.round}</span> ${esc(entry.text)}</div>`).join('')}
-      </div></div>` : ''}
+      <div class="card tight">${logList(battle.log, 20)}</div>` : ''}
 
     <button class="btn danger block ghost" data-action="reset-battle" style="margin-top:1rem">Reset Battle</button>
   `;

@@ -129,3 +129,40 @@ export function toast(message, kind = '') {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity .3s'; }, 2200);
 }
+
+/* --- Log --------------------------------------------------------------------- */
+
+const PHASE_LABEL = { energy: 'Energy', activation: 'Activation', combat: 'Combat', end: 'End' };
+
+/**
+ * One log entry. Entries carrying detail render as a native <details>, so the
+ * arithmetic behind a line — the dice, the DR comparison, each critical — is one
+ * tap away without a headline that nobody can read at arm's length.
+ *
+ * <details> is deliberate rather than a data-action toggle: expanding is pure DOM
+ * state and never routes through the app's click delegate, so opening an entry
+ * does not trigger a re-render that would immediately collapse it.
+ */
+function logEntry(entry) {
+  // A phase or round entry already names itself, so it gets the round alone —
+  // repeating the phase in its own chip is the redundancy this metadata exists
+  // to remove. Everything else is stamped with the phase it happened in.
+  const marker = entry.kind === 'phase' || entry.kind === 'round';
+  const meta = marker
+    ? (entry.round ? `R${entry.round}` : '')
+    : [entry.round ? `R${entry.round}` : '', PHASE_LABEL[entry.phase] || ''].filter(Boolean).join(' · ');
+
+  const head = `${meta ? `<span class="dim tiny">${esc(meta)}</span> ` : ''}${esc(entry.text)}`;
+  const kindClass = marker ? ` is-${entry.kind}` : '';
+
+  if (!entry.detail?.length) return `<div class="log-entry${kindClass}">${head}</div>`;
+  return `
+    <details class="log-entry has-detail${kindClass}">
+      <summary>${head}</summary>
+      <div class="log-detail">${entry.detail.map((d) => `<div>${esc(d)}</div>`).join('')}</div>
+    </details>`;
+}
+
+export function logList(entries = [], limit = 15) {
+  return `<div class="log">${entries.slice(0, limit).map(logEntry).join('')}</div>`;
+}

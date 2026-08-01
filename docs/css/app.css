@@ -336,6 +336,36 @@ select, input[type="text"], input[type="number"] {
 }
 .log-entry b { color: var(--text); font-weight: 500; }
 
+/* Entries with detail expand in place. The marker is drawn on the right so the
+   text starts at the same x as a plain entry and the list stays a clean column. */
+details.log-entry.has-detail > summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: baseline; gap: .35rem;
+  min-height: 1.5rem;
+}
+details.log-entry.has-detail > summary::-webkit-details-marker { display: none; }
+details.log-entry.has-detail > summary::after {
+  content: '▸'; margin-left: auto; padding-left: .5rem;
+  color: var(--muted); font-size: .7rem; transition: transform .12s ease;
+}
+details.log-entry.has-detail[open] > summary::after { transform: rotate(90deg); }
+details.log-entry.has-detail[open] { border-left-color: var(--accent); }
+
+.log-detail {
+  margin-top: .4rem; padding-top: .4rem; border-top: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: .2rem;
+  font-size: .74rem; line-height: 1.45; color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.log-detail > div { padding-left: .6rem; border-left: 1px solid var(--border); }
+
+/* Phase and round markers read as separators rather than events. */
+.log-entry.is-phase, .log-entry.is-round {
+  background: transparent; border-left-color: var(--accent);
+  color: var(--text); font-weight: 500;
+}
+.log-entry.is-round { text-transform: uppercase; letter-spacing: .08em; font-size: .7rem; }
+
 /* --- Reference ---------------------------------------------------------------- */
 
 details.ref { border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: .5rem; background: var(--surface); }

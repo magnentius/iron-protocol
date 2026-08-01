@@ -11,7 +11,7 @@ import { instantiate, FRAME_PRESETS, FRAME_KEYS, costOut } from './js/data/frame
 import { CRIT_TABLES, CRIT_TABLE_MAX, overkillDice, COUNTERMEASURE_CHECK_TN } from './js/data/tables.js';
 import { diffInto } from './js/sync.js';
 import {
-  advancePhase, createFrame, createBattle, getBattle, isCompatible, setBattle, SCHEMA_VERSION,
+  addFrame, advancePhase, createFrame, createBattle, getBattle, isCompatible, setBattle, SCHEMA_VERSION,
 } from './js/state.js';
 
 const frame = (key, patch = {}) => Object.assign(instantiate(key), patch);
@@ -1011,6 +1011,77 @@ export function run({ describe, it, eq, ok }) {
       advancePhase(); advancePhase(); advancePhase(); advancePhase(); // all the way round
       eq(getBattle().phase, 'end');
       eq(getBattle().frames.x.capacitor, banked, 'one bank per End Phase');
+    });
+  });
+
+  // --- Battle log ------------------------------------------------------------
+  describe('Battle log');
+
+  const battleLog = () => getBattle().log;
+  const findEntry = (re) => battleLog().find((e) => re.test(e.text));
+
+  it('marks the start of every phase', () => {
+    withStorage(() => {
+      runTo('end');
+      const marks = battleLog().filter((e) => e.kind === 'phase').map((e) => e.text);
+      eq(marks.includes('Energy Phase'), true);
+      eq(marks.includes('Activation Phase'), true);
+      eq(marks.includes('Combat Phase'), true);
+      eq(marks.includes('End Phase'), true);
+    });
+  });
+
+  it('records the phase as a field, not inside the text', () => {
+    withStorage(() => {
+      const f = runTo('end');
+      const e = f.log.find((x) => /unused|already empty/.test(x.text));
+      ok(e, 'the End Phase banking is logged');
+      eq(e.phase, 'end', 'stamped structurally');
+      eq(/End Phase/.test(e.text), false, 'and not repeated in the prose');
+    });
+  });
+
+  it('a phase entry carries each frame arithmetic as expandable detail', () => {
+    withStorage(() => {
+      runTo('end');
+      const energy = battleLog().find((e) => e.text === 'Energy Phase');
+      eq(energy.detail.length, 1);
+      eq(/Jackal: \+8 EP/.test(energy.detail[0]), true, energy.detail[0]);
+    });
+  });
+
+  it('Activation and Combat record the order, which reverses between them', () => {
+    withStorage(() => {
+      const b = createBattle({ code: 'ORDR' });
+      b.frames.a = createFrame('jackal', { ownerId: 't' });   // Init 12
+      b.frames.b = createFrame('paladin', { ownerId: 't' });  // Init 5
+      setBattle(b, { silent: true });
+      while (getBattle().phase !== 'combat') advancePhase();
+      const act = battleLog().find((e) => e.text === 'Activation Phase');
+      const com = battleLog().find((e) => e.text === 'Combat Phase');
+      eq(/Paladin/.test(act.detail[1]), true, 'Activation opens with the lowest Initiative');
+      eq(/Jackal/.test(com.detail[1]), true, 'Combat opens with the highest');
+    });
+  });
+
+  it('a frame deployed after generation still shows where its EP came from', () => {
+    withStorage(() => {
+      const b = createBattle({ code: 'LATE' });
+      setBattle(b, { silent: true });
+      addFrame('jackal', { ownerId: 't' });   // triggers round 1 generation
+      addFrame('paladin', { ownerId: 't' });  // arrives after it
+      const late = findEntry(/Paladin deployed/);
+      ok(late.detail, 'the deploy entry carries its energy, since it missed the phase entry');
+      eq(/\+14 EP/.test(late.detail[0]), true, late.detail[0]);
+    });
+  });
+
+  it('stamps battle entries with the round and phase they happened in', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'STMP' }), { silent: true });
+      addFrame('jackal', { ownerId: 't' });
+      const e = findEntry(/deployed/);
+      eq([e.round, e.phase], [1, 'energy']);
     });
   });
 

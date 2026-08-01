@@ -74,6 +74,13 @@ adjustable, so the app never blocks you.
 It shows each step of the arithmetic so an opponent can audit it. **Every die can be corrected by
 tapping it**, so you can roll physical dice and just enter the numbers.
 
+The **battle log** records the start of every phase, and any entry with working behind it expands
+on tap to show it: an attack opens into the weapon and column, the EP spent, the Ammo Die, each
+burst's dice against the DR it was tested on, the permanent DR loss and every critical rolled. The
+Energy and End Phase entries open into each frame's arithmetic; Activation and Combat open into
+the turn order, which reverses between them. Round and phase are stored as fields and shown as a
+chip, so no entry has to repeat the phase it already sits under.
+
 **Ref tab** — the hit location table, all four critical tables with the Severity Ladder, what
 blocks or contests each sensor band, terrain, weapons, Ammo Dice, movement costs and the
 resolution cases most often argued over.

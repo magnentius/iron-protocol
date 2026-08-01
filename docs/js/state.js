@@ -5,7 +5,9 @@
 // joined. Rendering always reads from here, never from the network.
 
 import { FRAME_PRESETS, getPreset, instantiate } from './data/frames.js';
-import { effectiveCapacitorMax, endPhase, energyPhase, isDestroyed, turnOrder } from './rules.js';
+import {
+  effectiveCapacitorMax, effectiveInitiative, endPhase, energyPhase, isDestroyed, turnOrder,
+} from './rules.js';
 
 // Bump this whenever the frame or battle shape changes incompatibly. A stored
 // battle from an older schema is discarded rather than migrated: the overhaul
@@ -246,11 +248,25 @@ export function enemyFrames(b = getBattle()) {
 export function addFrame(presetKey, opts = {}) {
   return mutate((b) => {
     const frame = createFrame(presetKey, opts);
-    // Deploying after this round's energy has already been generated would
-    // otherwise leave the frame sitting at 0 EP for a full round.
-    if (b.energyGenerated) energyPhase(frame);
     b.frames[frame.id] = frame;
-    logBattle(b, `${frame.callsign} deployed`);
+
+    // Deploying after this round's energy has already been generated would
+    // otherwise leave the frame sitting at 0 EP for a full round. It also
+    // misses that round's Energy Phase entry, so its generation is recorded on
+    // the deploy instead — otherwise the log shows a frame with EP it was never
+    // seen to earn.
+    let detail = null;
+    if (b.energyGenerated) {
+      const report = energyPhase(frame);
+      const line = energyLine(frame, report);
+      logFrame(frame, line, report.steps);
+      detail = [line];
+    }
+    logBattle(b, `${frame.callsign} deployed`, detail);
+    // Round 1 opens *in* the Energy Phase, so a frame deployed into it should
+    // already be holding its EP while that phase is on screen — same reason
+    // Energy and End settle on entry rather than on the way out.
+    if (b.phase === 'energy' && !b.energyGenerated) generateEnergy(b, []);
     return frame;
   });
 }
@@ -269,32 +285,58 @@ export function orderedFrames(b = getBattle()) {
 
 // --- Logging ----------------------------------------------------------------
 
-export function logBattle(b, text) {
+/**
+ * `detail` is an array of lines shown when the entry is expanded — the dice, the
+ * DR comparison, each critical rolled. Stored only when non-empty so a quiet
+ * entry costs nothing extra to sync.
+ *
+ * Round and phase are recorded as fields rather than written into the text. The
+ * log renders them as a chip, so an entry never has to repeat the phase it
+ * already sits under.
+ */
+export function logBattle(b, text, detail = null, kind = null) {
   b.log = b.log || [];
-  b.log.unshift({ at: Date.now(), round: b.round, phase: b.phase, text });
+  const entry = { at: Date.now(), round: b.round, phase: b.phase, text };
+  if (detail?.length) entry.detail = detail;
+  if (kind) entry.kind = kind;
+  b.log.unshift(entry);
   if (b.log.length > 200) b.log.length = 200;
 }
 
-export function logFrame(frame, text) {
+export function logFrame(frame, text, detail = null) {
   frame.log = frame.log || [];
-  frame.log.unshift({ at: Date.now(), text });
+  const entry = { at: Date.now(), text };
+  // Read the module-level battle directly: getBattle() would mint one, and this
+  // is called from unit tests that drive a frame with no battle at all.
+  if (battle) { entry.round = battle.round; entry.phase = battle.phase; }
+  if (detail?.length) entry.detail = detail;
+  frame.log.unshift(entry);
   if (frame.log.length > 50) frame.log.length = 50;
 }
 
 // --- Phase advance ----------------------------------------------------------
 
+/** One frame's Energy Phase result, phrased the same wherever it is recorded. */
+function energyLine(frame, report) {
+  const upkeep = report.upkeep ? `, −${report.upkeep} upkeep` : '';
+  const glitch = report.glitch ? ', −1 System Glitch' : '';
+  return `+${report.generated} EP${upkeep}${glitch} → ${frame.ep} EP in pool`;
+}
+
 /** Generate this round's energy, unless it has already been generated. */
 function generateEnergy(b, reports) {
   if (b.energyGenerated) return reports;
+  const detail = [];
   for (const frame of framesList(b)) {
     if (isDestroyed(frame)) continue;
     const report = energyPhase(frame);
     reports.push({ frameId: frame.id, type: 'energy', report });
-    const upkeep = report.upkeep ? `, −${report.upkeep} upkeep` : '';
-    const glitch = report.glitch ? ', −1 System Glitch' : '';
-    logFrame(frame, `Energy Phase: +${report.generated} EP${upkeep}${glitch} → ${frame.ep} EP in pool`);
+    const line = energyLine(frame, report);
+    logFrame(frame, line, report.steps);
+    detail.push(`${frame.callsign}: ${line}`);
   }
   b.energyGenerated = true;
+  logBattle(b, 'Energy Phase', detail, 'phase');
   return reports;
 }
 
@@ -310,25 +352,28 @@ function generateEnergy(b, reports) {
  */
 function resolveEndPhase(b, reports) {
   if (b.endResolved) return reports;
+  const detail = [];
   for (const frame of framesList(b)) {
     if (isDestroyed(frame)) continue;
     const report = endPhase(frame);
     reports.push({ frameId: frame.id, type: 'end', report });
     if (report.fire) {
-      logFrame(frame, 'Electrical Fire burns: 1 Torso Critical');
+      const names = report.fire.map((c) => c.name);
+      logFrame(frame, 'Electrical Fire burns: 1 Torso Critical', names);
+      detail.push(`${frame.callsign}: Electrical Fire — ${names.join(', ')}`);
     }
     // Always logged, not only when something is vented. Energy moving out of
     // the pool and into the Capacitor is the End Phase's whole job, and a
     // player checking why they have 5 EP banked needs to see where it came
     // from — a silent transfer reads as EP going missing.
-    if (report.pool > 0) {
-      const vented = report.vented > 0 ? `, vented ${report.vented}` : '';
-      logFrame(frame, `End Phase: ${report.pool} EP unused → ${report.banked} to Capacitor (max ${report.capMax})${vented} · pool emptied`);
-    } else {
-      logFrame(frame, 'End Phase: pool already empty, nothing to store');
-    }
+    const line = report.pool > 0
+      ? `${report.pool} EP unused → ${report.banked} to Capacitor (max ${report.capMax})${report.vented > 0 ? `, vented ${report.vented}` : ''} · pool emptied`
+      : 'Pool already empty, nothing to store';
+    logFrame(frame, line, report.steps);
+    detail.push(`${frame.callsign}: ${line}`);
   }
   b.endResolved = true;
+  logBattle(b, 'End Phase', detail, 'phase');
   return reports;
 }
 
@@ -349,7 +394,7 @@ export function advancePhase() {
       b.phase = 'energy';
       b.energyGenerated = false;
       b.endResolved = false;
-      logBattle(b, `Round ${b.round} begins`);
+      logBattle(b, `Round ${b.round} begins`, null, 'round');
       generateEnergy(b, reports);
       return reports;
     }
@@ -359,11 +404,23 @@ export function advancePhase() {
     // Safety net: leaving the Energy Phase without having generated (round 1,
     // or a battle restored mid-phase) still gets the frames their EP.
     if (b.phase === 'activation') generateEnergy(b, reports);
-    if (b.phase === 'end') resolveEndPhase(b, reports);
 
-    logBattle(b, `${PHASE_NAMES[b.phase]} Phase`);
+    // Energy and End log themselves, with each frame's arithmetic as detail.
+    // Activation and Combat have no automatic bookkeeping, so their entry
+    // carries the thing worth recording: the order, which reverses between them.
+    if (b.phase === 'end') resolveEndPhase(b, reports);
+    else logBattle(b, `${PHASE_NAMES[b.phase]} Phase`, activationOrderDetail(b), 'phase');
+
     return reports;
   });
+}
+
+/** The turn order for the phase just entered — reversed between Activation and Combat. */
+function activationOrderDetail(b) {
+  const order = orderedFrames(b);
+  if (!order.length) return null;
+  const rule = b.phase === 'combat' ? 'highest Initiative first' : 'lowest Initiative first';
+  return [rule, ...order.map((f, i) => `${i + 1}. ${f.callsign} (Init ${effectiveInitiative(f)})`)];
 }
 
 /** Explicitly run the Energy Phase for every frame. */
