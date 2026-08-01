@@ -106,6 +106,24 @@ Tap the pill in the top right. One player taps **Create a Room** and reads out t
 code; the other enters it and taps **Join**. Joining brings your own frames with you into their
 battle. The pill turns green when connected and shows the room code.
 
+## Updates and the service worker
+
+The service worker is **network-first for application code** — HTML, JS and CSS — and
+cache-first only for icons. That is the opposite of the usual advice for a static site, and it
+is deliberate: this app ships an ES module graph, and a stale-while-revalidate policy can serve
+`rules.js` from one deploy next to `tables.js` from another. The imports stop lining up and the
+app either dies on a missing export or, worse, runs with half its rules from each version.
+
+The practical symptom of getting this wrong is an app that works after a manual refresh and is
+broken again on the next visit, because every load serves you the *previous* deploy. Saving one
+round trip on a handful of small files is not worth that.
+
+Offline still works. The last successful load is cached under a versioned key, so the fallback
+is a coherent snapshot rather than a mix.
+
+Bump `VERSION` in `sw.js` when deploying. Getting that wrong now costs a slow load rather than a
+broken app.
+
 ## Saved battles and schema versions
 
 The battle shape carries a `version`. When the rules overhaul replaced Internal Structure and
