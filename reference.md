@@ -4,33 +4,45 @@
 
 ### 1. Energy Phase
 1. **Energy Generation**: Every Frame generates EP equal to its Reactor Rating. Add to stored Capacitor EP.
-2. **Stealth Upkeep**: Spend EP to maintain active Metamaterial Coating (AMC) modes or active ECM suites.
+2. **Stealth Upkeep**: Spend EP to maintain an active Adaptive Skin (2 EP) or ECM suite (2 EP). Both contest locks on a **Jamming Check (4+)** rather than denying them outright.
 
 ### 2. Activation Phase (Reverse Initiative Order)
 *Frames activate from lowest Initiative to highest Initiative. Spend EP step-by-step.*
-- **Forward Walk (W)**: 1 EP (climbing +1 EP per vertical level).
-- **Reverse (R)**: 2 EP.
-- **Pivot/Turn (TL/TR)**: 1 EP per 60 degrees.
-- **Jump Jet (J)**: 2 EP per hex (Light and Medium only, straight line, max 4 hexes).
-- **Movement Limit**: A Frame cannot enter more hexes than its weight class Movement Limit per turn.
-- **Torso Twist**: At the end of activation, torso facing can twist up to 60 degrees left/right of leg facing for free.
+
+| Action | Cost | Terrain? | Climb? | vs Move Limit? |
+| :--- | :---: | :---: | :---: | :---: |
+| **Forward Walk (W)** | 1 EP | yes | +1 EP | yes |
+| **Reverse (R)** | 2 EP | yes | +1 EP | yes |
+| **Jump Jet (J)** | 2 EP / hex | **no** | **no** | yes |
+| **Pivot / Turn** | 1 EP per 60° | no | — | **no** |
+| **Stand Up** | 3 EP | no | — | no |
+| **Torso Twist** | free | no | — | no |
+
+- *Terrain is paid on the hex you move **into**. A Jump pays 2 EP per hex and nothing else — the landing Pilot Check is the price of awkward ground.*
+- **Jump Jet**: Light/Medium only, Torso hardpoint, straight line, max 4 hexes. Roll the Ammo Die after each jump — Empty on **1-2**, ~3 jumps. A wrecked leg actuator also grounds the Frame.
+- **Damaged**: Knee Lock adds +1 EP per Walk/Reverse. Prone pivots cost 2 EP per 60°, or **3 EP** with a severed leg. Servo Lock makes the Torso Twist cost 2 EP.
+- **Flank Speed**: exit **4+ hexes**, or make a jump of **2+ hexes**. Assault Frames (Move 3) can never flank.
+- **Torso Twist**: at the end of activation, torso facing may twist 60° left or right of leg facing.
 
 ### 3. Combat Phase (Initiative Order)
 *Resolve attacks in order of highest Initiative to lowest Initiative (instantly resolved).*
 1. **Select Weapon & Pay EP Cost** *(Overcharge: Extra EP MUST come from the Capacitor. Triggers 1-Turn Cooldown).*
-2. **Verify Line of Sight (LOS) and Arc** (Torso = Forward Arc, Left Arm = Left Side Arc, Right Arm = Right Side Arc).
+2. **Verify Line of Sight (LOS) and Arc** (Torso = Forward Arc only; Arms = Forward Arc **plus** their own Side Arc).
 3. **Verify Sensor Lock** (Visual, Infrared, or Microwave).
-4. **Determine Hit Location**: Roll 2d6.
-5. **Roll Damage**: Roll weapon damage dice.
-6. **Apply Flanking & Cover (Rerolls)**: Defender forces attacker to reroll damage dice for Flanking (1 reroll) and Cover (Light = 1, Heavy = 2).
-7. **Apply Armor DR**: If the final damage is strictly greater than the location's Armor DR, the armor is penetrated.
-8. **Resolve Penetration**: Permanently reduce the location's Armor DR by 1.
-9. **Roll Critical Hits**: Roll 1d6 on the location's Critical Hit Table. (Overkill: +1 die per 5 points of damage over the Armor DR).
-10. **Location Destruction**: If a Critical Hit destroys the Torso/Head, the Frame is destroyed. Severed limbs destroy gear; hits on destroyed limbs transfer to Torso.
+4. **Defender's Countermeasures** *(before Hit Location)*:
+   - **Flares / Chaff**: negate the attack **outright** if it used an IR / Radar lock. No roll. Then roll the Ammo Die (Empty on 1-2).
+   - **Jamming Check**: if the target is covered by an active **ECM** suite or an **Adaptive Skin** tuned to this attack's band, the defender rolls **1d6** — on **4+** the lock fails and the attack is negated. The suite stays active either way.
+5. **Determine Hit Location**: Roll 2d6.
+6. **Roll Damage**: Roll weapon damage dice.
+7. **Apply Flank Speed & Cover (Rerolls)**: Defender **may** force rerolls of the attacker's damage dice — Flank Speed (1) and Cover (Light 1, Heavy 2), stacking. Optional: never reroll a die that is already low.
+8. **Apply Armor DR**: If the final damage is strictly greater than the location's Armor DR, the armor is penetrated.
+9. **Resolve Penetration**: Permanently reduce the location's Armor DR by 1.
+10. **Roll Critical Hits**: Roll 1d6 on the location's Critical Hit Table. (Overkill: +1 die per 5 points of damage over the Armor DR).
+11. **Location Destruction**: If a Critical Hit destroys the Torso/Head, the Frame is destroyed. Severed limbs destroy gear; hits on destroyed limbs transfer to Torso.
 
 ### 4. End Phase
 1. **Bank Energy**: Store unused EP in the Capacitor (up to Capacitor Max). Excess EP is lost.
-2. **Clean Up**: Remove Flanking tokens and decrement cooldowns. Roll 1d6 for each Smoke cloud; dissipates on 1 or 2.
+2. **Clean Up**: Remove Flank Speed tokens and decrement cooldowns. Roll 1d6 for each Smoke cloud; dissipates on 1 or 2.
 
 ---
 
@@ -39,20 +51,35 @@
 | Case | Ruling |
 | :--- | :--- |
 | **Overcharge Allowance** | Whatever was banked in the Capacitor at the start of the turn is the cap on Overcharge EP for that turn. Bank nothing, Overcharge nothing. |
-| **Rapid Fire** | Bypasses Flanking. Cover still applies normally. The entire attack degrades Armor DR by **1 total**, and rolls **one** Critical Hit. |
+| **Damage Overcharge** | **2 EP per additional damage die, max +2d6.** Never a flat bonus — flat damage cannot be rerolled, so it would ignore Flank Speed and Cover entirely. |
+| **Rapid Fire** | Bypasses Flank Speed; Cover still applies. Each **Burst** that puts a die through generates **1 Critical**. Never uses Overkill. The whole attack degrades Armor DR by **1 total**. |
 | **One attack per weapon** | Each mounted weapon fires **once per Combat Phase**, however much EP is left. Fire each of your weapons once, in any order. |
 | **Full Auto** | Maximum **3 Bursts** per attack (One Hit Location). Roll Ammo Die (1d6) after resolving; depletes on 1, 2, or 3. |
-| **Disruptor Cannon** | No damage. Naturally bypasses Flanking, Cover, and DR. Torso hit drains **1d6 EP**; any other location forces a **Critical**. Overcharge does both. |
-| **AoE** | Bypasses Flanking *and* terrain Cover. Armor DR still applies. |
-| **Prone (-1d6)** | Drop one die, keep flat bonuses (Rail Gun becomes 2d6+10). Rapid Fire loses one die per Burst. No effect on the Disruptor or EMP. |
-| **Collision** | Armor DR applies; Flanking does not apply. Both Frames suffer flat damage: Mass Value x Speed. |
-| **Damage Transfer** | Hits on an already-severed limb transfer directly to the Torso. Bypasses Flanking. Compare against Torso Armor DR normally. |
+| **Disruptor Cannon** | No damage. Ignores Armor DR and Flank Speed (still needs LOS + a **Radar** lock). **Every hit** forces 1 Critical on the location rolled **and** drains 1d6 EP. Overcharge (+2 EP): a second Critical. |
+| **AoE** | Bypasses Flank Speed *and* terrain Cover. Armor DR still applies. |
+| **Prone (-1d6)** | Drop one die, keep any flat bonus (Rail Gun becomes 4d6). Rapid Fire loses one die per Burst. No effect on the Disruptor or EMP. |
+| **Collision** | Armor DR applies; Flank Speed does not apply. Both Frames suffer flat damage: Mass Value x Speed. |
+| **Damage Transfer** | Hits on an already-severed limb transfer directly to the Torso. Bypasses Flank Speed. Compare against Torso Armor DR normally. |
 | **High Explosive Incendiary (HEI)** | Adds a flat +1 to any Critical Hit roll generated by this weapon. |
-| **Flares/Chaff** | (Ammo Die: 1d6). Negates one attack on an **IR lock** (Flares) or **Radar lock** (Chaff). |
+| **Flares/Chaff** | (Ammo Die: 1d6, **no EP cost** — they are reactive). Negates one attack on an **IR lock** (Flares) or **Radar lock** (Chaff). Smoke costs 1 EP because you deploy it on your own turn. |
+| **Ammo Die** | Everything runs **Empty permanently**, never reloaded. Autocannon: Empty on **1** (~6 bursts) or **1-3** on Full Auto (~2 barrages). Missiles, Flares, Chaff, Smoke, Jump propellant: Empty on **1-2** (~3 uses). A Frame with no volatile stores left can no longer cook off. |
 
 ---
 
 ## 📡 Sensor, Lock & Stealth Matrix
+
+### Weapon Detection Requirements
+*A weapon cannot fire at all without a lock on its band. Denying a spectrum takes a specific gun off the board.*
+
+| Weapon | Needs | Silenced by |
+| :--- | :---: | :--- |
+| **Laser** | VIS | Smoke and Woods outright; Visual-mode Skin on a Jamming Check |
+| **Thermal Lance** | IR | Flares outright / target running cold; Infrared-mode Skin on a Jamming Check |
+| **Rail Gun** | Radar | Chaff outright; ECM / Microwave-mode Skin on a Jamming Check |
+| **Autocannon** | Any | — (only a total blackout) |
+| **Disruptor Cannon** | **Radar** | Chaff outright; ECM / Microwave-mode Skin on a Jamming Check |
+| **Guided Missiles** | its guidance band | whatever blocks that band |
+
 
 | Defense System / Terrain | Visual (VIS) Locks | Infrared (IR) Locks | Microwave (Radar) Locks |
 | :--- | :--- | :--- | :--- |
@@ -60,9 +87,9 @@
 | **Heavy Woods (2+ hexes)** | **BLOCKED** | **BLOCKED** | *Clear* |
 | **Smoke Screen** | **BLOCKED** | *Clear* | *Clear* |
 | **Active ECM Suite** | *Clear* | *Clear* | **BLOCKED** |
-| **AMC (Visual-Camouflage)** | **BLOCKED** (invisible) | *Clear* | *Clear* |
-| **AMC (IR-Suppression)** | *Clear* | **BLOCKED** | *Clear* |
-| **AMC (Microwave-Absorbent)**| *Clear* | *Clear* | **BLOCKED** |
+| **Adaptive Skin (Visual)** | **BLOCKED** (invisible) | *Clear* | *Clear* |
+| **Adaptive Skin (Infrared)** | *Clear* | **BLOCKED** | *Clear* |
+| **Adaptive Skin (Microwave)**| *Clear* | *Clear* | **BLOCKED** |
 | **Flares Countermeasure** | *Clear* | **Negates the attack** | *Clear* |
 | **Chaff Dispenser** | *Clear* | *Clear* | **Negates the attack** |
 
@@ -87,17 +114,22 @@
 ### Collision & Drop Strikes
 
 **Collisions** (Entering an occupied hex):
-* **Collision Damage**: `Mass Value x Speed` (hexes moved) flat damage. Applied to random location. Flanking does not allow rerolls.
+* **Collision Damage**: `Mass Value x Speed` (hexes moved) flat damage. Applied to random location. Flank Speed does not allow rerolls.
 * **Pilot Check**: Both Frames must roll a Pilot Check (2d6 vs TN 6+) or fall Prone.
 
 **Kinetic Drop Strike** (Jumping onto an occupied hex):
 * **Drop Strike Damage**:
   - **Target Suffers**: `Jumper's Mass Value x Hexes Jumped` flat damage
   - **Jumper Suffers**: Half of target's damage (rounded up).
+* **Location**: Roll **2d6** on the Hit Location Table for each, using the **Front / Rear** column. Armor DR applies; Flank Speed does not.
 * **Pilot Check**: Target falls Prone automatically. Jumper must pass a Pilot Check (2d6 vs TN 6+).
 
+**Falling** (forced off a drop of 2+ Levels):
+* **Damage**: **1d6 per Level fallen, pooled into one roll** (a 3-level drop is one 3d6 roll, not three 1d6 rolls).
+* **Location**: Roll **2d6**, Front / Rear column. Armor DR applies; no Flank Speed rerolls. The Frame lands Prone.
+
 ### Effects of Prone State
-- **Defense**: Cannot gain the Flanking state. Still benefits from Terrain Cover.
+- **Defense**: Cannot gain Flank Speed. Still benefits from Terrain Cover.
 - **Combat**: Cannot torso twist. Suffers a **-1d6 penalty** to all weapon damage rolls.
 - **Maneuvering**: Cannot walk, reverse, or jump. Must **Stand Up** (costs **3 EP**) to resume movement.
 
@@ -135,40 +167,63 @@
 | **11** | Right Leg | Left Arm | Left Leg |
 | **12** | Head (Sensors)** | Head (Sensors)** | Head (Sensors)** |
 
-*\*Torso (Core Critical): Bypasses Torso Armor DR entirely. Immediately roll on the Torso Critical Hit Table.*  
+*\*Torso (Core Critical): Treat Torso Armor DR as **0 for the whole attack** — it penetrates automatically, DR drops by 1, and Overkill is measured against 0. A heavy weapon that finds the core lands several Criticals at once.*  
 *\*\*Head (Sensors): Contains Sensor Suite (blinds Frame on criticals) and cockpit.*
 
 ### 1d6 Critical Hit Tables
+
+**The Severity Ladder** — every table climbs the same rungs, so the same number means the same *kind* of damage wherever it lands:
+
+| 1 | 2 | 3 | 4 | 5 | 6 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Temporary Glitch | System Strain (EP costs) | Performance Degradation | **Structural Fracture (DR → 0)** | Component Loss | Catastrophic Destruction |
+
+*Head stops at 5 — a cockpit hit that climbs that far kills the pilot. Torso runs to 8; slots 7–8 cannot be rolled naturally and are reached only by cascade or HEI's +1.*
 
 **Torso Criticals**
 1. **System Glitch**: Generate 1 less EP next turn.
 2. **Servo Lock**: Torso twists cost 2 EP.
 3. **Capacitor Leak**: Capacitor Max reduced by 2; lose 2 stored EP.
-4. **Heat Sinks Offline**: Cannot Overcharge weapons/systems.
+4. **Structural Fracture**: Torso Armor DR reduced to 0.
 5. **Reactor Damage**: Reactor output permanently reduced by 2 EP/turn.
-6. **Ammo Explosion**: Explosive weapon Empty. Suffer 2 additional Torso Crits.
-7. **Electrical Fire**: Suffer 1 Torso Critical Hit during End Phase.
-8+. **Reactor Melt**: Reactor explodes. Deal 2d6 damage to adjacent hexes. Frame destroyed.
+6. **Ammo Explosion**: Explosive weapon Empty. Suffer 2 additional Torso Crits. *(Slot is always marked; with no explosive ammo remaining, apply Reactor Damage instead.)*
+7. **Electrical Fire**: Suffer 1 Torso Critical Hit each End Phase. Spend 3 EP + roll 4+ to smother, or end an Activation in Water to extinguish it free.
+8+. **Containment Failure**: Capacitor bank discharges through the wreck. 2d6 to adjacent hexes. Frame destroyed.
 
 **Arm Criticals**
 1. **Targeting Jitter**: -1 damage penalty on next attack from this arm.
 2. **Actuator Strain**: Weapons in arm cost +1 EP to fire.
-3. **Servo Failure**: Arm weapons can only fire into Forward Arc.
-4. **Hardpoint Failure**: Roll 1 fewer damage die (min 1) with this arm's weapons.
-5. **Weapon Destroyed / Ammo Cut**: Attacker chooses one weapon in arm; it is destroyed (or feed cut). *(If no weapons, cascades upward).*
+3. **Hardpoint Failure**: Roll 1 fewer damage die (min 1) with this arm's weapons.
+4. **Structural Fracture**: This arm's Armor DR reduced to 0.
+5. **Weapon Destroyed**: Attacker chooses one weapon in arm; it is destroyed. *(Empty arm: slot marked, nothing lost.)*
 6+. **Arm Severed**: All weapons/systems in arm lost.
 
 **Leg Criticals**
-1. **Gyro Glitch**: -1 penalty to Pilot Checks next turn.
-2. **Knee Lock**: Walking/reversing costs +1 EP.
-3. **Hip Actuator**: Movement Limit permanently reduced by 2 hexes.
-4. **Gyro Failure**: Permanent -2 penalty to all Pilot Checks.
-5. **Thruster Wrecked**: Jump Jets disabled. *(If no Jump Jets, cascades upward).*
+1. **Servo Stutter**: Movement Limit -2 until the end of your next activation.
+2. **Knee Lock**: Walking/reversing costs +1 EP per hex.
+3. **Hip Actuator**: Movement Limit permanently reduced by 2 hexes. *(Below the Flank Speed Threshold, the Frame can no longer Flank at all.)*
+4. **Structural Fracture**: This leg's Armor DR reduced to 0.
+5. **Actuator Destroyed**: Falls Prone at once; may only Stand Up with 3 EP **and** a Pilot Check thereafter. Can no longer jump — a Frame launches and lands on its legs.
 6+. **Leg Severed**: Frame falls Prone and is permanently crippled.
 
 **Head (Cockpit) Criticals**
-1. **Datalink Severed / Sensor Scramble**: Lose Datalink. (Or drop all locks and cannot establish locks for 1 round).
-2. **Thermal Sensors Destroyed**: Cannot establish IR locks.
-3. **Radar Destroyed**: Cannot establish Microwave locks.
-4. **Optical Sensors Destroyed**: Cannot establish VIS locks.
+1. **Sensor Ghosting**: Drop all held locks; establish none until the end of your next activation.
+2. **Sensor Calibration Drift**: Pay 1 EP each Energy Phase or establish no locks that turn.
+3. **Sensor Array Destroyed**: Roll 1d6 — **1-2** Thermal (IR), **3-4** Optical (VIS), **5-6** Microwave (Radar). That band is destroyed permanently.
+4. **Structural Fracture**: Head Armor DR reduced to 0, and the Tactical Datalink is severed.
 5+. **Pilot K.O.**: Frame is permanently disabled.
+
+---
+
+## 🎖️ Named Pilot Vows
+
+*A vow binds how a pilot fights and rewards the discipline. Dishonor strips the Initiative bonus, the Pilot Check bonus **and** the Boon, and adds +1 EP to every weapon.*
+
+| Vow | Constraint | Boon |
+| :--- | :--- | :--- |
+| **Courage** (Yuu) | Never Reverse | **+2** to Pilot Checks to avoid falling Prone |
+| **Respect** (Rei) | No Rear-Zone attacks; no indirect fire | **+1** to Crit rolls vs a target's **Front** Hit Zone |
+| **Honor** (Meiyo) | Must engage the higher-tonnage / higher-Initiative foe if you can bear a weapon on it | **+1 damage die** against a Frame that outclasses you |
+| **Mercy** (Jin) | Pull every Head/Torso result while any limb survives (per location on multi-hit attacks) | **+1** to Crit rolls vs **Arms and Legs** |
+| **Honesty** (Makoto) | No Skin, Smoke, Flares, Chaff or ECM — yours or an ally's | Enemy **Adaptive Skins do not function** against your locks |
+| **Loyalty** (Chuugi) | Cannot move away from a more-damaged ally within 3 hexes | Friendlies within 3 hexes force **1 extra reroll** when attacked |

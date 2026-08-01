@@ -5,26 +5,26 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 ---
 
 ## Scenario 0: Trial by Fire (1v1 Introductory)
-**Focus**: Fundamentals — Movement & Facing, Energy Management, Evasion vs. Cover, Kinetic vs. Energy Damage, Point Bids & Advantage Player Tie-Breakers, and Armor DR Degradation.
+**Focus**: Fundamentals — Movement & Facing, Energy Management, Flank Speed vs. Cover, Kinetic vs. Energy Damage, Point Bids & Advantage Player Tie-Breakers, and Armor DR Degradation.
 
 ### Setup
-*   **Point Budget**: 435 Points per player.
+*   **Point Budget**: 460 Points per player.
 *   **Map Size**: 16 x 16 Hexes
 *   **Terrain**: Industrial Sector outskirts (1x Level 1 Central Hill, 2x Light Woods hexes [Light Cover], 2x Level 2 Building Hexes [Solid LOS Block], 1x Shallow Water Hex [+1 EP Reactor Cooling]).
-*   **Player 1 (The Skirmisher)**: 1x **IF-55M-1 "Vanguard"** (430 pts) — *5-Point Bid wins Tactical Advantage! Vanguard is designated Advantage Player.*
-*   **Player 2 (The Phantom)**: 1x **IF-45M-1 "Specter"** (435 pts)
-    *(Alternative Option: Vanguard vs. Vanguard mirror match; points tied at 430 pts, roll 2d6 at setup to determine Advantage Player).*
+*   **Player 1 (The Skirmisher)**: 1x **IF-55M-1 "Vanguard"** (455 pts)
+*   **Player 2 (The Phantom)**: 1x **IF-45M-1 "Specter"** (435 pts) — *a 20-point Point Bid wins the Tactical Advantage; the Specter is the Advantage Player.*
+    *(Alternative Option: Vanguard vs. Vanguard mirror match; points tied at 455 pts, roll 2d6 at setup to determine the Advantage Player).*
 
 ### Testing Parameters (What to look for)
 1.  **Energy Phase & Capacitor Banking**: Does the initial EP allocation feel intuitive for new players? Does banking 1–2 EP in the Capacitor create strategic depth?
-2.  **Point Bid & Advantage Player**: Does the 5-point bid (Vanguard 445 pts vs. Specter 435 pts (Note: Vanguard is now more expensive!)) feel rewarding by granting Advantage Player tie-breaker control?
+2.  **Point Bid & Advantage Player**: The Specter concedes 20 points of hardware to win the Initiative tie-breaker. Both Frames are close in Initiative, so ties are rare — is control of the tie-break alone worth a fifth of a weapon, or should the Advantage also carry a deployment or first-turn benefit?
 3.  **Movement & Facing**: Do players actively use Torso Twisting to align their Forward Arc (Torso) or Arm Arcs with targets while keeping their front armor toward enemy fire?
 4.  **Damage & Armor Degradation**: Does locational Armor DR degradation (reducing DR on penetrating hits) create a satisfying, tangible sensation of dismantling an opponent's chassis?
 
 ---
 
 ## Scenario 1: The Ghost and the Wall (2v2)
-**Focus**: Sensors, Stealth (AMC/ECM), Electronic Warfare, and the Overcharge cooldown economy.
+**Focus**: Sensors, Stealth (Adaptive Skin/ECM), Electronic Warfare, and the Overcharge cooldown economy.
 
 ### Setup
 *   **Map Size**: 24 x 24 Hexes
@@ -37,8 +37,8 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
     *   1x **IF-55M-1 "Vanguard"** (Standard Pilot)
 
 ### Testing Parameters (What to look for)
-1.  **Stealth Balance**: Can the Specter use its AMC Overcharge to effectively stay hidden, or does the 1-turn cooldown leave it too vulnerable to the Colossus's Missiles?
-2.  **ECM Value**: Is the Vanguard's ECM umbrella (Overcharged) enough to protect the Colossus from the Specter's Disruptor Cannon?
+1.  **Stealth Balance**: The Adaptive Skin suppresses one detection band at a time and costs EP every Energy Phase to maintain. Can the Specter pick the right band to stay hidden from the Colossus's Missiles, or does the upkeep starve it of the EP it needs to fire?
+2.  **ECM & the Jamming Check**: The Disruptor now requires a **Radar** lock, and the Vanguard can contest it two ways — Chaff negates a shot outright but there are only about three cartridges, while ECM runs all game for 2 EP but only stops each attack on a **Jamming Check (4+)**. Does the choice between a scarce certainty and an unlimited coin flip actually come up at the table, or does one option dominate? Watch also whether rolling a Jamming Check on every attack slows the turn down noticeably.
 3.  **Vow Check**: Does Lyra's *Vow of Mercy* (forcing her to target limbs before the Torso) make her useless against the Colossus's massive Armor DR, or does the Disruptor Cannon's crit-forcing ability make dismantling the heavy frame viable?
 
 ---
@@ -52,7 +52,7 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 *   **Team A (The Spears)**: 
     *   1x **IF-55M-1 "Vanguard"** (Piloted by **Kenji "Shogun" Takahashi** — Vow of Courage)
     *   1x **IF-75H-1 "Paladin"** 
-    *   1x **IF-25L-1 "Jackal"** (Equipped with Tactical Datalink)
+    *   1x **IF-25L-1 "Jackal"** (Tactical Datalink is standard on every Frame's Head hardpoint)
 *   **Team B (The Blades)**: 
     *   1x **IF-25L-1 "Jackal"** (Piloted by **Kaito Kuroda** — Vow of Respect)
     *   2x **IF-55M-1 "Vanguards"**
@@ -70,7 +70,7 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 
 ### Setup
 *   **Map Size**: 48 x 48 Hexes (Large)
-*   **Terrain**: Open Plains (Clear) with occasional Deep Water features (Costs +2 EP to move through, cannot gain the Flanking state, generates +2 EP cooling) and patches of Light Woods.
+*   **Terrain**: Open Plains (Clear) with occasional Deep Water features (Costs +2 EP to move through, cannot gain Flank Speed, generates +2 EP cooling) and patches of Light Woods.
 *   **Team A (Super-Heavies)**: 
     *   2x **IF-90A-1 "Colossus"** 
     *   1x **IF-75H-1 "Paladin"**
@@ -79,15 +79,15 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
     *   4x **IF-75H-1 "Paladin"**
 
 ### Testing Parameters (What to look for)
-1.  **Rail Gun Viability**: The Colossus's Rail Gun requires a full 6 EP Overcharge to fire. In a massive 4v4 slugfest, does the Colossus survive long enough to spool up and fire the Rail Gun multiple times? Is the 3d6+10 (AP 3) damage fair against the Paladins' heavy armor?
-2.  **Cluster & AoE**: When four Paladins fire cluster and HE missiles into a tightly packed formation, does the AoE splash damage scale too quickly? Does it feel unfair that Flanking is ignored by AoE?
-3.  **Critical Cascade**: With so much heavy firepower on the board, how frequently do Ammo Explosions and Reactor Core Meltdowns happen? If a Colossus's core melts down, does the resulting 2d6 AoE damage wipe out adjacent allies?
-4.  **Armor Degradation**: Is it too hard to strip Armor DR without the old "Sustained Beam" rule, or does the sheer volume of 1d6 Autocannon bursts naturally whittle armor down to 0 fast enough?
+1.  **Rail Gun Viability**: The Colossus's Rail Gun costs 0 EP at base but must Overcharge **+6 EP drawn from the Capacitor** to fire, which forces a 1-turn cooldown between shots. In a massive 4v4 slugfest, does the Colossus survive long enough to bank that charge and fire repeatedly? Is **5d6 at AP 3** fair against the Paladins' heavy armor — note it penetrates every location on every Frame in the game, 100% of the time.
+2.  **Cluster & AoE**: When four Paladins fire cluster and HE missiles into a tightly packed formation, does the AoE splash damage scale too quickly? Does it feel unfair that Flank Speed is ignored by AoE?
+3.  **Critical Cascade**: With so much heavy firepower on the board, how frequently do Ammo Explosions (Torso 6) and Containment Failures (Torso 8) happen? When a Colossus goes up, its Capacitor dumps **2d6 into every adjacent hex** — does that wipe out the allies packed around it, and does it discourage tight formations enough to matter?
+4.  **Armor Degradation**: Armor DR erodes by only 1 per penetrating attack, and a Rapid Fire burst degrades it by 1 in total however many rounds get through. In a four-a-side firefight, does any location actually reach DR 0 before its Frame dies to a critical cascade — and if not, is the DR track doing any work at all?
 
 ---
 
 ## Scenario 4: The Vanguard Swarm (1v4 Asymmetrical)
-**Focus**: Action economy, Initiative manipulation, and the "Death by a thousand cuts" mechanic.
+**Focus**: Action economy, the Initiative deficit of Assault chassis, and the "Death by a thousand cuts" mechanic.
 
 ### Setup
 *   **Map Size**: 24 x 24 Hexes
@@ -98,8 +98,8 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
     *   4x **IF-25L-1 "Jackals"**
 
 ### Testing Parameters (What to look for)
-1.  **Action Economy**: Can a single Assault frame with high Initiative survive against 4 Light frames, or do the Jackals completely dominate the turn sequence?
-2.  **Facing & Arcs**: The Jackals will attempt to stay in the Colossus's Rear Arc to bypass its massive frontal armor. Can the Colossus pivot enough to defend its rear? 
+1.  **Action Economy**: The Colossus has the **lowest Initiative in the game (3, or 5 under Takahashi)** against four Jackals at 12 — it acts last in Combat every single turn, and can never reach Flank Speed. Can it survive four Light frames on armor alone, or do the Jackals simply dominate the turn sequence?
+2.  **Facing & Arcs**: Armor DR is not directional and the Rear Hit Zone uses the same column as the Front, so there is no softer armor to find. The prize is that **no weapon can fire into the Rear Arc at all** — a Jackal sitting behind the Colossus cannot be shot until the Colossus spends 1 EP per 60 degrees to pivot. With four Jackals circling, can it ever turn fast enough to bring a gun to bear? 
 3.  **The Autocannon Threat**: Jackals rely heavily on AP Autocannons. Are Autocannons enough to chew through a Colossus's heavy armor, or will they roll their Ammo Die and jam before the Colossus falls?
 
 ---
@@ -122,7 +122,7 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 ---
 
 ## Scenario 6: The Scout Skirmish (1v1 Light Class)
-**Focus**: Flanking, Jump Jets, and fragile Armor DR.
+**Focus**: Flank Speed, Jump Jets, and fragile Armor DR.
 
 ### Setup
 *   **Map Size**: 18 x 18 Hexes
@@ -133,7 +133,7 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
     *   1x **IF-25L-1 "Jackal"** (Standard Pilot)
 
 ### Testing Parameters (What to look for)
-1.  **Evasion vs Accuracy**: When both frames are constantly gaining the Flanking state per turn and jumping from rooftop to rooftop, is it too hard to land hits, or do the lock-on mechanics keep the fight moving?
+1.  **Flank Speed vs Accuracy**: Flank Speed grants the defender one forced reroll of an attacker's damage die, and a Jump Jet flight of 2+ hexes grants it regardless of distance moved. When both Frames jump rooftop to rooftop every turn, is one reroll enough to matter against 2d6 weapons, or do the lock-on mechanics keep the fight moving?
 2.  **Lethality**: With only Light Armor DR, does the first frame to land a solid hit automatically win, or is there room for a comeback?
 
 ---
