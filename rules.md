@@ -958,7 +958,7 @@ Every Named Pilot is sworn to a specific vow under the Iron Protocol, reflecting
 ##### Vow of Honesty (Makoto)
 *“Deception is a crutch. I will stand in the light and let them witness their end.”*
 - **The Constraint**: The pilot may not use **any system whose purpose is to deceive a sensor** — an Adaptive Skin, Smoke Launcher, Flare Launcher or Chaff Dispenser — nor may they activate ECM, nor benefit from the umbrella of allied ECM or Smoke. *An allied ECM bubble does not switch off around them — instead, an honest pilot's Frame is simply always considered detectable on the Microwave (Radar) spectrum while inside it, and enemies may always establish Visual locks through allied Smoke to reach them.*
-- **The Boon**: A pilot who has never hidden has spent that time learning to see. **Enemy Adaptive Skins do not function against this pilot's locks** — they may target a Frame on any spectrum its Skin is suppressing, as though the system were inactive.
+- **The Boon**: A pilot who has never hidden has spent that time learning to see. **No sustained jamming suite functions against this pilot's locks.** Neither an enemy **Adaptive Skin** nor an **ECM** umbrella forces a Jamming Check against their attacks — they may target a Frame on any spectrum its Skin is suppressing or its ECM is contesting, as though the system were switched off. *(Chaff, Flares and Smoke are physical countermeasures, not jamming, and negate this pilot's attacks normally.)*
 - **Dishonor Penalty**: The pilot is dishonored (see standard penalty).
 
 ##### Vow of Loyalty (Chuugi)
