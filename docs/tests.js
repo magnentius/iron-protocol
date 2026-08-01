@@ -801,6 +801,27 @@ export function run({ describe, it, eq, ok }) {
     eq([r.banked, r.vented, f.capacitor, f.ep], [3, 5, 3, 0]);
   });
 
+  it('empties the pool whether the EP was banked or vented', () => {
+    const under = frame('jackal', { ep: 2 });   // fits in the capacitor
+    const over = frame('jackal', { ep: 8 });    // does not
+    R.endPhase(under); R.endPhase(over);
+    eq([under.ep, under.capacitor, over.ep, over.capacitor], [0, 2, 0, 3]);
+  });
+
+  it('reports the pool it started from, so the log can show the transfer', () => {
+    const f = frame('vanguard', { ep: 4 });
+    const r = R.endPhase(f);
+    eq([r.pool, r.banked, r.vented], [4, 4, 0]);
+  });
+
+  it('a Capacitor Leak from the End Phase fire shrinks the bank that same phase', () => {
+    // Torso crit 3 is Capacitor Leak: max drops 2, so less banks and more vents.
+    const f = frame('vanguard', { ep: 99, electricalFire: true });
+    const before = R.effectiveCapacitorMax(f);
+    const r = R.endPhase(f, { rng: seq(3) });
+    eq([r.capMax, f.capacitor], [before - 2, before - 2]);
+  });
+
   it('clears Flank Speed and one-turn effects', () => {
     const f = frame('vanguard', { flankSpeed: true, servoStutter: true, hexesMoved: 5 });
     R.endPhase(f);

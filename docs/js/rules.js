@@ -894,7 +894,7 @@ export function pilotCheck(frame, { modifier = 0, rng = Math.random, forcedRoll 
 // --- End Phase (rules.md 2.4) ----------------------------------------------
 
 export function endPhase(frame, { rng = Math.random } = {}) {
-  const report = { banked: 0, vented: 0, capMax: 0, fire: null, steps: [] };
+  const report = { pool: 0, banked: 0, vented: 0, capMax: 0, fire: null, steps: [] };
 
   // An Electrical Fire burns before anything is tidied away.
   if (frame.electricalFire && !isDestroyed(frame)) {
@@ -902,13 +902,20 @@ export function endPhase(frame, { rng = Math.random } = {}) {
     report.steps.push('Electrical Fire: 1 Torso Critical');
   }
 
+  // Read the cap *after* the fire: an Electrical Fire that rolls Capacitor Leak
+  // shrinks the maximum this very phase, so less is banked and more is vented.
   const capMax = effectiveCapacitorMax(frame);
-  const banked = Math.min(capMax, frame.ep || 0);
+  const pool = frame.ep || 0;
+  const banked = Math.min(capMax, pool);
   report.capMax = capMax;
+  report.pool = pool;
   report.banked = banked;
-  report.vented = Math.max(0, (frame.ep || 0) - banked);
+  report.vented = Math.max(0, pool - banked);
+  report.steps.push(`${banked} EP stored in Capacitor (max ${capMax})`);
   if (report.vented) report.steps.push(`${report.vented} EP vented`);
 
+  // Unused energy moves left into the Capacitor; the pool always ends empty,
+  // whether it was banked or vented (rules.md 2.4).
   frame.capacitor = banked;
   frame.ep = 0;
   frame.epSpentThisTurn = 0;

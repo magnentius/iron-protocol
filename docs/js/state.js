@@ -312,8 +312,15 @@ export function advancePhase() {
         if (report.fire) {
           logFrame(frame, 'Electrical Fire burns: 1 Torso Critical');
         }
-        if (report.vented > 0) {
-          logFrame(frame, `Banked ${report.banked} EP, vented ${report.vented} (Capacitor max ${report.capMax})`);
+        // Always logged, not only when something is vented. Energy moving out of
+        // the pool and into the Capacitor is the End Phase's whole job, and a
+        // player checking why they have 5 EP banked needs to see where it came
+        // from — a silent transfer reads as EP going missing.
+        if (report.pool > 0) {
+          const vented = report.vented > 0 ? `, vented ${report.vented}` : '';
+          logFrame(frame, `End Phase: ${report.pool} EP unused → ${report.banked} to Capacitor (max ${report.capMax})${vented} · pool emptied`);
+        } else {
+          logFrame(frame, 'End Phase: pool already empty, nothing to store');
         }
       }
       b.round += 1;
