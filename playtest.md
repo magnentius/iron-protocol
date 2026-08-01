@@ -157,3 +157,57 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 ### Testing Parameters (What to look for)
 1.  **Weapon Matchup**: The Colossus relies on slow, massive hits (Rail Gun/Thermal Lance), while the Paladin relies on a mix of missiles and Autocannons. Which damage philosophy strips armor and destroys components faster in a pure 1v1 slugfest?
 2.  **Critical Thresholds**: Does the Colossus's sheer Armor DR make it immune to critical hits for too long, or does the Paladin's Autocannon trigger criticals reliably once armor is breached?
+
+---
+
+## Scenario 8: The Shattered Mesa (1v1 Element, Vertical Warfare)
+**Focus**: Elevation & Line of Sight math, Jump Jets and propellant, Kinetic Drop Strikes, Collisions & Ramming, Falling Damage, and recovery from the Prone state.
+
+*This scenario exists because the entire physical-impact subsystem — collisions, drop strikes and falls — is untouched by every other scenario in this document. None of it can be exercised on a flat map.*
+
+### Setup
+*   **Map Size**: 20 x 20 Hexes
+*   **Terrain**: A shattered mesa complex. Roughly a third of the map is **Level 0** canyon floor, a third **Level 2** mesa top, and the remainder **Level 1** ramps and shelves, with two isolated **Level 3** spires reachable only by Jump Jet. Scatter 3 hexes of Light Woods and 1 of Heavy Woods across the mesa tops, and run a **Deep Water** channel along the canyon floor. Cliff faces of 2+ Levels are impassable on foot.
+*   **Team A (The Climbers) — 820 pts**:
+    *   1x **IF-45M-1 "Specter"**, refit with **Jump Jets** in a spare Light Torso hardpoint — **455 pts** *(the Adaptive Skin occupies the Medium mount; one Light hardpoint remains free)*
+    *   1x **IF-25L-1 "Jackal"** — 365 pts
+*   **Team B (The Ground Game) — 820 pts**:
+    *   1x **IF-55M-1 "Vanguard"** — 455 pts *(its Torso is full — ECM, Flares and Chaff — so it **cannot** mount Jump Jets and must take the long way round)*
+    *   1x **IF-25L-1 "Jackal"** — 365 pts
+
+> *Points are exactly level. The asymmetry is mobility: Team A can put two Frames on a spire, Team B only one. Whether that is worth anything is the scenario's central question.*
+
+### Testing Parameters (What to look for)
+1.  **Does the LOS math survive contact?**: `LOS Blocked if Y ≥ min(A + 2, B + 2)` (§3.4), plus canopy height adding +1 Level for Light Woods and +2 for Heavy on **Visual only**. With three elevation bands and two spires in play, is this resolvable in a few seconds, or does every shot become an argument? This is the most computation the rules ask of a player.
+2.  **Is a Kinetic Drop Strike ever worth taking?**: damage is `Mass Value × Hexes Jumped`, so a Jackal's very best effort is **4 flat** — which bounces off every location on a Vanguard and most of a Jackal. Only the Specter, at Mass 2, reaches a meaningful **8**. Against that, the jumper takes **half the damage itself**, and the defender then **slides the jumper into any adjacent hex they choose**. Does anyone ever elect to do this, and if not, should Heavy and Assault Frames — who cannot jump at all — be the only chassis for whom it would have worked?
+3.  **Falling Damage**: a forced fall of 2+ Levels rolls **1d6 per Level as one pooled roll** against a random location. Does a 3-Level drop (3d6) feel appropriately dangerous, and does the pooling rule read clearly at the table?
+4.  **Collisions in a canyon**: confined floors make blocking and ramming likely. `Collision Damage = Mass Value × Speed`, both Frames take it, and both then make a Pilot Check. Does a light Frame ever profitably body-block a heavier one, given it suffers the same flat damage?
+5.  **Getting back up**: failed landings are the main source of Prone in this scenario. Is **3 EP and a Pilot Check** a fair price to stand, and does the terrain modifier (Rough −1, Deep Water −1, Paved +1) meaningfully change where a pilot chooses to land?
+6.  **Are Jump Jets worth 20 pts?**: they cost a Light Torso hardpoint, 2 EP per hex, and run dry on an Ammo Die after roughly three jumps. Weigh Team A's vertical reach against Team B's spare hardpoint and unspent EP.
+
+---
+
+## Scenario 9: Salvage Rights (1v1 Mirror, Damaged Frames)
+**Focus**: Damage Transfer (blow-through), the Prone state and standing up, Electrical Fire, and the permanent critical effects that accumulate late in a battle.
+
+*Every other scenario starts with undamaged Frames and most end before the deepest critical slots are reached. This one starts where those battles finish. Simulation across 32,000 battles found Electrical Fire occurring in **93%** of them, a severed arm in **66%**, and a severed or destroyed leg in about **50%** — none of which any other scenario is written to test.*
+
+### Setup
+*   **Map Size**: 16 x 16 Hexes
+*   **Terrain**: An industrial ruin — Paved streets, scattered Rough rubble, two Level 2 Buildings, and a **Shallow Water** drainage channel running the width of the map. *(The channel is not decoration: a Frame that ends its Activation in water extinguishes an Electrical Fire automatically, with no EP cost and no roll.)*
+*   **Both Players**: 1x **IF-75H-1 "Paladin"** — 555 pts. Points are tied, so roll 2d6 at setup to determine the Advantage Player.
+*   **Starting Damage — apply identically to both Frames before the first Energy Phase**:
+    *   **Left Arm**: slots 1–6 marked. The arm is **severed**; its Autocannon is gone, and any future hit rolled on that location **transfers to the Torso**.
+    *   **Torso**: slots 1–4 marked. Torso **Armor DR is 0** (Structural Fracture), Capacitor Max is permanently **−2** (Capacitor Leak), and Torso Twists cost 2 EP (Servo Lock).
+    *   **Right Leg**: slot 5 marked — **Actuator Destroyed**. Both Frames therefore **begin the battle Prone**.
+    *   **Head**: slot 3 marked — **Sensor Array Destroyed**. Each player rolls 1d6 at setup to determine which band they have lost (1–2 IR, 3–4 VIS, 5–6 Radar).
+    *   Right Arm (Rail Gun), Left Leg and all Torso launchers are **undamaged**.
+
+> *Note the Rail Gun tension this creates. Firing it demands a 6 EP Overcharge drawn from the Capacitor — and Capacitor Leak has cut the Paladin's maximum from 8 to exactly **6**. The gun still works, but only if the pilot banks a full capacitor and spends none of it on anything else.*
+
+### Testing Parameters (What to look for)
+1.  **Blow-through onto bare metal**: with the Left Arm gone, roughly a quarter of all incoming hit rolls transfer to a Torso that has **no armor left**. Is a wrecked Frame simply dead the moment its opponent starts rolling, or does the Torso's remaining critical ladder (slots 5–8) give it a real fight?
+2.  **Standing up — and a rules question worth settling**: both Frames start Prone from an **Actuator Destroyed** leg. §6.2 says such a Frame stands "exactly as a Frame with a severed leg", but the Pilot Check table's **−2 penalty is written for a *severed* Leg** specifically. **Does the −2 apply here?** Play it both ways if you can: at 72% a Frame rises reliably, at 42% it usually does not, and that difference decides whether either pilot ever gets off the ground.
+3.  **Electrical Fire**: it will almost certainly come up. Is **3 EP plus a 4+** a fair price to smother, or is walking into the drainage channel — free, automatic, no roll — so obviously better that the EP option is never taken? If the water is strictly superior, the smothering rule may not be earning its place.
+4.  **Living with permanent effects**: Capacitor Leak, Servo Lock and a dead sensor band are all in play from turn one. Does tracking them feel manageable on paper, and do they change decisions, or are they forgotten by turn three? *(This is the single strongest argument for the Battle Tracker, so it is worth knowing how bad it is without one.)*
+5.  **Is a wreck worth fighting?**: §6.5.4 argues that a crippled Frame is "still a Rail Gun platform… dangerous to approach, trivial to walk away from." Test that claim. Would a player in a larger battle keep this Frame in the fight, or write it off and spend their attention elsewhere?
