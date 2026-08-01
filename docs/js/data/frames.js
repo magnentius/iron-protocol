@@ -245,6 +245,8 @@ export function instantiate(presetKey) {
     flankSpeed: false,
     terrain: 'clear',
     prone: false,
+    torsoFacing: 'center',        // relative to Leg Facing (rules.md 1.2)
+    torsoTwistedThisTurn: false,  // once per activation
     destroyed: false,
 
     // sustained systems

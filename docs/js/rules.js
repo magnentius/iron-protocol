@@ -153,6 +153,7 @@ export function energyPhase(frame, { terrain = frame.terrain } = {}) {
   frame.epSpentThisTurn = Math.max(0, upkeep - (frame.adaptiveSkinActive ? 2 : 0));
   frame.hexesMoved = 0;
   frame.flankSpeed = false;
+  frame.torsoTwistedThisTurn = false;
   report.steps.push(`Pool ${frame.ep} EP · Overcharge Allowance ${frame.overchargeAvailable} EP`);
   return report;
 }
@@ -206,6 +207,55 @@ export function movementBlockedReason(frame, action, { terrain = frame.terrain, 
     return `Movement Limit ${effectiveMovementLimit(frame)} reached`;
   }
   return null;
+}
+
+/**
+ * Torso Facing (rules.md 1.2) is tracked relative to Leg Facing, which is how a
+ * player thinks about it at the table: the torso is twisted left, centred, or
+ * twisted right. It decides every firing arc (1.3) and the attacker's Hit Zone
+ * against this frame (1.4).
+ */
+export const TORSO_FACINGS = ['left', 'center', 'right'];
+
+export function torsoTwistBlockedReason(frame) {
+  if (isDestroyed(frame)) return 'Frame destroyed';
+  if (frame.prone) return 'A Prone Frame cannot twist its torso';
+  if (frame.torsoTwistedThisTurn) return 'Already twisted this activation';
+  return null;
+}
+
+/**
+ * Twist the torso to a facing. Free, unless a Servo Lock critical has been taken,
+ * and only once per activation — it happens after all movement is complete.
+ */
+export function twistTorso(frame, facing, { rng = Math.random } = {}) {
+  if (!TORSO_FACINGS.includes(facing)) throw new Error(`Unknown torso facing: ${facing}`);
+  const blocked = torsoTwistBlockedReason(frame);
+  if (blocked) return { ok: false, reason: blocked };
+  if (facing === (frame.torsoFacing || 'center')) {
+    return { ok: false, reason: 'The torso is already facing that way' };
+  }
+  const cost = movementCost(frame, 'torsoTwist');
+  if ((frame.ep || 0) < cost) return { ok: false, reason: `Needs ${cost} EP, has ${frame.ep || 0}` };
+  if (cost) spendEP(frame, cost);
+  const from = frame.torsoFacing || 'center';
+  frame.torsoFacing = facing;
+  frame.torsoTwistedThisTurn = true;
+  return { ok: true, cost, from, to: facing };
+}
+
+/** Which hexsides a weapon can reach, given where the torso is pointing. */
+export function weaponArc(frame, weapon) {
+  const facing = frame.torsoFacing || 'center';
+  const arm = weapon.loc === 'leftArm' ? 'left' : weapon.loc === 'rightArm' ? 'right' : null;
+  const forward = { left: 'Front-Left, Front, Front-Right (twisted left)',
+                    center: 'Front-Left, Front, Front-Right',
+                    right: 'Front-Left, Front, Front-Right (twisted right)' }[facing];
+  if (!arm) return { arcs: forward, note: 'Torso mounts are a fixed forward battery — 3 hexsides.' };
+  return {
+    arcs: `${forward}, plus the ${arm === 'left' ? 'Left-Rear' : 'Right-Rear'} hexside`,
+    note: 'Arm mounts traverse: 4 of the 6 hexsides. Only arms can engage a target on the flank.',
+  };
 }
 
 export function performMovement(frame, action, opts = {}) {
@@ -846,6 +896,7 @@ export function endPhase(frame, { rng = Math.random } = {}) {
   frame.epSpentThisTurn = 0;
   frame.flankSpeed = false;
   frame.hexesMoved = 0;
+  frame.torsoTwistedThisTurn = false;
   frame.servoStutter = false;   // lasts one turn
   frame.locksDropped = false;   // Sensor Ghosting clears
   frame.sensorsScrambled = false;

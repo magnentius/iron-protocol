@@ -105,6 +105,8 @@ export function statusChips(frame) {
   if (frame.datalinkSevered) chips.push(chip('No Datalink', 'warn'));
   if (frame.jumpJetsEmpty) chips.push(chip('Propellant dry', 'warn'));
   if (frame.dishonored) chips.push(chip('Dishonored', 'danger'));
+  const facing = frame.torsoFacing || 'center';
+  if (facing !== 'center') chips.push(chip(`Torso twisted ${facing}`, 'accent'));
   if (frame.terrain !== 'clear') chips.push(chip(TERRAIN[frame.terrain].name));
   return chips.length ? `<div class="row wrap" style="gap:.3rem;margin-top:.5rem">${chips.join('')}</div>` : '';
 }
@@ -290,6 +292,7 @@ function weaponCard(frame, weapon) {
             ${weapon.empty ? 'Empty' : 'Loaded'}
           </button>
         </div>` : `<div class="tiny dim" style="margin-top:.4rem">Ammunition: infinite</div>`}
+      <div class="tiny dim" style="margin-top:.4rem">Arc: ${esc(R.weaponArc(frame, weapon).arcs)}</div>
       ${blocked && !weapon.destroyed ? `<div class="tiny" style="color:var(--warn);margin-top:.4rem">${esc(blocked)}</div>` : ''}
     </div>`;
 }

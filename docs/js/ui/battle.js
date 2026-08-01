@@ -118,6 +118,32 @@ function frameCard(frame, position, battle) {
     </div>`;
 }
 
+/**
+ * Torso Facing (rules.md 1.2). Set at the very end of the activation, after all
+ * movement, and only once — so this is three states rather than a verb, and it
+ * locks after use. Free unless a Servo Lock critical has been taken.
+ */
+function torsoTwistRow(frame) {
+  const facing = frame.torsoFacing || 'center';
+  const cost = R.movementCost(frame, 'torsoTwist');
+  const blocked = R.torsoTwistBlockedReason(frame);
+  const LABELS = { left: '← Left', center: '↑ Centre', right: 'Right →' };
+
+  return `
+    <div class="row between tiny dim" style="margin-bottom:.3rem">
+      <span>Torso facing${cost ? ` — ${cost} EP, Servo Lock` : ' — free'}</span>
+      <span>${blocked ? esc(blocked) : 'once per activation'}</span>
+    </div>
+    <div class="row" style="gap:.35rem;margin-bottom:.55rem">
+      ${['left', 'center', 'right'].map((dir) => `
+        <button class="btn sm grow ${facing === dir ? 'primary' : ''}"
+          data-action="twist" data-frame="${frame.id}" data-facing="${dir}"
+          ${blocked || facing === dir || cost > frame.ep ? 'disabled' : ''}>
+          ${LABELS[dir]}
+        </button>`).join('')}
+    </div>`;
+}
+
 function movementPanel(frame) {
   const limit = R.effectiveMovementLimit(frame);
   const actions = [
@@ -126,7 +152,6 @@ function movementPanel(frame) {
     { action: 'pivot', label: 'Pivot' },
     { action: 'jump', label: 'Jump' },
     { action: 'standUp', label: 'Stand Up' },
-    { action: 'torsoTwist', label: 'Torso Twist' },
   ];
 
   return `
@@ -135,6 +160,7 @@ function movementPanel(frame) {
         <span>Movement ${frame.hexesMoved}/${limit} hexes</span>
         <span>${frame.ep} EP available</span>
       </div>
+      ${torsoTwistRow(frame)}
       <div class="row wrap" style="gap:.35rem">
         ${actions.map((a) => {
           const blocked = R.movementBlockedReason(frame, a.action, { hexes: 1 });
@@ -195,6 +221,17 @@ export function handle(action, el) {
       setOpenFrame(null);
       switchTab('frames');
       return true;
+
+    case 'twist': {
+      const frame = getFrame(frameId);
+      const facing = el.dataset.facing;
+      const result = mutate(() => R.twistTorso(frame, facing));
+      if (!result.ok) { toast(result.reason, 'error'); return true; }
+      const NAME = { left: 'left', center: 'centre', right: 'right' };
+      mutate(() => logFrame(frame, `Torso twisted ${NAME[result.from]} → ${NAME[result.to]}${result.cost ? ` (${result.cost} EP, Servo Lock)` : ''}`));
+      toast(`Torso now facing ${NAME[facing]}`, 'ok');
+      return true;
+    }
 
     case 'move': {
       const frame = getFrame(frameId);

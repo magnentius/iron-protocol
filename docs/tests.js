@@ -569,6 +569,66 @@ export function run({ describe, it, eq, ok }) {
     ok(R.movementBlockedReason(f, 'walk').includes('Movement Limit'));
   });
 
+  // --- Torso Facing (rules.md 1.2, 1.3, 2.2) --------------------------------
+  describe('Torso Facing');
+
+  it('a fresh Frame is centred', () => {
+    eq(instantiate('vanguard').torsoFacing, 'center');
+  });
+
+  it('twisting actually changes the facing', () => {
+    const f = frame('vanguard', { ep: 10 });
+    const r = R.twistTorso(f, 'left');
+    eq([r.ok, r.from, r.to, f.torsoFacing], [true, 'center', 'left', 'left']);
+  });
+
+  it('is free until a Servo Lock critical', () => {
+    const f = frame('vanguard', { ep: 10 });
+    eq(R.movementCost(f, 'torsoTwist'), 0);
+    R.applyCrit(f, R.rollCrit(f, 'torso', { forcedRoll: 2 }));
+    eq([f.servoLock, R.movementCost(f, 'torsoTwist')], [true, 2]);
+  });
+
+  it('a Servo Locked twist actually costs the 2 EP', () => {
+    const f = frame('vanguard', { ep: 10, servoLock: true });
+    R.twistTorso(f, 'right');
+    eq(f.ep, 8);
+  });
+
+  it('only once per activation', () => {
+    const f = frame('vanguard', { ep: 10 });
+    eq(R.twistTorso(f, 'left').ok, true);
+    const second = R.twistTorso(f, 'right');
+    eq([second.ok, f.torsoFacing], [false, 'left'], 'the second twist is refused');
+    ok(second.reason.includes('Already twisted'));
+  });
+
+  it('the allowance comes back next turn', () => {
+    const f = frame('vanguard', { ep: 10 });
+    R.twistTorso(f, 'left');
+    R.endPhase(f);
+    R.energyPhase(f);
+    eq(R.twistTorso(f, 'center').ok, true);
+  });
+
+  it('twisting to the facing it already has is refused', () => {
+    const f = frame('vanguard', { ep: 10 });
+    eq(R.twistTorso(f, 'center').ok, false);
+  });
+
+  it('a Prone Frame cannot twist', () => {
+    const f = frame('vanguard', { ep: 10, prone: true });
+    eq(R.twistTorso(f, 'left').ok, false);
+  });
+
+  it('arms cover four hexsides, torso mounts only three', () => {
+    const f = frame('paladin');
+    const arm = f.weapons.find((w) => w.loc === 'leftArm');
+    const torso = f.weapons.find((w) => w.loc === 'torso');
+    ok(R.weaponArc(f, arm).arcs.includes('Left-Rear'), 'an arm reaches its own flank');
+    ok(!R.weaponArc(f, torso).arcs.includes('Rear'), 'a torso battery is fixed forward');
+  });
+
   // --- Pilot Checks (rules.md 6.4) ------------------------------------------
   describe('Pilot Checks');
 
