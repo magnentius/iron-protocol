@@ -191,8 +191,10 @@ export function movementBlockedReason(frame, action, { terrain = frame.terrain, 
   if (severedLeg && moving) return 'Crippled — can never walk, reverse or jump again';
   if (frame.prone && moving) return 'Prone — must Stand Up first';
   if (action === 'jump') {
-    if (!frame.systems?.jumpJets) return 'No Jump Jets mounted';
+    // Report the restriction that cannot be fixed before the one that can:
+    // an Assault chassis is not missing jets, it may never mount them at all.
     if (!JUMP_CAPABLE_CLASSES.includes(frame.weightClass)) return 'Heavy and Assault chassis can never jump';
+    if (!frame.systems?.jumpJets) return 'No Jump Jets mounted';
     if (frame.jumpJetsEmpty) return 'Jump Jet propellant is dry';
     if (hasCrippledLeg(frame)) return 'A Frame launches and lands on its legs';
   }
