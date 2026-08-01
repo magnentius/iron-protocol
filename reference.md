@@ -136,7 +136,7 @@
 ### Severed Leg (Crippled Frames)
 - **Falls Prone immediately** — no Pilot Check is allowed, the limb is gone.
 - **May still fight**, at the Prone penalties above.
-- **May attempt to Stand Up**: 3 EP **and a Pilot Check at −2** (a severed leg penalises every Pilot Check). Success sheds every Prone penalty (full damage dice, torso twist restored). Failure keeps it down and the 3 EP is spent anyway.
+- **May attempt to Stand Up**: 3 EP **and a Pilot Check at −2** (a crippled leg — severed *or* Actuator Destroyed — penalises every Pilot Check). Success sheds every Prone penalty (full damage dice, torso twist restored). Failure keeps it down and the 3 EP is spent anyway.
 - **Never walks, reverses or jumps again**, standing or not. Pivot only, at **3 EP** per 60°.
 - **Both legs gone = Frame destroyed.**
 
@@ -203,7 +203,7 @@
 2. **Knee Lock**: Walking/reversing costs +1 EP per hex.
 3. **Hip Actuator**: Movement Limit permanently reduced by 2 hexes. *(Below the Flank Speed Threshold, the Frame can no longer Flank at all.)*
 4. **Structural Fracture**: This leg's Armor DR reduced to 0.
-5. **Actuator Destroyed**: Falls Prone at once; may only Stand Up with 3 EP **and** a Pilot Check thereafter. Can no longer jump — a Frame launches and lands on its legs.
+5. **Actuator Destroyed**: Falls Prone at once; may only Stand Up with 3 EP **and** a Pilot Check thereafter, at **−2** exactly as a severed leg. Can no longer jump — a Frame launches and lands on its legs.
 6+. **Leg Severed**: Frame falls Prone and is permanently crippled.
 
 **Head (Cockpit) Criticals**

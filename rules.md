@@ -706,7 +706,7 @@ The Head table stops at 5, because a cockpit hit that reaches the top kills the 
 - **2: Knee Lock**. Walking and reversing cost +1 EP per hex.
 - **3: Hip Actuator**. The Frame's Movement Limit is permanently reduced by 2 hexes. *(A Frame whose Movement Limit falls below the Flank Speed Threshold can no longer gain Flank Speed at all.)*
 - **4: Structural Fracture**. This leg's Armor DR is permanently reduced to **0**.
-- **5: Actuator Destroyed**. The leg's drive assembly fails. The Frame immediately falls **Prone**, and from now on may only Stand Up by spending **3 EP** and passing a **Pilot Check**, exactly as a Frame with a severed leg (see Section 6.5.4). It also **can no longer jump** — the thrusters may be intact, but a Frame launches and lands on its legs, and these will no longer take the load.
+- **5: Actuator Destroyed**. The leg's drive assembly fails. The Frame immediately falls **Prone**, and from now on may only Stand Up by spending **3 EP** and passing a **Pilot Check**, exactly as a Frame with a severed leg (see Section 6.5.4). A dead actuator is as bad as a missing limb for balance: the Frame carries the same **−2 penalty to every Pilot Check** that a severed leg imposes (see Section 6.4). It also **can no longer jump** — the thrusters may be intact, but a Frame launches and lands on its legs, and these will no longer take the load.
 - **6+: Leg Severed**. The leg is destroyed outright. The Frame falls Prone immediately and is permanently crippled (see Section 6.5.4). It may fight on, and may attempt to haul itself upright, but it will never walk again.
 
 ### 6.3 Falling and the Prone State
@@ -724,7 +724,7 @@ The following modifiers apply to every Pilot Check, cumulatively:
 | Standing in **Paved** terrain | +1 |
 | Standing in **Rough** terrain | −1 |
 | Standing in **Deep Water** | −1 |
-| Fighting on a **severed Leg** | −2 |
+| Fighting on a **crippled Leg** — severed, or Actuator Destroyed | −2 |
 
 The following modifiers apply only to the check they are named for:
 
@@ -740,7 +740,7 @@ A Frame must make a Pilot Check in the following situations:
   - *Jump Jet Landing*: Required when landing in Rough, Deep Water, a Building Roof, or Woods (see the Jump Jet Terrain Landing Table).
   - *Kinetic Drop Strike*: The **Target Frame** is automatically knocked Prone with no check. The **Jumping Frame** checks on landing, adding its Mass Value and subtracting the number of hexes jumped.
   - *Leg Severed*: A Frame automatically falls Prone if a leg is severed (no check allowed).
-- **Standing on a Severed Leg**: A crippled Frame attempting to Stand Up must pass a Pilot Check to rise (see Section 6.5.4). The 3 EP is spent whether it succeeds or fails.
+- **Standing on a Crippled Leg**: A Frame with a leg that has been **severed** or suffered **Actuator Destroyed** must pass a Pilot Check to rise (see Section 6.5.4), at the −2 both wounds impose. The 3 EP is spent whether it succeeds or fails.
 - **Fighting Through Sensor Scrambles**:
   - *EMP Recovery*: If a Frame's sensors are scrambled by an EMP, the pilot must pass a Pilot Check (2d6) to establish a VIS, IR, or Radar lock. Failure means the lock cannot be established.
 
@@ -769,7 +769,7 @@ If an Arm is destroyed, it is severed and blown off.
 If a Leg is destroyed, it is blown off.
 *   **Immediate Fall**: The Frame immediately falls **Prone**. No Pilot Check is permitted; the limb is gone and no amount of skill keeps the machine upright.
 *   **Fighting From the Ground**: A crippled Frame is not out of the battle. It may still fire every weapon it has, subject to the standard Prone penalties in Section 6.4.
-*   **Hauling Itself Upright**: A Frame with one severed leg **may attempt to Stand Up**, balancing on its remaining leg and gyro. This costs the usual **3 EP** and requires a **Pilot Check**, taken at the standing **−2 penalty a severed leg imposes on every check** (see Section 6.4) — an unaided pilot succeeds a little over 40% of the time, so getting a crippled Frame back on its foot is a real gamble, and an ace's bonus is worth a great deal here:
+*   **Hauling Itself Upright**: A Frame with one severed leg **may attempt to Stand Up**, balancing on its remaining leg and gyro. This costs the usual **3 EP** and requires a **Pilot Check**, taken at the standing **−2 penalty a crippled leg imposes on every check** (see Section 6.4) — an unaided pilot succeeds a little over 40% of the time, so getting a crippled Frame back on its foot is a real gamble, and an ace's bonus is worth a great deal here:
     - *Success (6+)*: The Frame rises. It is standing, and immediately sheds every Prone penalty — it regains its full damage dice and may torso twist again. Set its Leg Facing to any direction for free.
     - *Failure (< 6)*: The Frame slips back down. The 3 EP is spent regardless, and it may try again on a later activation.
     - A standing crippled Frame that is knocked down again (by a collision, a Drop Strike, or a second leg wound) must repeat the attempt.
