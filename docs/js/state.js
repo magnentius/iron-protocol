@@ -4,11 +4,17 @@
 // with sync switched off; sync.js mirrors this state to Firebase when a room is
 // joined. Rendering always reads from here, never from the network.
 
-import { FRAME_PRESETS, getPreset } from './data/frames.js';
-import { LOCATIONS, WEAPONS } from './data/tables.js';
-import { effectiveCapacitorMax, endPhase, energyPhase, turnOrder } from './rules.js';
+import { FRAME_PRESETS, getPreset, instantiate } from './data/frames.js';
+import { effectiveCapacitorMax, endPhase, energyPhase, isDestroyed, turnOrder } from './rules.js';
 
-const STORAGE_KEY = 'ironprotocol.battle.v1';
+// Bump this whenever the frame or battle shape changes incompatibly. A stored
+// battle from an older schema is discarded rather than migrated: the overhaul
+// replaced Internal Structure and Evasion with threshold Armor DR and cascading
+// crit slots, so there is nothing sensible to map an old save onto.
+export const SCHEMA_VERSION = 2;
+
+const STORAGE_KEY = 'ironprotocol.battle.v2';
+const LEGACY_KEYS = ['ironprotocol.battle.v1'];
 const DEVICE_KEY = 'ironprotocol.deviceId';
 
 export const PHASES = ['energy', 'activation', 'combat', 'end'];
@@ -18,6 +24,15 @@ export const PHASE_NAMES = {
   combat: 'Combat',
   end: 'End',
 };
+
+// Set when a stored battle had to be thrown away, so the UI can say so plainly
+// instead of the player wondering where their game went.
+let loadNotice = null;
+export function takeLoadNotice() {
+  const n = loadNotice;
+  loadNotice = null;
+  return n;
+}
 
 // --- Identity ---------------------------------------------------------------
 
@@ -45,112 +60,32 @@ export function newRoomCode() {
 // --- Frame construction -----------------------------------------------------
 
 /**
- * Build a live frame from a roster preset. All mutable battle state lives on
- * this object; the preset itself is never mutated.
+ * Build a live frame from a roster preset.
+ *
+ * The combat shape comes from data/frames.js `instantiate()`, which is what the
+ * rules engine understands. Everything added here is about identity, ownership
+ * and presentation — the engine never needs any of it.
  */
-export function createFrame(presetKey, { id, ownerId, team = 'a', callsign = null, pilotBonus = 0 } = {}) {
+export function createFrame(presetKey, { id, ownerId, team = 'a', callsign = null, pilotBonus = 0, vow = null } = {}) {
   const preset = getPreset(presetKey);
+  const frame = instantiate(presetKey);
 
-  const locations = {};
-  for (const key of LOCATIONS) {
-    const base = preset.locations[key];
-    locations[key] = { dr: base.dr, drMax: base.dr, is: base.is, isMax: base.is, destroyed: false };
-  }
-
-  const weapons = preset.weapons.map((mount, index) => {
-    const def = WEAPONS[mount.key];
-    return {
-      id: `${mount.key}-${mount.loc}-${index}`,
-      key: mount.key,
-      loc: mount.loc,
-      name: def.name,
-      epCost: mount.epCost ?? def.epCost,
-      epMod: 0,
-      requiresOvercharge: mount.requiresOvercharge || 0,
-      guidance: mount.guidance || null,
-      warhead: mount.warhead || null,
-      ammo: mount.ammo ? { ...mount.ammo } : null,
-      ammoMax: mount.ammo ? { ...mount.ammo } : null,
-      cooldown: 0,
-      firedThisTurn: false,
-      destroyed: false,
-      disabled: false,
-      forwardArcOnly: false,
-    };
-  });
-
-  return {
+  return Object.assign(frame, {
     id: id || `${presetKey}-${randomId(4)}`,
-    presetKey,
     ownerId: ownerId || deviceId(),
     team,
     callsign: callsign || preset.name,
-    designation: preset.designation,
-    name: preset.name,
-    role: preset.role,
-    image: preset.image,
-
-    initiative: preset.initiative,
-    initiativeMod: 0,
-    tons: preset.tons,
-    weightClass: preset.weightClass,
-    points: preset.points,
-
-    reactor: preset.reactor,
-    reactorMod: 0,
-    capacitorMax: preset.capacitorMax,
-    capacitorMaxMod: 0,
-    evasionLimit: preset.evasionLimit,
-    evasionLimitMod: 0,
-    movementLimit: preset.movementLimit,
-    movementLimitMod: 0,
-
-    // Live turn state
-    ep: 0,
-    capacitor: 0,
-    overchargeAvailable: 0,
-    epSpentThisTurn: 0,
-    eva: 0,
-    hexesMoved: 0,
-    terrain: 'clear',
-    prone: false,
-    painted: false,
-
-    // Persistent damage flags, set by rules.applyCrit
-    destroyed: false,
-    immobilized: false,
-    kneeLock: false,
-    gyroLock: false,
-    jumpJetsDisabled: false,
-    commStatic: false,
-    sensorsDown: false,
-    sensorsScrambled: false,
-    sensorRangeCap: null,
-    pilotStunned: false,
-    systemGlitch: false,
-    pilotCheckMod: 0,
     pilotBonus,
-
-    locations,
-    weapons,
-    systems: {
-      jumpJets: preset.systems.jumpJets,
-      datalink: preset.systems.datalink,
-      amc: preset.systems.amc ? { active: false, bands: [] } : null,
-      ecm: preset.systems.ecm ? { active: false, radius: 0 } : null,
-      flares: preset.systems.flares,
-      flaresMax: preset.systems.flares,
-      smoke: preset.systems.smoke,
-      smokeMax: preset.systems.smoke,
-    },
-    crits: [],
+    vow,
+    dishonored: false,
     log: [],
-  };
+  });
 }
 
 export function createBattle({ code = newRoomCode() } = {}) {
   return {
     id: code,
+    version: SCHEMA_VERSION,
     createdAt: Date.now(),
     round: 1,
     phase: 'energy',
@@ -211,22 +146,64 @@ function save() {
   }
 }
 
+/**
+ * Is this object shaped like a battle this build can actually run?
+ *
+ * Checked structurally as well as by version number, because a battle written
+ * by a mid-overhaul build may carry the right version and the wrong shape.
+ */
+export function isCompatible(candidate) {
+  if (!candidate || typeof candidate !== 'object') return false;
+  if (candidate.version !== SCHEMA_VERSION) return false;
+  const frames = Object.values(candidate.frames || {});
+  return frames.every((f) => {
+    const torso = f?.locations?.torso;
+    if (!torso) return false;
+    // The retired model: an Internal Structure pool and an Evasion stat.
+    if (torso.is !== undefined || f.evasionLimit !== undefined) return false;
+    // The current model: DR plus a map of marked crit slots.
+    return typeof torso.dr === 'number' && torso.crits !== undefined && !Array.isArray(torso.crits);
+  });
+}
+
 function load() {
+  // Sweep away saves from the pre-overhaul rules so they cannot be picked up.
+  for (const key of LEGACY_KEYS) {
+    if (localStorage.getItem(key) !== null) {
+      localStorage.removeItem(key);
+      loadNotice = 'A saved battle from the previous rules was discarded — the damage model changed and it could not be converted.';
+    }
+  }
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!isCompatible(parsed)) {
+      localStorage.removeItem(STORAGE_KEY);
+      loadNotice = 'A saved battle from an incompatible version was discarded. Starting fresh.';
+      return null;
+    }
+    return parsed;
   } catch (err) {
     console.warn('Could not read stored battle state', err);
+    localStorage.removeItem(STORAGE_KEY);
+    loadNotice = 'The saved battle could not be read and was discarded.';
     return null;
   }
 }
 
 /** Apply a remote snapshot without echoing it straight back to the network. */
 export function applyRemote(next) {
+  if (!isCompatible(next)) {
+    loadNotice = 'The shared battle was created by an incompatible version and was ignored.';
+    notify();
+    return false;
+  }
   suppressPersist = false;
   battle = next;
   save();
   notify();
+  return true;
 }
 
 export function resetBattle() {
@@ -297,12 +274,12 @@ export function logFrame(frame, text) {
 function generateEnergy(b, reports) {
   if (b.energyGenerated) return reports;
   for (const frame of framesList(b)) {
-    if (frame.destroyed) continue;
+    if (isDestroyed(frame)) continue;
     const report = energyPhase(frame);
     reports.push({ frameId: frame.id, type: 'energy', report });
-    logFrame(frame, report.stunned
-      ? 'Energy Phase: pilot stunned — 0 EP, capacitor drained'
-      : `Energy Phase: +${report.generated} EP${report.upkeep ? `, −${report.upkeep} upkeep` : ''} → ${report.pool} EP`);
+    const upkeep = report.upkeep ? `, −${report.upkeep} upkeep` : '';
+    const glitch = report.glitch ? ', −1 System Glitch' : '';
+    logFrame(frame, `Energy Phase: +${report.generated} EP${upkeep}${glitch} → ${frame.ep} EP in pool`);
   }
   b.energyGenerated = true;
   return reports;
@@ -319,9 +296,12 @@ export function advancePhase() {
 
     if (b.phase === 'end') {
       for (const frame of framesList(b)) {
-        if (frame.destroyed) continue;
+        if (isDestroyed(frame)) continue;
         const report = endPhase(frame);
         reports.push({ frameId: frame.id, type: 'end', report });
+        if (report.fire) {
+          logFrame(frame, 'Electrical Fire burns: 1 Torso Critical');
+        }
         if (report.vented > 0) {
           logFrame(frame, `Banked ${report.banked} EP, vented ${report.vented} (Capacitor max ${report.capMax})`);
         }

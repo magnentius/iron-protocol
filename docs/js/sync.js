@@ -90,8 +90,10 @@ async function connect(code) {
     if (!remote) return;
     applyingRemote = true;
     try {
-      lastSynced = clone(remote);
-      applyRemote(normalize(remote));
+      // Only adopt the remote as our diff baseline if we actually took it. A
+      // battle from an incompatible build is ignored, and treating it as
+      // "synced" would make the next outgoing diff nonsense.
+      if (applyRemote(normalize(remote))) lastSynced = clone(remote);
     } finally {
       applyingRemote = false;
     }

@@ -10,6 +10,7 @@ import * as R from './js/rules.js';
 import { instantiate, FRAME_PRESETS, FRAME_KEYS, costOut } from './js/data/frames.js';
 import { CRIT_TABLES, CRIT_TABLE_MAX, overkillDice, COUNTERMEASURE_CHECK_TN } from './js/data/tables.js';
 import { diffInto } from './js/sync.js';
+import { createFrame, createBattle, isCompatible, SCHEMA_VERSION } from './js/state.js';
 
 const frame = (key, patch = {}) => Object.assign(instantiate(key), patch);
 /** A deterministic rng walking a fixed list of d6 results. */
@@ -735,6 +736,67 @@ export function run({ describe, it, eq, ok }) {
   it('armor DR matches the printed frame sheets', () => {
     eq(FRAME_PRESETS.colossus.locations, { head: 6, torso: 8, leftArm: 6, rightArm: 6, leftLeg: 7, rightLeg: 7 });
     eq(FRAME_PRESETS.jackal.locations, { head: 3, torso: 3, leftArm: 2, rightArm: 2, leftLeg: 3, rightLeg: 3 });
+  });
+
+  // --- State model & schema migration (docs/js/state.js) --------------------
+  describe('State model & schema guard');
+
+  it('a new battle is stamped with the current schema version', () => {
+    eq(createBattle({ code: 'TEST' }).version, SCHEMA_VERSION);
+  });
+
+  it('createFrame produces something the engine can actually run', () => {
+    const f = createFrame('paladin', { ownerId: 'test' });
+    eq(R.effectiveReactor(f), 14);
+    eq(R.isDestroyed(f), false);
+    eq(f.locations.torso.dr, 7);
+    R.applyDamage(f, 'torso', 9);
+    eq(f.locations.torso.dr, 6, 'the engine mutates it correctly');
+  });
+
+  it('createFrame keeps identity separate from combat state', () => {
+    const f = createFrame('jackal', { ownerId: 'p1', team: 'b', callsign: 'Wraith', pilotBonus: 2 });
+    eq([f.ownerId, f.team, f.callsign, f.pilotBonus], ['p1', 'b', 'Wraith', 2]);
+    eq(R.effectiveInitiative(f), 14, 'the pilot bonus reaches the engine');
+  });
+
+  it('accepts a battle it just created', () => {
+    const b = createBattle({ code: 'AAAA' });
+    b.frames.x = createFrame('vanguard', { ownerId: 'test' });
+    eq(isCompatible(b), true);
+  });
+
+  it('rejects a save carrying the retired Internal Structure model', () => {
+    const b = createBattle({ code: 'AAAA' });
+    b.frames.x = createFrame('vanguard', { ownerId: 'test' });
+    b.frames.x.locations.torso.is = 16;
+    eq(isCompatible(b), false, 'an IS pool means pre-overhaul rules');
+  });
+
+  it('rejects a save carrying an Evasion stat', () => {
+    const b = createBattle({ code: 'AAAA' });
+    b.frames.x = createFrame('vanguard', { ownerId: 'test' });
+    b.frames.x.evasionLimit = 4;
+    eq(isCompatible(b), false);
+  });
+
+  it('rejects a save from a different schema version', () => {
+    const b = createBattle({ code: 'AAAA' });
+    b.version = SCHEMA_VERSION - 1;
+    eq(isCompatible(b), false);
+  });
+
+  it('rejects crit slots stored as an array — they must merge per path', () => {
+    const b = createBattle({ code: 'AAAA' });
+    b.frames.x = createFrame('vanguard', { ownerId: 'test' });
+    b.frames.x.locations.torso.crits = [4];
+    eq(isCompatible(b), false);
+  });
+
+  it('rejects junk without throwing', () => {
+    for (const junk of [null, undefined, 42, 'battle', {}, { version: SCHEMA_VERSION, frames: { a: {} } }]) {
+      eq(isCompatible(junk), false, String(junk));
+    }
   });
 
   // --- Sync (docs/js/sync.js) -----------------------------------------------
