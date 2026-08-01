@@ -1,6 +1,7 @@
 // Battle view — round and phase control, turn order, and the movement actions
 // that run during the Activation Phase.
 
+import { TERRAIN, TERRAIN_KEYS } from '../data/tables.js';
 import * as R from '../rules.js';
 import {
   PHASE_NAMES, advancePhase, deviceId, framesList, getBattle, getFrame,
@@ -123,6 +124,36 @@ function frameCard(frame, position, battle) {
  * movement, and only once — so this is three states rather than a verb, and it
  * locks after use. Free unless a Servo Lock critical has been taken.
  */
+/**
+ * Terrain, set where the moving happens. It decides Cover rerolls, the EP
+ * surcharge on entry, reactor cooling and whether Flank Speed is possible at
+ * all — so it is the single most consequential thing to keep current, and it
+ * used to live behind a select on another tab.
+ */
+function terrainRow(frame) {
+  const t = TERRAIN[frame.terrain] || TERRAIN.clear;
+  const effects = [
+    t.cover ? `${t.cover} Cover reroll${t.cover > 1 ? 's' : ''}` : 'no Cover',
+    t.extraEP ? `+${t.extraEP} EP to enter` : null,
+    t.blocksFlankSpeed ? 'no Flank Speed' : null,
+    t.cooling ? `+${t.cooling} EP cooling` : null,
+    t.pilotMod ? `${t.pilotMod > 0 ? '+' : ''}${t.pilotMod} Pilot Checks` : null,
+  ].filter(Boolean).join(' · ');
+
+  return `
+    <div class="row between tiny dim" style="margin-bottom:.3rem">
+      <span>Standing in</span>
+      <span>${esc(effects)}</span>
+    </div>
+    <select data-action="set-terrain-battle" data-frame="${frame.id}" style="margin-bottom:.55rem">
+      ${TERRAIN_KEYS.map((key) => {
+        const o = TERRAIN[key];
+        const note = o.cover ? ` — ${o.cover} Cover reroll${o.cover > 1 ? 's' : ''}` : '';
+        return `<option value="${key}" ${frame.terrain === key ? 'selected' : ''}>${esc(o.name)}${esc(note)}</option>`;
+      }).join('')}
+    </select>`;
+}
+
 function torsoTwistRow(frame) {
   const facing = frame.torsoFacing || 'center';
   const cost = R.movementCost(frame, 'torsoTwist');
@@ -159,6 +190,7 @@ function movementPanel(frame) {
         <span>Movement ${frame.hexesMoved}/${limit} hexes</span>
         <span>${frame.ep} EP available</span>
       </div>
+      ${terrainRow(frame)}
       ${torsoTwistRow(frame)}
       <div class="row wrap" style="gap:.35rem">
         ${actions.map((a) => {
@@ -183,6 +215,22 @@ function movementPanel(frame) {
         <button class="btn sm grow" data-action="collision" data-frame="${frame.id}">Collision…</button>
       </div>
     </div>`;
+}
+
+/** Select elements route here rather than through the click delegate. */
+export function handleChange(action, el) {
+  if (action === 'set-terrain-battle') {
+    const frame = getFrame(el.dataset.frame);
+    mutate(() => {
+      frame.terrain = el.value;
+      // Water denies Flank Speed outright, so re-derive rather than trust the flag.
+      R.updateFlankSpeed(frame);
+    });
+    const t = TERRAIN[el.value];
+    toast(`${t.name}${t.cover ? ` — ${t.cover} Cover reroll${t.cover > 1 ? 's' : ''}` : ''}`, 'ok');
+    return true;
+  }
+  return false;
 }
 
 // --- Actions -------------------------------------------------------------------

@@ -12,7 +12,7 @@
 //   7    Flank Speed / Cover rerolls        stepRerolls           (defender's choice)
 //   8-10 Armor DR, degradation, criticals   stepPreview → applyAttack
 
-import { HIT_ZONES, LOCATION_NAMES, MAX_FULL_AUTO_BURSTS, SENSOR_BANDS, WEAPONS, overkillDice } from '../data/tables.js';
+import { HIT_ZONES, LOCATION_NAMES, MAX_FULL_AUTO_BURSTS, SENSOR_BANDS, TERRAIN, WEAPONS, overkillDice } from '../data/tables.js';
 import * as R from '../rules.js';
 import { framesList, getBattle, getFrame, logBattle, logFrame, mutate, myFrames } from '../state.js';
 import { chip, cls, empty, esc, toast } from './dom.js';
@@ -425,14 +425,15 @@ function stepRerolls() {
       <div class="small muted">
         ${def.aoe ? 'AoE bypasses Flank Speed and Cover both.'
           : def.rapidFire ? 'Rapid Fire bypasses Flank Speed; this target has no Cover either.'
-          : `${esc(t.callsign)} has no Flank Speed and no Cover.`}
+          : `${esc(t.callsign)} is in ${esc(TERRAIN[t.terrain].name)} — no Cover — and has no Flank Speed.`}
       </div>`);
   }
 
   return step(7, 'Rerolls', left > 0, left === 0, `
     <div class="tiny dim" style="margin-bottom:.4rem">
-      ${esc(t.callsign)} may force <b>${left}</b> more reroll${left === 1 ? '' : 's'} of ${allowance}
-      (${esc(rerollSources(t, def).join(' + '))}). Rerolls are optional — never reroll a die that is already low.
+      ${esc(t.callsign)} is in <b>${esc(TERRAIN[t.terrain].name)}</b> and may force <b>${left}</b> more
+      reroll${left === 1 ? '' : 's'} of ${allowance} (${esc(rerollSources(t, def).join(' + '))}).
+      Rerolls are optional — never reroll a die that is already low.
     </div>
     <div class="row wrap" style="gap:.4rem">
       ${state.damageDice.map((d, i) => `

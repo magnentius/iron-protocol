@@ -32,8 +32,11 @@ every frame at once: the Energy Phase generates EP, rolls banked capacitor charg
 sets the turn's Overcharge Allowance and deducts Adaptive Skin and ECM upkeep; the End Phase
 burns any Electrical Fire, banks unused EP, vents the excess, clears Flank Speed and ticks
 cooldowns down. Frames are listed in initiative order — reversed during Activation, forward
-during Combat — and during the Activation Phase each of your frames gets movement buttons priced
-live against terrain, elevation and any Knee Lock damage.
+during Combat — and during the Activation Phase each of your frames gets a terrain selector, a
+torso facing control and movement buttons priced live against terrain, elevation and any Knee
+Lock damage. Terrain is set here rather than on the frame sheet, because that is where you move:
+it decides Cover rerolls, the EP surcharge on entry, reactor cooling, and whether Flank Speed is
+possible at all.
 
 **Frames tab** — the full sheet for each frame, laid out to mirror the printed one:
 
@@ -128,7 +131,7 @@ Open `tests.html` in a browser, or from the repo root with Node installed:
 node tools/run-tests.mjs
 ```
 
-134 tests across 24 suites. The browser runner exercises the real ES module graph; the CLI runner
+140 tests across 25 suites. The browser runner exercises the real ES module graph; the CLI runner
 is the same suite.
 
 ## Rules coverage
@@ -153,6 +156,7 @@ explicitly in `rules.md` §2.3, §5.0 and §6.
 | Full Auto | Capped at 3 bursts, one hit location for the barrage |
 | Torso Facing | Twisted 60° left or right of Leg Facing, or centred. Set once per activation, after all movement. Free unless Servo Lock has been taken, then 2 EP |
 | Disruptor Cannon | No damage. Ignores Armor DR and Flank Speed. Every hit forces a critical and drains 1d6 EP. Needs a Radar lock |
+| Cover | Light Woods 1 reroll, Heavy Woods and building-adjacent 2. Stacks with the one Flank Speed grants, and survives what strips it — only AoE bypasses Cover |
 | AoE | Bypasses Flank Speed *and* Cover; Armor DR still applies |
 | Prone (−1d6) | Drop one die, minimum one. Rapid Fire loses a die per burst; weapons rolling no dice are unaffected |
 | Crippled legs | A severed leg **or** a destroyed actuator imposes −2 on every Pilot Check. Both legs gone destroys the frame |

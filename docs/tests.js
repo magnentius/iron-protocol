@@ -294,6 +294,42 @@ export function run({ describe, it, eq, ok }) {
        'nothing above the floor is worth rerolling');
   });
 
+  // --- Terrain & Cover (rules.md 3.1, 3.3) ----------------------------------
+  describe('Terrain & Cover');
+
+  it('Light Woods grant one reroll, Heavy Woods two', () => {
+    eq(R.rerollAllowance(frame('vanguard', { terrain: 'woodsLight' })), 1);
+    eq(R.rerollAllowance(frame('vanguard', { terrain: 'woodsHeavy' })), 2);
+  });
+
+  it('standing adjacent to a building is Heavy Cover', () => {
+    eq(R.rerollAllowance(frame('vanguard', { terrain: 'urbanAdjacent' })), 2);
+  });
+
+  it('open ground gives nothing', () => {
+    for (const t of ['clear', 'paved', 'rough', 'waterShallow', 'waterDeep']) {
+      eq(R.rerollAllowance(frame('vanguard', { terrain: t })), 0, t);
+    }
+  });
+
+  it('Cover stacks on top of Flank Speed', () => {
+    eq(R.rerollAllowance(frame('vanguard', { terrain: 'woodsHeavy', flankSpeed: true })), 3);
+  });
+
+  it('Cover survives what strips Flank Speed', () => {
+    const f = frame('vanguard', { terrain: 'woodsHeavy', flankSpeed: true });
+    eq(R.rerollAllowance(f, { rapidFire: true }), 2, 'Rapid Fire bypasses Flank Speed only');
+    eq(R.rerollAllowance(f, { transferred: true }), 2, 'blow-through likewise');
+    eq(R.rerollAllowance(f, { aoe: true }), 0, 'AoE bypasses both');
+  });
+
+  it('terrain surcharges entry and water denies Flank Speed', () => {
+    eq(R.movementCost(frame('vanguard'), 'walk', { terrain: 'woodsHeavy' }), 3);
+    const f = frame('vanguard', { terrain: 'waterDeep', hexesMoved: 6 });
+    R.updateFlankSpeed(f);
+    eq(f.flankSpeed, false);
+  });
+
   // --- Countermeasure Check (rules.md 4.2) ----------------------------------
   describe('Countermeasure Check');
 

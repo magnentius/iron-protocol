@@ -107,7 +107,10 @@ export function statusChips(frame) {
   if (frame.dishonored) chips.push(chip('Dishonored', 'danger'));
   const facing = frame.torsoFacing || 'center';
   if (facing !== 'center') chips.push(chip(`Torso twisted ${facing}`, 'accent'));
-  if (frame.terrain !== 'clear') chips.push(chip(TERRAIN[frame.terrain].name));
+  if (frame.terrain !== 'clear') {
+    const t = TERRAIN[frame.terrain];
+    chips.push(chip(`${t.name}${t.cover ? ` · ${t.cover} Cover` : ''}`, t.cover ? 'ok' : ''));
+  }
   return chips.length ? `<div class="row wrap" style="gap:.3rem;margin-top:.5rem">${chips.join('')}</div>` : '';
 }
 
