@@ -958,6 +958,15 @@ export function run({ describe, it, eq, ok }) {
     eq(isCompatible(b), false);
   });
 
+  it('resetting clears the battle but keeps the room code', () => {
+    // A changed id would orphan a synced battle and let the peer overwrite it.
+    const b = createBattle({ code: 'ABCD' });
+    b.frames.x = createFrame('vanguard', { ownerId: 'test' });
+    b.round = 5;
+    const fresh = createBattle({ code: b.id });
+    eq([fresh.id, Object.keys(fresh.frames).length, fresh.round], ['ABCD', 0, 1]);
+  });
+
   it('rejects junk without throwing', () => {
     for (const junk of [null, undefined, 42, 'battle', {}, { version: SCHEMA_VERSION, frames: { a: {} } }]) {
       eq(isCompatible(junk), false, String(junk));

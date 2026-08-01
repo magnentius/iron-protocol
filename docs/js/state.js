@@ -206,8 +206,18 @@ export function applyRemote(next) {
   return true;
 }
 
+/**
+ * Clear the battle, keeping the room code.
+ *
+ * createBattle() mints a fresh code by default, which is right for a new game
+ * but wrong here: sync stays bound to `battles/<old code>`, so a reset that
+ * changed the id would orphan the local battle and let the peer's next snapshot
+ * overwrite it — the reset would silently undo itself. Keeping the code means
+ * the clear propagates to the room, as a player would expect.
+ */
 export function resetBattle() {
-  setBattle(createBattle());
+  const code = battle?.id;
+  setBattle(createBattle(code ? { code } : {}));
 }
 
 // --- Frame helpers ----------------------------------------------------------
