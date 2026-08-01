@@ -1126,6 +1126,29 @@ export function run({ describe, it, eq, ok }) {
     });
   });
 
+  it('banked charge joins the next pool rather than being lost', () => {
+    // rules.md 5.3: the Capacitor empties into the pool each Energy Phase, and
+    // whatever it held at that moment is the turn's Overcharge Allowance. The
+    // capacitor reading 0 the round after it filled is the rule working.
+    withStorage(() => {
+      const f = runTo('end');
+      eq(f.capacitor, 3, 'banked at the End Phase');
+      advancePhase();
+      eq([f.ep, f.capacitor, f.overchargeAvailable], [11, 0, 3],
+         'reactor 8 + the banked 3; the capacitor empties and becomes the Allowance');
+    });
+  });
+
+  it('the Energy Phase entry says where the banked charge went', () => {
+    withStorage(() => {
+      runTo('end');
+      advancePhase();
+      const e = getBattle().log.find((x) => x.text === 'Energy Phase' && x.round === 2);
+      ok(/\+3 banked from Capacitor/.test(e.detail[0]), e.detail[0]);
+      ok(/Overcharge Allowance 3 EP/.test(e.detail[0]), e.detail[0]);
+    });
+  });
+
   it('stamps battle entries with the round and phase they happened in', () => {
     withStorage(() => {
       setBattle(createBattle({ code: 'STMP' }), { silent: true });

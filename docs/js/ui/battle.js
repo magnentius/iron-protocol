@@ -81,9 +81,26 @@ function phaseCard(battle, order) {
     </div>`;
 }
 
+/**
+ * The Capacitor is only ever loaded during the End Phase: the Energy Phase
+ * empties it straight into the pool by rule (rules.md 5.3). A permanent "Cap"
+ * meter therefore reads 0 for three phases out of four, which makes banked
+ * charge look like it evaporated overnight.
+ *
+ * So show what the charge actually became. For the rest of the turn the number
+ * that matters is the Overcharge Allowance — the cap on what may be spent on
+ * Overcharges, and the only thing banking is ultimately for.
+ */
+function capacitorMeter(frame, battle, capMax) {
+  const max = Math.max(capMax, 1);
+  return battle.phase === 'end'
+    ? meter('Cap', frame.capacitor, max, 'cap')
+    : meter('Overcharge', frame.overchargeAvailable || 0, max, 'cap');
+}
+
 function phaseHint(phase) {
   return {
-    energy: 'Reactors generate EP and banked capacitor charge rolls into the pool. Stealth upkeep is deducted automatically.',
+    energy: 'Reactors generate EP, and last round\u2019s banked Capacitor charge empties into the pool \u2014 that emptied amount becomes this turn\u2019s Overcharge Allowance. Stealth upkeep is deducted automatically.',
     activation: 'Frames move from lowest initiative to highest. Spend EP step by step; exit 4+ hexes for Flank Speed.',
     combat: 'Frames fire from highest initiative to lowest, resolved instantly. Use the Attack tab.',
     end: 'Unused EP has been banked into capacitors and the pools emptied — the excess above each Capacitor Max was vented. Flank Speed cleared, cooldowns ticked down. Advancing starts the next round.',
@@ -111,7 +128,7 @@ function frameCard(frame, position, battle) {
       ${R.isDestroyed(frame) ? '' : `
         <div class="row" style="gap:.7rem;margin-top:.6rem">
           <div class="grow">${meter('EP', frame.ep, Math.max(R.effectiveReactor(frame) + capMax, 1), 'ep')}</div>
-          <div class="grow">${meter('Cap', frame.capacitor, Math.max(capMax, 1), 'cap')}</div>
+          <div class="grow">${capacitorMeter(frame, battle, capMax)}</div>
           <div class="grow">${meter('Rerolls', rerolls, Math.max(rerolls, 1), 'reroll')}</div>
         </div>`}
 

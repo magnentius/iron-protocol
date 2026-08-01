@@ -358,11 +358,19 @@ function movementText(frame, label, e) {
 
 // --- Phase advance ----------------------------------------------------------
 
-/** One frame's Energy Phase result, phrased the same wherever it is recorded. */
+/**
+ * One frame's Energy Phase result, phrased the same wherever it is recorded.
+ *
+ * Names the Capacitor explicitly. Banked charge empties into the pool by rule
+ * (rules.md 5.3), and without saying so the log shows a capacitor that was full
+ * last round reading zero this one, with nothing to connect the two.
+ */
 function energyLine(frame, report) {
   const upkeep = report.upkeep ? `, −${report.upkeep} upkeep` : '';
   const glitch = report.glitch ? ', −1 System Glitch' : '';
-  return `+${report.generated} EP${upkeep}${glitch} → ${frame.ep} EP in pool`;
+  const banked = report.fromCapacitor ? `, +${report.fromCapacitor} banked from Capacitor` : '';
+  const allowance = report.fromCapacitor ? ` · Overcharge Allowance ${report.fromCapacitor} EP` : '';
+  return `+${report.generated} EP${upkeep}${glitch}${banked} → ${frame.ep} EP in pool${allowance}`;
 }
 
 /** Generate this round's energy, unless it has already been generated. */

@@ -145,6 +145,7 @@ export function energyPhase(frame, { terrain = frame.terrain } = {}) {
 
   // Banked charge joins the pool, and the capacitor size at the moment it empties
   // is the turn's Overcharge Allowance (rules.md 5.3).
+  report.fromCapacitor = frame.capacitor || 0;
   frame.overchargeAvailable = frame.capacitor || 0;
   frame.ep = report.net + (frame.capacitor || 0);
   frame.capacitor = 0;

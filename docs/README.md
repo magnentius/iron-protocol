@@ -191,7 +191,7 @@ explicitly in `rules.md` §2.3, §5.0 and §6.
 | Countermeasure Check | Every deployed countermeasure — cartridge or suite — contests a lock on a **4+**. Terrain alone blocks outright |
 | Ammo Die | Nothing reloads. Autocannon Empty on 1 (Full Auto 1–3), missiles and jump propellant 1–2, cartridges 1 |
 | Jump Jets | 2 EP per hex and nothing else — no terrain or climbing surcharge. A 2+ hex jump grants Flank Speed; a single hop does not. Every jump burns propellant |
-| Overcharge Allowance | Whatever sat in the Capacitor when it emptied caps Overcharge EP for that turn, however full the pool is |
+| Overcharge Allowance | Whatever sat in the Capacitor when it emptied caps Overcharge EP for that turn, however full the pool is. The Capacitor is therefore only ever loaded during the End Phase — it empties into the pool every Energy Phase by rule, so the Battle tab shows the Allowance the rest of the turn rather than a meter stuck at zero |
 | Overcharge adds dice | Never a flat bonus — a flat increase would sit outside the reroll system entirely |
 | Rapid Fire | Each die tested separately against the DR at declaration. One critical per **burst** that landed a round, never Overkill. Armor degrades by 1 in total |
 | One attack per weapon | Each weapon fires once per Combat Phase, however much EP remains |
