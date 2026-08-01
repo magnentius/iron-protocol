@@ -12,12 +12,16 @@ Two players, each on their own phone, can share one live battle through a room c
 No build step, no dependencies. It is plain HTML, CSS and ES modules.
 
 ```bash
-cd docs
-python3 -m http.server 8000
-# then open http://localhost:8000
+node tools/serve.mjs        # then open http://localhost:8000
 ```
 
 It must be served over HTTP — ES modules do not load from `file://`.
+
+**Use that server rather than `python3 -m http.server`.** Python's sends only
+`Last-Modified`, with no `Cache-Control` and no `ETag`, so browsers — Safari especially — apply
+heuristic freshness and reuse stale CSS and modules without revalidating. The symptom is
+genuinely confusing: you change a file, reload, and still see the old build, so a fix looks like
+it did not work until you hard-refresh. `tools/serve.mjs` sends `no-store` on everything.
 
 ### Deploying to GitHub Pages
 
