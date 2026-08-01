@@ -23,23 +23,28 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 
 ---
 
-## Scenario 1: The Ghost and the Wall (2v2)
-**Focus**: Sensors, Stealth (Adaptive Skin/ECM), Electronic Warfare, and the Overcharge cooldown economy.
+## Scenario 1: The Ghost and the Wall (3v2)
+**Focus**: Sensors, Stealth (Adaptive Skin/ECM), Electronic Warfare, and the Overcharge economy.
 
 ### Setup
 *   **Map Size**: 24 x 24 Hexes
 *   **Terrain**: Dense Urban Sprawl (Heavy LOS blocking) with a central 6-hex lake (Water terrain).
-*   **Team A (The Ghosts)**: 
-    *   1x **IF-45M-1 "Specter"** (Piloted by **Lyra "Viper" Vance** — Vow of Mercy)
-    *   1x **IF-25L-1 "Jackal"** 
-*   **Team B (The Wall)**: 
-    *   1x **IF-90A-1 "Colossus"** (Standard Pilot)
-    *   1x **IF-55M-1 "Vanguard"** (Standard Pilot)
+*   **Team A (The Ghosts) — 1300 pts**: 
+    *   1x **IF-45M-1 "Specter"** (Piloted by **Lyra "Viper" Vance** — Vow of Mercy) — 480 pts with pilot
+    *   1x **IF-25L-1 "Jackal"** — 365 pts
+    *   1x **IF-55M-1 "Vanguard"** — 455 pts *(the cell's electronic warfare mount: ECM umbrella and Chaff)*
+*   **Team B (The Wall) — 1135 pts**: 
+    *   1x **IF-90A-1 "Colossus"** (Standard Pilot) — 680 pts
+    *   1x **IF-55M-1 "Vanguard"** (Standard Pilot) — 455 pts
+
+> *Note on the force imbalance: the Ghosts field three Frames and 165 more points, and that is deliberate. Light and Medium stealth Frames cannot trade blows with an Assault chassis — an unsupported Specter and Jackal lose this matchup **100%** of the time, and even a lone Paladin beats them. The Ghosts are paying for numbers and electronic warfare because they cannot pay for armor. The Wall, in turn, is under no obligation to chase them.*
+
+> *Doctrine note for the Ghosts: **bank EP for Overcharges rather than buying Flank Speed every turn.** An unboosted Laser penetrates a Colossus torso 28% of the time; the same Laser at +2 Overcharge penetrates **95%**. Playing for Flank Speed instead of Overcharges roughly halves the Ghosts' chances. This is the scenario's central lesson.*
 
 ### Testing Parameters (What to look for)
-1.  **Stealth Balance**: The Adaptive Skin suppresses one detection band at a time and costs EP every Energy Phase to maintain. Can the Specter pick the right band to stay hidden from the Colossus's Missiles, or does the upkeep starve it of the EP it needs to fire?
-2.  **ECM & the Jamming Check**: The Disruptor now requires a **Radar** lock, and the Vanguard can contest it two ways — Chaff negates a shot outright but there are only about three cartridges, while ECM runs all game for 2 EP but only stops each attack on a **Jamming Check (4+)**. Does the choice between a scarce certainty and an unlimited coin flip actually come up at the table, or does one option dominate? Watch also whether rolling a Jamming Check on every attack slows the turn down noticeably.
-3.  **Vow Check**: Does Lyra's *Vow of Mercy* (forcing her to target limbs before the Torso) make her useless against the Colossus's massive Armor DR, or does the Disruptor Cannon's crit-forcing ability make dismantling the heavy frame viable?
+1.  **Stealth Balance**: The Adaptive Skin suppresses one detection band at a time and costs EP every Energy Phase to maintain. Can the Specter pick the right band to stay hidden from the Colossus's Missiles, or does the upkeep starve it of the EP it needs to Overcharge?
+2.  **ECM & the Jamming Check — now on both sides**: Each team fields a Vanguard, so both have Chaff and an ECM suite, and the two Microwave umbrellas are directly comparable. Chaff negates a shot outright but there are only about three cartridges; ECM runs all game for 2 EP but stops each attack only on a **Jamming Check (4+)**. Does the choice between a scarce certainty and an unlimited coin flip actually come up, or does one dominate? Note that the Ghosts' ECM protects **against the Colossus's Rail Gun**, while the Wall's ECM protects **against Lyra's Disruptor** — the same 25-point system doing opposite jobs. Watch also whether rolling a Jamming Check on every attack slows the turn down noticeably.
+3.  **Vow Check**: The *Vow of Mercy* pulls every Head or Torso result until **all four** of a target's limbs are destroyed. Against a Colossus that means roughly twenty limb criticals before Lyra may touch the core, while half her hit-location rolls are discarded — the single heaviest vow constraint in the game against the single toughest chassis. Does the Disruptor's guaranteed crit make limb-stripping viable, or is Mercy simply unplayable against an Assault frame? If it is unplayable, the question is whether the Boon (+1 to Critical rolls against Arms and Legs) is worth anything like the cost.
 
 ---
 
