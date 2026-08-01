@@ -629,6 +629,45 @@ export function run({ describe, it, eq, ok }) {
     ok(!R.weaponArc(f, torso).arcs.includes('Rear'), 'a torso battery is fixed forward');
   });
 
+  // --- Jump Jet propellant (rules.md 2.2) -----------------------------------
+  describe('Jump Jet propellant');
+
+  it('a jump rolls the Ammo Die on landing', () => {
+    const f = frame('jackal', { ep: 20 });
+    const r = R.performMovement(f, 'jump', { hexes: 2, forcedAmmoRoll: 4 });
+    eq([r.ok, r.propellant.rolled, r.propellant.empty, f.jumpJetsEmpty], [true, 4, false, false]);
+  });
+
+  it('a 1 or 2 leaves the tanks dry for the rest of the battle', () => {
+    const f = frame('jackal', { ep: 20 });
+    R.performMovement(f, 'jump', { hexes: 2, forcedAmmoRoll: 2 });
+    eq(f.jumpJetsEmpty, true);
+    ok(R.movementBlockedReason(f, 'jump').includes('dry'));
+  });
+
+  it('walking never touches the propellant', () => {
+    const f = frame('jackal', { ep: 20 });
+    R.performMovement(f, 'walk');
+    eq([f.jumpJetsEmpty, R.performMovement(f, 'walk').propellant], [false, null]);
+  });
+
+  it('dry tanks stop counting as a volatile store', () => {
+    const f = frame('jackal', { ep: 20 });
+    for (const w of f.weapons) w.empty = true;
+    eq(R.hasVolatileStore(f), true, 'propellant is volatile while it lasts');
+    R.performMovement(f, 'jump', { hexes: 2, forcedAmmoRoll: 1 });
+    eq(R.hasVolatileStore(f), false, 'a spent scout is a safer one');
+  });
+
+  it('a 2+ hex jump grants Flank Speed; a single hop does not', () => {
+    const two = frame('jackal', { ep: 20 });
+    R.performMovement(two, 'jump', { hexes: 2, forcedAmmoRoll: 6 });
+    eq(two.flankSpeed, true);
+    const one = frame('jackal', { ep: 20 });
+    R.performMovement(one, 'jump', { hexes: 1, forcedAmmoRoll: 6 });
+    eq(one.flankSpeed, false);
+  });
+
   // --- Pilot Checks (rules.md 6.4) ------------------------------------------
   describe('Pilot Checks');
 

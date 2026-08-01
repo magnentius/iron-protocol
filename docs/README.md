@@ -128,7 +128,7 @@ Open `tests.html` in a browser, or from the repo root with Node installed:
 node tools/run-tests.mjs
 ```
 
-129 tests across 23 suites. The browser runner exercises the real ES module graph; the CLI runner
+134 tests across 24 suites. The browser runner exercises the real ES module graph; the CLI runner
 is the same suite.
 
 ## Rules coverage
@@ -145,6 +145,7 @@ explicitly in `rules.md` §2.3, §5.0 and §6.
 | Table lengths | Head 5, Torso 8, Arms and Legs 6. Torso 7–8 cannot be rolled naturally — only cascaded into, or reached by HEI's +1 |
 | Countermeasure Check | Every deployed countermeasure — cartridge or suite — contests a lock on a **4+**. Terrain alone blocks outright |
 | Ammo Die | Nothing reloads. Autocannon Empty on 1 (Full Auto 1–3), missiles and jump propellant 1–2, cartridges 1 |
+| Jump Jets | 2 EP per hex and nothing else — no terrain or climbing surcharge. A 2+ hex jump grants Flank Speed; a single hop does not. Every jump burns propellant |
 | Overcharge Allowance | Whatever sat in the Capacitor when it emptied caps Overcharge EP for that turn, however full the pool is |
 | Overcharge adds dice | Never a flat bonus — a flat increase would sit outside the reroll system entirely |
 | Rapid Fire | Each die tested separately against the DR at declaration. One critical per **burst** that landed a round, never Overkill. Armor degrades by 1 in total |

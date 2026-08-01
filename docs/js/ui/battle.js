@@ -150,7 +150,6 @@ function movementPanel(frame) {
     { action: 'walk', label: 'Walk' },
     { action: 'reverse', label: 'Reverse' },
     { action: 'pivot', label: 'Pivot' },
-    { action: 'jump', label: 'Jump' },
     { action: 'standUp', label: 'Stand Up' },
   ];
 
@@ -180,7 +179,7 @@ function movementPanel(frame) {
       </div>
       <div class="row" style="gap:.35rem;margin-top:.4rem">
         <button class="btn sm grow" data-action="jump-multi" data-frame="${frame.id}"
-          ${R.movementBlockedReason(frame, 'jump', { hexes: 1 }) ? 'disabled' : ''}>Jump N hexes…</button>
+          ${R.movementBlockedReason(frame, 'jump', { hexes: 1 }) ? 'disabled' : ''}>Jump…</button>
         <button class="btn sm grow" data-action="collision" data-frame="${frame.id}">Collision…</button>
       </div>
     </div>`;
@@ -319,7 +318,8 @@ function showJumpModal(frame) {
       </div>
       <div class="math">
         <div>${hexes} hex${hexes === 1 ? '' : 'es'} × 2 EP = ${cost} EP</div>
-        <div>${grantsFlank ? 'A jump of 2+ hexes grants <b>Flank Speed</b> on landing' : 'A single-hop jump is repositioning — no Flank Speed'}</div>
+        <div>${grantsFlank ? 'A jump of 2+ hexes grants <b>Flank Speed</b> on landing' : 'A single-hex hop is repositioning, not a flight — <b>no Flank Speed</b>'}</div>
+        <div class="dim">Costs propellant either way: roll the Ammo Die on landing, dry on a 1 or 2</div>
         ${blocked ? `<div style="color:var(--danger)">${esc(blocked)}</div>` : ''}
         ${cost > frame.ep ? `<div style="color:var(--danger)">Not enough EP (has ${frame.ep})</div>` : ''}
       </div>
@@ -337,12 +337,17 @@ function showJumpModal(frame) {
       return true;
     }
     if (action === 'do-jump') {
-      mutate(() => {
-        const result = R.performMovement(frame, 'jump', { hexes });
-        logFrame(frame, `Jump ${hexes} hex${hexes === 1 ? '' : 'es'} — ${result.cost} EP${result.flankSpeed ? ', Flank Speed gained' : ''}`);
+      const result = mutate(() => {
+        const r = R.performMovement(frame, 'jump', { hexes });
+        const dry = r.propellant?.empty ? ', propellant now DRY' : '';
+        logFrame(frame, `Jump ${hexes} hex${hexes === 1 ? '' : 'es'} — ${r.cost} EP${r.flankSpeed ? ', Flank Speed gained' : ''}${dry}`);
+        return r;
       });
       closeModal();
-      toast(`Jumped ${hexes} hexes`, 'ok');
+      toast(result.propellant?.empty
+        ? `Jumped ${hexes} — the tanks are dry, no more jumps this battle`
+        : `Jumped ${hexes} hex${hexes === 1 ? '' : 'es'}${result.flankSpeed ? ', Flank Speed' : ''}`,
+        result.propellant?.empty ? 'error' : 'ok');
       return true;
     }
     if (action === 'modal-cancel') { closeModal(); return true; }

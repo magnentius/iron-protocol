@@ -284,7 +284,16 @@ export function performMovement(frame, action, opts = {}) {
   if (opts.terrain) frame.terrain = opts.terrain;
 
   updateFlankSpeed(frame, { jumpedHexes: action === 'jump' ? hexes : 0 });
-  return { ok: true, cost, flankSpeed: frame.flankSpeed };
+
+  // A jump costs propellant as well as EP: roll the Ammo Die afterwards, and on
+  // a 1 or 2 the tanks are dry for the rest of the battle (rules.md 2.2).
+  let propellant = null;
+  if (action === 'jump') {
+    propellant = rollAmmoDie(AMMO_DIE.jumpJets.empty, { rng: opts.rng, forcedRoll: opts.forcedAmmoRoll });
+    if (propellant.empty) frame.jumpJetsEmpty = true;
+  }
+
+  return { ok: true, cost, hexes, flankSpeed: frame.flankSpeed, propellant };
 }
 
 /**
