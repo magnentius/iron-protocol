@@ -93,6 +93,9 @@ export function createBattle({ code = newRoomCode() } = {}) {
     // starts in the Energy Phase without having been entered, so generation is
     // driven by this flag rather than by the phase transition.
     energyGenerated: false,
+    // Same idea for the End Phase, which also settles on entry: guards against
+    // banking twice if the phase is re-entered or arrives from a peer.
+    endResolved: false,
     advantagePlayer: null,
     frames: {},
     log: [],
@@ -296,8 +299,43 @@ function generateEnergy(b, reports) {
 }
 
 /**
- * Step the battle to the next phase, running the automatic bookkeeping that
- * belongs to the phase being entered (Energy) or left (End).
+ * Bank unused EP, burn fires, clear one-turn effects — the End Phase's own work.
+ *
+ * Runs on *entering* the End Phase, so the result is on screen while the phase
+ * is showing: pools at zero, capacitors holding what was saved. Doing it on the
+ * way out instead made the transfer invisible — the same tap immediately ran the
+ * next Energy Phase, which empties the capacitor back into the pool, so the
+ * banked charge never survived to a render and the leftover EP looked like it
+ * flowed straight into the next round.
+ */
+function resolveEndPhase(b, reports) {
+  if (b.endResolved) return reports;
+  for (const frame of framesList(b)) {
+    if (isDestroyed(frame)) continue;
+    const report = endPhase(frame);
+    reports.push({ frameId: frame.id, type: 'end', report });
+    if (report.fire) {
+      logFrame(frame, 'Electrical Fire burns: 1 Torso Critical');
+    }
+    // Always logged, not only when something is vented. Energy moving out of
+    // the pool and into the Capacitor is the End Phase's whole job, and a
+    // player checking why they have 5 EP banked needs to see where it came
+    // from — a silent transfer reads as EP going missing.
+    if (report.pool > 0) {
+      const vented = report.vented > 0 ? `, vented ${report.vented}` : '';
+      logFrame(frame, `End Phase: ${report.pool} EP unused → ${report.banked} to Capacitor (max ${report.capMax})${vented} · pool emptied`);
+    } else {
+      logFrame(frame, 'End Phase: pool already empty, nothing to store');
+    }
+  }
+  b.endResolved = true;
+  return reports;
+}
+
+/**
+ * Step the battle to the next phase, running the bookkeeping that belongs to
+ * the phase being entered. Both Energy and End settle on entry, so what the
+ * phase did is visible while that phase is on screen.
  */
 export function advancePhase() {
   return mutate((b) => {
@@ -305,27 +343,12 @@ export function advancePhase() {
     const reports = [];
 
     if (b.phase === 'end') {
-      for (const frame of framesList(b)) {
-        if (isDestroyed(frame)) continue;
-        const report = endPhase(frame);
-        reports.push({ frameId: frame.id, type: 'end', report });
-        if (report.fire) {
-          logFrame(frame, 'Electrical Fire burns: 1 Torso Critical');
-        }
-        // Always logged, not only when something is vented. Energy moving out of
-        // the pool and into the Capacitor is the End Phase's whole job, and a
-        // player checking why they have 5 EP banked needs to see where it came
-        // from — a silent transfer reads as EP going missing.
-        if (report.pool > 0) {
-          const vented = report.vented > 0 ? `, vented ${report.vented}` : '';
-          logFrame(frame, `End Phase: ${report.pool} EP unused → ${report.banked} to Capacitor (max ${report.capMax})${vented} · pool emptied`);
-        } else {
-          logFrame(frame, 'End Phase: pool already empty, nothing to store');
-        }
-      }
+      // The End Phase settled its books on entry; leaving it starts the round.
+      resolveEndPhase(b, reports); // no-op unless the phase was somehow skipped
       b.round += 1;
       b.phase = 'energy';
       b.energyGenerated = false;
+      b.endResolved = false;
       logBattle(b, `Round ${b.round} begins`);
       generateEnergy(b, reports);
       return reports;
@@ -336,6 +359,7 @@ export function advancePhase() {
     // Safety net: leaving the Energy Phase without having generated (round 1,
     // or a battle restored mid-phase) still gets the frames their EP.
     if (b.phase === 'activation') generateEnergy(b, reports);
+    if (b.phase === 'end') resolveEndPhase(b, reports);
 
     logBattle(b, `${PHASE_NAMES[b.phase]} Phase`);
     return reports;

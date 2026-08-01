@@ -83,7 +83,7 @@ function phaseHint(phase) {
     energy: 'Reactors generate EP and banked capacitor charge rolls into the pool. Stealth upkeep is deducted automatically.',
     activation: 'Frames move from lowest initiative to highest. Spend EP step by step; exit 4+ hexes for Flank Speed.',
     combat: 'Frames fire from highest initiative to lowest, resolved instantly. Use the Attack tab.',
-    end: 'Advancing banks unused EP into capacitors, clears Flank Speed and ticks cooldowns down.',
+    end: 'Unused EP has been banked into capacitors and the pools emptied — the excess above each Capacitor Max was vented. Flank Speed cleared, cooldowns ticked down. Advancing starts the next round.',
   }[phase];
 }
 

@@ -10,7 +10,9 @@ import * as R from './js/rules.js';
 import { instantiate, FRAME_PRESETS, FRAME_KEYS, costOut } from './js/data/frames.js';
 import { CRIT_TABLES, CRIT_TABLE_MAX, overkillDice, COUNTERMEASURE_CHECK_TN } from './js/data/tables.js';
 import { diffInto } from './js/sync.js';
-import { createFrame, createBattle, isCompatible, SCHEMA_VERSION } from './js/state.js';
+import {
+  advancePhase, createFrame, createBattle, getBattle, isCompatible, setBattle, SCHEMA_VERSION,
+} from './js/state.js';
 
 const frame = (key, patch = {}) => Object.assign(instantiate(key), patch);
 /** A deterministic rng walking a fixed list of d6 results. */
@@ -944,6 +946,72 @@ export function run({ describe, it, eq, ok }) {
     const f = createFrame('jackal', { ownerId: 'p1', team: 'b', callsign: 'Wraith', pilotBonus: 2 });
     eq([f.ownerId, f.team, f.callsign, f.pilotBonus], ['p1', 'b', 'Wraith', 2]);
     eq(R.effectiveInitiative(f), 14, 'the pilot bonus reaches the engine');
+  });
+
+  // state.js persists through localStorage; the CLI runner has no DOM. Node does
+  // expose a global `localStorage`, but it is inert without --localstorage-file,
+  // so test whether it actually works rather than whether the name is defined.
+  function withStorage(fn) {
+    let usable = false;
+    try { usable = typeof globalThis.localStorage?.setItem === 'function'; } catch { /* throws when unconfigured */ }
+    if (usable) return fn();
+
+    const prior = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
+    const m = new Map();
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      value: {
+        getItem: (k) => (m.has(k) ? m.get(k) : null),
+        setItem: (k, v) => m.set(k, String(v)),
+        removeItem: (k) => m.delete(k),
+      },
+    });
+    try {
+      return fn();
+    } finally {
+      if (prior) Object.defineProperty(globalThis, 'localStorage', prior);
+      else delete globalThis.localStorage;
+    }
+  }
+
+  /** Drive a battle from the Energy Phase to the phase named. */
+  function runTo(phase) {
+    const b = createBattle({ code: 'ENDP' });
+    b.frames.x = createFrame('jackal', { ownerId: 'test' }); // reactor 8, cap max 3
+    setBattle(b, { silent: true });
+    while (getBattle().phase !== phase) advancePhase();
+    return getBattle().frames.x;
+  }
+
+  it('the End Phase banks on entry, so the charge is visible while it is showing', () => {
+    // The regression this guards: settling on the way *out* of the End Phase put
+    // the banking and the next Energy Phase in one tap, and Energy empties the
+    // capacitor back into the pool. Nothing ever rendered with charge banked, so
+    // leftover EP appeared to flow straight into the next round.
+    withStorage(() => {
+      const f = runTo('end');
+      eq([f.ep, f.capacitor], [0, 3], 'pool emptied, 3 banked while the End Phase is on screen');
+    });
+  });
+
+  it('banked charge rejoins the pool only on the next Energy Phase', () => {
+    withStorage(() => {
+      runTo('end');
+      advancePhase(); // End -> next round's Energy
+      const b = getBattle();
+      eq(b.round, 2);
+      eq([b.frames.x.ep, b.frames.x.capacitor], [11, 0], 'reactor 8 + banked 3, capacitor spent');
+    });
+  });
+
+  it('re-entering the End Phase does not bank twice', () => {
+    withStorage(() => {
+      const f = runTo('end');
+      const banked = f.capacitor;
+      advancePhase(); advancePhase(); advancePhase(); advancePhase(); // all the way round
+      eq(getBattle().phase, 'end');
+      eq(getBattle().frames.x.capacitor, banked, 'one bank per End Phase');
+    });
   });
 
   it('accepts a battle it just created', () => {

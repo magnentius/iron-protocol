@@ -35,7 +35,9 @@ and works with no signal.
 every frame at once: the Energy Phase generates EP, rolls banked capacitor charge into the pool,
 sets the turn's Overcharge Allowance and deducts Adaptive Skin and ECM upkeep; the End Phase
 burns any Electrical Fire, banks unused EP, vents the excess, clears Flank Speed and ticks
-cooldowns down. Frames are listed in initiative order — reversed during Activation, forward
+cooldowns down. Both Energy and End settle on *entry*, so what the phase did is on screen while
+that phase is showing — stop on the End Phase and you can see each pool at zero and the charge
+sitting in the capacitor, before the next round pulls it back out. Frames are listed in initiative order — reversed during Activation, forward
 during Combat — and during the Activation Phase each of your frames gets a terrain selector, a
 torso facing control and movement buttons priced live against terrain, elevation and any Knee
 Lock damage. Terrain is set here rather than on the frame sheet, because that is where you move:
