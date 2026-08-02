@@ -242,13 +242,13 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 
 > *Simulation, 45,000 battles. Two things, and they should be read separately.*
 >
-> *The scenario is unbalanced on its own terms: the Pulse wins about **31%** against the Column's 69%, at 1135 points and two Frames against 1185 and three. Fix that before reading any verdict about the warhead out of it — the useful figure here is the **change**, not the level.*
+> *The scenario is unbalanced on its own terms: the Pulse wins about **33%** against the Column's 66%, at 1135 points and two Frames against 1185 and three. Fix that before reading any verdict about the warhead out of it — the useful figure is the **change**, not the level.*
 >
-> *The warhead as an opener is **weaker than the finisher it replaced**: 34% down to 31%. It fires about twice a battle and reliably lands a Sensor Critical, permanently destroying an array roughly **0.65 times per battle** — but the version it replaced rolled on the **location** tables, where a stripped leg or a live ammo bin could turn one pulse into a kill. Trading that for guaranteed sensor faults is a trade down in raw strength, whatever it does for the weapon's identity.*
+> *The warhead is now much more **impactful** without being much more **winning**. Landing a Sensor Critical on all seven hexes rather than only the centre roughly doubles its output — **4.7 Sensor Criticals a battle**, of which **1.6 destroy an array permanently**, against 1.9 and 0.65 when only the target hex took one. Win rate barely moves: 31% for the narrow version, 33% for this, 34% for the 0-Armor finisher it replaced. Battles run a full turn longer (7.6 against 6.6), because blinding both sides slows the fight without deciding it.*
 >
-> *Ring duration barely matters. Extending the band suppression through the following turn instead of ending at the End Phase moved the result by under a point, because the longer it lasts the longer it also sits on your own Frames.*
+> *That is the trade the design makes. It changes the shape of the next three turns and it is not a win condition, which is the right place for a weapon that rolls no damage. The limit is self-imposed: it catches **1.3 of the firer's own Frames a battle**, and the blast is uniform to its edge, so there is no aiming slightly off to spare your own lance.*
 >
-> *Caveats: the simulator has no map, so blast reach is a parameter (tested from 25% to 60% adjacency — the result moved by one point across that whole range), and its pilots make no attempt to position away from their own Colossus. A real player would, so real friendly fire is lower and the warhead is better than measured.*
+> *Caveats: the simulator has no map, so blast reach is a parameter (tested 25% to 60% adjacency — the result moved one point across that range), and its pilots make no attempt to position away from their own Colossus. A real player would, so real friendly fire is lower and the warhead is better than measured.*
 
 ## Scenario 11: Three Oaths (3v3, The Untested Vows)
 **Focus**: The Vows of **Honor**, **Loyalty** and **Honesty** — the three that no other scenario fields — and how they interfere with one another on the same team.

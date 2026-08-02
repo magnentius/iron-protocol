@@ -495,18 +495,18 @@ export function run({ describe, it, eq, ok }) {
 
   it('EMP ignores armour entirely — it opens a fight rather than finishing one', () => {
     const fresh = frame('jackal');                 // plate untouched
-    const r = R.resolveEMP(fresh, { epicenter: true, forcedRoll: 5 });
+    const r = R.resolveEMP(fresh, { forcedRoll: 5 });
     eq(r.crit.name, 'Sensor Array Destroyed', 'full armour is no protection');
     const stripped = frame('jackal');
     stripped.locations.leftArm.dr = 0;
     stripped.locations.rightArm.dr = 0;
-    const r2 = R.resolveEMP(stripped, { epicenter: true, forcedRoll: 5 });
+    const r2 = R.resolveEMP(stripped, { forcedRoll: 5 });
     eq(r2.crit.name, 'Sensor Array Destroyed', 'and bare plate earns no bonus');
     eq(Object.keys(stripped.locations.leftArm.crits).length, 0, 'no location criticals at all');
   });
 
-  it('the target hex takes a Sensor Critical, on the Head table sensor results', () => {
-    const at = (roll) => R.resolveEMP(frame('jackal'), { epicenter: true, forcedRoll: roll }).crit.name;
+  it('every Frame caught takes a Sensor Critical, on the Head table sensor results', () => {
+    const at = (roll) => R.resolveEMP(frame('jackal'), { forcedRoll: roll }).crit.name;
     eq([at(1), at(2)], ['Sensor Ghosting', 'Sensor Ghosting']);
     eq([at(3), at(4)], ['Sensor Calibration Drift', 'Sensor Calibration Drift']);
     eq([at(5), at(6)], ['Sensor Array Destroyed', 'Sensor Array Destroyed']);
@@ -514,7 +514,7 @@ export function run({ describe, it, eq, ok }) {
 
   it('a Sensor Critical never marks the Head table, so pulses cannot cascade', () => {
     const f = frame('jackal');
-    for (let i = 0; i < 6; i += 1) R.resolveEMP(f, { epicenter: true, forcedRoll: 5 });
+    for (let i = 0; i < 6; i += 1) R.resolveEMP(f, { forcedRoll: 5 });
     eq(Object.keys(f.locations.head.crits).length, 0,
        'six pulses must not climb toward Structural Fracture and Pilot K.O.');
     eq(R.isDestroyed(f), false);
@@ -522,13 +522,13 @@ export function run({ describe, it, eq, ok }) {
 
   it('the epicentre effects actually land', () => {
     const ghost = frame('jackal');
-    R.resolveEMP(ghost, { epicenter: true, forcedRoll: 1 });
+    R.resolveEMP(ghost, { forcedRoll: 1 });
     eq(ghost.locksDropped, true);
     const drift = frame('jackal');
-    R.resolveEMP(drift, { epicenter: true, forcedRoll: 3 });
+    R.resolveEMP(drift, { forcedRoll: 3 });
     eq(drift.calibrationDrift, true);
     const dead = frame('jackal');
-    R.resolveEMP(dead, { epicenter: true, forcedRoll: 5, rng: seq(1) });
+    R.resolveEMP(dead, { forcedRoll: 5, rng: seq(1) });
     eq((dead.sensorBandsDestroyed || {}).ir, true, 'permanently, unlike the ring');
   });
 
@@ -541,30 +541,32 @@ export function run({ describe, it, eq, ok }) {
     eq(f.datalinkSuppressed, false, 'back next turn');
   });
 
-  it('an adjacent hex loses one band only, on the Head crit split', () => {
-    const band = (roll) => R.resolveEMP(frame('paladin'), { forcedRoll: roll }).band;
-    eq([band(1), band(2), band(3), band(4), band(5), band(6)],
-       ['ir', 'ir', 'vis', 'vis', 'rad', 'rad']);
-    const f = frame('paladin');
-    R.resolveEMP(f, { forcedRoll: 5 });
-    eq((f.sensorBandsDestroyed || {}).rad, undefined, 'suppressed in the ring, not destroyed');
+  it('the blast is uniform — there is no softer ring', () => {
+    // Standing next to the hex is standing in it: same roll, same table, no tier.
+    const a = R.resolveEMP(frame('paladin'), { forcedRoll: 5 });
+    const b = R.resolveEMP(frame('jackal'), { forcedRoll: 5 });
+    eq([a.crit.name, b.crit.name], ['Sensor Array Destroyed', 'Sensor Array Destroyed']);
   });
 
-  it('a suppressed band blocks that weapon until the End Phase', () => {
+  it('an Array Destroyed result silences that weapon for the rest of the battle', () => {
     const f = frame('colossus', { ep: 20, capacitor: 8 });
     const lance = f.weapons.find((w) => w.key === 'thermalLance'); // IR
     eq(R.weaponBlockedReason(f, lance), null);
-    R.resolveEMP(f, { forcedRoll: 1 });                            // 1-2 = IR
-    ok(/EMP/.test(R.weaponBlockedReason(f, lance)), R.weaponBlockedReason(f, lance));
+    R.resolveEMP(f, { forcedRoll: 5, rng: seq(1) });                // 5-6 array, 1-2 IR
+    ok(/destroyed/i.test(R.weaponBlockedReason(f, lance)), R.weaponBlockedReason(f, lance));
     R.endPhase(f);
     f.ep = 20; f.capacitor = 8;
-    eq(R.weaponBlockedReason(f, lance), null, 'the array comes back');
+    ok(/destroyed/i.test(R.weaponBlockedReason(f, lance)), 'and it does not come back');
   });
 
-  it('a suppressed band is not the same as a destroyed one', () => {
-    const f = frame('colossus', { ep: 20 });
+  it('Sensor Ghosting stops every lock, not just one band', () => {
+    const f = frame('colossus', { ep: 20, capacitor: 8 });
     R.resolveEMP(f, { forcedRoll: 1 });
-    eq((f.sensorBandsDestroyed || {}).ir, undefined, 'nothing was destroyed');
+    for (const w of f.weapons) {
+      if (R.weaponBand(w) && R.weaponBand(w) !== 'any') {
+        ok(/Ghosting/.test(R.weaponBlockedReason(f, w)), `${w.key}: ${R.weaponBlockedReason(f, w)}`);
+      }
+    }
   });
 
   it('an EMP warhead needs no lock, so no countermeasure can contest it', () => {

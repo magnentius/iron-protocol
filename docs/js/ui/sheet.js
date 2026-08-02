@@ -98,9 +98,6 @@ export function statusChips(frame) {
   }
   if (frame.ecmActive) chips.push(chip(`ECM${frame.ecmRadius ? ` +${frame.ecmRadius}` : ''}`, 'accent'));
   if (frame.electricalFire) chips.push(chip('Electrical Fire', 'danger'));
-  if (frame.sensorBandSuppressed) {
-    chips.push(chip(`${SENSOR_BANDS[frame.sensorBandSuppressed]} down (EMP)`, 'warn'));
-  }
   if (frame.datalinkSuppressed) chips.push(chip('Datalink jammed (EMP)', 'warn'));
   if (frame.locksDropped) chips.push(chip('Locks Dropped', 'warn'));
   for (const [band, on] of Object.entries(frame.sensorBandsDestroyed || {})) {

@@ -789,11 +789,6 @@ export function weaponBlockedReason(frame, weapon, { bursts = 1, overcharge = 0 
   if (band && band !== 'any' && (frame.sensorBandsDestroyed || {})[band]) {
     return `${band.toUpperCase()} array destroyed — cannot establish a lock`;
   }
-  // An EMP pulse suppresses one band until the End Phase. Destroyed is forever;
-  // this is not, so the two are tracked separately.
-  if (band && band !== 'any' && frame.sensorBandSuppressed === band) {
-    return `${band.toUpperCase()} array knocked out by an EMP — back next turn`;
-  }
   if (frame.locksDropped) return 'Sensor Ghosting — no locks held';
 
   const need = def.requiresOvercharge || 0;
@@ -912,36 +907,30 @@ export function resolveHighExplosive(frame, locKey, { rng = Math.random, forcedP
 /**
  * EMP warhead (rules.md 5.2). No damage, no lock, and nothing to do with armour.
  *
- * The blast is two zones, and the difference between them is permanence:
- *   - the **target hex** takes a Sensor Critical — a 1d6 roll across the three
- *     sensor results of the Head table (Ghosting, Calibration Drift, Array
- *     Destroyed). Two of the three outlast the turn;
- *   - the **six surrounding hexes** take one band suppressed until the End
- *     Phase, and nothing more.
- * Every Frame caught, in either zone, has its Datalink jammed for the turn.
+ * Every Frame in the seven-hex blast takes a **Sensor Critical** — a 1d6 across
+ * the three sensor results of the Head table (Ghosting, Calibration Drift, Array
+ * Destroyed) — and has its Datalink jammed for the turn. There is no softer ring:
+ * standing next to the hex is standing in it.
  *
- * The Sensor Critical is applied without marking the Head crit slot — see
- * applyCrit. Armour is irrelevant throughout: this pulse opens a fight rather
- * than finishing one, so it must work against a Frame with its plate intact.
+ * Applied without marking the Head crit slot (see applyCrit). A pulse breaches
+ * nothing, and a marked slot would let repeated pulses cascade toward a
+ * Structural Fracture or a Pilot K.O. — a back door to killing a Frame outright
+ * with a weapon that rolls no damage and cannot be contested.
+ *
+ * Armour is irrelevant throughout: this opens a fight rather than finishing one,
+ * so it has to work against plate that is still whole.
  */
-export function resolveEMP(frame, { epicenter = false, rng = Math.random, forcedRoll = null } = {}) {
+export function resolveEMP(frame, { rng = Math.random, forcedRoll = null } = {}) {
   frame.datalinkSuppressed = true;
   const roll = forcedRoll ?? rollDie(6, rng);
 
-  if (!epicenter) {
-    const band = roll <= 2 ? 'ir' : roll <= 4 ? 'vis' : 'rad';
-    frame.sensorBandSuppressed = band;
-    return { zone: 'ring', roll, band, crit: null };
-  }
-
   // Head slots 1-3 are exactly the sensor results. 4 is a Structural Fracture
-  // and 5+ is a Pilot K.O., neither of which an electromagnetic pulse should be
-  // able to inflict — and certainly not unblockably, across seven hexes.
+  // and 5+ is a Pilot K.O., neither of which a pulse should be able to inflict.
   const slot = roll <= 2 ? 1 : roll <= 4 ? 2 : 3;
   const entry = CRIT_TABLES.head[slot];
   const applied = applyCrit(frame, { ...entry, slot, table: 'head', location: 'head' },
                             { rng, mark: false });
-  return { zone: 'epicenter', roll, slot, crit: entry, notes: applied.notes, band: null };
+  return { roll, slot, crit: entry, notes: applied.notes };
 }
 
 /**
@@ -1041,7 +1030,6 @@ export function endPhase(frame, { rng = Math.random } = {}) {
   frame.torsoTwistedThisTurn = false;
   frame.servoStutter = false;   // lasts one turn
   frame.locksDropped = false;   // Sensor Ghosting clears
-  frame.sensorBandSuppressed = null;  // EMP: knocked out, not destroyed
   frame.datalinkSuppressed = false;
   frame.targetingJitter = {};
 
