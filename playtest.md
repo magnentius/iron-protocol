@@ -215,7 +215,7 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 ---
 
 ## Scenario 10: Dead Air (2v3, Electromagnetic Warfare)
-**Focus**: EMP warheads — area denial, the 0-Armor clause, sensor scrambling, Tactical Datalink failure, and friendly fire.
+**Focus**: EMP warheads — area denial, sensor destruction, Tactical Datalink failure, and friendly fire.
 
 *The EMP warhead is the only munition in the game that deals no damage of any kind, targets a **hex** rather than a Frame, and cannot tell friend from foe. Nothing else in this document tests it.*
 
@@ -223,32 +223,29 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 *   **Map Size**: 22 x 22 Hexes
 *   **Terrain**: A canal crossing. A single **Paved** causeway four hexes wide runs the length of the map, flanked by **Deep Water**. Two Level 2 Buildings sit at the far end. *(The causeway matters: it is the only ground a Column can cross in formation, and it is exactly the shape of an EMP blast.)*
 *   **Team A (The Pulse) — 1135 pts**:
-    *   1x **IF-90A-1 "Colossus"** — 680 pts *(its launcher carries the **EMP** warhead, Visual-guided)*
+    *   1x **IF-90A-1 "Colossus"** — 680 pts *(its launcher carries the **EMP** warhead — fired at a hex, so it needs no lock and nothing can contest it)*
     *   1x **IF-55M-1 "Vanguard"** — 455 pts
-*   **Team B (The Column) — 1185 pts**:
-    *   1x **IF-55M-1 "Vanguard"** — 455 pts
-    *   2x **IF-25L-1 "Jackal"** — 365 pts each
+*   **Team B (The Column) — 1095 pts**:
+    *   3x **IF-25L-1 "Jackal"** — 365 pts each
 
-> *The Column is deliberately light and numerous — thin armor reaches 0 DR quickly, which is the only condition under which an EMP does anything permanent.*
+> *The Column is deliberately light and numerous, and the reason has changed. It used to be that thin armor reaches 0 DR quickly, back when that was the only condition under which an EMP did anything permanent. The warhead ignores armor entirely now, so the point is simply **density**: three Frames are far likelier to be caught together under one seven-hex pattern than two heavy ones spread across a causeway. The Column's problem is that it cannot afford to travel as a column.*
+>
+> *Note also what a Jackal loses. It carries a Laser on Visual and an Autocannon that needs no particular band, so an Array Destroyed result silences at most one of its two guns — a light Frame is more resilient to sensor loss than a Colossus, whose Thermal Lance and Rail Gun each depend on a band of their own.*
 
 ### Testing Parameters (What to look for)
 1.  **Is a weapon that deals no damage worth a Medium hardpoint?**: the EMP costs 4 EP and 20 pts and cannot destroy anything by itself. Its entire value is denial. In a game where a Thermal Lance in the same weight bracket lands over a critical per attack, does the pulse justify the mount?
-2.  **The 0-Armor clause**: an EMP inflicts a Critical Hit on **every location that currently has 0 Armor DR**. On a fresh Frame that is nothing at all; against a Jackal whose torso has been stripped it may be several criticals at once, across several Frames, for a single 4 EP salvo. Does this correctly reward softening a target first, or does it sit unused because armor rarely reaches 0 before a Frame dies?
+2.  **An opener, not a finisher**: the warhead ignores Armor DR completely, so its best turn is the first one, before a shot has been fired. Does opening with it actually pay? A pilot who leads with the EMP spends a Medium hardpoint's worth of ammunition on a turn when nothing is yet damaged — and gets a lance that is blind, disconnected, and one array short for the rest of the game. Watch whether players hold it for a decisive moment instead, and whether holding it is ever right. torso has been stripped it may be several criticals at once, across several Frames, for a single 4 EP salvo. Does this correctly reward softening a target first, or does it sit unused because armor rarely reaches 0 before a Frame dies?
 3.  **Friendly fire**: the blast covers the target hex **and all six adjacent hexes**, and explicitly does not spare allies. Can the Colossus find a firing solution that catches two Jackals without also catching its own Vanguard, and does the threat of it change how Team A advances?
 4.  **Losing a band**: an EMP knocks out one sensor array on every affected Frame until the End Phase — 1d6, on a 1–2 the IR, 3–4 the VIS, 5–6 the Radar — and jams the Tactical Datalink for the turn. This is the same roll as the Head's *Sensor Array Destroyed* critical, and the point is that it comes back. Watch whether losing a band is decisive or irrelevant: a Colossus that loses Radar cannot fire its Rail Gun that turn, but a Jackal that loses Radar carries nothing that needs it. Does the randomness make the warhead feel arbitrary?
 5.  **Can it be stopped?**: no. The warhead is aimed at a hex, so there is no lock for Chaff, an IRCM suite, Smoke, ECM or an Adaptive Skin to contest — a countermeasure denies a *lock*, and there is no lock here. **Only line of sight and terrain stop it.** Does an unblockable weapon feel unfair at the table, or does dealing no damage and sparing intact armour keep it honest?
 
 ---
 
-> *Simulation, 45,000 battles. Two things, and they should be read separately.*
+> *Simulation, 30,000 battles on the roster above: the Pulse wins **51%**, range 50–52% across five seeds, over 7.6 turns. The scenario opened at 33/66 against the Pulse and the fix was a single swap — the Column's Vanguard became a third Jackal, taking it from 1185 points to 1095 against the Pulse's 1135. It is now the Pulse carrying the small points edge, which is right for the side that has to solve a positioning problem rather than simply advance.*
 >
-> *The scenario is unbalanced on its own terms: the Pulse wins about **33%** against the Column's 66%, at 1135 points and two Frames against 1185 and three. Fix that before reading any verdict about the warhead out of it — the useful figure is the **change**, not the level.*
+> *What the warhead does across a battle: about **4.8 Frames caught**, **1.6 arrays destroyed for good** — and **1.4 of the Frames caught are the Pulse's own**. Roughly a third of the pattern lands on the firer's lance, and there is no aiming slightly off to avoid it, because the blast is uniform to its edge. That is the scenario's real question.*
 >
-> *The warhead is now much more **impactful** without being much more **winning**. Landing a Sensor Critical on all seven hexes rather than only the centre roughly doubles its output — **4.7 Sensor Criticals a battle**, of which **1.6 destroy an array permanently**, against 1.9 and 0.65 when only the target hex took one. Win rate barely moves: 31% for the narrow version, 33% for this, 34% for the 0-Armor finisher it replaced. Battles run a full turn longer (7.6 against 6.6), because blinding both sides slows the fight without deciding it.*
->
-> *That is the trade the design makes. It changes the shape of the next three turns and it is not a win condition, which is the right place for a weapon that rolls no damage. The limit is self-imposed: it catches **1.3 of the firer's own Frames a battle**, and the blast is uniform to its edge, so there is no aiming slightly off to spare your own lance.*
->
-> *Caveats: the simulator has no map, so blast reach is a parameter (tested 25% to 60% adjacency — the result moved one point across that range), and its pilots make no attempt to position away from their own Colossus. A real player would, so real friendly fire is lower and the warhead is better than measured.*
+> *Caveats: the simulator has no map, so blast reach is a parameter (tested 25% to 60% adjacency — the result moved one point across that range), and its pilots make no attempt to position away from their own Colossus. A real player would, so real friendly fire is lower and the warhead is better than these numbers suggest.*
 
 ## Scenario 11: Three Oaths (3v3, The Untested Vows)
 **Focus**: The Vows of **Honor**, **Loyalty** and **Honesty** — the three that no other scenario fields — and how they interfere with one another on the same team.
