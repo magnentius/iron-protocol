@@ -403,10 +403,10 @@ export function run({ describe, it, eq, ok }) {
   it('a Frame running cold cannot be locked on infrared at all', () => {
     const shooter = frame('colossus', { ep: 30, capacitor: 10 });
     const lance = shooter.weapons.find((w) => w.key === 'thermalLance');
-    const cold = frame('jackal', { epSpentThisTurn: 4 });
-    const warm = frame('jackal', { epSpentThisTurn: 5 });
+    const cold = frame('jackal', { epSpentThisTurn: 3 });   // stood up, nothing more
+    const warm = frame('jackal', { epSpentThisTurn: 4 });   // took Flank Speed
     ok(/cold/i.test(R.weaponBlockedReason(shooter, lance, { target: cold })));
-    eq(R.weaponBlockedReason(shooter, lance, { target: warm }), null, 'the 5th EP is the threshold');
+    eq(R.weaponBlockedReason(shooter, lance, { target: warm }), null, 'the 4th EP is the threshold');
   });
 
   it('running cold is a hard block, not a Countermeasure Check', () => {
@@ -434,8 +434,15 @@ export function run({ describe, it, eq, ok }) {
   it('but moving does warm it up', () => {
     const f = frame('specter', { adaptiveSkinActive: true, adaptiveSkinBandKeys: ['ir'] });
     R.energyPhase(f);
-    for (let i = 0; i < 5; i += 1) R.performMovement(f, 'walk');
-    eq(R.isIRLockable(f), true, 'five hexes is five EP — the bloom is visible');
+    for (let i = 0; i < 4; i += 1) R.performMovement(f, 'walk');
+    eq(R.isIRLockable(f), true, 'four hexes is Flank Speed, and Flank Speed is hot');
+  });
+
+  it('standing up alone stays cold — 3 EP is under the line', () => {
+    const f = frame('paladin', { prone: true });
+    R.energyPhase(f);
+    R.performMovement(f, 'standUp');
+    eq(R.isIRLockable(f), false, 'hauling yourself upright is not a heat bloom');
   });
 
   it('a Datalink hands you a lock your own burned-out array cannot make', () => {

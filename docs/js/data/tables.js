@@ -354,7 +354,12 @@ export const COUNTERMEASURE_FOR_BAND = {
 
 // Spending this much EP in a turn exposes the frame to IR locks (rules.md 4.1).
 // Adaptive Skin upkeep paid in the Energy Phase does NOT count toward this.
-export const IR_LOCK_THRESHOLD = 5;
+// Set at 4 rather than 5 deliberately: Flank Speed costs exactly 4 EP, so a
+// Frame that sprints four hexes lights up. At 5 it could sprint, collect a Cover
+// reroll and still be invisible on infrared, which is not "genuinely doing very
+// little". Stand Up is 3 and stays cold, which is the intent — a Frame hauling
+// itself upright and doing nothing else has no bloom worth finding.
+export const IR_LOCK_THRESHOLD = 4;
 
 // A single Full Auto attack may fire at most this many bursts (rules.md 5.0).
 export const MAX_FULL_AUTO_BURSTS = 3;
