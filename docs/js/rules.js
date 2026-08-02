@@ -20,6 +20,7 @@ import {
   LOCATIONS,
   LOCATION_NAMES,
   CRIT_TABLE_FOR,
+  CRIT_TABLES,
   CRIT_TABLE_MAX,
   ADJACENT_LOCATIONS,
   lookupHitLocation,
@@ -546,11 +547,20 @@ export function rollCrit(frame, locKey, { mod = 0, rng = Math.random, forcedRoll
 }
 
 /** Mark the slot and apply its mechanical effect. */
-export function applyCrit(frame, crit, { rng = Math.random } = {}) {
+/**
+ * `mark: false` applies the effect without marking the location's crit slot.
+ *
+ * Used by the EMP warhead, which degrades sensors without breaching anything.
+ * Marking would be wrong twice over: the pulse does no structural harm, and a
+ * marked Head slot cascades, so repeated pulses would climb the Head table
+ * toward Structural Fracture and Pilot K.O. — a hidden path to killing a Frame
+ * outright with a weapon that rolls no damage and cannot be contested.
+ */
+export function applyCrit(frame, crit, { rng = Math.random, mark = true } = {}) {
   const locKey = crit.location;
   const loc = frame.locations[locKey];
   loc.crits = loc.crits || {};
-  loc.crits[crit.slot] = true;
+  if (mark) loc.crits[crit.slot] = true;
 
   const out = { applied: crit, followUps: [], notes: [] };
 
@@ -899,20 +909,39 @@ export function resolveHighExplosive(frame, locKey, { rng = Math.random, forcedP
  *     plate is a continuous conductive shell and shields what is behind it;
  *     a breach lets the pulse in.
  */
-export function resolveEMP(frame, { rng = Math.random, forcedBandRoll = null } = {}) {
-  const bandRoll = forcedBandRoll ?? rollDie(6, rng);
-  const band = bandRoll <= 2 ? 'ir' : bandRoll <= 4 ? 'vis' : 'rad';
-  frame.sensorBandSuppressed = band;
+/**
+ * EMP warhead (rules.md 5.2). No damage, no lock, and nothing to do with armour.
+ *
+ * The blast is two zones, and the difference between them is permanence:
+ *   - the **target hex** takes a Sensor Critical — a 1d6 roll across the three
+ *     sensor results of the Head table (Ghosting, Calibration Drift, Array
+ *     Destroyed). Two of the three outlast the turn;
+ *   - the **six surrounding hexes** take one band suppressed until the End
+ *     Phase, and nothing more.
+ * Every Frame caught, in either zone, has its Datalink jammed for the turn.
+ *
+ * The Sensor Critical is applied without marking the Head crit slot — see
+ * applyCrit. Armour is irrelevant throughout: this pulse opens a fight rather
+ * than finishing one, so it must work against a Frame with its plate intact.
+ */
+export function resolveEMP(frame, { epicenter = false, rng = Math.random, forcedRoll = null } = {}) {
   frame.datalinkSuppressed = true;
+  const roll = forcedRoll ?? rollDie(6, rng);
 
-  const hits = [];
-  for (const locKey of LOCATIONS) {
-    if (isDestroyed(frame)) break;
-    const loc = frame.locations[locKey];
-    if (loc.destroyed || loc.dr > 0) continue;
-    hits.push({ location: locKey, crits: resolveCrits(frame, locKey, 1, { rng }) });
+  if (!epicenter) {
+    const band = roll <= 2 ? 'ir' : roll <= 4 ? 'vis' : 'rad';
+    frame.sensorBandSuppressed = band;
+    return { zone: 'ring', roll, band, crit: null };
   }
-  return { bandRoll, band, hits };
+
+  // Head slots 1-3 are exactly the sensor results. 4 is a Structural Fracture
+  // and 5+ is a Pilot K.O., neither of which an electromagnetic pulse should be
+  // able to inflict — and certainly not unblockably, across seven hexes.
+  const slot = roll <= 2 ? 1 : roll <= 4 ? 2 : 3;
+  const entry = CRIT_TABLES.head[slot];
+  const applied = applyCrit(frame, { ...entry, slot, table: 'head', location: 'head' },
+                            { rng, mark: false });
+  return { zone: 'epicenter', roll, slot, crit: entry, notes: applied.notes, band: null };
 }
 
 /**

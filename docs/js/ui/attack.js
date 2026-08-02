@@ -24,6 +24,7 @@ const BLANK = {
   bursts: 1,
   overchargeDice: 0,   // extra d6 bought with capacitor charge
   zone: 'front',
+  empZone: 'epicenter',  // EMP only: target hex or one of the six around it
   cm: null,            // { key, kind, rolled, negated } once the defender has tried
   cmDeclined: false,
   locationDice: null,  // [d1, d2]
@@ -269,7 +270,25 @@ function warheadHint(key) {
 }
 
 function stepZone() {
-  if (isKind('cluster') || isKind('emp')) {
+  // An EMP has no hit location. What matters instead is where this Frame stands
+  // in the blast: the target hex takes a lasting Sensor Critical, the six around
+  // it only lose a band for the turn. Resolve each Frame caught separately.
+  if (isKind('emp')) {
+    return step(4, 'Position in the Blast', true, true, `
+      <div class="row wrap" style="gap:.35rem">
+        <button class="btn sm ${state.empZone === 'epicenter' ? 'primary' : ''}"
+          data-action="pick-emp-zone" data-zone="epicenter">Target hex</button>
+        <button class="btn sm ${state.empZone === 'ring' ? 'primary' : ''}"
+          data-action="pick-emp-zone" data-zone="ring">Adjacent hex</button>
+      </div>
+      <div class="tiny dim" style="margin-top:.5rem">
+        The target hex takes a Sensor Critical — Ghosting, Calibration Drift or an
+        array destroyed outright. The six surrounding hexes lose one band until the
+        End Phase. Everything caught loses its Datalink for the turn, your own
+        Frames included.
+      </div>`);
+  }
+  if (isKind('cluster')) {
     return step(4, 'Hit Zone', false, true,
       '<div class="small muted">Not needed — this warhead covers the whole chassis.</div>');
   }
@@ -584,6 +603,10 @@ export function handle(action, el) {
 
     case 'pick-bursts': state.bursts = Number(el.dataset.n); resetRolls(); return true;
     case 'pick-overcharge': state.overchargeDice = Number(el.dataset.n); resetRolls(); return true;
+    case 'pick-emp-zone':
+      state.empZone = el.dataset.zone;
+      return true;
+
     case 'pick-zone': state.zone = el.dataset.zone; resetRolls(); return true;
 
     case 'use-cm': {
@@ -707,13 +730,16 @@ function applyAttack() {
       collect(r.crits);
       result.steps.push(`Drained ${r.drained} EP (rolled ${r.drainRoll})`);
     } else if (isKind('emp')) {
-      const r = R.resolveEMP(t);
-      for (const hit of r.hits) collect(hit.crits);
-      result.steps.push(r.hits.length
-        ? `Pulse criticals ${r.hits.length} bare location${r.hits.length === 1 ? '' : 's'}`
-        : 'No location was at 0 Armor DR — no lasting harm');
-      result.steps.push(`Pulse knocks out the ${SENSOR_BANDS[r.band]} array until the End Phase (rolled ${r.bandRoll})`);
+      const r = R.resolveEMP(t, { epicenter: state.empZone === 'epicenter' });
+      if (r.zone === 'epicenter') {
+        result.steps.push(`Target hex — Sensor Critical (rolled ${r.roll}): ${r.crit.name}`);
+        result.steps.push(r.crit.text);
+        for (const note of r.notes || []) result.steps.push(note);
+      } else {
+        result.steps.push(`Adjacent hex — ${SENSOR_BANDS[r.band]} array down until the End Phase (rolled ${r.roll})`);
+      }
       result.steps.push('Tactical Datalink jammed for the turn');
+      result.steps.push('No damage, and armour is irrelevant — this opens a fight, it does not finish one');
     } else if (isKind('cluster')) {
       const r = R.resolveCluster(t);
       for (const hit of r) {

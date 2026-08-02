@@ -240,11 +240,16 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 
 ---
 
-> *Simulation, 45,000 battles: the Pulse wins **33%** against the Column's 67%, and that is the scenario rather than the warhead — 1135 points and two Frames against 1185 and three. Worth rebalancing before reading anything else from it.*
+> *Simulation, 45,000 battles. Two things, and they should be read separately.*
 >
-> *What the warhead itself does: fired about **1.9 times a battle**, catching 3–5 Frames, and producing only **1.6 criticals** in total, because most Frames caught still have armour on the location that was hit. Compared against the old single-target version it is flat to fractionally weaker — 34% down to 32–33% — and it gets **worse** as the blast reaches further, because friendly fire scales with it too (0.8 own Frames caught at a 25% adjacency rate, 1.8 at 60%). The weapon is self-limiting: a bigger pulse catches more of your own lance at the same rate it catches theirs.*
+> *The scenario is unbalanced on its own terms: the Pulse wins about **31%** against the Column's 69%, at 1135 points and two Frames against 1185 and three. Fix that before reading any verdict about the warhead out of it — the useful figure here is the **change**, not the level.*
 >
-> *Caveat on that number: the simulator has no map, so blast reach is a parameter rather than a fact, and its pilots make no attempt to position away from their own Colossus. A real player would, so real friendly fire is lower and the warhead is somewhat better than measured here.*
+> *The warhead as an opener is **weaker than the finisher it replaced**: 34% down to 31%. It fires about twice a battle and reliably lands a Sensor Critical, permanently destroying an array roughly **0.65 times per battle** — but the version it replaced rolled on the **location** tables, where a stripped leg or a live ammo bin could turn one pulse into a kill. Trading that for guaranteed sensor faults is a trade down in raw strength, whatever it does for the weapon's identity.*
+>
+> *Ring duration barely matters. Extending the band suppression through the following turn instead of ending at the End Phase moved the result by under a point, because the longer it lasts the longer it also sits on your own Frames.*
+>
+> *Caveats: the simulator has no map, so blast reach is a parameter (tested from 25% to 60% adjacency — the result moved by one point across that whole range), and its pilots make no attempt to position away from their own Colossus. A real player would, so real friendly fire is lower and the warhead is better than measured.*
+
 ## Scenario 11: Three Oaths (3v3, The Untested Vows)
 **Focus**: The Vows of **Honor**, **Loyalty** and **Honesty** — the three that no other scenario fields — and how they interfere with one another on the same team.
 
