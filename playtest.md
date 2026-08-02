@@ -7,48 +7,60 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 ## Current Balance
 
 Simulated 2026-08-02 against the rules as they now stand — standing Capacitor reserve, IRCM suite,
-EMP as an opener, Autocannon fire control fixed per Frame. **5 fixed seeds × 5,000 battles per
-scenario.** The range column is the noise floor: read nothing into a gap smaller than it. Re-run and
-diff this table whenever the rules move.
+EMP as an opener, Autocannon fire control fixed per Frame, and the signal-warfare audit applied in
+full. **5 fixed seeds × 5,000 battles per scenario.** The range column is the noise floor: read
+nothing into a gap smaller than it. Re-run and diff this table whenever the rules move.
 
 | Scenario | Turns | Team A | Team B | Range | Stall |
 | :--- | ---: | ---: | ---: | :---: | ---: |
 | 0 · Trial by Fire (1v1) | 9.8 | 56% | 43% | 54–57% | 1% |
-| 1 · Ghost & Wall (3v2) | 10.7 | 31% | 69% | 30–31% | 1% |
-| 2 · Honorable Attrition (3v3) | 12.7 | **52%** | 47% | 51–53% | 1% |
-| 3 · Hammer & Anvil (4v4) | 9.6 | 58% | 41% | 58–60% | 0% |
-| 4 · Vanguard Swarm (1v4) | 5.5 | 3% | 97% | 3–3% | 0% |
+| 1 · Ghost & Wall (3v2) | 11.7 | 41% | 57% | 41–42% | 1% |
+| 2 · Honorable Attrition (3v3) | 11.9 | **52%** | 47% | 52–53% | 0% |
+| 3 · Hammer & Anvil (4v4) | 9.5 | 58% | 41% | 57–58% | 1% |
+| 4 · Vanguard Swarm (1v4) | 5.2 | 1% | 99% | 1–1% | 0% |
 | 5 · The Duel (1v1 mirror) | 7.0 | 58% | 41% | 58–60% | 1% |
 | 6 · Scout Skirmish (1v1 mirror) | 6.6 | 58% | 38% | 58–59% | 3% |
-| 7 · Titan Bout (1v1) | 6.3 | 65% | 32% | 65–66% | 3% |
+| 7 · Titan Bout (1v1) | 6.9 | 83% | 14% | 83–84% | 3% |
 | 8 · Shattered Mesa (1v1) | — | — | — | — | — |
-| 9 · Salvage Rights (1v1 mirror) | 6.0 | 54% | 42% | 53–55% | 4% |
-| 10 · Dead Air (2v3) | 8.1 | **46%** | 53% | 46–47% | 1% |
-| 11 · Three Oaths (3v3) | 9.8 | 40% | 60% | 39–41% | 0% |
-| **Mean** | **8.3** | **49%** | | | |
+| 9 · Salvage Rights (1v1 mirror) | 8.0 | 33% | 58% | 33–34% | 8% |
+| 10 · Dead Air (2v3) | 8.2 | 34% | 65% | 32–35% | 1% |
+| 11 · Three Oaths (3v3) | 11.1 | 48% | 52% | 47–48% | 0% |
+| **Mean** | **8.7** | **48%** | | | |
 
-**Scenario 1 reads 31% because the simulator plays the line that scenario exists to prove is
-wrong.** Its pilots buy Flank Speed every turn. Banking for Overcharges instead, the Ghosts win
-**48%** — down from 54% before the Autocannon fix, since two of their three Frames now carry
-Radar-laid Autocannons that the Wall's ECM can answer. The scenario is sound; the figure in the
-table is not the one to judge it by.
+**Scenario 1 reads 41% because the simulator plays the line that scenario exists to prove is
+wrong** — its pilots buy Flank Speed every turn instead of banking for Overcharges. See that
+scenario's own doctrine note.
 
-**Scenario 10 was re-tuned after the Autocannon fix** and now sits at 46%. See its own notes for the loop it went round — the short version is that its original roster turned out to be correct, and only looked broken while the Autocannon ignored electronic warfare entirely.
+**Scenario 9 is the interesting one, and it is not a roster problem.** Two identical Paladins
+cannot be rebalanced against each other; the only asymmetry left is who fires first. It reads 33%
+because spending EP on your own shot makes you infrared-lockable for the rest of the turn, so the
+Frame that shoots first lights itself up for the one that shoots second. Both Paladins carry
+IR-guided missiles, so the effect lands at full strength. That is the rule working as written —
+stealth and shooting are meant to be exclusive — but a mirror is the cleanest instrument in the
+suite, and it puts the size of that effect at roughly **25 points of win rate**. Worth knowing
+before deciding it is settled. Note also that the simulator's pilots never once decline to fire to
+stay cold, so 33% is the floor for a side that never takes the stealth option, not the true figure.
+
+**Scenario 10 is still out and wants a third look.** It has been re-tuned twice this session
+already, and the rules moved under it both times.
 
 **The remaining outliers are asymmetric by construction.** Scenario 4 is a deliberate 1v4 stress
-test, and Scenario 7 quotes no point values at all — a Colossus at 680 against a Paladin at 555, so
-65% for a 22% point advantage is roughly proportionate. Scenario 8 is absent because it tests
-vertical warfare and the simulator has no elevation; it needs table play.
+test. Scenario 7 quotes no point values at all — a Colossus at 680 against a Paladin at 555 — and
+its 83% is now well past what a 22% point advantage explains, because the Colossus fields two
+infrared weapons and benefits from the higher-Initiative Paladin exposing itself first. That one
+wants matched points rather than a rules change. Scenario 8 is absent because it tests vertical
+warfare and the simulator has no elevation; it needs table play.
 
-Mirror matches sit at 58% to whoever shoots first. That skew is understood and accepted; 55/45
-would be nicer, but nothing here is worth breaking to get it.
+Mirror matches with no infrared weapon between them sit at 58% to whoever shoots first. That skew
+is understood and accepted.
 
 *Caveats that apply to every row. The simulator has no map, so cover, elevation, facing and range
 are approximated, and blast reach for the EMP is a parameter rather than a fact (tested from 25% to
 60% adjacency — results moved by one point across that whole range). Its pilots are greedy: they
-always take Flank Speed when affordable, always fire what they can afford, and never position to
-spare their own lance. Absolute win rates also drift a few points between harnesses depending on
-how the random stream is consumed, so **trust the paired deltas over the absolute levels**.*
+always take Flank Speed when affordable, always fire everything they can afford — never holding
+fire to stay cold — and never position to spare their own lance. Absolute win rates also drift a
+few points between harnesses depending on how the random stream is consumed, so **trust the paired
+deltas over the absolute levels**.*
 
 ---
 
