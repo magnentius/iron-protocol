@@ -61,6 +61,16 @@ function isKind(kind) {
   return false;
 }
 
+/**
+ * The Frame's lance — same team, still standing. Two rules need it: a Datalink
+ * can hand you a lock your own burned-out array cannot make, and an ECM umbrella
+ * covers everyone inside its radius rather than only the Frame carrying it.
+ */
+function alliesOf(frame) {
+  if (!frame) return [];
+  return framesList().filter((f) => f.id !== frame.id && f.team === frame.team && !R.isDestroyed(f));
+}
+
 function locationTotal() {
   return state.locationDice ? state.locationDice[0] + state.locationDice[1] : null;
 }
@@ -180,6 +190,7 @@ function weaponOption(frame, w) {
     bursts: selected ? state.bursts : 1,
     overcharge: selected ? overchargeEP() : (def.requiresOvercharge || 0),
     target: target(),   // a cold target cannot be locked on infrared at all
+    allies: alliesOf(frame),
   });
   const cost = R.weaponEPCost(frame, w, { bursts: 1 });
   const band = R.weaponBand(w);
@@ -193,7 +204,10 @@ function weaponOption(frame, w) {
           <span class="small ${selected ? '' : 'dim'}">${cost.base} EP</span>
         </div>
         <div class="tiny ${selected ? '' : 'dim'}" style="opacity:.85">
-          ${esc(LOCATION_NAMES[w.loc])}${band ? ` · ${esc(SENSOR_BANDS[band] || band)}` : ''}${w.empty ? ' · EMPTY' : ''}${blocked ? ` · ${esc(blocked)}` : ''}
+          ${esc(LOCATION_NAMES[w.loc])}${band ? ` · ${esc(SENSOR_BANDS[band] || band)}` : ''}${w.empty ? ' · EMPTY' : ''}${blocked ? ` · ${esc(blocked)}` : ''}${
+            !blocked && band && (frame.sensorBandsDestroyed || {})[band]
+              ? ` · via Datalink from ${esc((R.datalinkSpotter(frame, band, alliesOf(frame)) || {}).callsign || 'an ally')}`
+              : ''}
         </div>
       </div>
     </button>`;
@@ -300,7 +314,7 @@ function stepZone() {
 function stepCountermeasures() {
   const t = target();
   const band = R.weaponBand(weapon());
-  const options = band ? R.availableCountermeasures(t, band) : [];
+  const options = band ? R.availableCountermeasures(t, band, { allies: alliesOf(t) }) : [];
 
   if (!options.length) {
     return step(5, 'Countermeasures', false, true, `
@@ -333,7 +347,9 @@ function stepCountermeasures() {
       ${options.map((o) => `
         <button class="btn sm" data-action="use-cm" data-key="${o.key}" data-kind="${o.kind}">
           ${esc(labelFor(o.key))} <span class="dim">${
-            o.kind === 'cartridge' ? 'cartridge' : o.kind === 'powered' ? `${o.ep} EP` : 'sustained'
+            o.from ? `${esc(o.from)}, within ${o.radius}`
+            : o.kind === 'cartridge' ? 'cartridge'
+            : o.kind === 'powered' ? `${o.ep} EP` : 'sustained'
           }</span>
         </button>`).join('')}
       <button class="btn sm ghost" data-action="decline-cm">Let it through</button>

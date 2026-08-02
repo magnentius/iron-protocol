@@ -438,6 +438,63 @@ export function run({ describe, it, eq, ok }) {
     eq(R.isIRLockable(f), true, 'five hexes is five EP — the bloom is visible');
   });
 
+  it('a Datalink hands you a lock your own burned-out array cannot make', () => {
+    const col = frame('colossus', { ep: 30, capacitor: 10 });
+    const rail = col.weapons.find((w) => w.key === 'railGun');
+    const mate = frame('vanguard');
+    col.sensorBandsDestroyed = { rad: true };
+    ok(/destroyed/.test(R.weaponBlockedReason(col, rail, { allies: [] })), 'alone, it cannot fire');
+    eq(R.weaponBlockedReason(col, rail, { allies: [mate], overcharge: 6 }), null, 'on the net, it can');
+  });
+
+  it('both ends of the link have to be up', () => {
+    const col = frame('colossus', { ep: 30 });
+    col.sensorBandsDestroyed = { rad: true };
+    const spot = (mate) => R.datalinkSpotter(col, 'rad', [mate]);
+    ok(spot(frame('vanguard')), 'a healthy ally spots');
+    eq(spot(Object.assign(frame('vanguard'), { datalinkSuppressed: true })), null, 'EMP-jammed ally');
+    eq(spot(Object.assign(frame('vanguard'), { datalinkSevered: true })), null, 'severed ally');
+    col.datalinkSevered = true;
+    eq(spot(frame('vanguard')), null, 'and a severed link of your own cuts you off');
+  });
+
+  it('a spotter must actually have the band', () => {
+    const col = frame('colossus', { ep: 30 });
+    col.sensorBandsDestroyed = { rad: true };
+    const blind = frame('vanguard');
+    blind.sensorBandsDestroyed = { rad: true };
+    eq(R.datalinkSpotter(col, 'rad', [blind]), null, 'it cannot lend what it has not got');
+  });
+
+  it('an EMP cuts the link as well as the array, so nothing can be borrowed', () => {
+    // The two effects together are the point: taking an array while leaving the
+    // network up would cost the target nothing.
+    const col = frame('colossus', { ep: 30 });
+    R.resolveEMP(col, { forcedRoll: 5, rng: seq(5) });   // 5-6 array, 5-6 Radar
+    eq(R.datalinkSpotter(col, 'rad', [frame('vanguard')]), null);
+  });
+
+  it('an ECM umbrella covers the lance, not just the Frame carrying it', () => {
+    const host = frame('vanguard', { ecmActive: true, ecmRadius: 2, callsign: 'Umbrella' });
+    const ally = frame('jackal');
+    const keys = (f, allies) => R.availableCountermeasures(f, 'rad', { allies }).map((c) => c.key);
+    eq(keys(ally, []).includes('ecm'), false, 'alone, it is uncovered');
+    eq(keys(ally, [host]).includes('ecm'), true, 'inside the radius, it is not');
+  });
+
+  it('a 0-hex umbrella covers nobody but its host', () => {
+    const host = frame('vanguard', { ecmActive: true, ecmRadius: 0 });
+    const ally = frame('jackal');
+    eq(R.availableCountermeasures(ally, 'rad', { allies: [host] }).map((c) => c.key).includes('ecm'),
+       false, 'the radius Overcharge is what buys the coverage');
+  });
+
+  it('an honest pilot is not sheltered by an allied umbrella', () => {
+    const host = frame('vanguard', { ecmActive: true, ecmRadius: 3 });
+    const honest = frame('jackal', { vow: 'honesty' });
+    eq(R.availableCountermeasures(honest, 'rad', { allies: [host] }), []);
+  });
+
   it('offers only the systems that answer the attacking band', () => {
     // Enough EP for the IRCM suite — a powered countermeasure is gated on energy
     // the way a cartridge is gated on its magazine.

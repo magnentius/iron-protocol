@@ -109,7 +109,8 @@ adjustable, so the app never blocks you.
 2. bursts and Overcharge, priced against banked capacitor charge;
 3. hit zone;
 4. **the defender's Countermeasure Check** — only the systems that answer the attacking band are
-   offered, and a 4+ negates the attack outright. A cartridge burns its Ammo Die whether it
+   offered, including an ally's ECM umbrella (named, so the table can confirm the range the app
+   cannot know), and a 4+ negates the attack outright. A cartridge burns its Ammo Die whether it
    worked or not, and the IRCM suite bills its 2 EP the same way; a sustained suite is never
    expended. A suite the defender cannot pay for is not offered at all;
 5. 2d6 hit location and the damage roll;
@@ -248,6 +249,8 @@ explicitly in `rules.md` §2.3, §5.0 and §6.
 | Cascading Failure | A critical landing on a marked slot climbs to the next unmarked one; past the top of the table, the top result applies |
 | Table lengths | Head 5, Torso 8, Arms and Legs 6. Torso 7–8 cannot be rolled naturally — only cascaded into, or reached by HEI's +1 |
 | Countermeasure Check | Every deployed countermeasure contests a lock on a **4+**. Terrain alone blocks outright |
+| Tactical Datalink | A lock held by one datalinked Frame is held by the whole net. A Frame whose array is destroyed still fires the weapon that needed it, so long as a lance-mate with a working link has the band — which is why an EMP jams the link as well as burning the array |
+| ECM umbrella | Covers every friendly Frame inside its radius, not only the Frame carrying it. That is what the radius Overcharge buys; a 0-hex suite shelters nobody but its host |
 | Running cold | A Frame that has not spent its 5th EP in a turn has no infrared signature and **cannot be locked on IR at all** — a hard block, not a check, since there is nothing to contest. Adaptive Skin upkeep is exempt, so buying stealth never exposes you |
 | Countermeasure economies | **Chaff / Smoke** are expendable — an Ammo Die, roughly six uses. **ECM / Adaptive Skin** are sustained — 2 EP every Energy Phase. The **IRCM suite** is powered — 2 EP per activation, never runs dry, and spends the same banked charge an Overcharge needs |
 | Ammo Die | Nothing reloads. Autocannon Empty on 1 (Full Auto 1–3), missiles and jump propellant 1–2, cartridges 1 |

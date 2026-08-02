@@ -412,8 +412,36 @@ export function countermeasureCheck({ rng = Math.random, forcedRoll = null } = {
   return { rolled, tn: COUNTERMEASURE_CHECK_TN, negated: rolled >= COUNTERMEASURE_CHECK_TN };
 }
 
+/** Is this Frame's Tactical Datalink up — fitted, not severed, not jammed? */
+export function datalinkActive(frame) {
+  return Boolean(frame.systems?.datalink) && !frame.datalinkSevered && !frame.datalinkSuppressed;
+}
+
+/**
+ * A teammate who can hand this Frame a lock on `band` (rules.md 4.3).
+ *
+ * Both ends need a working Datalink, and the spotter needs the band itself. This
+ * is the designed counter to losing an array: a Colossus with its Radar burned
+ * out still fires the Rail Gun, so long as someone on the net can see for it.
+ *
+ * It is also why an EMP jams the link. A pulse that took your array and left the
+ * network up would cost you nothing.
+ *
+ * The tracker cannot check that the spotter has line of sight — it has no map —
+ * so the caller should name the spotter and let the players confirm the geometry,
+ * the same way terrain and Smoke are set by hand.
+ */
+export function datalinkSpotter(frame, band, allies = []) {
+  if (!band || !datalinkActive(frame)) return null;
+  return allies.find((a) => (
+    a !== frame && !isDestroyed(a) && datalinkActive(a)
+    && !(a.sensorBandsDestroyed || {})[band]
+    && !a.locksDropped
+  )) || null;
+}
+
 /** Which of the defender's systems can contest an attack made on this band. */
-export function availableCountermeasures(frame, band) {
+export function availableCountermeasures(frame, band, { allies = [] } = {}) {
   const out = [];
   const sys = frame.systems || {};
   // Vow of Honesty forbids every deception system, the pilot's own and allies'.
@@ -425,6 +453,20 @@ export function availableCountermeasures(frame, band) {
   if (band === 'rad' && sys.chaff && !frame.chaffEmpty) out.push({ key: 'chaff', kind: 'cartridge' });
   if (band === 'vis' && frame.inSmoke) out.push({ key: 'smoke', kind: 'cartridge' });
   if (band === 'rad' && frame.ecmActive) out.push({ key: 'ecm', kind: 'sustained' });
+  // An ECM umbrella covers every friendly Frame inside its radius, not just the
+  // Frame carrying it (rules.md 4.2) — which is the whole point of paying to
+  // Overcharge the radius outward. Range is the players' to confirm; the tracker
+  // has no map, so it names the host and leaves the geometry to the table.
+  if (band === 'rad' && !frame.ecmActive) {
+    const host = allies.find((a) => (
+      a !== frame && !isDestroyed(a) && a.ecmActive && (a.ecmRadius || 0) >= 1
+    ));
+    if (host) {
+      out.push({
+        key: 'ecm', kind: 'sustained', from: host.callsign || 'an ally', radius: host.ecmRadius,
+      });
+    }
+  }
   if (frame.adaptiveSkinActive && (frame.adaptiveSkinBandKeys || []).includes(band)) {
     out.push({ key: 'adaptiveSkin', kind: 'sustained' });
   }
@@ -802,7 +844,7 @@ export function targetLockBlockedReason(target, band) {
   return null;
 }
 
-export function weaponBlockedReason(frame, weapon, { bursts = 1, overcharge = 0, target = null } = {}) {
+export function weaponBlockedReason(frame, weapon, { bursts = 1, overcharge = 0, target = null, allies = [] } = {}) {
   const def = weaponDef(weapon);
   if (weapon.destroyed) return 'Weapon destroyed';
   if (frame.locations[weapon.loc]?.destroyed) return `${LOCATION_NAMES[weapon.loc]} severed`;
@@ -812,7 +854,7 @@ export function weaponBlockedReason(frame, weapon, { bursts = 1, overcharge = 0,
   if (bursts > MAX_FULL_AUTO_BURSTS) return `Full Auto is capped at ${MAX_FULL_AUTO_BURSTS} bursts`;
 
   const band = weaponBand(weapon);
-  if (band && (frame.sensorBandsDestroyed || {})[band]) {
+  if (band && (frame.sensorBandsDestroyed || {})[band] && !datalinkSpotter(frame, band, allies)) {
     return `${band.toUpperCase()} array destroyed — cannot establish a lock`;
   }
   if (frame.locksDropped) return 'Sensor Ghosting — no locks held';
