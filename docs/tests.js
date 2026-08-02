@@ -400,6 +400,44 @@ export function run({ describe, it, eq, ok }) {
     ok(/destroyed/i.test(R.weaponBlockedReason(f, ac)), R.weaponBlockedReason(f, ac));
   });
 
+  it('a Frame running cold cannot be locked on infrared at all', () => {
+    const shooter = frame('colossus', { ep: 30, capacitor: 10 });
+    const lance = shooter.weapons.find((w) => w.key === 'thermalLance');
+    const cold = frame('jackal', { epSpentThisTurn: 4 });
+    const warm = frame('jackal', { epSpentThisTurn: 5 });
+    ok(/cold/i.test(R.weaponBlockedReason(shooter, lance, { target: cold })));
+    eq(R.weaponBlockedReason(shooter, lance, { target: warm }), null, 'the 5th EP is the threshold');
+  });
+
+  it('running cold is a hard block, not a Countermeasure Check', () => {
+    // Nothing to contest, because there is no signature to find.
+    eq(R.targetLockBlockedReason(frame('jackal', { epSpentThisTurn: 0 }), 'ir') !== null, true);
+    eq(R.targetLockBlockedReason(frame('jackal', { epSpentThisTurn: 0 }), 'vis'), null,
+       'only infrared has a signature rule');
+    eq(R.targetLockBlockedReason(frame('jackal', { epSpentThisTurn: 0 }), 'rad'), null);
+  });
+
+  it('an EMP is unaffected — it needs no lock to deny', () => {
+    const colossus = frame('colossus', { ep: 30, capacitor: 10 });
+    const emp = colossus.weapons.find((w) => w.warhead === 'emp');
+    eq(R.weaponBlockedReason(colossus, emp, { target: frame('jackal', { epSpentThisTurn: 0 }) }), null);
+  });
+
+  it('Adaptive Skin upkeep does not warm a Frame up', () => {
+    // rules.md 4.1: a Skin runs cold by design, so buying stealth must not
+    // expose you on the band you bought it to hide from.
+    const f = frame('specter', { adaptiveSkinActive: true, adaptiveSkinBandKeys: ['ir'] });
+    R.energyPhase(f);
+    eq(R.isIRLockable(f), false, 'the 2 EP of Skin upkeep is exempt');
+  });
+
+  it('but moving does warm it up', () => {
+    const f = frame('specter', { adaptiveSkinActive: true, adaptiveSkinBandKeys: ['ir'] });
+    R.energyPhase(f);
+    for (let i = 0; i < 5; i += 1) R.performMovement(f, 'walk');
+    eq(R.isIRLockable(f), true, 'five hexes is five EP — the bloom is visible');
+  });
+
   it('offers only the systems that answer the attacking band', () => {
     // Enough EP for the IRCM suite — a powered countermeasure is gated on energy
     // the way a cartridge is gated on its magazine.

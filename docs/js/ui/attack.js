@@ -179,6 +179,7 @@ function weaponOption(frame, w) {
   const blocked = R.weaponBlockedReason(frame, w, {
     bursts: selected ? state.bursts : 1,
     overcharge: selected ? overchargeEP() : (def.requiresOvercharge || 0),
+    target: target(),   // a cold target cannot be locked on infrared at all
   });
   const cost = R.weaponEPCost(frame, w, { bursts: 1 });
   const band = R.weaponBand(w);

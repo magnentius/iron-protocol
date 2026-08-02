@@ -248,6 +248,7 @@ explicitly in `rules.md` §2.3, §5.0 and §6.
 | Cascading Failure | A critical landing on a marked slot climbs to the next unmarked one; past the top of the table, the top result applies |
 | Table lengths | Head 5, Torso 8, Arms and Legs 6. Torso 7–8 cannot be rolled naturally — only cascaded into, or reached by HEI's +1 |
 | Countermeasure Check | Every deployed countermeasure contests a lock on a **4+**. Terrain alone blocks outright |
+| Running cold | A Frame that has not spent its 5th EP in a turn has no infrared signature and **cannot be locked on IR at all** — a hard block, not a check, since there is nothing to contest. Adaptive Skin upkeep is exempt, so buying stealth never exposes you |
 | Countermeasure economies | **Chaff / Smoke** are expendable — an Ammo Die, roughly six uses. **ECM / Adaptive Skin** are sustained — 2 EP every Energy Phase. The **IRCM suite** is powered — 2 EP per activation, never runs dry, and spends the same banked charge an Overcharge needs |
 | Ammo Die | Nothing reloads. Autocannon Empty on 1 (Full Auto 1–3), missiles and jump propellant 1–2, cartridges 1 |
 | Jump Jets | 2 EP per hex and nothing else — no terrain or climbing surcharge. A 2+ hex jump grants Flank Speed; a single hop does not. Every jump burns propellant |

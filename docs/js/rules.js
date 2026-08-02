@@ -781,7 +781,28 @@ export function overchargeDiceFor(weapon, epSpent) {
   return Math.min(def.overcharge.maxDice, Math.floor(epSpent / def.overcharge.epPerDie));
 }
 
-export function weaponBlockedReason(frame, weapon, { bursts = 1, overcharge = 0 } = {}) {
+/**
+ * Why this target cannot be locked on this band, or null if it can.
+ *
+ * Separate from weaponBlockedReason because it is a fact about the *target*, not
+ * the shooter: the same weapon that cannot touch a Frame running cold will lock
+ * the one beside it that spent a point moving.
+ *
+ * Infrared is the only band with such a rule. A Frame that has not yet spent its
+ * 5th EP this turn has no heat bloom to find (rules.md 4.1), and this is a hard
+ * block rather than a Countermeasure Check — there is nothing to contest, because
+ * there is no signature. It is the only way to be invisible on infrared without
+ * spending a hardpoint, and the price is doing almost nothing with your turn.
+ */
+export function targetLockBlockedReason(target, band) {
+  if (!target || !band) return null;   // no band means no lock to deny — see the EMP
+  if (band === 'ir' && !isIRLockable(target)) {
+    return `Running cold — under ${IR_LOCK_THRESHOLD} EP spent this turn, no infrared signature`;
+  }
+  return null;
+}
+
+export function weaponBlockedReason(frame, weapon, { bursts = 1, overcharge = 0, target = null } = {}) {
   const def = weaponDef(weapon);
   if (weapon.destroyed) return 'Weapon destroyed';
   if (frame.locations[weapon.loc]?.destroyed) return `${LOCATION_NAMES[weapon.loc]} severed`;
@@ -795,6 +816,10 @@ export function weaponBlockedReason(frame, weapon, { bursts = 1, overcharge = 0 
     return `${band.toUpperCase()} array destroyed — cannot establish a lock`;
   }
   if (frame.locksDropped) return 'Sensor Ghosting — no locks held';
+
+  // The shooter's sensors are fine; this particular target may still be unlockable.
+  const unlockable = targetLockBlockedReason(target, band);
+  if (unlockable) return unlockable;
 
   const need = def.requiresOvercharge || 0;
   if (need && overcharge < need) return `Requires a ${need} EP Overcharge from the Capacitor`;
