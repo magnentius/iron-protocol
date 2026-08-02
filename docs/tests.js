@@ -499,14 +499,46 @@ export function run({ describe, it, eq, ok }) {
     f.locations.rightArm.dr = 0;
     const r = R.resolveEMP(f, { rng: seq(1, 1) });
     eq(r.hits.map((h) => h.location), ['leftArm', 'rightArm']);
-    eq(f.locations.torso.dr, 3, 'armored locations are untouched');
-    eq(f.sensorsScrambled, true);
+    eq(f.locations.torso.dr, 3, 'intact plate shields what is behind it');
   });
 
-  it('EMP severs the Tactical Datalink', () => {
+  it('EMP jams the Datalink for the turn without severing it permanently', () => {
     const f = frame('paladin');
     R.resolveEMP(f);
-    eq(f.datalinkSevered, true);
+    eq([f.datalinkSuppressed, f.datalinkSevered], [true, false],
+       'a Head Structural Fracture severs for the battle; a pulse does not');
+    R.endPhase(f);
+    eq(f.datalinkSuppressed, false, 'back next turn');
+  });
+
+  it('EMP knocks out one sensor band, on the Head crit split', () => {
+    const band = (roll) => R.resolveEMP(frame('paladin'), { forcedBandRoll: roll }).band;
+    eq([band(1), band(2), band(3), band(4), band(5), band(6)],
+       ['ir', 'ir', 'vis', 'vis', 'rad', 'rad']);
+  });
+
+  it('a suppressed band blocks that weapon until the End Phase', () => {
+    const f = frame('colossus', { ep: 20, capacitor: 8 });
+    const lance = f.weapons.find((w) => w.key === 'thermalLance'); // IR
+    eq(R.weaponBlockedReason(f, lance), null);
+    R.resolveEMP(f, { forcedBandRoll: 1 });                        // 1-2 = IR
+    ok(/EMP/.test(R.weaponBlockedReason(f, lance)), R.weaponBlockedReason(f, lance));
+    R.endPhase(f);
+    f.ep = 20; f.capacitor = 8;
+    eq(R.weaponBlockedReason(f, lance), null, 'the array comes back');
+  });
+
+  it('a suppressed band is not the same as a destroyed one', () => {
+    const f = frame('colossus', { ep: 20 });
+    R.resolveEMP(f, { forcedBandRoll: 1 });
+    eq((f.sensorBandsDestroyed || {}).ir, undefined, 'nothing was destroyed');
+  });
+
+  it('an EMP warhead needs no lock, so no countermeasure can contest it', () => {
+    const launcher = { key: 'guidedMissiles', loc: 'torso', warhead: 'emp', guidance: 'vis' };
+    eq(R.weaponBand(launcher), null);
+    const cluster = { key: 'guidedMissiles', loc: 'torso', warhead: 'cluster', guidance: 'vis' };
+    eq(R.weaponBand(cluster), 'vis', 'other warheads still need their lock');
   });
 
   it('the Disruptor forces a Critical and drains EP, ignoring armor entirely', () => {

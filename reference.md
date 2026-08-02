@@ -221,7 +221,7 @@
 
 | Vow | Constraint | Boon |
 | :--- | :--- | :--- |
-| **Courage** (Yuu) | Never Reverse | **+2** to Pilot Checks to stay upright **or to rise** (not EMP recovery) |
+| **Courage** (Yuu) | Never Reverse | **+2** to Pilot Checks to stay upright **or to rise** |
 | **Respect** (Rei) | No Rear-Zone attacks; no indirect fire | **+1** to Crit rolls vs a target's **Front** Hit Zone |
 | **Honor** (Meiyo) | Must engage the higher-tonnage / higher-Initiative foe if you can bear a weapon on it | **+1 damage die** against a Frame that outclasses you |
 | **Mercy** (Jin) | Pull every Head/Torso result while the target has **all four** limbs intact; free once any one limb is destroyed (per location on multi-hit attacks) | **+1** to Crit rolls vs **Arms and Legs** |

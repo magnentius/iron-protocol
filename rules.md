@@ -518,7 +518,7 @@ Frames can run active systems to deny locks and hide from sensors:
 ### 4.3 Tactical Datalink (Head Location)
 A Frame may be equipped with a **Tactical Datalink** housed in its Head location.
 - **Shared Targeting Data**: If two or more friendly Frames on a team are equipped with active Tactical Datalinks, they share sensor data in real time. If a target is detected or locked on any sensor spectrum (Visual, Infrared, or Microwave) by *one* of the datalinked Frames, it is instantly considered detected/locked on that spectrum for *all* other active datalinked Frames on the team.
-- **Critical Failure**: If a Frame suffers a **Structural Fracture** critical hit to its Head (Head Critical Table, slot 4), or is affected by an EMP warhead, its Tactical Datalink is disabled for the rest of the battle (or until the EMP effect clears), immediately severing that Frame from the shared sensor network.
+- **Critical Failure**: A **Structural Fracture** critical to the Head (Head Critical Table, slot 4) severs the Tactical Datalink for **the rest of the battle**, cutting that Frame from the shared sensor network permanently. An **EMP warhead** jams it instead — the link is down for the turn and restored at the End Phase.
 
 ---
 
@@ -624,7 +624,13 @@ Missiles must be configured with a guidance package and a warhead at build time:
 - **Warheads**:
   - *High Explosive (HE)*: Roll 1 Hit Location. Deals 3d6 damage to the primary hit location, and **1d6 splash damage** to all adjacent locations on the target Frame (e.g., if the Torso is hit, the Head, Arms, and Legs take splash damage).
   - *Cluster*: Sandblasts the target with a wide spread. Roll three times for Hit Locations: once on the **Left Side** column, once on the **Front/Rear** column, and once on the **Right Side** column. The Cluster Missile deals **2d6 damage** to each of these three rolled locations. Resolve this damage individually against each location's Armor DR.
-  - *EMP (Electromagnetic Pulse)*: Detonates in a massive sphere. Targets a specific hex rather than a single Frame. **All Frames** within the target hex and the 6 surrounding adjacent hexes suffer the EMP effect. Deals no physical damage. Bypasses Armor DR. Affected Frames suffer heavily scrambled sensors for the next turn (must pass a Pilot Check to establish any sensor locks). Additionally, any affected Frame suffers a **Critical Hit** on *every* location that currently has **0 Armor DR** (roll on the Critical Hit table for each exposed location). *(Note: This affects friendly Frames caught in the blast radius).*
+  - *EMP (Electromagnetic Pulse)*: Detonates in a massive sphere. Targets a **specific hex** rather than a single Frame. **All Frames** within the target hex and the 6 surrounding adjacent hexes suffer the effect, **including your own**. Deals no physical damage and rolls no damage dice.
+    - **No lock is required, and none can be contested.** The warhead is aimed at a point on the map, not at a Frame, so there is nothing for Chaff, an IRCM suite, Smoke, ECM or an Adaptive Skin to break — a countermeasure denies a *lock*, and there is no lock here. **Line of sight and terrain are the only things that stop it**, which is the one place this game has ever promised reliability: only the ground.
+    - **One sensor band is knocked out** on every affected Frame until the End Phase. Roll **1d6** separately for each: on a **1–2** the Thermal (IR) array, on a **3–4** the Optical (VIS) array, on a **5–6** the Microwave (Radar) array. That Frame cannot establish a lock on the affected band, and so cannot fire any weapon that needs it. *(This is the same roll as the Head's Sensor Array Destroyed critical, and deliberately so — the difference is that this one comes back.)*
+    - **The Tactical Datalink is jammed** for the turn, cutting the Frame from the shared sensor network until the End Phase.
+    - **A Critical Hit on every location already at 0 Armor DR** (roll on that location's table for each). Intact plate is a continuous conductive shell and shields what is behind it; a breach lets the pulse in. A Frame with its armour still whole takes no criticals at all.
+
+  > *What the warhead is for. It rolls no damage, so on its own it can never destroy anything — it is not an opener. Against a fresh lance it blinds and disconnects, and that is all. Against armour your side has already stripped, every breach becomes a critical at once, across seven hexes, with nothing the defender can do about it. It punishes a position that has been worn down, and it punishes your own Frames standing in it just as hard.*
 
 ### 5.3 Universal System Traits
 Many weapons and utility systems share standardized mechanical behaviors, represented by keywords or Traits.
@@ -749,7 +755,7 @@ A Frame must make a Pilot Check in the following situations:
   - *Leg Severed*: A Frame automatically falls Prone if a leg is severed (no check allowed).
 - **Standing on a Crippled Leg**: A Frame with a leg that has been **severed** or suffered **Actuator Destroyed** must pass a Pilot Check to rise (see Section 6.5.4), at the −2 both wounds impose. The 3 EP is spent whether it succeeds or fails.
 - **Fighting Through Sensor Scrambles**:
-  - *EMP Recovery*: If a Frame's sensors are scrambled by an EMP, the pilot must pass a Pilot Check (2d6) to establish a VIS, IR, or Radar lock. Failure means the lock cannot be established.
+  - *EMP Recovery*: no check is made. A band knocked out by an EMP is simply unavailable until the End Phase, when it comes back on its own (Section 5.2). The other two bands are unaffected and lock normally.
 
 #### Effects of the Prone State
 - **Defense**: A Prone Frame cannot gain **Flank Speed**, and it cannot force rerolls from Flank Speed. It still benefits from damage rerolls granted by Terrain Cover.
@@ -946,7 +952,7 @@ Every Named Pilot is sworn to a specific vow under the Iron Protocol, reflecting
 ##### Vow of Courage (Yuu)
 *“The warrior does not retreat; we are the anvil upon which the enemy breaks.”*
 - **The Constraint**: The pilot cannot use the **Reverse (R)** movement command.
-- **The Boon**: A pilot who has never learned to give ground has learned instead how to absorb a blow — and how to get back up. Gain **+2 to every Pilot Check made to stay on your feet or to rise back onto them**: collisions, Drop Strikes, hazardous landings, and hauling a crippled Frame upright on a severed leg alike. *(It does not apply to the Pilot Check for shaking off an EMP — that is a matter of sensors, not footing.)*
+- **The Boon**: A pilot who has never learned to give ground has learned instead how to absorb a blow — and how to get back up. Gain **+2 to every Pilot Check made to stay on your feet or to rise back onto them**: collisions, Drop Strikes, hazardous landings, and hauling a crippled Frame upright on a severed leg alike.
 - **Dishonor Penalty**: The pilot is dishonored (see standard penalty).
 
 ##### Vow of Respect (Rei)
@@ -1089,7 +1095,7 @@ Here are five pre-configured Iron Frames ready for combat.
 - **Equipped Weapons**:
   - **Left Arm** [Heavy HP]: Thermal Lance
   - **Right Arm** [Heavy HP]: Rail Gun (5d6, AP 3, inert slugs — infinite)
-  - **Torso** [Medium HP]: Guided Missile Launcher (Visual [VIS] Guided, EMP Warheads)
+  - **Torso** [Medium HP]: Guided Missile Launcher (EMP Warheads — fired at a hex, needs no lock)
 
 ---
 *Game Design by Antigravity & the User.*

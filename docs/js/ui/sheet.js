@@ -98,14 +98,17 @@ export function statusChips(frame) {
   }
   if (frame.ecmActive) chips.push(chip(`ECM${frame.ecmRadius ? ` +${frame.ecmRadius}` : ''}`, 'accent'));
   if (frame.electricalFire) chips.push(chip('Electrical Fire', 'danger'));
-  if (frame.sensorsScrambled) chips.push(chip('Sensors Scrambled', 'warn'));
+  if (frame.sensorBandSuppressed) {
+    chips.push(chip(`${SENSOR_BANDS[frame.sensorBandSuppressed]} down (EMP)`, 'warn'));
+  }
+  if (frame.datalinkSuppressed) chips.push(chip('Datalink jammed (EMP)', 'warn'));
   if (frame.locksDropped) chips.push(chip('Locks Dropped', 'warn'));
   for (const [band, on] of Object.entries(frame.sensorBandsDestroyed || {})) {
     if (on) chips.push(chip(`${SENSOR_BANDS[band]} array gone`, 'danger'));
   }
   if (frame.kneeLock) chips.push(chip('Knee Lock', 'warn'));
   if (frame.servoLock) chips.push(chip('Servo Lock', 'warn'));
-  if (frame.datalinkSevered) chips.push(chip('No Datalink', 'warn'));
+  if (frame.datalinkSevered) chips.push(chip('No Datalink', 'danger'));
   if (frame.jumpJetsEmpty) chips.push(chip('Propellant dry', 'warn'));
   if (frame.dishonored) chips.push(chip('Dishonored', 'danger'));
   const facing = frame.torsoFacing || 'center';
@@ -420,7 +423,7 @@ function systemsCard(frame) {
   }
 
   const flags = [];
-  if (s.datalink) flags.push(frame.datalinkSevered ? chip('Datalink severed', 'danger') : chip('Tactical Datalink', 'ok'));
+  if (s.datalink) flags.push((frame.datalinkSevered || frame.datalinkSuppressed) ? chip(frame.datalinkSevered ? 'Datalink severed' : 'Datalink jammed', 'danger') : chip('Tactical Datalink', 'ok'));
   if (R.hasVolatileStore(frame)) flags.push(chip('Volatile store aboard', 'warn'));
 
   return `

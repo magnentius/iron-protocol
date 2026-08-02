@@ -268,7 +268,8 @@ export function instantiate(presetKey) {
     calibrationDrift: false,
     locksDropped: false,
     datalinkSevered: false,
-    sensorsScrambled: false,
+    sensorBandSuppressed: null,   // EMP: one band out until the End Phase
+    datalinkSuppressed: false,    // EMP: distinct from the permanent severance
     sensorBandsDestroyed: {},
     hardpointFailure: {},
     targetingJitter: {},

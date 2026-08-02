@@ -728,8 +728,16 @@ export function weaponDef(weapon) {
 }
 
 /** The sensor band a weapon needs. Missiles use whichever band their seeker had. */
+/**
+ * The sensor band a weapon needs to establish its lock, or null if it needs none.
+ *
+ * An EMP warhead is aimed at a hex rather than a Frame (rules.md 5.2), so there
+ * is no lock to acquire and none to contest — no countermeasure can touch it.
+ * Line of sight and terrain are the only things that stop it.
+ */
 export function weaponBand(weapon) {
   const def = weaponDef(weapon);
+  if (weapon.warhead === 'emp') return null;
   return def.detection === 'guidance' ? weapon.guidance : def.detection;
 }
 
@@ -770,6 +778,11 @@ export function weaponBlockedReason(frame, weapon, { bursts = 1, overcharge = 0 
   const band = weaponBand(weapon);
   if (band && band !== 'any' && (frame.sensorBandsDestroyed || {})[band]) {
     return `${band.toUpperCase()} array destroyed — cannot establish a lock`;
+  }
+  // An EMP pulse suppresses one band until the End Phase. Destroyed is forever;
+  // this is not, so the two are tracked separately.
+  if (band && band !== 'any' && frame.sensorBandSuppressed === band) {
+    return `${band.toUpperCase()} array knocked out by an EMP — back next turn`;
   }
   if (frame.locksDropped) return 'Sensor Ghosting — no locks held';
 
@@ -872,9 +885,26 @@ export function resolveHighExplosive(frame, locKey, { rng = Math.random, forcedP
  * the Datalink, and inflicts a Critical on every location already at 0 DR.
  * Catches friendly Frames in the blast too — the caller decides who is in it.
  */
-export function resolveEMP(frame, { rng = Math.random } = {}) {
-  frame.sensorsScrambled = true;
-  frame.datalinkSevered = true;
+/**
+ * EMP warhead (rules.md 5.2). No damage, and no lock to acquire.
+ *
+ * Three effects, and only the last is gated on armour:
+ *   - one sensor band knocked out until the End Phase, rolled 1d6 on the same
+ *     split as the Head's Sensor Array Destroyed critical — the difference is
+ *     that this one comes back;
+ *   - the Tactical Datalink cut for the turn. Tracked apart from the permanent
+ *     severance a Head Structural Fracture causes, so the pulse cannot silently
+ *     inflict a battle-long injury;
+ *   - a Critical Hit on every location already stripped to 0 Armor DR. Intact
+ *     plate is a continuous conductive shell and shields what is behind it;
+ *     a breach lets the pulse in.
+ */
+export function resolveEMP(frame, { rng = Math.random, forcedBandRoll = null } = {}) {
+  const bandRoll = forcedBandRoll ?? rollDie(6, rng);
+  const band = bandRoll <= 2 ? 'ir' : bandRoll <= 4 ? 'vis' : 'rad';
+  frame.sensorBandSuppressed = band;
+  frame.datalinkSuppressed = true;
+
   const hits = [];
   for (const locKey of LOCATIONS) {
     if (isDestroyed(frame)) break;
@@ -882,7 +912,7 @@ export function resolveEMP(frame, { rng = Math.random } = {}) {
     if (loc.destroyed || loc.dr > 0) continue;
     hits.push({ location: locKey, crits: resolveCrits(frame, locKey, 1, { rng }) });
   }
-  return { scrambled: true, hits };
+  return { bandRoll, band, hits };
 }
 
 /**
@@ -982,7 +1012,8 @@ export function endPhase(frame, { rng = Math.random } = {}) {
   frame.torsoTwistedThisTurn = false;
   frame.servoStutter = false;   // lasts one turn
   frame.locksDropped = false;   // Sensor Ghosting clears
-  frame.sensorsScrambled = false;
+  frame.sensorBandSuppressed = null;  // EMP: knocked out, not destroyed
+  frame.datalinkSuppressed = false;
   frame.targetingJitter = {};
 
   for (const w of frame.weapons || []) {

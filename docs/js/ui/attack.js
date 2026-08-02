@@ -712,7 +712,8 @@ function applyAttack() {
       result.steps.push(r.hits.length
         ? `Pulse criticals ${r.hits.length} bare location${r.hits.length === 1 ? '' : 's'}`
         : 'No location was at 0 Armor DR — no lasting harm');
-      result.steps.push('Sensors scrambled, Datalink severed');
+      result.steps.push(`Pulse knocks out the ${SENSOR_BANDS[r.band]} array until the End Phase (rolled ${r.bandRoll})`);
+      result.steps.push('Tactical Datalink jammed for the turn');
     } else if (isKind('cluster')) {
       const r = R.resolveCluster(t);
       for (const hit of r) {
