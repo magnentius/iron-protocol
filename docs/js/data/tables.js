@@ -319,7 +319,7 @@ export const AMMO_DIE = {
   autocannonSingle: { empty: 1, expect: '6 attacks' },
   autocannonFullAuto: { empty: 3, expect: '2 attacks' },
   guidedMissiles: { empty: 2, expect: '3 salvos' },
-  countermeasure: { empty: 1, expect: '6 uses' }, // Flares / Chaff / Smoke
+  countermeasure: { empty: 1, expect: '6 uses' }, // Chaff / Smoke — the expendables
   jumpJets: { empty: 2, expect: '3 jumps' },
 };
 
@@ -336,9 +336,18 @@ export const SYSTEM_UPKEEP = {
 // attack on this roll or better. Terrain never rolls; it blocks outright.
 export const COUNTERMEASURE_CHECK_TN = 4;
 
+/**
+ * Powered countermeasures bill EP per activation instead of carrying a magazine.
+ *
+ * The IR suite is a directed jammer, not a pyrotechnic decoy: it does not run
+ * out, it draws power. Charged per attack rather than as turn upkeep, so it
+ * stays a decision — and it competes for the same banked charge Overcharge needs.
+ */
+export const COUNTERMEASURE_EP = { dircm: 2 };
+
 /** Which countermeasure answers which band. */
 export const COUNTERMEASURE_FOR_BAND = {
-  ir: ['flares', 'adaptiveSkin'],
+  ir: ['dircm', 'adaptiveSkin'],
   rad: ['chaff', 'ecm', 'adaptiveSkin'],
   vis: ['smoke', 'adaptiveSkin'],
 };

@@ -280,7 +280,7 @@ select, input[type="text"], input[type="number"] {
 }
 .loc-row .track-line .num b { font-size: .95rem; }
 
-/* --- Pips (ammo, flares, smoke) -------------------------------------------- */
+/* --- Pips (ammo, chaff, smoke) -------------------------------------------- */
 
 .pips { display: flex; flex-wrap: wrap; gap: 4px; }
 /* Full-height touch targets. They stretch to fill the row, so a Jackal's short

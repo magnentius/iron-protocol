@@ -313,7 +313,7 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
   2. **Verify Line of Sight (LOS) and Arc**: The target must be within the weapon's firing arc (determined by the Torso Facing set at the end of the Activation Phase) and have clear LOS (unless using a weapon that permits indirect fire).
   3. **Verify Sensor Detection & Lock**: The target must be detected on a spectrum compatible with the weapon (Visual [VIS], Infrared [IR], or Microwave [Radar]). If the target is undetected on that spectrum, the attack cannot be declared.
   4. **Defender's Countermeasures**: Before any location is rolled, the defender resolves any countermeasure it wishes to use.
-     - **Countermeasure Check**: if the defender launches a matching cartridge (Flares against IR, Chaff against Radar), or the attack is traced through **Smoke** on Visual, or the target is covered by an active **ECM** suite or an **Adaptive Skin** tuned to this band, the defender rolls **1d6**. On a **4, 5 or 6** the lock fails and the attack is negated entirely; on a **1, 2 or 3** the attacker burns through and the attack continues (see Section 4.2).
+     - **Countermeasure Check**: if the defender activates its IRCM suite against IR, or releases Chaff against Radar, or the attack is traced through **Smoke** on Visual, or the target is covered by an active **ECM** suite or an **Adaptive Skin** tuned to this band, the defender rolls **1d6**. On a **4, 5 or 6** the lock fails and the attack is negated entirely; on a **1, 2 or 3** the attacker burns through and the attack continues (see Section 4.2).
      - A launched cartridge is spent either way — roll its Ammo Die afterwards. A sustained suite is never expended.
   5. **Determine Hit Location**: Roll 2d6 on the **Hit Location Table**.
   6. **Roll Damage**: Roll the weapon's damage dice.
@@ -330,7 +330,7 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
   1. **Weapon Selection**: The Colossus pilot spends 4 EP to fire the **Thermal Lance** mounted on its Left Arm.
   2. **Verify Arc and LOS**: The Vanguard is located within the Colossus's Left Side Arc (Left Arm mount). Line of Sight is clear of blocking terrain.
   3. **Verify Lock**: The Thermal Lance requires an **Infrared (IR)** lock. The Vanguard spent 7 EP this turn — well past the 5 EP threshold — so its heat bloom is plainly visible and the lock holds. *(Had the Vanguard run cold, or had it fired Flares, the Lance could not have been used at all, however much energy the Colossus had.)*
-  4. **Defender's Countermeasures**: The Vanguard declines to launch Flares. A cartridge is only a 4+ chance of stopping the shot, its Torso armor is still fresh, and it would rather hold the launcher for a turn when the plate is thin. *(Its Chaff answers a different band entirely and is being saved for the Rail Gun.)* It is not running its ECM this turn either, so no Countermeasure Check is rolled and the attack proceeds.
+  4. **Defender's Countermeasures**: The Vanguard declines to fire its IRCM suite. It is only a 4+ chance of stopping the shot, its Torso armor is still fresh, and the 2 EP is charge it would rather keep — spent here, it is not available to Overcharge with next turn. *(Its Chaff answers a different band entirely and is being saved for the Rail Gun.)* It is not running its ECM this turn either, so no Countermeasure Check is rolled and the attack proceeds.
   5. **Hit Location**: The Colossus rolls 2d6 on the Hit Location Table. The attack came from the Front Hit Zone, so the Front/Rear column is used. The roll is a 7, indicating a **Torso** hit.
   6. **Roll Damage**: The Colossus rolls 3d6 for the Thermal Lance: rolls a 5, 4, 3 (Total 12).
   7. **Apply Flank Speed & Cover**: The Vanguard has **Flank Speed** (having met the 4-hex threshold), granting it one reroll. Seeing a 5 in the attacker's pool, the Vanguard's pilot elects to use it and forces that die to be rerolled. The new roll is a 2. The new damage total is 2, 4, 3 (Total 9). *(Had the Colossus rolled nothing above a 3, the Vanguard would simply have declined the reroll.)*
@@ -478,7 +478,7 @@ Every Frame has a sensor suite consisting of three bands, housed in the Head loc
 2. **Infrared (IR)**: Medium wavelength (approx. 700 nm–1 mm). Thermal sensors detecting heat signatures.
    - *Requires*: Direct Line of Sight (blocked by Elevation normally), but entirely ignores Woods and Smoke penalties. To lock a target hidden behind solid Elevation, a Frame must receive telemetry via a **Tactical Datalink** from a friendly spotter with clear IR LOS.
    - *Sensitivity*: Targets become visible and targetable on IR for the remainder of the turn the moment they spend their **5th EP** of the turn (cumulatively across the Energy, Activation, or Combat phases). *Skin upkeep paid during the Energy Phase does **not** count toward this total — an Adaptive Skin runs cold by design, and a Frame should never be punished on infrared for buying stealth. Every other expenditure counts: movement, weapons fire, standing up. Running cold means genuinely doing very little, and it is the only way to be invisible to infrared without spending a hardpoint on it.*
-   - *Blocked by*: Flares or an Adaptive Skin in Infrared mode, each on a **Countermeasure Check**.
+   - *Blocked by*: an IRCM suite or an Adaptive Skin in Infrared mode, each on a **Countermeasure Check**.
 3. **Microwave (Radar)**: Longest wavelength (approx. 1 mm–1 m). Active microwave radio detection.
    - *Requires*: Direct Line of Sight (blocked by Elevation normally), but entirely ignores Woods and Smoke penalties. To lock a target hidden behind solid Elevation, a Frame must receive telemetry via a **Tactical Datalink** from a friendly spotter with clear Radar LOS.
    - *Blocked by*: solid Elevation (Hills/Mountains) outright; Chaff, an active ECM suite or an Adaptive Skin in Microwave mode each contest it on a **Countermeasure Check**.
@@ -487,7 +487,7 @@ Every Frame has a sensor suite consisting of three bands, housed in the Head loc
 Frames can run active systems to deny locks and hide from sensors:
 
 - **The Countermeasure Check**: No countermeasure is a guaranteed save. Whenever a defensive system would deny an attacker's lock, the defender rolls **1d6 before the Hit Location roll**. On a **4, 5 or 6** the lock fails and the attack is negated entirely; on a **1, 2 or 3** the attacker burns through and the attack proceeds as normal. **One number covers every defensive system in the game.** A check is made when:
-  - the target launches **Flares** against an Infrared lock, or **Chaff** against a Microwave lock;
+  - the target activates its **IRCM suite** against an Infrared lock, or releases **Chaff** against a Microwave lock;
   - the attacker's **Visual** line of sight crosses a **Smoke** template;
   - the target is covered by an active **ECM** suite (Microwave) or an **Adaptive Skin** tuned to the attack's band.
 
@@ -496,17 +496,22 @@ Frames can run active systems to deny locks and hide from sensors:
   *What separates the two kinds of system is no longer certainty but cost. Cartridges are free to fire and run dry after roughly six launches; a sustained suite never runs out but bills 2 EP every Energy Phase, turn after turn, whether it is tested or not.*
 
 - **Electronic Countermeasures (ECM)**: Costs **2 EP** to activate in the Energy Phase. Contests Microwave (Radar) detection and locks on the host Frame (0-hex radius) — each attack tested against it requires a **Countermeasure Check**. **Overcharge** [+1 EP per +1 hex radius]. All friendly Frames within the active radius are protected. *(Note: Overcharging triggers the mandatory 1-Turn Cooldown on the ECM suite).*
-- **Flares**: (Ammo Die: 1d6, **no EP cost**). Launching flares forces a **Countermeasure Check**; on a **4+** the incoming attack is negated entirely, and on a 1-3 the attacker burns through. The launcher may only be used when **all** of the following are true:
-  - The attacker resolved the attack using an **Infrared (IR) lock**. (If the attacker holds multiple lock types, they may hot-swap to an un-negated lock, such as Visual or Radar, to bypass the flare. A defender may launch both Flares and Chaff simultaneously against the same attack to strip multiple lock types).
-  - Flares are launched **before** the Hit Location roll.
-  The cartridge is spent whether the check succeeded or not. After launching Flares, roll the Ammo Die (1d6). On a **1**, the launcher is empty for the rest of the battle.
+- **Infrared Countermeasure Suite (IRCM)**: (**2 EP per activation**, no Ammo Die). A directed jammer — it floods the attacker's infrared channel with a modulated source keyed to defeat a seeker's tracking logic, and dazzles an imaging thermal sight in the process. Activating it forces a **Countermeasure Check**; on a **4+** the incoming attack is negated entirely, and on a 1-3 the attacker burns through. The suite may only be used when **all** of the following are true:
+  - The attacker resolved the attack using an **Infrared (IR) lock**. (If the attacker holds multiple lock types, they may hot-swap to an un-negated lock, such as Visual or Radar, to bypass the jammer. A defender may run the IRCM suite and release Chaff simultaneously against the same attack to strip multiple lock types).
+  - The suite is activated **before** the Hit Location roll.
+  - The Frame can pay the **2 EP**, from its energy pool or its Capacitor reserve.
+  The energy is spent whether the check succeeded or not. The suite never runs out — it is powered, not expendable — but a Frame that has emptied both pool and reserve cannot defend itself on infrared at all.
+
+  > *Why this is a jammer and not a bundle of decoy flares. A pyrotechnic flare defeats a **seeker** — a guidance head that steers toward the brightest source in its field of view and can be pulled off it. Against an imaging thermal sight, an operator simply sees a bright flare **and** the target, and nothing is decoyed. Since Iron Frames aim directly rather than launching seekers on every trigger pull, a decoy would be worthless against most of what shoots at them. A directed jammer is the system that actually does this job, and it is powered rather than expendable — which is why this is the one countermeasure that bills energy at the moment it fires.*
 - **Chaff Dispensers**: (Ammo Die: 1d6, **no EP cost**). Releasing chaff forces a **Countermeasure Check**; on a **4+** the incoming attack is negated entirely, and on a 1-3 the attacker burns through. The dispenser may only be used when **all** of the following are true:
-  - The attacker resolved the attack using a **Microwave (Radar) lock**. (If the attacker holds multiple lock types, they may hot-swap to an un-negated lock, such as Visual or IR, to bypass the chaff. A defender may launch both Flares and Chaff simultaneously against the same attack to strip multiple lock types).
+  - The attacker resolved the attack using a **Microwave (Radar) lock**. (If the attacker holds multiple lock types, they may hot-swap to an un-negated lock, such as Visual or IR, to bypass the chaff. A defender may run the IRCM suite and release Chaff simultaneously against the same attack to strip multiple lock types).
   - Chaff is launched **before** the Hit Location roll.
   The cartridge is spent whether the check succeeded or not. After launching Chaff, roll the Ammo Die (1d6). On a **1**, the dispenser is empty for the rest of the battle.
 - **Smoke Launchers**: (Ammo Die: 1d6, **1 EP**). During the Activation Phase, a Frame may spend 1 EP to deploy a Smoke cloud in its current hex, or any of the 6 surrounding adjacent hexes (place a Smoke token). For as long as it remains on the board, any Visual (VIS) lock traced through that hex must survive a **Countermeasure Check** — on a **4+** the lock fails and the attack is negated; on a 1-3 the attacker picks the target out of the murk anyway. Infrared (IR) and Microwave (Radar) sensors are unaffected and scan through smoke unimpeded. After launching Smoke, roll the Ammo Die (1d6). On a **1**, the launcher is empty for the rest of the battle.
 
-> *Why Smoke costs energy and Flares and Chaff do not: Smoke is **proactive**. You deploy it on your own activation, in a hex of your choosing, and you can budget the point of energy for it. Flares and Chaff are **reactive** — fired during an opponent's attack, at a moment you cannot predict, against a lock you did not choose. Charging energy for a reaction would mean the question "can I defend myself?" was settled before you knew who was shooting or with what. The Ammo Die is the whole cost: roughly six charges, and once they are gone they are gone. Since a cartridge is only a **4+** to work and is spent either way, the question is not merely whether **this** attack is worth one — it is whether it is worth one you may well waste.*
+> *Why Chaff is free and the IRCM suite is not. Chaff is a cloud of cut filament: a magazine, and once it is gone it is gone. The Ammo Die is its whole cost — roughly six releases — and since it is only a **4+** to work and is spent either way, the question is not merely whether **this** attack is worth a cartridge but whether it is worth one you may well waste. Smoke is likewise expendable, and costs 1 EP on top because it is **proactive**: deployed on your own activation, in a hex of your choosing, at a moment you can budget for.*
+>
+> *The IRCM suite has no magazine to spend, so its cost has to be energy. An earlier draft of these rules argued that a reactive system must never charge EP — that "can I defend myself?" would be settled before you knew who was shooting or with what. That was true when unused energy was vented at the end of every turn and holding some back was simply waste. It is no longer true: the Capacitor is a standing reserve that persists until spent (Section 2.1), so keeping 2 EP against an infrared attack is a real and durable choice. It is also a **costly** one, because that same banked charge is what an Overcharge is paid from. A pilot who jams every shot fires nothing heavy; a pilot who saves it all for the Rail Gun takes the hits.*
 - **Adaptive Skin**: Costs **2 EP** to activate in the Energy Phase. The Frame tunes its coating to absorb **one** sensor spectrum (Microwave, IR, or VIS), contesting detection and locks on that spectrum — each attack made on the cloaked band requires a **Countermeasure Check**. **Overcharge**: [+2 EP to cloak a 2nd spectrum simultaneously]. *(Note: Overcharging triggers the mandatory 1-Turn Cooldown, meaning the Adaptive Skin will be completely offline during the following round, leaving the Frame fully exposed on all spectrums).*
 - **Pre-Combat System Deployment**: At the start of a battle (during Deployment), Frames equipped with **Adaptive Skin** or **ECM** may choose to deploy with those systems **Active**. The system's base upkeep cost (2 EP for Adaptive Skin, 2 EP for ECM) is automatically deducted from the Frame's generated energy pool during the Round 1 Energy Phase.
 
@@ -526,7 +531,7 @@ Weapons can only be mounted in the Left Arm, Right Arm, or Torso, which dictates
 Every weapon lists the sensor spectrum it needs in order to fire. **A weapon cannot be used at all unless the attacker holds a lock on its required spectrum** — a Frame blinded on that band is holding a dead gun, however much energy it has left.
 
 - **Laser [VIS]**: an optical weapon, aimed down the same cameras it burns through. **Woods blind it outright; Smoke and a Visual-mode Adaptive Skin each contest it on a Countermeasure Check.**
-- **Thermal Lance [IR]**: a thermal weapon that tracks its target's own heat bloom. **A target running cold cannot be locked at all; Flares and an Infrared-mode Adaptive Skin each contest it on a Countermeasure Check.**
+- **Thermal Lance [IR]**: a thermal weapon that tracks its target's own heat bloom. **A target running cold cannot be locked at all; an IRCM suite and an Infrared-mode Adaptive Skin each contest it on a Countermeasure Check.**
 - **Rail Gun [Radar]**: a hypersonic slug needs precise ranging to lead the target. **Chaff and ECM each contest it on a Countermeasure Check.**
 - **Autocannon [Any]**: short-ranged and forgiving, fired over open sights. Any lock will serve.
 - **Disruptor Cannon [Radar]**: coupling a pulse into a specific run of actuator wiring takes precise ranging on the target's internal geometry. **Chaff and ECM each contest it on a Countermeasure Check.**
@@ -567,7 +572,7 @@ Every system that carries an Ammo Die runs out the same way — nothing is reloa
 | **Autocannon** — Single Burst | 1 | 6 attacks |
 | **Autocannon** — Full Auto (3 bursts) | 1, 2 or 3 | 2 attacks |
 | **Guided Missiles** | 1 or 2 | 3 salvos |
-| **Flares / Chaff / Smoke** | 1 | 6 uses |
+| **Chaff / Smoke** | 1 | 6 uses |
 | **Jump Jet propellant** | 1 or 2 | 3 jumps |
 
 - **Roll above the number**: plenty remaining; fire again next turn.
@@ -866,7 +871,7 @@ Mobility stats (Init/Move) and Armor DR are strictly bound by the Limits and Cap
 
 #### 7.2.3 Countermeasures & Active Systems
 - **Smoke Launcher** [Light]: 10 pts
-- **Flare Launcher** [Light]: 15 pts
+- **Infrared Countermeasure Suite** [Light]: 15 pts
 - **Chaff Dispenser** [Light]: 15 pts
 - **Tactical Datalink** [Light]: 15 pts
 - **Jump Jets (Light/Medium only, mounts in the Torso; Ammo Die 1d6, Empty on 1-2)** [Light]: 20 pts
@@ -966,8 +971,8 @@ Every Named Pilot is sworn to a specific vow under the Iron Protocol, reflecting
 
 ##### Vow of Honesty (Makoto)
 *“Deception is a crutch. I will stand in the light and let them witness their end.”*
-- **The Constraint**: The pilot may not use **any system whose purpose is to deceive a sensor** — an Adaptive Skin, Smoke Launcher, Flare Launcher or Chaff Dispenser — nor may they activate ECM, nor benefit from the umbrella of allied ECM or Smoke. *An allied ECM bubble does not switch off around them — instead, an honest pilot's Frame is simply always considered detectable on the Microwave (Radar) spectrum while inside it, and enemies may always establish Visual locks through allied Smoke to reach them.*
-- **The Boon**: A pilot who has never hidden has spent that time learning to see. **No sustained jamming suite functions against this pilot's locks.** Neither an enemy **Adaptive Skin** nor an **ECM** umbrella forces a Countermeasure Check against their attacks — they may target a Frame on any spectrum its Skin is suppressing or its ECM is contesting, as though the system were switched off. *(Chaff, Flares and Smoke are physical countermeasures, not jamming, and still force their Countermeasure Check against this pilot normally.)*
+- **The Constraint**: The pilot may not use **any system whose purpose is to deceive a sensor** — an Adaptive Skin, Smoke Launcher, IRCM suite or Chaff Dispenser — nor may they activate ECM, nor benefit from the umbrella of allied ECM or Smoke. *An allied ECM bubble does not switch off around them — instead, an honest pilot's Frame is simply always considered detectable on the Microwave (Radar) spectrum while inside it, and enemies may always establish Visual locks through allied Smoke to reach them.*
+- **The Boon**: A pilot who has never hidden has spent that time learning to see. **No sustained jamming suite functions against this pilot's locks.** Neither an enemy **Adaptive Skin** nor an **ECM** umbrella forces a Countermeasure Check against their attacks — they may target a Frame on any spectrum its Skin is suppressing or its ECM is contesting, as though the system were switched off. *(Chaff and Smoke are physical, and still force their Countermeasure Check normally. So does an **IRCM suite**: the boon reads through jamming that runs **continuously** — a constant signature a trained eye learns to discount — not a directed burst fired at the instant of the shot. You cannot learn to anticipate something timed to your own trigger pull.)*
 - **Dishonor Penalty**: The pilot is dishonored (see standard penalty).
 
 ##### Vow of Loyalty (Chuugi)
@@ -1024,7 +1029,7 @@ Here are five pre-configured Iron Frames ready for combat.
 ### 8.3 IF-55M-1 "Vanguard" (Medium Skirmisher Frame)
 ![IF-55M-1 "Vanguard" Technical Sketch](images/if_55m_1_vanguard.jpg)
 
-*The workhorse of the fleet. Balanced defense, solid firepower, and equipped with flares to deflect seeking missiles.*
+*The workhorse of the fleet. Balanced defense, solid firepower, and an infrared jammer to spoil a thermal lock.*
 - **Initiative**: 6
 - **Chassis Mass (Tonnage)**: 55 Tons (Medium, Mass Value 2)
 - **Point Value**: 455 points
@@ -1035,7 +1040,7 @@ Here are five pre-configured Iron Frames ready for combat.
 - **Equipped Systems**:
   - Standard Sensor Suite (Visual [VIS]/Infrared [IR]/Microwave [Radar])
   - Electronic Countermeasures (ECM) [Medium HP]
-  - Flare Launcher [Light HP]
+  - Infrared Countermeasure Suite [Light HP]
   - Chaff Dispenser [Light HP]
   - Tactical Datalink [Light HP]
 - **Equipped Weapons**:
@@ -1055,7 +1060,7 @@ Here are five pre-configured Iron Frames ready for combat.
 - **Armor DR by Location**: Head: 5 | Torso: 7 | Left Arm: 5 | Right Arm: 5 | Each Leg: 6
 - **Equipped Systems**:
   - Standard Sensor Suite (Visual [VIS]/Infrared [IR]/Microwave [Radar])
-  - Flare Launcher [Light HP]
+  - Infrared Countermeasure Suite [Light HP]
   - Chaff Dispenser [Light HP]
   - Smoke Launcher [Light HP]
   - Tactical Datalink [Light HP]
@@ -1078,7 +1083,7 @@ Here are five pre-configured Iron Frames ready for combat.
 - **Equipped Systems**:
   - Standard Sensor Suite (Visual [VIS]/Infrared [IR]/Microwave [Radar])
   - Smoke Launcher [Light HP]
-  - Flare Launcher [Light HP]
+  - Infrared Countermeasure Suite [Light HP]
   - Chaff Dispenser [Light HP]
   - Tactical Datalink [Light HP]
 - **Equipped Weapons**:

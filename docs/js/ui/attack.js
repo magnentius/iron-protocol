@@ -325,7 +325,9 @@ function stepCountermeasures() {
     <div class="row wrap" style="gap:.35rem">
       ${options.map((o) => `
         <button class="btn sm" data-action="use-cm" data-key="${o.key}" data-kind="${o.kind}">
-          ${esc(labelFor(o.key))} <span class="dim">${o.kind === 'cartridge' ? 'cartridge' : 'sustained'}</span>
+          ${esc(labelFor(o.key))} <span class="dim">${
+            o.kind === 'cartridge' ? 'cartridge' : o.kind === 'powered' ? `${o.ep} EP` : 'sustained'
+          }</span>
         </button>`).join('')}
       <button class="btn sm ghost" data-action="decline-cm">Let it through</button>
     </div>`);
@@ -342,7 +344,7 @@ function rerollSources(t, def) {
 }
 
 function labelFor(key) {
-  return { flares: 'Flares', chaff: 'Chaff', smoke: 'Smoke', ecm: 'ECM Suite', adaptiveSkin: 'Adaptive Skin' }[key] || key;
+  return { dircm: 'IR Countermeasures', chaff: 'Chaff', smoke: 'Smoke', ecm: 'ECM Suite', adaptiveSkin: 'Adaptive Skin' }[key] || key;
 }
 
 function stepRolls() {

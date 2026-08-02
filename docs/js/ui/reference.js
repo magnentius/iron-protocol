@@ -27,7 +27,7 @@ const SENSOR_ROWS = [
   ['Urban Building', 'BLOCKED', 'BLOCKED', 'BLOCKED'],
   ['Elevation ≥ top height', 'BLOCKED', 'BLOCKED', 'BLOCKED'],
   ['Smoke template', 'Check 4+', 'Clear', 'Clear'],
-  ['Flares', 'Clear', 'Check 4+', 'Clear'],
+  ['IR Countermeasures', 'Clear', 'Check 4+', 'Clear'],
   ['Chaff', 'Clear', 'Clear', 'Check 4+'],
   ['Active ECM', 'Clear', 'Clear', 'Check 4+'],
   ['Adaptive Skin — Visual', 'Check 4+', 'Clear', 'Clear'],
@@ -167,7 +167,7 @@ function ammoTable() {
     ['Autocannon — single burst', AMMO_DIE.autocannonSingle.empty, AMMO_DIE.autocannonSingle.expect],
     ['Autocannon — Full Auto', AMMO_DIE.autocannonFullAuto.empty, AMMO_DIE.autocannonFullAuto.expect],
     ['Guided Missiles', AMMO_DIE.guidedMissiles.empty, AMMO_DIE.guidedMissiles.expect],
-    ['Flares / Chaff / Smoke', AMMO_DIE.countermeasure.empty, AMMO_DIE.countermeasure.expect],
+    ['Chaff / Smoke', AMMO_DIE.countermeasure.empty, AMMO_DIE.countermeasure.expect],
     ['Jump Jet propellant', AMMO_DIE.jumpJets.empty, AMMO_DIE.jumpJets.expect],
   ];
   return `

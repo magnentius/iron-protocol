@@ -110,7 +110,8 @@ adjustable, so the app never blocks you.
 3. hit zone;
 4. **the defender's Countermeasure Check** — only the systems that answer the attacking band are
    offered, and a 4+ negates the attack outright. A cartridge burns its Ammo Die whether it
-   worked or not; a sustained suite is never expended;
+   worked or not, and the IRCM suite bills its 2 EP the same way; a sustained suite is never
+   expended. A suite the defender cannot pay for is not offered at all;
 5. 2d6 hit location and the damage roll;
 6. **Flank Speed and Cover rerolls**, spent by tapping dice — these are the defender's choice and
    are optional, so they are not automated;
@@ -246,7 +247,8 @@ explicitly in `rules.md` §2.3, §5.0 and §6.
 | Overkill Margin | One crit die on any penetration, plus one per full 5 points of excess |
 | Cascading Failure | A critical landing on a marked slot climbs to the next unmarked one; past the top of the table, the top result applies |
 | Table lengths | Head 5, Torso 8, Arms and Legs 6. Torso 7–8 cannot be rolled naturally — only cascaded into, or reached by HEI's +1 |
-| Countermeasure Check | Every deployed countermeasure — cartridge or suite — contests a lock on a **4+**. Terrain alone blocks outright |
+| Countermeasure Check | Every deployed countermeasure contests a lock on a **4+**. Terrain alone blocks outright |
+| Countermeasure economies | **Chaff / Smoke** are expendable — an Ammo Die, roughly six uses. **ECM / Adaptive Skin** are sustained — 2 EP every Energy Phase. The **IRCM suite** is powered — 2 EP per activation, never runs dry, and spends the same banked charge an Overcharge needs |
 | Ammo Die | Nothing reloads. Autocannon Empty on 1 (Full Auto 1–3), missiles and jump propellant 1–2, cartridges 1 |
 | Jump Jets | 2 EP per hex and nothing else — no terrain or climbing surcharge. A 2+ hex jump grants Flank Speed; a single hop does not. Every jump burns propellant |
 | Capacitor | A standing reserve, not a per-turn allowance. The Energy Phase never touches it, so banked charge carries from round to round until spent. Costs draw the pool down first, then the reserve |

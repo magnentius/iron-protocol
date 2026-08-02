@@ -37,6 +37,7 @@ import {
   AMMO_TYPES,
   AMMO_DIE,
   COUNTERMEASURE_CHECK_TN,
+  COUNTERMEASURE_EP,
   IR_LOCK_THRESHOLD,
   MAX_FULL_AUTO_BURSTS,
   PILOT_CHECK_TN,
@@ -416,7 +417,10 @@ export function availableCountermeasures(frame, band) {
   const sys = frame.systems || {};
   // Vow of Honesty forbids every deception system, the pilot's own and allies'.
   if (frame.vow === 'honesty' && !frame.dishonored) return out;
-  if (band === 'ir' && sys.flares && !frame.flaresEmpty) out.push({ key: 'flares', kind: 'cartridge' });
+  // Powered, so the gate is energy rather than a magazine: no EP, no jam.
+  if (band === 'ir' && sys.dircm && availableEP(frame) >= COUNTERMEASURE_EP.dircm) {
+    out.push({ key: 'dircm', kind: 'powered', ep: COUNTERMEASURE_EP.dircm });
+  }
   if (band === 'rad' && sys.chaff && !frame.chaffEmpty) out.push({ key: 'chaff', kind: 'cartridge' });
   if (band === 'vis' && frame.inSmoke) out.push({ key: 'smoke', kind: 'cartridge' });
   if (band === 'rad' && frame.ecmActive) out.push({ key: 'ecm', kind: 'sustained' });
@@ -431,8 +435,18 @@ export function availableCountermeasures(frame, band) {
  * then rolls its Ammo Die; a sustained suite is never expended.
  */
 export function useCountermeasure(frame, cm, { rng = Math.random, forcedRoll = null, forcedAmmoRoll = null } = {}) {
+  // A powered suite bills its EP whether it works or not, exactly as a cartridge
+  // is spent either way. Charge before rolling so an unaffordable one cannot fire.
+  if (cm.kind === 'powered') {
+    const cost = COUNTERMEASURE_EP[cm.key] || 0;
+    const paid = spendEP(frame, cost);
+    if (!paid.ok) return { ok: false, reason: paid.reason, key: cm.key, kind: cm.kind };
+  }
+
   const check = countermeasureCheck({ rng, forcedRoll });
-  const out = { ...check, key: cm.key, kind: cm.kind, ammo: null };
+  const out = { ok: true, ...check, key: cm.key, kind: cm.kind, ammo: null, ep: 0 };
+
+  if (cm.kind === 'powered') out.ep = COUNTERMEASURE_EP[cm.key] || 0;
   if (cm.kind === 'cartridge' && cm.key !== 'smoke') {
     out.ammo = rollAmmoDie(AMMO_DIE.countermeasure.empty, { rng, forcedRoll: forcedAmmoRoll });
     if (out.ammo.empty) frame[`${cm.key}Empty`] = true;

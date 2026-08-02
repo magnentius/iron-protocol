@@ -45,7 +45,7 @@ export const FRAME_PRESETS = {
       jumpJets: true, // Torso Light hardpoint; propellant is a volatile store
       adaptiveSkin: false,
       ecm: false,
-      flares: false,
+      dircm: false,
       chaff: false,
       smoke: false,
     },
@@ -75,7 +75,7 @@ export const FRAME_PRESETS = {
       jumpJets: false,
       adaptiveSkin: true, // Torso Medium hardpoint; both Light mounts left empty
       ecm: false,
-      flares: false,
+      dircm: false,
       chaff: false,
       smoke: false,
     },
@@ -105,7 +105,7 @@ export const FRAME_PRESETS = {
       jumpJets: false,
       adaptiveSkin: false,
       ecm: true, // Torso Medium hardpoint
-      flares: true,
+      dircm: true,
       chaff: true,
       smoke: false,
     },
@@ -136,7 +136,7 @@ export const FRAME_PRESETS = {
       jumpJets: false,
       adaptiveSkin: false,
       ecm: false,
-      flares: true,
+      dircm: true,
       chaff: true,
       smoke: true,
     },
@@ -167,7 +167,7 @@ export const FRAME_PRESETS = {
       jumpJets: false, // Assault chassis can never mount them
       adaptiveSkin: false,
       ecm: false,
-      flares: true,
+      dircm: true,
       chaff: true,
       smoke: true,
     },
@@ -255,7 +255,6 @@ export function instantiate(presetKey) {
     ecmActive: false,
     ecmRadius: 0,
     inSmoke: false,
-    flaresEmpty: false,
     chaffEmpty: false,
     smokeEmpty: false,
     jumpJetsEmpty: false,
@@ -303,7 +302,7 @@ export const UPGRADE_COSTS = {
 
 export const EQUIPMENT_COSTS = {
   smoke: 10,
-  flares: 15,
+  dircm: 15,
   chaff: 15,
   datalink: 15,
   jumpJets: 20,

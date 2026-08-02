@@ -389,7 +389,7 @@ function systemsCard(frame) {
 
   // Cartridge launchers: no counters, just loaded or Empty (rules.md 5.0).
   const CARTRIDGES = [
-    ['flares', 'Flare Launcher', 'Contests an IR-locked attack. Free to fire.'],
+    ['dircm', 'IR Countermeasures', 'Directed jammer. Contests an IR-locked attack for 2 EP, drawn from the pool or the reserve. Never runs out.'],
     ['chaff', 'Chaff Dispenser', 'Contests a Radar-locked attack. Free to fire.'],
     ['smoke', 'Smoke Launcher', 'Contests Visual locks traced through it. 1 EP to deploy.'],
   ];

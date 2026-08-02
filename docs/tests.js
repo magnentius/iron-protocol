@@ -358,10 +358,44 @@ export function run({ describe, it, eq, ok }) {
   });
 
   it('offers only the systems that answer the attacking band', () => {
-    const f = frame('vanguard', { ecmActive: true });
+    // Enough EP for the IRCM suite — a powered countermeasure is gated on energy
+    // the way a cartridge is gated on its magazine.
+    const f = frame('vanguard', { ecmActive: true, ep: 6 });
     eq(R.availableCountermeasures(f, 'rad').map((c) => c.key), ['chaff', 'ecm']);
-    eq(R.availableCountermeasures(f, 'ir').map((c) => c.key), ['flares']);
+    eq(R.availableCountermeasures(f, 'ir').map((c) => c.key), ['dircm']);
     eq(R.availableCountermeasures(f, 'vis').map((c) => c.key), []);
+  });
+
+  it('an IRCM suite is offered only when its EP can be paid', () => {
+    eq(R.availableCountermeasures(frame('vanguard', { ep: 2 }), 'ir').map((c) => c.key), ['dircm']);
+    eq(R.availableCountermeasures(frame('vanguard', { ep: 1 }), 'ir').map((c) => c.key), [],
+       'a frame that cannot pay cannot defend itself on infrared');
+    eq(R.availableCountermeasures(frame('vanguard', { ep: 0, capacitor: 2 }), 'ir').map((c) => c.key),
+       ['dircm'], 'the reserve counts');
+  });
+
+  it('the IRCM suite bills its EP whether it worked or not', () => {
+    const hit = frame('vanguard', { ep: 6 });
+    R.useCountermeasure(hit, { key: 'dircm', kind: 'powered' }, { forcedRoll: 5 });
+    const miss = frame('vanguard', { ep: 6 });
+    R.useCountermeasure(miss, { key: 'dircm', kind: 'powered' }, { forcedRoll: 1 });
+    eq([hit.ep, miss.ep], [4, 4]);
+  });
+
+  it('the IRCM suite never runs out — it has no Ammo Die', () => {
+    const f = frame('vanguard', { ep: 20 });
+    for (let i = 0; i < 8; i += 1) {
+      const r = R.useCountermeasure(f, { key: 'dircm', kind: 'powered' }, { forcedRoll: 5 });
+      eq(r.ammo, null, `use ${i + 1}`);
+    }
+    eq(f.ep, 4, 'eight activations at 2 EP');
+    eq(R.availableCountermeasures(f, 'ir').map((c) => c.key), ['dircm'], 'still available');
+  });
+
+  it('IRCM competes with Overcharge for the same banked charge', () => {
+    const f = frame('vanguard', { ep: 0, capacitor: 4 });
+    R.useCountermeasure(f, { key: 'dircm', kind: 'powered' }, { forcedRoll: 2 });
+    eq(f.capacitor, 2, 'jamming spent half the Overcharge budget');
   });
 
   it('the Vow of Honesty forbids every deception system', () => {
@@ -384,10 +418,10 @@ export function run({ describe, it, eq, ok }) {
 
   it('countermeasure cartridges run Empty on a 1 — roughly six uses', () => {
     const f = frame('paladin');
-    R.useCountermeasure(f, { key: 'flares', kind: 'cartridge' }, { forcedRoll: 5, forcedAmmoRoll: 2 });
-    eq(f.flaresEmpty, false);
-    R.useCountermeasure(f, { key: 'flares', kind: 'cartridge' }, { forcedRoll: 5, forcedAmmoRoll: 1 });
-    eq(f.flaresEmpty, true);
+    R.useCountermeasure(f, { key: 'chaff', kind: 'cartridge' }, { forcedRoll: 5, forcedAmmoRoll: 2 });
+    eq(f.chaffEmpty, false);
+    R.useCountermeasure(f, { key: 'chaff', kind: 'cartridge' }, { forcedRoll: 5, forcedAmmoRoll: 1 });
+    eq(f.chaffEmpty, true);
   });
 
   it('an Empty weapon cannot fire', () => {

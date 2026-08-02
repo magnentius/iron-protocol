@@ -19,7 +19,7 @@
   *Ammo Die*: 1d6 (Empty on 1-2)
 * **Torso [Light HP]: Defensive Smoke Launcher** (Contests Visual locks traced through it — Countermeasure Check 4+ | 1 EP use cost)  
   *Ammo Die*: 1d6 (Empty on **1**)
-* **Torso [Light HP]: Defensive Flare Launcher** (Contests an **IR**-locked attack — Countermeasure Check 4+ | no EP cost)  
+* **Torso [Light HP]: Infrared Countermeasure Suite** (Contests an **IR**-locked attack — Countermeasure Check 4+ | **2 EP per activation**, no magazine)  
   *Ammo Die*: 1d6 (Empty on **1**)
 * **Torso [Light HP]: Defensive Chaff Dispenser** (Contests a **Radar**-locked attack — Countermeasure Check 4+ | no EP cost)  
   *Ammo Die*: 1d6 (Empty on **1**)
