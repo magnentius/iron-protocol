@@ -24,9 +24,9 @@ table whenever the rules move.
 | 7 · Titan Bout (1v1) | 7.1 | 62% | 33% | 61–63% | 4% |
 | 8 · Shattered Mesa (1v1) | — | — | — | — | — |
 | 9 · Salvage Rights (1v1 mirror) | 8.0 | 33% | 58% | 33–34% | 8% |
-| 10 · Dead Air (2v3) | 8.2 | 34% | 65% | 32–35% | 1% |
+| 10 · Dead Air (2v3) | 8.1 | **52%** | 47% | 52–52% | 1% |
 | 11 · Three Oaths (3v3) | 11.1 | 48% | 52% | 47–48% | 0% |
-| **Mean** | **8.7** | **46%** | | | |
+| **Mean** | **8.7** | **48%** | | | |
 
 **Three scenarios came back into band at once** when the Assault reactor stopped running cold —
 Ghost & Wall 41% → 51%, Hammer & Anvil 58% → 51%, Titan Bout 83% → 62%. All three turn on a
@@ -46,8 +46,13 @@ instrument in the suite, and it puts the size of that effect at roughly **25 poi
 Note also that the simulator's pilots never once decline to fire to stay cold, so 33% is the floor
 for a side that never takes the stealth option, not the true figure.
 
-**Scenario 10 is the one still genuinely out.** It has been re-tuned twice already and the rules
-moved under it both times; it wants a third look now that they have stopped.
+**Scenario 10 was re-tuned a third time**, and it surfaced something structural. An ECM umbrella
+and a Tactical Datalink both **scale with the size of the lance they serve** — one umbrella covering
+two allies is worth more than one covering a single ally, and a net with three spotters beats a net
+with two. Measured, those two rules together were worth about 10 points of win rate to the larger
+force purely for being larger. An outnumbered side therefore cannot also be the outpointed one, and
+the Pulse was both. Swapping its Vanguard for a Paladin levelled the points and removed the double
+penalty. Worth remembering when writing any future scenario with unequal frame counts.
 
 **Scenario 4 is a deliberate 1v4 stress test.** Scenario 8 is absent because it tests vertical
 warfare and the simulator has no elevation; it needs table play.
@@ -290,9 +295,9 @@ deltas over the absolute levels**.*
 ### Setup
 *   **Map Size**: 22 x 22 Hexes
 *   **Terrain**: A canal crossing. A single **Paved** causeway four hexes wide runs the length of the map, flanked by **Deep Water**. Two Level 2 Buildings sit at the far end. *(The causeway matters: it is the only ground a Column can cross in formation, and it is exactly the shape of an EMP blast.)*
-*   **Team A (The Pulse) — 1075 pts**:
+*   **Team A (The Pulse) — 1175 pts**:
     *   1x **IF-90A-1 "Colossus"** — 620 pts *(its launcher carries the **EMP** warhead — fired at a hex, so it needs no lock and nothing can contest it)*
-    *   1x **IF-55M-1 "Vanguard"** — 455 pts
+    *   1x **IF-75H-1 "Paladin"** — 555 pts
 *   **Team B (The Column) — 1185 pts**:
     *   1x **IF-55M-1 "Vanguard"** — 455 pts
     *   2x **IF-25L-1 "Jackal"** — 365 pts each
@@ -312,11 +317,13 @@ deltas over the absolute levels**.*
 
 ---
 
-> *Simulation, 30,000 battles: the Pulse wins **46%**, range 46–47% across five seeds, over 8.1 turns. The Column carries 50 more points, so a four-point edge to it is about proportionate.*
+> *Simulation, 30,000 battles: the Pulse wins **52%**, range 52–52% across five seeds, over 8.1 turns. The Column carries 10 more points, and the sides are otherwise as level as two lances of different sizes can be.*
 >
-> *This roster has been round a loop worth recording. It began here, measured 33/66, and was re-tuned to three Jackals to reach 51%. Then the Autocannon fix gave every gun a band that countermeasures can answer — and three Jackals, all laying their Autocannons on radar into the Pulse Vanguard's ECM, became a hard counter at 65%. Restoring the Column's own Vanguard fixed it, because now both sides hold an ECM umbrella and neither's radar-laid guns are free. **The original roster was right all along; it only looked broken while a third of the game's shooting ignored electronic warfare.***
+> *This roster has been re-tuned three times, and the third time taught something the first two did not. The Pulse used to field a Vanguard, and the signal-warfare audit made that quietly untenable: an **ECM umbrella and a Tactical Datalink both scale with the size of the lance they serve**. One umbrella covering two allies is worth more than one covering a single ally, and a net with three spotters on it is worth more than a net with two. Measured here, those two rules together were worth about **10 points of win rate to the Column** purely for being the larger force. A 2v3 scenario therefore cannot also be the side that is outpointed — and the Pulse was, 1075 against 1185. Swapping the Vanguard for a Paladin fixes the arithmetic and the structure at once.*
 >
-> *What the warhead does across a battle: about **4.9 Frames caught**, **1.6 arrays destroyed for good** — and **1.5 of the Frames caught are the Pulse's own**. Roughly a third of the pattern lands on the firer's lance, and there is no aiming slightly off to avoid it, because the blast is uniform to its edge. That is the scenario's real question.*
+> *It also improves the scenario. The Pulse now carries no ECM at all, so its entire electronic game is the warhead in the Colossus's torso, while the Column keeps the conventional suite. For a scenario called Dead Air that is the right way round. The Paladin still brings an IRCM suite, Chaff and Smoke, so the Pulse is not defenceless — it simply has to spend cartridges rather than run an umbrella.*
+>
+> *What the warhead does across a battle: about **5.0 Frames caught**, **1.7 arrays destroyed for good** — and **1.6 of the Frames caught are the Pulse's own**. Roughly a third of the pattern lands on the firer's lance, and there is no aiming slightly off to avoid it, because the blast is uniform to its edge. That is the scenario's real question.*
 >
 > *Caveats: the simulator has no map, so blast reach is a parameter (tested 25% to 60% adjacency — the result moved one point across that range), and its pilots make no attempt to position away from their own Colossus. A real player would, so real friendly fire is lower and the warhead is better than these numbers suggest.*
 
