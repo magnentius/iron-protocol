@@ -4,6 +4,56 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 
 ---
 
+## Current Balance
+
+Simulated 2026-08-02 against the rules as they now stand — standing Capacitor reserve, IRCM suite,
+EMP as an opener. **5 fixed seeds × 5,000 battles per scenario.** The range column is the noise
+floor: read nothing into a gap smaller than it. Re-run and diff this table whenever the rules move.
+
+| Scenario | Turns | Team A | Team B | Range | Stall |
+| :--- | ---: | ---: | ---: | :---: | ---: |
+| 0 · Trial by Fire (1v1) | 9.8 | 56% | 43% | 54–58% | 1% |
+| 1 · Ghost & Wall (3v2) | 10.9 | 42% | 58% | 41–42% | 1% |
+| 2 · Honorable Attrition (3v3) | 12.2 | **51%** | 48% | 51–52% | 1% |
+| 3 · Hammer & Anvil (4v4) | 9.4 | 57% | 42% | 56–58% | 0% |
+| 4 · Vanguard Swarm (1v4) | 5.3 | 3% | 97% | 2–3% | 0% |
+| 5 · The Duel (1v1 mirror) | 7.0 | 58% | 39% | 58–59% | 2% |
+| 6 · Scout Skirmish (1v1 mirror) | 6.7 | 58% | 39% | 58–58% | 3% |
+| 7 · Titan Bout (1v1) | 6.3 | 65% | 32% | 64–66% | 3% |
+| 8 · Shattered Mesa (1v1) | — | — | — | — | — |
+| 9 · Salvage Rights (1v1 mirror) | 6.0 | 54% | 42% | 53–55% | 4% |
+| 10 · Dead Air (2v3) | 7.6 | **51%** | 49% | 50–52% | 1% |
+| 11 · Three Oaths (3v3) | 9.6 | 42% | 58% | 41–42% | 0% |
+| **Mean** | **8.3** | **49%** | | | |
+
+**Every scenario that claims to be a fair fight is one.** The two outside 38–62% are asymmetric by
+construction: Scenario 4 is a deliberate 1v4 stress test, and Scenario 7 quotes no point values at
+all — a Colossus at 680 against a Paladin at 555, so 65% for a 22% point advantage is roughly
+proportionate. Scenario 8 is absent because it tests vertical warfare and the simulator has no
+elevation; it needs table play.
+
+**Read Scenario 1's 42% with its doctrine note.** The simulator's pilots buy Flank Speed every
+turn, which that scenario exists to prove is the losing line. Played correctly — banking for
+Overcharges — the Ghosts win 54%.
+
+**Two figures moved on their own**, as side effects of changes made for other reasons. Ghost & Wall
+went 34% → 42%, and Hammer & Anvil 68% → 57%. The second is worth understanding rather than just
+banking: Team A fields **two Colossi, so two EMP launchers**, and in a 4v4 they blind their own
+lance **5.6 times a battle**. Stacking Colossi is self-punishing now, which is the uniform blast
+working as intended somewhere nobody designed for it.
+
+Mirror matches sit at 58% to whoever shoots first. That skew is understood and accepted; 55/45
+would be nicer, but nothing here is worth breaking to get it.
+
+*Caveats that apply to every row. The simulator has no map, so cover, elevation, facing and range
+are approximated, and blast reach for the EMP is a parameter rather than a fact (tested from 25% to
+60% adjacency — results moved by one point across that whole range). Its pilots are greedy: they
+always take Flank Speed when affordable, always fire what they can afford, and never position to
+spare their own lance. Absolute win rates also drift a few points between harnesses depending on
+how the random stream is consumed, so **trust the paired deltas over the absolute levels**.*
+
+---
+
 ## Scenario 0: Trial by Fire (1v1 Introductory)
 **Focus**: Fundamentals — Movement & Facing, Energy Management, Flank Speed vs. Cover, Kinetic vs. Energy Damage, Point Bids & Advantage Player Tie-Breakers, and Armor DR Degradation.
 
@@ -39,7 +89,7 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 
 > *Note on the force imbalance: the Ghosts field three Frames and 165 more points, and that is deliberate. Light and Medium stealth Frames cannot trade blows with an Assault chassis — an unsupported Specter and Jackal lose this matchup **100%** of the time, and even a lone Paladin beats them. The Ghosts are paying for numbers and electronic warfare because they cannot pay for armor. The Wall, in turn, is under no obligation to chase them.*
 
-> *Doctrine note for the Ghosts: **bank EP for Overcharges rather than buying Flank Speed every turn.** An unboosted Laser penetrates a Colossus torso 28% of the time; the same Laser at +2 Overcharge penetrates **95%**. Simulation across 15,000 battles per line: Ghosts banking for Overcharge win **54%**; Ghosts buying Flank Speed every turn win **35%**. The scenario is close to even on the right doctrine and clearly losing on the wrong one, which is its central lesson. The IRCM suite sharpened it: charging 2 EP per activation from the same reserve an Overcharge is paid from widened the gap between the two lines from 15 points to 19, because a pilot who spends everything on Flank Speed has nothing banked to jam with either. The Capacitor rule change before it moved this matchup by under 1 point.*
+> *Doctrine note for the Ghosts: **bank EP for Overcharges rather than buying Flank Speed every turn.** An unboosted Laser penetrates a Colossus torso 28% of the time; the same Laser at +2 Overcharge penetrates **95%**. Simulation across 15,000 battles per line: Ghosts banking for Overcharge win **54%**; Ghosts buying Flank Speed every turn win **42%** (see the Current Balance table, which reports that losing line because the simulator's pilots play it). The scenario is close to even on the right doctrine and clearly losing on the wrong one, which is its central lesson. The IRCM suite sharpened it: charging 2 EP per activation from the same reserve an Overcharge is paid from widened the gap between the two lines from 15 points to 19, because a pilot who spends everything on Flank Speed has nothing banked to jam with either. The Capacitor rule change before it moved this matchup by under 1 point.*
 
 ### Testing Parameters (What to look for)
 1.  **Stealth Balance**: The Adaptive Skin suppresses one detection band at a time and costs EP every Energy Phase to maintain. Can the Specter pick the right band to stay hidden from the Colossus's Missiles, or does the upkeep starve it of the EP it needs to Overcharge?
