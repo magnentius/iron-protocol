@@ -145,8 +145,17 @@ round trip on a handful of small files is not worth that.
 Offline still works. The last successful load is cached under a versioned key, so the fallback
 is a coherent snapshot rather than a mix.
 
-Bump `VERSION` in `sw.js` when deploying. Getting that wrong now costs a slow load rather than a
-broken app.
+Bump `VERSION` in `sw.js` when deploying. It carries a serial as well as a date, because more than
+one deploy can land on the same day and a date that has not moved leaves the cache key unchanged
+while the code under it has changed.
+
+The worker is skipped on `localhost`, and the app also **unregisters any worker it finds already
+registered there**. Skipping registration does not evict one an earlier build installed, and while
+that worker is in charge it answers fetches from its own cache — which no dev-server header can
+override, because the request never reaches the server. The symptom is edits that appear not to
+apply, and in the worst case a module graph mixing cached files with fresh ones, where a view calls
+a constant its stale dependency does not export yet. Note the check is on hostname: serving from a
+LAN address to test on a phone is *not* localhost, and the worker installs normally there.
 
 ## Saved battles and schema versions
 

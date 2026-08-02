@@ -159,6 +159,40 @@ render();
 // testing does NOT count as localhost, and the worker will install there.
 const isLocalhost = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 
+/**
+ * Evict any worker an earlier build left registered here.
+ *
+ * Skipping registration does not remove a worker that is already installed. One
+ * registered before this guard existed stays in charge indefinitely, and while
+ * it does it answers fetches from its own cache — which no dev-server header can
+ * override, because the request never reaches the server. That produces edits
+ * that appear not to apply, and worse, a module graph mixing cached files with
+ * fresh ones: a view calling a constant its stale dependency does not export yet.
+ *
+ * Reload once after clearing so the page is served without a controller. The
+ * session flag stops that becoming a loop.
+ */
+if (isLocalhost && 'serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations()
+    .then(async (regs) => {
+      if (!regs.length) return;
+      await Promise.all(regs.map((reg) => reg.unregister()));
+      if (window.caches?.keys) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map((k) => caches.delete(k)));
+      }
+      console.warn(
+        `[iron-protocol] Removed ${regs.length} service worker(s) left registered on localhost `
+        + 'by an earlier build, and cleared their caches. They were serving stale modules.',
+      );
+      if (!sessionStorage.getItem('ironprotocol.swEvicted')) {
+        sessionStorage.setItem('ironprotocol.swEvicted', '1');
+        location.reload();
+      }
+    })
+    .catch(() => { /* nothing registered, or the API is unavailable */ });
+}
+
 if ('serviceWorker' in navigator && !isLocalhost) {
   window.addEventListener('load', () => {
     // updateViaCache: 'none' stops the browser serving sw.js itself out of its
