@@ -23,7 +23,7 @@ diff this table whenever the rules move.
 | 7 · Titan Bout (1v1) | 6.3 | 65% | 32% | 65–66% | 3% |
 | 8 · Shattered Mesa (1v1) | — | — | — | — | — |
 | 9 · Salvage Rights (1v1 mirror) | 6.0 | 54% | 42% | 53–55% | 4% |
-| 10 · Dead Air (2v3) | 7.8 | 65% | 34% | 64–66% | 1% |
+| 10 · Dead Air (2v3) | 8.1 | **46%** | 53% | 46–47% | 1% |
 | 11 · Three Oaths (3v3) | 9.8 | 40% | 60% | 39–41% | 0% |
 | **Mean** | **8.3** | **49%** | | | |
 
@@ -33,11 +33,7 @@ wrong.** Its pilots buy Flank Speed every turn. Banking for Overcharges instead,
 Radar-laid Autocannons that the Wall's ECM can answer. The scenario is sound; the figure in the
 table is not the one to judge it by.
 
-**Scenario 10 needs re-tuning and is the one live problem.** It was balanced at 51% and the
-Autocannon fix pushed it to 65%: the Column is three Jackals whose Autocannons are all slaved to
-radar, and the Pulse's Vanguard carries both ECM and Chaff. An electronic warfare mount against
-three radar-laid light Frames is now a hard counter, which is correct as a rule and wrong as a
-scenario. Fix the roster, not the rule.
+**Scenario 10 was re-tuned after the Autocannon fix** and now sits at 46%. See its own notes for the loop it went round — the short version is that its original roster turned out to be correct, and only looked broken while the Autocannon ignored electronic warfare entirely.
 
 **The remaining outliers are asymmetric by construction.** Scenario 4 is a deliberate 1v4 stress
 test, and Scenario 7 quotes no point values at all — a Colossus at 680 against a Paladin at 555, so
@@ -277,12 +273,15 @@ how the random stream is consumed, so **trust the paired deltas over the absolut
 *   **Team A (The Pulse) — 1135 pts**:
     *   1x **IF-90A-1 "Colossus"** — 680 pts *(its launcher carries the **EMP** warhead — fired at a hex, so it needs no lock and nothing can contest it)*
     *   1x **IF-55M-1 "Vanguard"** — 455 pts
-*   **Team B (The Column) — 1095 pts**:
-    *   3x **IF-25L-1 "Jackal"** — 365 pts each
+*   **Team B (The Column) — 1185 pts**:
+    *   1x **IF-55M-1 "Vanguard"** — 455 pts
+    *   2x **IF-25L-1 "Jackal"** — 365 pts each
 
 > *The Column is deliberately light and numerous, and the reason has changed. It used to be that thin armor reaches 0 DR quickly, back when that was the only condition under which an EMP did anything permanent. The warhead ignores armor entirely now, so the point is simply **density**: three Frames are far likelier to be caught together under one seven-hex pattern than two heavy ones spread across a causeway. The Column's problem is that it cannot afford to travel as a column.*
 >
-> *Note also what a Jackal loses. It carries a Laser on Visual and an Autocannon that needs no particular band, so an Array Destroyed result silences at most one of its two guns — a light Frame is more resilient to sensor loss than a Colossus, whose Thermal Lance and Rail Gun each depend on a band of their own.*
+> *The Vanguard in the Column is not decoration. Both sides field one, and that symmetry is what makes the scenario a fight rather than a demonstration — each ECM umbrella answers the other's radar-laid Autocannon. Strip the Column's Vanguard out and the Pulse's electronic warfare goes uncontested; that was measured, and it swings the scenario to 65%.*
+>
+> *Note what a Jackal has to lose. Laser on Visual, Autocannon on Radar: an Array Destroyed result silences exactly one of its two guns whichever way it rolls, where a Colossus losing Radar drops the Rail Gun and losing IR drops the Thermal Lance. Light Frames are not more resilient to sensor loss — they simply have less to lose.*
 
 ### Testing Parameters (What to look for)
 1.  **Is a weapon that deals no damage worth a Medium hardpoint?**: the EMP costs 4 EP and 20 pts and cannot destroy anything by itself. Its entire value is denial. In a game where a Thermal Lance in the same weight bracket lands over a critical per attack, does the pulse justify the mount?
@@ -293,9 +292,11 @@ how the random stream is consumed, so **trust the paired deltas over the absolut
 
 ---
 
-> *Simulation, 30,000 battles on the roster above: the Pulse wins **51%**, range 50–52% across five seeds, over 7.6 turns. The scenario opened at 33/66 against the Pulse and the fix was a single swap — the Column's Vanguard became a third Jackal, taking it from 1185 points to 1095 against the Pulse's 1135. It is now the Pulse carrying the small points edge, which is right for the side that has to solve a positioning problem rather than simply advance.*
+> *Simulation, 30,000 battles: the Pulse wins **46%**, range 46–47% across five seeds, over 8.1 turns. The Column carries 50 more points, so a four-point edge to it is about proportionate.*
 >
-> *What the warhead does across a battle: about **4.8 Frames caught**, **1.6 arrays destroyed for good** — and **1.4 of the Frames caught are the Pulse's own**. Roughly a third of the pattern lands on the firer's lance, and there is no aiming slightly off to avoid it, because the blast is uniform to its edge. That is the scenario's real question.*
+> *This roster has been round a loop worth recording. It began here, measured 33/66, and was re-tuned to three Jackals to reach 51%. Then the Autocannon fix gave every gun a band that countermeasures can answer — and three Jackals, all laying their Autocannons on radar into the Pulse Vanguard's ECM, became a hard counter at 65%. Restoring the Column's own Vanguard fixed it, because now both sides hold an ECM umbrella and neither's radar-laid guns are free. **The original roster was right all along; it only looked broken while a third of the game's shooting ignored electronic warfare.***
+>
+> *What the warhead does across a battle: about **4.9 Frames caught**, **1.6 arrays destroyed for good** — and **1.5 of the Frames caught are the Pulse's own**. Roughly a third of the pattern lands on the firer's lance, and there is no aiming slightly off to avoid it, because the blast is uniform to its edge. That is the scenario's real question.*
 >
 > *Caveats: the simulator has no map, so blast reach is a parameter (tested 25% to 60% adjacency — the result moved one point across that range), and its pilots make no attempt to position away from their own Colossus. A real player would, so real friendly fire is lower and the warhead is better than these numbers suggest.*
 
