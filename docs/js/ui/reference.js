@@ -141,7 +141,7 @@ function weaponTable() {
         const dmg = w.damage
           ? `${w.damage.dice}d6${w.burstDice ? ` ×${w.burstDice}` : ''}`
           : w.warheads ? 'Warhead' : 'None';
-        const band = w.detection === 'guidance' ? 'seeker' : w.detection === 'any' ? 'any' : (SENSOR_BANDS[w.detection] || w.detection);
+        const band = w.detection === 'guidance' ? 'seeker' : w.detection === 'mount' ? 'per mount' : (SENSOR_BANDS[w.detection] || w.detection);
         const traits = [
           w.ap && `AP ${w.ap}`, w.rapidFire && 'Rapid Fire', w.aoe && 'AoE',
           w.requiresOvercharge && `must Overcharge +${w.requiresOvercharge}`,

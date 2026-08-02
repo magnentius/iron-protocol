@@ -307,7 +307,7 @@ function weaponCard(frame, weapon) {
     : def.warheads ? `${esc(def.warheads[weapon.warhead]?.name || '')} warhead` : 'No damage';
 
   const traits = [];
-  if (band && band !== 'any') traits.push(`${SENSOR_BANDS[band] || band.toUpperCase()} lock`);
+  if (band) traits.push(`${SENSOR_BANDS[band] || band.toUpperCase()} lock`);
   if (def.ap) traits.push(`AP ${def.ap}`);
   if (def.rapidFire) traits.push('Rapid Fire');
   if (def.aoe) traits.push('AoE');

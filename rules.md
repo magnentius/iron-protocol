@@ -497,14 +497,14 @@ Frames can run active systems to deny locks and hide from sensors:
 
 - **Electronic Countermeasures (ECM)**: Costs **2 EP** to activate in the Energy Phase. Contests Microwave (Radar) detection and locks on the host Frame (0-hex radius) — each attack tested against it requires a **Countermeasure Check**. **Overcharge** [+1 EP per +1 hex radius]. All friendly Frames within the active radius are protected. *(Note: Overcharging triggers the mandatory 1-Turn Cooldown on the ECM suite).*
 - **Infrared Countermeasure Suite (IRCM)**: (**2 EP per activation**, no Ammo Die). A directed jammer — it floods the attacker's infrared channel with a modulated source keyed to defeat a seeker's tracking logic, and dazzles an imaging thermal sight in the process. Activating it forces a **Countermeasure Check**; on a **4+** the incoming attack is negated entirely, and on a 1-3 the attacker burns through. The suite may only be used when **all** of the following are true:
-  - The attacker resolved the attack using an **Infrared (IR) lock**. (If the attacker holds multiple lock types, they may hot-swap to an un-negated lock, such as Visual or Radar, to bypass the jammer. A defender may run the IRCM suite and release Chaff simultaneously against the same attack to strip multiple lock types).
+  - The attacker resolved the attack using an **Infrared (IR) lock**. (A defender may run the IRCM suite and release Chaff simultaneously against the same attack, to cover two different weapons in the same Combat Phase.)
   - The suite is activated **before** the Hit Location roll.
   - The Frame can pay the **2 EP**, from its energy pool or its Capacitor reserve.
   The energy is spent whether the check succeeded or not. The suite never runs out — it is powered, not expendable — but a Frame that has emptied both pool and reserve cannot defend itself on infrared at all.
 
   > *Why this is a jammer and not a bundle of decoy flares. A pyrotechnic flare defeats a **seeker** — a guidance head that steers toward the brightest source in its field of view and can be pulled off it. Against an imaging thermal sight, an operator simply sees a bright flare **and** the target, and nothing is decoyed. Since Iron Frames aim directly rather than launching seekers on every trigger pull, a decoy would be worthless against most of what shoots at them. A directed jammer is the system that actually does this job, and it is powered rather than expendable — which is why this is the one countermeasure that bills energy at the moment it fires.*
 - **Chaff Dispensers**: (Ammo Die: 1d6, **no EP cost**). Releasing chaff forces a **Countermeasure Check**; on a **4+** the incoming attack is negated entirely, and on a 1-3 the attacker burns through. The dispenser may only be used when **all** of the following are true:
-  - The attacker resolved the attack using a **Microwave (Radar) lock**. (If the attacker holds multiple lock types, they may hot-swap to an un-negated lock, such as Visual or IR, to bypass the chaff. A defender may run the IRCM suite and release Chaff simultaneously against the same attack to strip multiple lock types).
+  - The attacker resolved the attack using a **Microwave (Radar) lock**. (A defender may run the IRCM suite and release Chaff simultaneously against the same attack, to cover two different weapons in the same Combat Phase.)
   - Chaff is launched **before** the Hit Location roll.
   The cartridge is spent whether the check succeeded or not. After launching Chaff, roll the Ammo Die (1d6). On a **1**, the dispenser is empty for the rest of the battle.
 - **Smoke Launchers**: (Ammo Die: 1d6, **1 EP**). During the Activation Phase, a Frame may spend 1 EP to deploy a Smoke cloud in its current hex, or any of the 6 surrounding adjacent hexes (place a Smoke token). For as long as it remains on the board, any Visual (VIS) lock traced through that hex must survive a **Countermeasure Check** — on a **4+** the lock fails and the attack is negated; on a 1-3 the attacker picks the target out of the murk anyway. Infrared (IR) and Microwave (Radar) sensors are unaffected and scan through smoke unimpeded. After launching Smoke, roll the Ammo Die (1d6). On a **1**, the launcher is empty for the rest of the battle.
@@ -533,7 +533,7 @@ Every weapon lists the sensor spectrum it needs in order to fire. **A weapon can
 - **Laser [VIS]**: an optical weapon, aimed down the same cameras it burns through. **Woods blind it outright; Smoke and a Visual-mode Adaptive Skin each contest it on a Countermeasure Check.**
 - **Thermal Lance [IR]**: a thermal weapon that tracks its target's own heat bloom. **A target running cold cannot be locked at all; an IRCM suite and an Infrared-mode Adaptive Skin each contest it on a Countermeasure Check.**
 - **Rail Gun [Radar]**: a hypersonic slug needs precise ranging to lead the target. **Chaff and ECM each contest it on a Countermeasure Check.**
-- **Autocannon [Any]**: short-ranged and forgiving, fired over open sights. Any lock will serve.
+- **Autocannon [VIS or Radar — fixed per Frame]**: short-ranged and forgiving. Its fire control is slaved either to the optical set or to the radar set when the Frame is built, and that choice is printed on the sheet. It cannot be laid on infrared: an open-sights gun is not a thermal weapon, so no IRCM suite will ever spoil one. *Give a Frame a band its other weapons do not use and no single countermeasure can silence it outright — which is how the roster is built.*
 - **Disruptor Cannon [Radar]**: coupling a pulse into a specific run of actuator wiring takes precise ranging on the target's internal geometry. **Chaff and ECM each contest it on a Countermeasure Check.**
 - **Guided Missiles [Guidance]**: whichever band the seeker head was built for (see Section 5.2).
 
@@ -553,7 +553,7 @@ Every weapon lists the sensor spectrum it needs in order to fire. **A weapon can
 
 | Weapon | HP | EP Cost | Ammo Die | Damage | Detection | Traits | Special Rules |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **Autocannon** | Light | 1/burst | 1d6 (Explosive) | 3x 1d6 (Burst) | Any | Rapid Fire | Fires 3-round bursts. Each 1d6 resolved separately. Can fire Full Auto. |
+| **Autocannon** | Light | 1/burst | 1d6 (Explosive) | 3x 1d6 (Burst) | VIS *or* Radar | Rapid Fire | Fires 3-round bursts. Each 1d6 resolved separately. Can fire Full Auto. |
 | **Laser** | Light | 2 | Infinite | 2d6 | **VIS** | Overcharge | **Overcharge**: [+2 EP per +1d6, up to +2d6]. |
 | **Guided Missiles** | Medium | 4 | 1d6 (Explosive) | Warhead Dep. | Guidance Dep. | AoE | Requires Lock. Permits indirect fire (no LOS). Cannot be reloaded if Ammo Die fails. |
 | **Disruptor Cannon** | Medium | 3 | Infinite | None | **Radar** | Overcharge | Deals no damage (ignores Armor DR and Flank Speed; still needs LOS and a lock). See hit effects. Always forces 1 Crit **and** drains 1d6 EP (from the pool first, then the Capacitor — banked charge is no shelter). **Overcharge**: [+2 EP to force a second Crit]. |
@@ -1013,7 +1013,7 @@ Here are five pre-configured Iron Frames ready for combat.
   - Tactical Datalink [Light HP]
 - **Equipped Weapons**:
   - **Left Arm** [Light HP]: Laser (2d6 damage)
-  - **Right Arm** [Light HP]: Autocannon (3x 1d6 burst, AP 1 — Ammo Die 1d6, Empty on 1 / 1-3 on Full Auto)
+  - **Right Arm** [Light HP]: Autocannon [Radar fire control] (3x 1d6 burst, AP 1 — Ammo Die 1d6, Empty on 1 / 1-3 on Full Auto)
 
 ### 8.2 IF-45M-1 "Specter" (Medium Stealth Frame)
 ![IF-45M-1 "Specter" Technical Sketch](images/if_45m_1_specter.jpg)
@@ -1052,7 +1052,7 @@ Here are five pre-configured Iron Frames ready for combat.
   - Chaff Dispenser [Light HP]
   - Tactical Datalink [Light HP]
 - **Equipped Weapons**:
-  - **Left Arm** [Light HP]: Autocannon (3x 1d6 burst, AP 1 — Ammo Die 1d6, Empty on 1 / 1-3 on Full Auto)
+  - **Left Arm** [Light HP]: Autocannon [Radar fire control] (3x 1d6 burst, AP 1 — Ammo Die 1d6, Empty on 1 / 1-3 on Full Auto)
   - **Right Arm** [Light HP]: Laser (2d6 damage)
 
 ### 8.4 IF-75H-1 "Paladin" (Heavy Fire-Support Frame)
@@ -1074,7 +1074,7 @@ Here are five pre-configured Iron Frames ready for combat.
   - Tactical Datalink [Light HP]
 - **Equipped Weapons**:
   - **Right Arm** [Heavy HP]: Rail Gun (5d6, AP 3, inert slugs — infinite)
-  - **Left Arm** [Light HP]: Autocannon (3x 1d6 burst, AP 1 — Ammo Die 1d6, Empty on 1 / 1-3 on Full Auto)
+  - **Left Arm** [Light HP]: Autocannon [Visual fire control] (3x 1d6 burst, AP 1 — Ammo Die 1d6, Empty on 1 / 1-3 on Full Auto)
   - **Torso** [Medium HP]: Guided Missile Launcher (Infrared [IR] Guided, Cluster Warheads)
 
 ### 8.5 IF-90A-1 "Colossus" (Heavy Assault Frame)

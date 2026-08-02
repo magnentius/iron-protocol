@@ -13,7 +13,7 @@
 ### 🔫 Armaments & Systems
 * **Left Arm [Light HP]: Laser** (2d6 Combat damage | 2 EP cost | Overcharge: [+2 EP per +1d6, max +2d6] | Requires a **VIS** lock)  
   *Ammo*: Infinite
-* **Right Arm [Light HP]: Autocannon** (3x 1d6 burst | 1 EP / burst | Configured with AP loadout)  
+* **Right Arm [Light HP]: Autocannon** (3x 1d6 burst | 1 EP / burst | Configured with AP loadout | **Radar** fire control)  
   *Ammo Die*: 1d6 (AP 1; Empty on 1, or 1-3 on Full Auto)
 * **Torso [Light HP]: Jump Jets** (Jump over elevation/terrain | 2 EP per hex | A jump of 2+ hexes grants Flank Speed)  
   *Ammo Die*: 1d6 (Empty on 1-2 — propellant is a volatile store; see Ammo Explosion)

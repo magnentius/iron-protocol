@@ -241,7 +241,7 @@ export const WEAPONS = {
     burstDice: 3,
     rapidFire: true,
     explosiveAmmo: true,
-    detection: 'any',
+    detection: 'mount',   // fire control slaved to optics or radar, fixed per Frame
     ammoDie: { empty: 1, fullAutoEmpty: 3, expect: '6 attacks' },
     note: '3-round burst. Each 1d6 tested separately vs DR. Can fire Full Auto.',
   },

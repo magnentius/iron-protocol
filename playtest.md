@@ -7,40 +7,42 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 ## Current Balance
 
 Simulated 2026-08-02 against the rules as they now stand — standing Capacitor reserve, IRCM suite,
-EMP as an opener. **5 fixed seeds × 5,000 battles per scenario.** The range column is the noise
-floor: read nothing into a gap smaller than it. Re-run and diff this table whenever the rules move.
+EMP as an opener, Autocannon fire control fixed per Frame. **5 fixed seeds × 5,000 battles per
+scenario.** The range column is the noise floor: read nothing into a gap smaller than it. Re-run and
+diff this table whenever the rules move.
 
 | Scenario | Turns | Team A | Team B | Range | Stall |
 | :--- | ---: | ---: | ---: | :---: | ---: |
-| 0 · Trial by Fire (1v1) | 9.8 | 56% | 43% | 54–58% | 1% |
-| 1 · Ghost & Wall (3v2) | 10.9 | 42% | 58% | 41–42% | 1% |
-| 2 · Honorable Attrition (3v3) | 12.2 | **51%** | 48% | 51–52% | 1% |
-| 3 · Hammer & Anvil (4v4) | 9.4 | 57% | 42% | 56–58% | 0% |
-| 4 · Vanguard Swarm (1v4) | 5.3 | 3% | 97% | 2–3% | 0% |
-| 5 · The Duel (1v1 mirror) | 7.0 | 58% | 39% | 58–59% | 2% |
-| 6 · Scout Skirmish (1v1 mirror) | 6.7 | 58% | 39% | 58–58% | 3% |
-| 7 · Titan Bout (1v1) | 6.3 | 65% | 32% | 64–66% | 3% |
+| 0 · Trial by Fire (1v1) | 9.8 | 56% | 43% | 54–57% | 1% |
+| 1 · Ghost & Wall (3v2) | 10.7 | 31% | 69% | 30–31% | 1% |
+| 2 · Honorable Attrition (3v3) | 12.7 | **52%** | 47% | 51–53% | 1% |
+| 3 · Hammer & Anvil (4v4) | 9.6 | 58% | 41% | 58–60% | 0% |
+| 4 · Vanguard Swarm (1v4) | 5.5 | 3% | 97% | 3–3% | 0% |
+| 5 · The Duel (1v1 mirror) | 7.0 | 58% | 41% | 58–60% | 1% |
+| 6 · Scout Skirmish (1v1 mirror) | 6.6 | 58% | 38% | 58–59% | 3% |
+| 7 · Titan Bout (1v1) | 6.3 | 65% | 32% | 65–66% | 3% |
 | 8 · Shattered Mesa (1v1) | — | — | — | — | — |
 | 9 · Salvage Rights (1v1 mirror) | 6.0 | 54% | 42% | 53–55% | 4% |
-| 10 · Dead Air (2v3) | 7.6 | **51%** | 49% | 50–52% | 1% |
-| 11 · Three Oaths (3v3) | 9.6 | 42% | 58% | 41–42% | 0% |
+| 10 · Dead Air (2v3) | 7.8 | 65% | 34% | 64–66% | 1% |
+| 11 · Three Oaths (3v3) | 9.8 | 40% | 60% | 39–41% | 0% |
 | **Mean** | **8.3** | **49%** | | | |
 
-**Every scenario that claims to be a fair fight is one.** The two outside 38–62% are asymmetric by
-construction: Scenario 4 is a deliberate 1v4 stress test, and Scenario 7 quotes no point values at
-all — a Colossus at 680 against a Paladin at 555, so 65% for a 22% point advantage is roughly
-proportionate. Scenario 8 is absent because it tests vertical warfare and the simulator has no
-elevation; it needs table play.
+**Scenario 1 reads 31% because the simulator plays the line that scenario exists to prove is
+wrong.** Its pilots buy Flank Speed every turn. Banking for Overcharges instead, the Ghosts win
+**48%** — down from 54% before the Autocannon fix, since two of their three Frames now carry
+Radar-laid Autocannons that the Wall's ECM can answer. The scenario is sound; the figure in the
+table is not the one to judge it by.
 
-**Read Scenario 1's 42% with its doctrine note.** The simulator's pilots buy Flank Speed every
-turn, which that scenario exists to prove is the losing line. Played correctly — banking for
-Overcharges — the Ghosts win 54%.
+**Scenario 10 needs re-tuning and is the one live problem.** It was balanced at 51% and the
+Autocannon fix pushed it to 65%: the Column is three Jackals whose Autocannons are all slaved to
+radar, and the Pulse's Vanguard carries both ECM and Chaff. An electronic warfare mount against
+three radar-laid light Frames is now a hard counter, which is correct as a rule and wrong as a
+scenario. Fix the roster, not the rule.
 
-**Two figures moved on their own**, as side effects of changes made for other reasons. Ghost & Wall
-went 34% → 42%, and Hammer & Anvil 68% → 57%. The second is worth understanding rather than just
-banking: Team A fields **two Colossi, so two EMP launchers**, and in a 4v4 they blind their own
-lance **5.6 times a battle**. Stacking Colossi is self-punishing now, which is the uniform blast
-working as intended somewhere nobody designed for it.
+**The remaining outliers are asymmetric by construction.** Scenario 4 is a deliberate 1v4 stress
+test, and Scenario 7 quotes no point values at all — a Colossus at 680 against a Paladin at 555, so
+65% for a 22% point advantage is roughly proportionate. Scenario 8 is absent because it tests
+vertical warfare and the simulator has no elevation; it needs table play.
 
 Mirror matches sit at 58% to whoever shoots first. That skew is understood and accepted; 55/45
 would be nicer, but nothing here is worth breaking to get it.

@@ -748,7 +748,12 @@ export function weaponDef(weapon) {
 export function weaponBand(weapon) {
   const def = weaponDef(weapon);
   if (weapon.warhead === 'emp') return null;
-  return def.detection === 'guidance' ? weapon.guidance : def.detection;
+  // Guided missiles take their band from the seeker, an Autocannon from the fire
+  // control it was built around. Both are fixed per Frame, so every weapon in the
+  // game needs exactly one band and there is never a choice to hot-swap between.
+  if (def.detection === 'guidance') return weapon.guidance;
+  if (def.detection === 'mount') return weapon.band;
+  return def.detection;
 }
 
 export function weaponEPCost(frame, weapon, { bursts = 1, overcharge = 0 } = {}) {
@@ -786,7 +791,7 @@ export function weaponBlockedReason(frame, weapon, { bursts = 1, overcharge = 0 
   if (bursts > MAX_FULL_AUTO_BURSTS) return `Full Auto is capped at ${MAX_FULL_AUTO_BURSTS} bursts`;
 
   const band = weaponBand(weapon);
-  if (band && band !== 'any' && (frame.sensorBandsDestroyed || {})[band]) {
+  if (band && (frame.sensorBandsDestroyed || {})[band]) {
     return `${band.toUpperCase()} array destroyed — cannot establish a lock`;
   }
   if (frame.locksDropped) return 'Sensor Ghosting — no locks held';

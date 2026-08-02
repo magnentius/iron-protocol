@@ -14,6 +14,10 @@
  *   hardpoint — size of the mount it occupies
  *   ammoType  — autocannon only: 'ap' | 'hei', chosen at build time (rules.md 5.1)
  *   warhead   — guidedMissiles only: 'he' | 'cluster' | 'emp'
+ *   band      — autocannon only: 'vis' | 'rad'. Its fire control is slaved to one
+ *               set or the other at construction, so the gun has a lock to break
+ *               like everything else. Give a Frame a band it does not already
+ *               use and no single countermeasure can silence it outright.
  *   guidance  — guidedMissiles only: 'vis' | 'ir' | 'rad'
  *
  * Systems are booleans: each mounted launcher carries its own Ammo Die, so there
@@ -38,7 +42,7 @@ export const FRAME_PRESETS = {
     locations: { head: 3, torso: 3, leftArm: 2, rightArm: 2, leftLeg: 3, rightLeg: 3 },
     weapons: [
       { key: 'laser', loc: 'leftArm', hardpoint: 'light' },
-      { key: 'autocannon', loc: 'rightArm', hardpoint: 'light', ammoType: 'ap' },
+      { key: 'autocannon', loc: 'rightArm', hardpoint: 'light', ammoType: 'ap', band: 'rad' },
     ],
     systems: {
       datalink: true,
@@ -97,7 +101,7 @@ export const FRAME_PRESETS = {
     hardpoints: { head: '1L', torso: '1M+2L', leftArm: '1M', rightArm: '1M' },
     locations: { head: 5, torso: 6, leftArm: 4, rightArm: 4, leftLeg: 5, rightLeg: 5 },
     weapons: [
-      { key: 'autocannon', loc: 'leftArm', hardpoint: 'medium', ammoType: 'ap' },
+      { key: 'autocannon', loc: 'leftArm', hardpoint: 'medium', ammoType: 'ap', band: 'rad' },
       { key: 'laser', loc: 'rightArm', hardpoint: 'medium' },
     ],
     systems: {
@@ -128,7 +132,7 @@ export const FRAME_PRESETS = {
     locations: { head: 5, torso: 7, leftArm: 5, rightArm: 5, leftLeg: 6, rightLeg: 6 },
     weapons: [
       { key: 'railGun', loc: 'rightArm', hardpoint: 'heavy' },
-      { key: 'autocannon', loc: 'leftArm', hardpoint: 'heavy', ammoType: 'ap' },
+      { key: 'autocannon', loc: 'leftArm', hardpoint: 'heavy', ammoType: 'ap', band: 'vis' },
       { key: 'guidedMissiles', loc: 'torso', hardpoint: 'medium', guidance: 'ir', warhead: 'cluster' },
     ],
     systems: {
@@ -207,6 +211,7 @@ export function instantiate(presetKey) {
     ammoType: mount.ammoType || null,
     guidance: mount.guidance || null,
     warhead: mount.warhead || null,
+    band: mount.band || null,
     empty: false,
     destroyed: false,
     firedThisTurn: false,

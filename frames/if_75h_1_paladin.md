@@ -13,7 +13,7 @@
 ### 🔫 Armaments & Systems
 * **Right Arm [Heavy HP]: Rail Gun** (5d6 damage | AP 3 | Requires a **Radar** lock | 0 EP base — must Overcharge **+6 EP from the Capacitor** to fire, so it always cools down for 1 turn afterwards)  
   *Ammo Die*: Infinite (Inert)
-* **Left Arm [Light HP]: Autocannon** (3x 1d6 burst | 1 EP / burst | Loaded with AP 1 ammo)  
+* **Left Arm [Light HP]: Autocannon** (3x 1d6 burst | 1 EP / burst | Loaded with AP 1 ammo | **Visual** fire control)  
   *Ammo Die*: 1d6 (AP 1; Empty on 1, or 1-3 on Full Auto)
 * **Torso [Medium HP]: Guided Missile Launcher** (4 EP cost | Infrared [IR] Guided | Cluster Warheads: roll 3 Hit Locations — one per column — and deal 2d6 to each)  
   *Ammo Die*: 1d6 (Empty on 1-2)

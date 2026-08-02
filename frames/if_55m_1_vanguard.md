@@ -11,7 +11,7 @@
 * **Capacitor Storage (Max 6 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6`
 
 ### 🔫 Armaments & Systems
-* **Left Arm [Light HP]: Autocannon** (3x 1d6 burst | 1 EP / burst | Loaded with AP 1 ammo)  
+* **Left Arm [Light HP]: Autocannon** (3x 1d6 burst | 1 EP / burst | Loaded with AP 1 ammo | **Radar** fire control)  
   *Ammo Die*: 1d6 (AP 1; Empty on 1, or 1-3 on Full Auto)
 * **Right Arm [Light HP]: Laser** (2d6 Combat damage | 2 EP cost | Overcharge: [+2 EP per +1d6, max +2d6] | Requires a **VIS** lock)  
   *Ammo*: Infinite

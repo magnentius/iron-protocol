@@ -357,6 +357,49 @@ export function run({ describe, it, eq, ok }) {
     eq([r.negated, r.ammo], [true, null]);
   });
 
+  it('every weapon has exactly one band — nothing is immune to countermeasures', () => {
+    for (const key of FRAME_KEYS) {
+      const f = instantiate(key);
+      for (const w of f.weapons) {
+        const band = R.weaponBand(w);
+        // The EMP is the sole exception, and deliberately: it is aimed at a hex.
+        if (w.warhead === 'emp') { eq(band, null, `${key} ${w.key}`); continue; }
+        ok(['vis', 'ir', 'rad'].includes(band), `${key} ${w.key} band=${band}`);
+      }
+    }
+  });
+
+  it('no Frame can be silenced by a single countermeasure', () => {
+    // Every Frame carries weapons on at least two bands, so jamming one spectrum
+    // always leaves it something to shoot with.
+    for (const key of FRAME_KEYS) {
+      const f = instantiate(key);
+      const bands = new Set(f.weapons.map((w) => R.weaponBand(w)).filter(Boolean));
+      ok(bands.size >= 2, `${key} fires only on ${[...bands].join(', ')}`);
+    }
+  });
+
+  it('the Autocannon takes its band from the mount, not the weapon', () => {
+    eq(R.weaponBand(instantiate('jackal').weapons.find((w) => w.key === 'autocannon')), 'rad');
+    eq(R.weaponBand(instantiate('paladin').weapons.find((w) => w.key === 'autocannon')), 'vis');
+  });
+
+  it('an Autocannon can be contested like anything else', () => {
+    const jackal = instantiate('jackal');
+    const ac = jackal.weapons.find((w) => w.key === 'autocannon');   // Radar
+    const target = frame('vanguard', { ep: 6 });
+    const options = R.availableCountermeasures(target, R.weaponBand(ac));
+    ok(options.length > 0, 'Chaff and ECM both answer a Radar-laid Autocannon');
+  });
+
+  it('a destroyed array silences the Autocannon slaved to it', () => {
+    const f = frame('jackal', { ep: 10 });
+    const ac = f.weapons.find((w) => w.key === 'autocannon');
+    eq(R.weaponBlockedReason(f, ac), null);
+    f.sensorBandsDestroyed = { rad: true };
+    ok(/destroyed/i.test(R.weaponBlockedReason(f, ac)), R.weaponBlockedReason(f, ac));
+  });
+
   it('offers only the systems that answer the attacking band', () => {
     // Enough EP for the IRCM suite — a powered countermeasure is gated on energy
     // the way a cartridge is gated on its magazine.

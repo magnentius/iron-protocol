@@ -192,7 +192,7 @@ function weaponOption(frame, w) {
           <span class="small ${selected ? '' : 'dim'}">${cost.base} EP</span>
         </div>
         <div class="tiny ${selected ? '' : 'dim'}" style="opacity:.85">
-          ${esc(LOCATION_NAMES[w.loc])}${band && band !== 'any' ? ` · ${esc(SENSOR_BANDS[band] || band)}` : ''}${w.empty ? ' · EMPTY' : ''}${blocked ? ` · ${esc(blocked)}` : ''}
+          ${esc(LOCATION_NAMES[w.loc])}${band ? ` · ${esc(SENSOR_BANDS[band] || band)}` : ''}${w.empty ? ' · EMPTY' : ''}${blocked ? ` · ${esc(blocked)}` : ''}
         </div>
       </div>
     </button>`;
@@ -299,12 +299,12 @@ function stepZone() {
 function stepCountermeasures() {
   const t = target();
   const band = R.weaponBand(weapon());
-  const options = band && band !== 'any' ? R.availableCountermeasures(t, band) : [];
+  const options = band ? R.availableCountermeasures(t, band) : [];
 
   if (!options.length) {
     return step(5, 'Countermeasures', false, true, `
       <div class="small muted">
-        ${band && band !== 'any'
+        ${band
           ? `${esc(t.callsign)} has nothing that answers a ${esc(SENSOR_BANDS[band] || band)} lock.`
           : 'This weapon will take any lock — no single countermeasure answers it.'}
       </div>`);
