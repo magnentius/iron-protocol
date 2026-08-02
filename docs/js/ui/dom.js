@@ -11,10 +11,32 @@ export function cls(...parts) {
   return parts.filter(Boolean).join(' ');
 }
 
-/** Horizontal fill bar. */
+/**
+ * Fuel-gauge colour for a segmented bar: green down to half, amber down to a
+ * fifth, red below that. The whole filled run takes one colour, so the state
+ * reads at a glance from across a table rather than needing segments counted.
+ */
+function fuelLevel(current, max) {
+  const pct = max > 0 ? current / max : 0;
+  if (pct >= 0.5) return 'ok';
+  if (pct >= 0.2) return 'warn';
+  return 'low';
+}
+
+/**
+ * Horizontal fill bar, coloured by how full it is.
+ *
+ * Rerolls are always accent-blue: a small allowance is not a low-fuel warning,
+ * it is simply how many the defender happens to have.
+ */
 export function bar(current, max, kind = 'ep') {
-  const pct = max > 0 ? Math.max(0, Math.min(100, (current / max) * 100)) : 0;
-  return `<div class="bar"><i class="${kind}" style="width:${pct}%"></i></div>`;
+  const raw = max > 0 ? Math.max(0, Math.min(100, (current / max) * 100)) : 0;
+  // A Colossus with 1 EP of a 28-point pool is under 4% — a sliver too thin to
+  // see. Anything above zero gets a visible floor, so "nearly empty" never
+  // renders identically to "empty".
+  const pct = raw > 0 ? Math.max(raw, 3) : 0;
+  const level = kind === 'reroll' || kind === 'armor' ? kind : fuelLevel(current, max);
+  return `<div class="bar"><i class="${level}" style="width:${pct}%"></i></div>`;
 }
 
 /** Labelled meter with a value readout. */

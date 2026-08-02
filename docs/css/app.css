@@ -209,10 +209,15 @@ select, input[type="text"], input[type="number"] {
 }
 .meter .label b { font-size: .95rem; color: var(--text); font-variant-numeric: tabular-nums; letter-spacing: 0; }
 .bar { height: 6px; border-radius: 3px; background: #0a0d12; overflow: hidden; }
-.bar > i { display: block; height: 100%; border-radius: 3px; transition: width .18s ease; }
-.bar > i.ep { background: var(--accent); }
-.bar > i.cap { background: #7a6fd8; }
-.bar > i.reroll { background: var(--ok); }
+.bar > i {
+  display: block; height: 100%; border-radius: 3px;
+  transition: width .18s ease, background .18s ease;
+}
+/* Fuel gauge: green down to half, amber down to a fifth, red below. */
+.bar > i.ok { background: var(--ok); }
+.bar > i.warn { background: var(--warn); }
+.bar > i.low { background: var(--danger); }
+.bar > i.reroll { background: var(--accent); }
 .bar > i.armor { background: var(--armor); }
 
 /* --- Frame cards ----------------------------------------------------------- */

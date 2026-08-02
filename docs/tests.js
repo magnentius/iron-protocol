@@ -1063,6 +1063,12 @@ export function run({ describe, it, eq, ok }) {
     });
   });
 
+  it('the reroll ceiling matches what can actually be held at once', () => {
+    // Flank Speed 1 + Heavy Woods 2 + Vow of Loyalty 1.
+    const f = frame('vanguard', { terrain: 'woodsHeavy', flankSpeed: true, loyaltyCover: 1 });
+    eq(R.rerollAllowance(f), R.MAX_REROLL_ALLOWANCE);
+  });
+
   // --- Battle log ------------------------------------------------------------
   describe('Battle log');
 

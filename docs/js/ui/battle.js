@@ -112,7 +112,7 @@ function frameCard(frame, position, battle) {
         <div class="row" style="gap:.7rem;margin-top:.6rem">
           <div class="grow">${meter('EP', frame.ep, Math.max(R.effectiveReactor(frame) + capMax, 1), 'ep')}</div>
           <div class="grow">${meter('Cap', frame.capacitor, Math.max(capMax, 1), 'cap')}</div>
-          <div class="grow">${meter('Rerolls', rerolls, Math.max(rerolls, 1), 'reroll')}</div>
+          <div class="grow">${meter('Rerolls', rerolls, R.MAX_REROLL_ALLOWANCE, 'reroll')}</div>
         </div>`}
 
       ${statusChips(frame)}

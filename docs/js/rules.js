@@ -364,6 +364,13 @@ export function spendEP(frame, amount, { overcharge = 0 } = {}) {
  * Flank Speed grants 1, Cover 1 (Light) or 2 (Heavy), and they stack.
  * Rapid Fire bypasses Flank Speed; AoE bypasses Flank Speed and Cover both.
  */
+/**
+ * The most rerolls any defender can hold at once: Flank Speed (1) + Heavy Woods
+ * or building-adjacent Cover (2) + a Vow of Loyalty ally (1). Used as the meter's
+ * ceiling — passing the current value as its own max made the bar always full.
+ */
+export const MAX_REROLL_ALLOWANCE = 4;
+
 export function rerollAllowance(frame, { aoe = false, rapidFire = false, transferred = false } = {}) {
   if (aoe) return 0;
   const cover = TERRAIN[frame.terrain]?.cover || 0;
