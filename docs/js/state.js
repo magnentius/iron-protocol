@@ -77,6 +77,9 @@ export function createFrame(presetKey, { id, ownerId, team = 'a', callsign = nul
     ownerId: ownerId || deviceId(),
     team,
     callsign: callsign || preset.name,
+    // Only app-assigned names get a phonetic suffix when a sibling deploys — a
+    // callsign supplied by the caller is theirs to keep.
+    autoCallsign: !callsign,
     pilotBonus,
     vow,
     dishonored: false,
@@ -245,6 +248,54 @@ export function enemyFrames(b = getBattle()) {
   return framesList(b).filter((f) => f.ownerId !== me);
 }
 
+/**
+ * NATO phonetic, in order. Ten is well past any plausible lance; an eleventh
+ * same-model frame simply keeps the bare model name rather than inventing one.
+ */
+const PHONETIC = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo',
+                  'Foxtrot', 'Golf', 'Hotel', 'India', 'Juliet'];
+
+/**
+ * Keep same-model frames in one lance tellable apart.
+ *
+ * A lone Vanguard stays "Vanguard". The moment a second deploys, the first is
+ * renamed "Vanguard Alpha" and the newcomer becomes "Vanguard Bravo" — the
+ * retroactive rename matters because the log, the turn order and the attack
+ * resolver all address frames by callsign, and two identical ones make every
+ * one of those ambiguous.
+ *
+ * Scoped to a single owner's frames. Suffixing across a shared battle would mean
+ * one device renaming another's frames, which is a sync conflict for no gain:
+ * opposing frames are already marked as such wherever they are listed.
+ *
+ * Letters are assigned once and never reshuffled. Withdrawing Alpha leaves Bravo
+ * as Bravo, because the log already refers to it by that name; the freed letter
+ * is available again to a later deployment.
+ */
+function assignPhonetic(b, frame) {
+  const renamed = [];
+  const lance = framesList(b).filter((f) => (
+    f.presetKey === frame.presetKey && f.ownerId === frame.ownerId && f.autoCallsign
+  ));
+  if (lance.length < 2) return renamed;
+
+  const base = getPreset(frame.presetKey).name;
+  const used = new Set(lance.map((f) => f.phonetic).filter(Boolean));
+
+  for (const f of lance) {
+    if (f.phonetic) continue;
+    const letter = PHONETIC.find((p) => !used.has(p));
+    if (!letter) return renamed;
+    const before = f.callsign;
+    f.phonetic = letter;
+    f.callsign = `${base} ${letter}`;
+    used.add(letter);
+    // The newcomer is not a rename — it has never been called anything else.
+    if (f !== frame) renamed.push(`${before} is now ${f.callsign}`);
+  }
+  return renamed;
+}
+
 export function addFrame(presetKey, opts = {}) {
   return mutate((b) => {
     const frame = createFrame(presetKey, opts);
@@ -262,7 +313,10 @@ export function addFrame(presetKey, opts = {}) {
       logFrame(frame, line, report.steps);
       detail = [line];
     }
-    logBattle(b, `${frame.callsign} deployed`, detail);
+    // Renames happen before the log entry, so it names the frame as it now is.
+    const renamed = assignPhonetic(b, frame);
+    logBattle(b, `${frame.callsign} deployed`, [...renamed, ...(detail || [])]);
+    for (const note of renamed) logBattle(b, note);
     // Round 1 opens *in* the Energy Phase, so a frame deployed into it should
     // already be holding its EP while that phase is on screen — same reason
     // Energy and End settle on entry rather than on the way out.

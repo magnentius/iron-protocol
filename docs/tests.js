@@ -13,7 +13,8 @@ import { diffInto } from './js/sync.js';
 import { battleTranscript, transcriptFilename } from './js/transcript.js';
 import { meter } from './js/ui/dom.js';
 import {
-  addFrame, advancePhase, createFrame, createBattle, getBattle, isCompatible, logAction, setBattle,
+  addFrame, advancePhase, createFrame, createBattle, getBattle, isCompatible, logAction,
+  removeFrame, setBattle,
   SCHEMA_VERSION,
 } from './js/state.js';
 
@@ -1221,6 +1222,85 @@ export function run({ describe, it, eq, ok }) {
       addFrame('jackal', { ownerId: 't' });
       const e = findEntry(/deployed/);
       eq([e.round, e.phase], [1, 'energy']);
+    });
+  });
+
+  // --- Callsigns -------------------------------------------------------------
+  describe('Same-model callsigns');
+
+  const deploy = (key, opts = {}) => addFrame(key, { ownerId: 't', ...opts });
+  const names = () => Object.values(getBattle().frames).map((f) => f.callsign);
+
+  it('a lone frame keeps the plain model name', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'ONE1' }), { silent: true });
+      deploy('vanguard');
+      eq(names(), ['Vanguard']);
+    });
+  });
+
+  it('a second of the same model renames the first retroactively', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'TWO2' }), { silent: true });
+      deploy('vanguard');
+      deploy('vanguard');
+      eq(names(), ['Vanguard Alpha', 'Vanguard Bravo']);
+    });
+  });
+
+  it('further frames continue down the phonetic alphabet', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'MANY' }), { silent: true });
+      for (let i = 0; i < 4; i += 1) deploy('vanguard');
+      eq(names(), ['Vanguard Alpha', 'Vanguard Bravo', 'Vanguard Charlie', 'Vanguard Delta']);
+    });
+  });
+
+  it('different models are lettered independently', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'MIXD' }), { silent: true });
+      deploy('vanguard'); deploy('jackal');
+      deploy('vanguard'); deploy('jackal');
+      eq(names(), ['Vanguard Alpha', 'Jackal Alpha', 'Vanguard Bravo', 'Jackal Bravo']);
+    });
+  });
+
+  it('an opponent\u2019s identical frame is left alone', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'OPPO' }), { silent: true });
+      deploy('vanguard');
+      addFrame('vanguard', { ownerId: 'them' });
+      eq(names(), ['Vanguard', 'Vanguard'], 'suffixing across owners would be a sync conflict');
+    });
+  });
+
+  it('a callsign supplied by the caller is never renamed', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'NAMD' }), { silent: true });
+      deploy('vanguard', { callsign: 'Warhorse' });
+      deploy('vanguard');
+      eq(names(), ['Warhorse', 'Vanguard'], 'and the newcomer has no sibling to disambiguate from');
+    });
+  });
+
+  it('withdrawing one does not reshuffle the rest', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'GONE' }), { silent: true });
+      deploy('vanguard'); deploy('vanguard'); deploy('vanguard');
+      const alpha = Object.values(getBattle().frames).find((f) => f.phonetic === 'Alpha');
+      removeFrame(alpha.id);
+      eq(names(), ['Vanguard Bravo', 'Vanguard Charlie'], 'the log already calls them that');
+      deploy('vanguard');
+      eq(names().includes('Vanguard Alpha'), true, 'the freed letter is available again');
+    });
+  });
+
+  it('the retroactive rename is recorded in the log', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'RNAM' }), { silent: true });
+      deploy('vanguard'); deploy('vanguard');
+      ok(getBattle().log.some((e) => e.text === 'Vanguard is now Vanguard Alpha'),
+         JSON.stringify(getBattle().log.map((e) => e.text)));
     });
   });
 

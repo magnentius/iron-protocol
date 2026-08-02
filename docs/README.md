@@ -44,6 +44,13 @@ Lock damage. Terrain is set here rather than on the frame sheet, because that is
 it decides Cover rerolls, the EP surcharge on entry, reactor cooling, and whether Flank Speed is
 possible at all.
 
+Deploying a second frame of the same model renames both: a lone *Vanguard* becomes *Vanguard
+Alpha* the moment a *Vanguard Bravo* joins it, and the rename is recorded in the log. The
+retroactive part matters because the log, the turn order and the attack resolver all address
+frames by callsign, so two identical ones make every one of those ambiguous. Letters are scoped to
+one player's lance — suffixing across a shared battle would mean one device renaming another's
+frames — and are never reshuffled afterwards, since the log already refers to them by name.
+
 **Frames tab** — the full sheet for each frame, laid out to mirror the printed one:
 
 - an **Armor DR track** of boxes from the location's maximum down to zero, tapped to set the
