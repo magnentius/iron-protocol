@@ -11,6 +11,7 @@ import { instantiate, FRAME_PRESETS, FRAME_KEYS, costOut } from './js/data/frame
 import { CRIT_TABLES, CRIT_TABLE_MAX, overkillDice, COUNTERMEASURE_CHECK_TN } from './js/data/tables.js';
 import { diffInto } from './js/sync.js';
 import { battleTranscript, transcriptFilename } from './js/transcript.js';
+import { meter } from './js/ui/dom.js';
 import {
   addFrame, advancePhase, createFrame, createBattle, getBattle, isCompatible, logAction, setBattle,
   SCHEMA_VERSION,
@@ -1067,6 +1068,12 @@ export function run({ describe, it, eq, ok }) {
     // Flank Speed 1 + Heavy Woods 2 + Vow of Loyalty 1.
     const f = frame('vanguard', { terrain: 'woodsHeavy', flankSpeed: true, loyaltyCover: 1 });
     eq(R.rerollAllowance(f), R.MAX_REROLL_ALLOWANCE);
+  });
+
+  it('a meter with an unknown maximum shows the value, never "undefined"', () => {
+    const html = meter('Rerolls', 2, undefined, 'reroll');
+    eq(/undefined|NaN/.test(html), false, html);
+    ok(html.includes('>2<') || html.includes('>2'), 'the value itself still shows');
   });
 
   // --- Battle log ------------------------------------------------------------

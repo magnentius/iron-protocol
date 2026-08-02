@@ -15,7 +15,11 @@
 
 // Bump on every deploy. This is the only manual step, and getting it wrong now
 // costs a slow load rather than a broken app.
-const VERSION = '2026-08-01';
+//
+// Carry a serial as well as the date: more than one deploy can land on the same
+// day, and a date that has not moved leaves the cache key unchanged while the
+// code underneath it has changed.
+const VERSION = '2026-08-01.2';
 const CACHE = `iron-protocol-${VERSION}`;
 
 const SHELL = [

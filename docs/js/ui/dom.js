@@ -39,12 +39,23 @@ export function bar(current, max, kind = 'ep') {
   return `<div class="bar"><i class="${level}" style="width:${pct}%"></i></div>`;
 }
 
-/** Labelled meter with a value readout. */
+/**
+ * Labelled meter with a value readout.
+ *
+ * A missing or non-finite `max` prints the value alone rather than "2/undefined".
+ * That happens when a browser pairs a fresh module with a cached older one and a
+ * constant it expects is not there yet — rare, but it produced exactly that
+ * readout once, and a meter should degrade to saying less, never to nonsense.
+ * Deliberately not substituted with a guess: an invented denominator would be
+ * quietly wrong, which is worse than an absent one.
+ */
 export function meter(label, current, max, kind) {
+  const known = Number.isFinite(max) && max > 0;
+  const value = Number.isFinite(current) ? current : 0;
   return `
     <div class="meter">
-      <div class="label"><span>${esc(label)}</span><b>${current}<span class="dim small">/${max}</span></b></div>
-      ${bar(current, max, kind)}
+      <div class="label"><span>${esc(label)}</span><b>${value}${known ? `<span class="dim small">/${max}</span>` : ''}</b></div>
+      ${bar(value, known ? max : 0, kind)}
     </div>`;
 }
 
