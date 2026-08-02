@@ -421,3 +421,16 @@ table.ref-table td.n { font-variant-numeric: tabular-nums; font-weight: 600; wid
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+/* Callsign as an editable affordance. Looks like the heading it replaces until
+   touched, so the sheet does not read as a form. */
+.name-edit {
+  display: flex; align-items: center; gap: .4rem;
+  background: none; border: 0;
+  color: inherit; font: inherit; text-align: left; cursor: pointer;
+  /* Padding buys the 44px tap target; the matching negative margin keeps the
+     header laid out exactly as it was when the name was a plain heading. */
+  padding: .7rem 0; margin: -.7rem 0;
+}
+.name-edit .pencil { color: var(--dim); font-size: .8rem; }
+.name-edit:active .pencil, .name-edit:hover .pencil { color: var(--accent); }

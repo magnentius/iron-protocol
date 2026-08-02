@@ -296,6 +296,42 @@ function assignPhonetic(b, frame) {
   return renamed;
 }
 
+/**
+ * Give a frame a callsign of the player's choosing, or hand it back to the app.
+ *
+ * A custom name opts the frame out of phonetic lettering — there is nothing to
+ * disambiguate once it is called something else. Clearing the field reverts to
+ * the model name and opts back in, so renaming needs no separate undo control.
+ */
+export function renameFrame(frameId, name) {
+  return mutate((b) => {
+    const frame = b.frames[frameId];
+    if (!frame) return null;
+
+    const before = frame.callsign;
+    const custom = String(name || '').trim().slice(0, 24);
+
+    if (custom) {
+      frame.callsign = custom;
+      frame.autoCallsign = false;
+      delete frame.phonetic;
+    } else {
+      // Back to the app's naming. Drop the old letter first so this frame is
+      // re-lettered from scratch alongside its siblings.
+      frame.autoCallsign = true;
+      delete frame.phonetic;
+      frame.callsign = getPreset(frame.presetKey).name;
+      assignPhonetic(b, frame);
+    }
+
+    if (frame.callsign !== before) {
+      logBattle(b, `${before} is now ${frame.callsign}`);
+      logFrame(frame, `Callsign changed from ${before}`);
+    }
+    return frame;
+  });
+}
+
 export function addFrame(presetKey, opts = {}) {
   return mutate((b) => {
     const frame = createFrame(presetKey, opts);

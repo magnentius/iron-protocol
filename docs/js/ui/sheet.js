@@ -13,7 +13,10 @@ import {
   AMMO_TYPES, AMMO_DIE,
 } from '../data/tables.js';
 import * as R from '../rules.js';
-import { deviceId, getFrame, logAction, logFrame, mutate, myFrames, framesList, removeFrame, addFrame } from '../state.js';
+import {
+  addFrame, deviceId, framesList, getFrame, logAction, logFrame, mutate, myFrames, removeFrame,
+  renameFrame,
+} from '../state.js';
 import { FRAME_PRESETS } from '../data/frames.js';
 import { chip, closeModal, cls, confirmModal, esc, logList, meter, openModal, stepper, toast } from './dom.js';
 
@@ -116,6 +119,47 @@ export function statusChips(frame) {
 
 // --- Full sheet --------------------------------------------------------------
 
+/**
+ * Rename a frame. Deliberately reached from the sheet rather than offered on
+ * deploy: deploying is the most frequent action in setup, and putting a keyboard
+ * in front of it would make the common path pay for the rare one.
+ */
+function renameModal(frame) {
+  const auto = FRAME_PRESETS[frame.presetKey].name;
+  openModal(`
+    <h2 style="font-size:1.05rem;margin-bottom:.4rem">Callsign</h2>
+    <p class="small muted" style="margin-top:0">
+      Name this ${esc(frame.designation)} whatever you like. Clear the field to go back to
+      ${esc(auto)} and let the app letter it again.
+    </p>
+    <input type="text" id="callsign-input" maxlength="24" value="${esc(frame.callsign)}"
+           placeholder="${esc(auto)}" autocomplete="off" spellcheck="false"
+           enterkeyhint="done" style="font-weight:600">
+    <div class="row" style="gap:.5rem;margin-top:1rem">
+      <button class="btn grow" data-action="modal-cancel">Cancel</button>
+      <button class="btn grow primary" data-action="save-callsign">Save</button>
+    </div>`, (action) => {
+    if (action === 'modal-cancel') { closeModal(); return true; }
+    if (action === 'save-callsign') {
+      const value = document.getElementById('callsign-input')?.value ?? '';
+      closeModal();
+      const updated = renameFrame(frame.id, value);
+      if (updated) toast(`Callsign: ${updated.callsign}`, 'ok');
+      return true;
+    }
+    return false;
+  });
+
+  // Focus after the modal is in the DOM so the keyboard opens with it, and
+  // select the text so replacing the whole name takes no extra tapping.
+  setTimeout(() => {
+    const input = document.getElementById('callsign-input');
+    if (!input) return;
+    input.focus();
+    input.select();
+  }, 50);
+}
+
 function renderSheet(frame) {
   const mine = frame.ownerId === deviceId();
   const capMax = R.effectiveCapacitorMax(frame);
@@ -130,7 +174,12 @@ function renderSheet(frame) {
     <div class="card frame-card ${cls(frame.team === 'b' && 'team-b', R.isDestroyed(frame) && 'destroyed')}" style="padding-left:.9rem">
       <div class="frame-head">
         <div class="grow">
-          <div class="name">${esc(frame.callsign)}</div>
+          ${mine ? `
+            <button class="name-edit" data-action="rename-frame" data-frame="${frame.id}"
+                    title="Rename this frame">
+              <span class="name">${esc(frame.callsign)}</span><span class="pencil">✎</span>
+            </button>`
+            : `<div class="name">${esc(frame.callsign)}</div>`}
           <div class="desig">${esc(frame.designation)} · ${esc(frame.role)}</div>
           <div class="tiny dim" style="margin-top:.2rem">
             ${frame.tons}T ${esc(TERRAIN[frame.terrain].name)} · Mass ${R.massValue(frame)} ·
@@ -422,6 +471,12 @@ export function handle(action, el) {
     case 'open-frame':
       openFrameId = frameId;
       return true;
+    case 'rename-frame': {
+      const f = getFrame(frameId);
+      if (f) renameModal(f);
+      return true;
+    }
+
     case 'close-frame':
       openFrameId = null;
       return true;

@@ -14,7 +14,7 @@ import { battleTranscript, transcriptFilename } from './js/transcript.js';
 import { meter } from './js/ui/dom.js';
 import {
   addFrame, advancePhase, createFrame, createBattle, getBattle, isCompatible, logAction,
-  removeFrame, setBattle,
+  removeFrame, renameFrame, setBattle,
   SCHEMA_VERSION,
 } from './js/state.js';
 
@@ -1301,6 +1301,76 @@ export function run({ describe, it, eq, ok }) {
       deploy('vanguard'); deploy('vanguard');
       ok(getBattle().log.some((e) => e.text === 'Vanguard is now Vanguard Alpha'),
          JSON.stringify(getBattle().log.map((e) => e.text)));
+    });
+  });
+
+  it('a custom callsign replaces the letter and opts out of lettering', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'CUST' }), { silent: true });
+      deploy('vanguard'); const b2 = deploy('vanguard');
+      renameFrame(b2.id, 'Warhorse');
+      eq(names(), ['Vanguard Alpha', 'Warhorse']);
+      eq(getBattle().frames[b2.id].phonetic, undefined, 'the letter is gone, not just hidden');
+    });
+  });
+
+  it('clearing the field reverts to the model name and re-letters', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'REVT' }), { silent: true });
+      deploy('vanguard'); const b2 = deploy('vanguard');
+      renameFrame(b2.id, 'Warhorse');
+      renameFrame(b2.id, '   ');
+      eq(names(), ['Vanguard Alpha', 'Vanguard Bravo'], 'back under the app\u2019s naming');
+    });
+  });
+
+  it('reverting re-letters a sibling that was left bare', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'BARE' }), { silent: true });
+      const a = deploy('vanguard', { callsign: 'Warhorse' });
+      deploy('vanguard');            // no ambiguity, so it stays plain
+      eq(names(), ['Warhorse', 'Vanguard']);
+      renameFrame(a.id, '');         // now there are two Vanguards again
+      eq(names().sort(), ['Vanguard Alpha', 'Vanguard Bravo']);
+    });
+  });
+
+  it('a renamed frame does not letter later arrivals', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'LATR' }), { silent: true });
+      const a = deploy('vanguard');
+      renameFrame(a.id, 'Warhorse');
+      deploy('vanguard');
+      eq(names(), ['Warhorse', 'Vanguard'], 'nothing to disambiguate');
+    });
+  });
+
+  it('a callsign is trimmed and length-capped', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'TRIM' }), { silent: true });
+      const f = deploy('vanguard');
+      renameFrame(f.id, '  ' + 'x'.repeat(60) + '  ');
+      eq(getBattle().frames[f.id].callsign.length, 24);
+    });
+  });
+
+  it('the rename is logged on both the battle and the frame', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'RLOG' }), { silent: true });
+      const f = deploy('vanguard');
+      renameFrame(f.id, 'Warhorse');
+      ok(getBattle().log.some((e) => e.text === 'Vanguard is now Warhorse'));
+      ok(getBattle().frames[f.id].log.some((e) => /Callsign changed from Vanguard/.test(e.text)));
+    });
+  });
+
+  it('renaming to the same name logs nothing', () => {
+    withStorage(() => {
+      setBattle(createBattle({ code: 'SAME' }), { silent: true });
+      const f = deploy('vanguard');
+      const before = getBattle().log.length;
+      renameFrame(f.id, 'Vanguard');
+      eq(getBattle().log.length, before);
     });
   });
 

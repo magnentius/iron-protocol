@@ -51,6 +51,12 @@ frames by callsign, so two identical ones make every one of those ambiguous. Let
 one player's lance — suffixing across a shared battle would mean one device renaming another's
 frames — and are never reshuffled afterwards, since the log already refers to them by name.
 
+Tap a callsign on its own sheet to **rename it** to anything you like. A custom name opts that
+frame out of lettering, since there is nothing left to disambiguate; clearing the field reverts it
+to the model name and opts back in, so renaming needs no separate undo. Renaming is reached from
+the sheet rather than offered on deploy on purpose: deploying is the most frequent action in setup,
+and putting a keyboard in front of it would make the common path pay for the rare one.
+
 **Frames tab** — the full sheet for each frame, laid out to mirror the printed one:
 
 - an **Armor DR track** of boxes from the location's maximum down to zero, tapped to set the
