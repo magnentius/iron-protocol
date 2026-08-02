@@ -89,8 +89,18 @@ export function massValue(frame) {
   return WEIGHT_CLASSES[frame.weightClass].massValue;
 }
 
-/** A Frame becomes IR-lockable once it has spent this much EP in a turn (4.1). */
+/**
+ * A Frame becomes IR-lockable once it has spent this much EP in a turn (4.1).
+ *
+ * An Assault chassis is the exception: its reactor never runs cold. That is not
+ * a special case bolted on, it is the same fact as its Movement Limit. An Assault
+ * Frame tops out at 3 hexes and so can never spend the 4 EP that would light
+ * anything else up — leaving the largest reactor on the board permanently
+ * invisible on infrared, which is backwards. The mass that stops it dodging
+ * stops it hiding.
+ */
 export function isIRLockable(frame) {
+  if (frame.weightClass === 'assault') return true;
   return (frame.epSpentThisTurn || 0) >= IR_LOCK_THRESHOLD;
 }
 

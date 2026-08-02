@@ -2,7 +2,7 @@
 
 ![IF-90A-1 "Colossus" Technical Sketch](../images/if_90a_1_colossus.jpg)
 
-* **Initiative**: 3 | **Tonnage**: 90 Tons | **Points**: 680 pts | **Movement Limit**: 3 hexes | **Flank Speed**: N/A
+* **Initiative**: 3 | **Tonnage**: 90 Tons | **Points**: 620 pts | **Movement Limit**: 3 hexes | **Flank Speed**: N/A
 * **Hardpoints**: Head 1L | Torso 2M+3L | L.Arm 1H | R.Arm 1H
 
 ### ⚡ Energy

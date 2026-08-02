@@ -155,7 +155,7 @@ export const FRAME_PRESETS = {
     initiative: 3,
     tons: 90,
     weightClass: 'assault',
-    points: 680,
+    points: 620,
     reactor: 18,
     capacitorMax: 10,
     movementLimit: 3, // one hex short of the Flank Speed threshold, permanently
@@ -293,7 +293,13 @@ export const CHASSIS = {
             dr: { head: 4, torso: 5, arm: 3, leg: 4 }, cap: { head: 5, torso: 6, arm: 4, leg: 5 } },
   heavy: { base: 280, init: 4, move: 3, reactor: 5, capacitor: 2, maxInit: 6, maxMove: 4,
            dr: { head: 5, torso: 7, arm: 5, leg: 6 }, cap: { head: 6, torso: 8, arm: 6, leg: 7 } },
-  assault: { base: 330, init: 2, move: 2, reactor: 5, capacitor: 2, maxInit: 4, maxMove: 3,
+  // 270, cut from 330. An Assault chassis can no longer hide on infrared — its
+  // reactor never runs cold (rules.md 4.1) — and that measured at roughly 6.4
+  // points of win rate in matched-frame-count fights, about 60 points of value.
+  // Cut for that and no more: an Assault lance also underperforms because it
+  // concentrates its points in one Frame, and that is a property of the game
+  // rather than a pricing error.
+  assault: { base: 270, init: 2, move: 2, reactor: 5, capacitor: 2, maxInit: 4, maxMove: 3,
              dr: { head: 5, torso: 8, arm: 6, leg: 7 }, cap: { head: 6, torso: 9, arm: 7, leg: 8 } },
 };
 

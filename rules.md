@@ -478,6 +478,7 @@ Every Frame has a sensor suite consisting of three bands, housed in the Head loc
 2. **Infrared (IR)**: Medium wavelength (approx. 700 nm–1 mm). Thermal sensors detecting heat signatures.
    - *Requires*: Direct Line of Sight (blocked by Elevation normally), but entirely ignores Woods and Smoke penalties. To lock a target hidden behind solid Elevation, a Frame must receive telemetry via a **Tactical Datalink** from a friendly spotter with clear IR LOS.
    - *Sensitivity*: Targets become visible and targetable on IR for the remainder of the turn the moment they spend their **4th EP** of the turn (cumulatively across the Energy, Activation, or Combat phases). *Skin upkeep paid during the Energy Phase does **not** count toward this total — an Adaptive Skin runs cold by design, and a Frame should never be punished on infrared for buying stealth. Every other expenditure counts: movement, weapons fire, standing up. Running cold means genuinely doing very little, and it is the only way to be invisible to infrared without spending a hardpoint on it.*
+   - *The exception is an **Assault Frame**, whose reactor never runs cold: it is **always** IR-lockable, whatever it has spent. This is the same fact as its Movement Limit rather than a separate rule — an Assault chassis tops out at 3 hexes and so can never spend the 4 EP that lights anything else up, which would otherwise leave the largest reactor on the board permanently invisible on infrared. The mass that stops it dodging stops it hiding.*
    - *Blocked by*: an IRCM suite or an Adaptive Skin in Infrared mode, each on a **Countermeasure Check**.
 3. **Microwave (Radar)**: Longest wavelength (approx. 1 mm–1 m). Active microwave radio detection.
    - *Requires*: Direct Line of Sight (blocked by Elevation normally), but entirely ignores Woods and Smoke penalties. To lock a target hidden behind solid Elevation, a Frame must receive telemetry via a **Tactical Datalink** from a friendly spotter with clear Radar LOS.
@@ -827,7 +828,7 @@ Every Frame is defined by its physical **Tonnage** (Weight Class). Tonnage deter
 | **Light** | 20–35 Tons | Init 8 \| Move 5 \| Reactor 6 \| Capacitor 2 | Init 12 \| Move 7 | 180 pts |
 | **Medium** | 40–55 Tons | Init 6 \| Move 4 \| Reactor 6 \| Capacitor 2 | Init 10 \| Move 5 | 230 pts |
 | **Heavy** | 60–75 Tons | Init 4 \| Move 3 \| Reactor 5 \| Capacitor 2 | Init 6 \| Move 4 | 280 pts |
-| **Assault** | 80–100 Tons | Init 2 \| Move 2 \| Reactor 5 \| Capacitor 2 | Init 4 \| Move 3 | 330 pts |
+| **Assault** | 80–100 Tons | Init 2 \| Move 2 \| Reactor 5 \| Capacitor 2 | Init 4 \| Move 3 | 270 pts |
 
 #### 7.2.0 Hardpoints & Mounting
 
@@ -1086,7 +1087,7 @@ Here are five pre-configured Iron Frames ready for combat.
 *A walking fortress. Generates massive amounts of energy to feed its Rail Gun and Thermal Lance, relying on heavy armor and smoke screens for protection.*
 - **Initiative**: 3
 - **Chassis Mass (Tonnage)**: 90 Tons (Assault, Mass Value 4)
-- **Point Value**: 680 points
+- **Point Value**: 620 points
 - **Reactor Rating**: 18 EP/turn
 - **Capacitor Max**: 10 EP
 - **Movement Limit**: 3 hexes

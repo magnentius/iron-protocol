@@ -409,6 +409,22 @@ export function run({ describe, it, eq, ok }) {
     eq(R.weaponBlockedReason(shooter, lance, { target: warm }), null, 'the 4th EP is the threshold');
   });
 
+  it('an Assault Frame can never run cold', () => {
+    // It tops out at 3 hexes, so it could never spend the 4 EP that exposes
+    // anything else — the largest reactor on the board would be the hardest
+    // thing to see on infrared.
+    const colossus = frame('colossus', { epSpentThisTurn: 0 });
+    eq(R.isIRLockable(colossus), true);
+    eq(R.targetLockBlockedReason(colossus, 'ir'), null, 'always lockable');
+  });
+
+  it('Heavy and below still run cold — they can expose themselves by moving', () => {
+    for (const key of ['jackal', 'specter', 'vanguard', 'paladin']) {
+      eq(R.isIRLockable(frame(key, { epSpentThisTurn: 0 })), false, key);
+      eq(R.isIRLockable(frame(key, { epSpentThisTurn: 4 })), true, key);
+    }
+  });
+
   it('running cold is a hard block, not a Countermeasure Check', () => {
     // Nothing to contest, because there is no signature to find.
     eq(R.targetLockBlockedReason(frame('jackal', { epSpentThisTurn: 0 }), 'ir') !== null, true);

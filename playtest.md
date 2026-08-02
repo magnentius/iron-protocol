@@ -7,48 +7,49 @@ This document serves as a "unit testing" suite for the *Iron Protocol* rules eng
 ## Current Balance
 
 Simulated 2026-08-02 against the rules as they now stand — standing Capacitor reserve, IRCM suite,
-EMP as an opener, Autocannon fire control fixed per Frame, and the signal-warfare audit applied in
-full. **5 fixed seeds × 5,000 battles per scenario.** The range column is the noise floor: read
-nothing into a gap smaller than it. Re-run and diff this table whenever the rules move.
+EMP as an opener, Autocannon fire control fixed per Frame, the signal-warfare audit applied in
+full, and an Assault reactor that never runs cold. **5 fixed seeds × 5,000 battles per scenario.**
+The range column is the noise floor: read nothing into a gap smaller than it. Re-run and diff this
+table whenever the rules move.
 
 | Scenario | Turns | Team A | Team B | Range | Stall |
 | :--- | ---: | ---: | ---: | :---: | ---: |
 | 0 · Trial by Fire (1v1) | 9.8 | 56% | 43% | 54–57% | 1% |
-| 1 · Ghost & Wall (3v2) | 11.7 | 41% | 57% | 41–42% | 1% |
+| 1 · Ghost & Wall (3v2) | 12.1 | **51%** | 48% | 50–52% | 1% |
 | 2 · Honorable Attrition (3v3) | 11.9 | **52%** | 47% | 52–53% | 0% |
-| 3 · Hammer & Anvil (4v4) | 9.5 | 58% | 41% | 57–58% | 1% |
+| 3 · Hammer & Anvil (4v4) | 8.9 | **51%** | 49% | 49–51% | 1% |
 | 4 · Vanguard Swarm (1v4) | 5.2 | 1% | 99% | 1–1% | 0% |
 | 5 · The Duel (1v1 mirror) | 7.0 | 58% | 41% | 58–60% | 1% |
 | 6 · Scout Skirmish (1v1 mirror) | 6.6 | 58% | 38% | 58–59% | 3% |
-| 7 · Titan Bout (1v1) | 6.9 | 83% | 14% | 83–84% | 3% |
+| 7 · Titan Bout (1v1) | 7.1 | 62% | 33% | 61–63% | 4% |
 | 8 · Shattered Mesa (1v1) | — | — | — | — | — |
 | 9 · Salvage Rights (1v1 mirror) | 8.0 | 33% | 58% | 33–34% | 8% |
 | 10 · Dead Air (2v3) | 8.2 | 34% | 65% | 32–35% | 1% |
 | 11 · Three Oaths (3v3) | 11.1 | 48% | 52% | 47–48% | 0% |
-| **Mean** | **8.7** | **48%** | | | |
+| **Mean** | **8.7** | **46%** | | | |
 
-**Scenario 1 reads 41% because the simulator plays the line that scenario exists to prove is
-wrong** — its pilots buy Flank Speed every turn instead of banking for Overcharges. See that
-scenario's own doctrine note.
+**Three scenarios came back into band at once** when the Assault reactor stopped running cold —
+Ghost & Wall 41% → 51%, Hammer & Anvil 58% → 51%, Titan Bout 83% → 62%. All three turn on a
+Colossus, and all three were distorted by the same thing: an Assault chassis tops out at 3 hexes,
+so it could never spend the 4 EP that lights anything else up, and it fires last. The largest
+reactor on the board was the hardest thing on it to see.
 
-**Scenario 9 is the interesting one, and it is not a roster problem.** Two identical Paladins
-cannot be rebalanced against each other; the only asymmetry left is who fires first. It reads 33%
-because spending EP on your own shot makes you infrared-lockable for the rest of the turn, so the
-Frame that shoots first lights itself up for the one that shoots second. Both Paladins carry
-IR-guided missiles, so the effect lands at full strength. That is the rule working as written —
-stealth and shooting are meant to be exclusive — but a mirror is the cleanest instrument in the
-suite, and it puts the size of that effect at roughly **25 points of win rate**. Worth knowing
-before deciding it is settled. Note also that the simulator's pilots never once decline to fire to
-stay cold, so 33% is the floor for a side that never takes the stealth option, not the true figure.
+**Scenario 7 is now only marginally out**, and it is an unmatched fight by construction — a Colossus
+at 620 against a Paladin at 555. 62% for a 12% point advantage is close to proportionate.
 
-**Scenario 10 is still out and wants a third look.** It has been re-tuned twice this session
-already, and the rules moved under it both times.
+**Scenario 9 is not a roster problem.** Two identical Paladins cannot be rebalanced against each
+other; the only asymmetry left is who fires first. It reads 33% because spending EP on your own
+shot makes you infrared-lockable for the rest of the turn, so the Frame that shoots first lights
+itself up for the one that shoots second, and both carry IR-guided missiles. That is the rule
+working as intended — stealth and shooting are meant to be exclusive — but a mirror is the cleanest
+instrument in the suite, and it puts the size of that effect at roughly **25 points of win rate**.
+Note also that the simulator's pilots never once decline to fire to stay cold, so 33% is the floor
+for a side that never takes the stealth option, not the true figure.
 
-**The remaining outliers are asymmetric by construction.** Scenario 4 is a deliberate 1v4 stress
-test. Scenario 7 quotes no point values at all — a Colossus at 680 against a Paladin at 555 — and
-its 83% is now well past what a 22% point advantage explains, because the Colossus fields two
-infrared weapons and benefits from the higher-Initiative Paladin exposing itself first. That one
-wants matched points rather than a rules change. Scenario 8 is absent because it tests vertical
+**Scenario 10 is the one still genuinely out.** It has been re-tuned twice already and the rules
+moved under it both times; it wants a third look now that they have stopped.
+
+**Scenario 4 is a deliberate 1v4 stress test.** Scenario 8 is absent because it tests vertical
 warfare and the simulator has no elevation; it needs table play.
 
 Mirror matches with no infrared weapon between them sit at 58% to whoever shoots first. That skew
@@ -93,8 +94,8 @@ deltas over the absolute levels**.*
     *   1x **IF-45M-1 "Specter"** (Piloted by **Lyra "Viper" Vance** — Vow of Mercy) — 480 pts with pilot
     *   1x **IF-25L-1 "Jackal"** — 365 pts
     *   1x **IF-55M-1 "Vanguard"** — 455 pts *(the cell's electronic warfare mount: ECM umbrella and Chaff)*
-*   **Team B (The Wall) — 1135 pts**: 
-    *   1x **IF-90A-1 "Colossus"** (Standard Pilot) — 680 pts
+*   **Team B (The Wall) — 1075 pts**: 
+    *   1x **IF-90A-1 "Colossus"** (Standard Pilot) — 620 pts
     *   1x **IF-55M-1 "Vanguard"** (Standard Pilot) — 455 pts
 
 > *Note on the force imbalance: the Ghosts field three Frames and 165 more points, and that is deliberate. Light and Medium stealth Frames cannot trade blows with an Assault chassis — an unsupported Specter and Jackal lose this matchup **100%** of the time, and even a lone Paladin beats them. The Ghosts are paying for numbers and electronic warfare because they cannot pay for armor. The Wall, in turn, is under no obligation to chase them.*
@@ -239,7 +240,7 @@ deltas over the absolute levels**.*
     *   1x **IF-45M-1 "Specter"**, refit with **Jump Jets** in a spare Light Torso hardpoint — **455 pts** *(the Adaptive Skin occupies the Medium mount; one Light hardpoint remains free)*
     *   1x **IF-25L-1 "Jackal"** — 365 pts
 *   **Team B (The Ground Game) — 820 pts**:
-    *   1x **IF-55M-1 "Vanguard"** — 455 pts *(its Torso is full — ECM, Flares and Chaff — so it **cannot** mount Jump Jets and must take the long way round)*
+    *   1x **IF-55M-1 "Vanguard"** — 455 pts *(its Torso is full — ECM, an IRCM suite and Chaff — so it **cannot** mount Jump Jets and must take the long way round)*
     *   1x **IF-25L-1 "Jackal"** — 365 pts
 
 > *Points are exactly level. The asymmetry is mobility: Team A can put two Frames on a spire, Team B only one. Whether that is worth anything is the scenario's central question.*
@@ -289,8 +290,8 @@ deltas over the absolute levels**.*
 ### Setup
 *   **Map Size**: 22 x 22 Hexes
 *   **Terrain**: A canal crossing. A single **Paved** causeway four hexes wide runs the length of the map, flanked by **Deep Water**. Two Level 2 Buildings sit at the far end. *(The causeway matters: it is the only ground a Column can cross in formation, and it is exactly the shape of an EMP blast.)*
-*   **Team A (The Pulse) — 1135 pts**:
-    *   1x **IF-90A-1 "Colossus"** — 680 pts *(its launcher carries the **EMP** warhead — fired at a hex, so it needs no lock and nothing can contest it)*
+*   **Team A (The Pulse) — 1075 pts**:
+    *   1x **IF-90A-1 "Colossus"** — 620 pts *(its launcher carries the **EMP** warhead — fired at a hex, so it needs no lock and nothing can contest it)*
     *   1x **IF-55M-1 "Vanguard"** — 455 pts
 *   **Team B (The Column) — 1185 pts**:
     *   1x **IF-55M-1 "Vanguard"** — 455 pts
