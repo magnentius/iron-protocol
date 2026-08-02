@@ -14,8 +14,8 @@ import {
 } from '../data/tables.js';
 import * as R from '../rules.js';
 import {
-  addFrame, deviceId, framesList, getFrame, logAction, logFrame, mutate, myFrames, removeFrame,
-  renameFrame,
+  addFrame, deviceId, framesList, getBattle, getFrame, logAction, logFrame, mutate, myFrames,
+  removeFrame, renameFrame,
 } from '../state.js';
 import { FRAME_PRESETS } from '../data/frames.js';
 import { chip, closeModal, cls, confirmModal, esc, logList, meter, openModal, stepper, toast } from './dom.js';
@@ -363,10 +363,15 @@ function systemsCard(frame) {
           ${frame.adaptiveSkinActive ? 'Active' : 'Off'}
         </button>
       </div>
+      <div class="row between tiny dim" style="margin-bottom:.3rem">
+        <span>Coating</span>
+        <span>${R.skinRetuneBlockedReason(frame, getBattle().phase) ? 'locked until next turn' : 'set it now — it locks at the Combat Phase'}</span>
+      </div>
       <div class="row wrap" style="gap:.3rem;margin-bottom:.7rem">
         ${Object.entries(SENSOR_BANDS).map(([band, name]) => `
           <button class="btn sm ${bands.includes(band) ? 'primary' : ''}"
-            data-action="toggle-skin-band" data-frame="${frame.id}" data-band="${band}">${esc(name)}</button>`).join('')}
+            data-action="toggle-skin-band" data-frame="${frame.id}" data-band="${band}"
+            ${R.skinRetuneBlockedReason(frame, getBattle().phase) ? 'disabled' : ''}>${esc(name)}</button>`).join('')}
       </div>`);
   }
 
@@ -566,10 +571,16 @@ export function handle(action, el) {
         f.adaptiveSkinActive = !f.adaptiveSkinActive;
         if (f.adaptiveSkinActive && !(f.adaptiveSkinBandKeys || []).length) f.adaptiveSkinBandKeys = ['vis'];
         f.adaptiveSkinBands = Math.max(1, (f.adaptiveSkinBandKeys || []).length);
+        logAction(f, 'skin', 'Adaptive Skin',
+          f.adaptiveSkinActive
+            ? `Skin active, tuned to ${(f.adaptiveSkinBandKeys || []).map((b) => SENSOR_BANDS[b]).join(' + ')}`
+            : 'Skin switched off');
       });
       return true;
 
-    case 'toggle-skin-band':
+    case 'toggle-skin-band': {
+      const blockedTune = R.skinRetuneBlockedReason(getFrame(frameId), getBattle().phase);
+      if (blockedTune) { toast(blockedTune, 'error'); return true; }
       mutate(() => {
         const f = getFrame(frameId);
         const band = el.dataset.band;
@@ -578,8 +589,11 @@ export function handle(action, el) {
         else if (bands.length < 2) f.adaptiveSkinBandKeys = [...bands, band];
         else toast('An Adaptive Skin can cloak at most two spectrums', 'error');
         f.adaptiveSkinBands = Math.max(1, (f.adaptiveSkinBandKeys || []).length);
+        logAction(f, 'skin', 'Adaptive Skin',
+          `Coating tuned to ${(f.adaptiveSkinBandKeys || []).map((b) => SENSOR_BANDS[b]).join(' + ') || 'nothing'}`);
       });
       return true;
+    }
 
     case 'toggle-ecm':
       mutate(() => { const f = getFrame(frameId); f.ecmActive = !f.ecmActive; });

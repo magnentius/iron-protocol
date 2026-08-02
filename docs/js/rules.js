@@ -412,6 +412,30 @@ export function countermeasureCheck({ rng = Math.random, forcedRoll = null } = {
   return { rolled, tn: COUNTERMEASURE_CHECK_TN, negated: rolled >= COUNTERMEASURE_CHECK_TN };
 }
 
+/**
+ * When an Adaptive Skin's coating may be re-tuned (rules.md 4.2).
+ *
+ * Set in the Energy Phase when the suite is paid for, and may be re-tuned during
+ * the Frame's own Activation — you re-lay the coating as you reposition, on what
+ * the board now shows. It locks when the Combat Phase begins.
+ *
+ * That boundary is the whole rule. Left open, the Skin reads as "negate one
+ * attack a turn on whatever band it arrives on", which is a different and far
+ * stronger system than choosing in advance and living with the choice. Gated by
+ * phase rather than by a counter: within your own activation there is no
+ * advantage to changing your mind twice, so counting would be bookkeeping for
+ * nothing.
+ */
+export const SKIN_TUNABLE_PHASES = ['energy', 'activation'];
+
+export function skinRetuneBlockedReason(frame, phase) {
+  if (!frame.systems?.adaptiveSkin) return 'No Adaptive Skin fitted';
+  if (!SKIN_TUNABLE_PHASES.includes(phase)) {
+    return 'The coating locks when the Combat Phase begins — re-tune during your activation';
+  }
+  return null;
+}
+
 /** Is this Frame's Tactical Datalink up — fitted, not severed, not jammed? */
 export function datalinkActive(frame) {
   return Boolean(frame.systems?.datalink) && !frame.datalinkSevered && !frame.datalinkSuppressed;

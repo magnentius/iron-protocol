@@ -249,6 +249,7 @@ explicitly in `rules.md` §2.3, §5.0 and §6.
 | Cascading Failure | A critical landing on a marked slot climbs to the next unmarked one; past the top of the table, the top result applies |
 | Table lengths | Head 5, Torso 8, Arms and Legs 6. Torso 7–8 cannot be rolled naturally — only cascaded into, or reached by HEI's +1 |
 | Countermeasure Check | Every deployed countermeasure contests a lock on a **4+**. Terrain alone blocks outright |
+| Adaptive Skin timing | The cloaked spectrum is chosen in the Energy Phase and may be re-tuned during that Frame's own Activation. It **locks when the Combat Phase begins** — so it stays a prediction rather than a guaranteed answer to whatever arrives |
 | Tactical Datalink | A lock held by one datalinked Frame is held by the whole net. A Frame whose array is destroyed still fires the weapon that needed it, so long as a lance-mate with a working link has the band — which is why an EMP jams the link as well as burning the array |
 | ECM umbrella | Covers every friendly Frame inside its radius, not only the Frame carrying it. That is what the radius Overcharge buys; a 0-hex suite shelters nobody but its host |
 | Running cold | A Frame that has not spent its 5th EP in a turn has no infrared signature and **cannot be locked on IR at all** — a hard block, not a check, since there is nothing to contest. Adaptive Skin upkeep is exempt, so buying stealth never exposes you |

@@ -495,6 +495,24 @@ export function run({ describe, it, eq, ok }) {
     eq(R.availableCountermeasures(honest, 'rad', { allies: [host] }), []);
   });
 
+  it('an Adaptive Skin may be tuned in the Energy Phase and re-tuned on activation', () => {
+    const f = frame('specter', { adaptiveSkinActive: true });
+    eq(R.skinRetuneBlockedReason(f, 'energy'), null);
+    eq(R.skinRetuneBlockedReason(f, 'activation'), null);
+  });
+
+  it('but the coating locks when the Combat Phase begins', () => {
+    // Otherwise it is not a stealth system, it is a guaranteed check against
+    // one attack a turn on whichever band happens to arrive.
+    const f = frame('specter', { adaptiveSkinActive: true });
+    ok(/locks/.test(R.skinRetuneBlockedReason(f, 'combat')), R.skinRetuneBlockedReason(f, 'combat'));
+    ok(R.skinRetuneBlockedReason(f, 'end'));
+  });
+
+  it('a Frame with no Skin has nothing to tune', () => {
+    ok(/No Adaptive Skin/.test(R.skinRetuneBlockedReason(frame('jackal'), 'energy')));
+  });
+
   it('offers only the systems that answer the attacking band', () => {
     // Enough EP for the IRCM suite — a powered countermeasure is gated on energy
     // the way a cartridge is gated on its magazine.
