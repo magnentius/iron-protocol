@@ -102,13 +102,16 @@ how the random stream is consumed, so **trust the paired deltas over the absolut
 ### Setup
 *   **Map Size**: 36 x 36 Hexes
 *   **Terrain**: Arctic EMP Wasteland Sector (Severe thermal drain: -2 EP generation per frame). Scattered Craters (-1 Elevation) and jagged spires (Block LOS).
-*   **Team A (The Spears)**: 
+*   **Team A (The Spears) — 1375 pts**: 
     *   1x **IF-55M-1 "Vanguard"** (Piloted by **Kenji "Shogun" Takahashi** — Vow of Courage)
     *   1x **IF-75H-1 "Paladin"** 
     *   1x **IF-25L-1 "Jackal"** (Tactical Datalink is standard on every Frame's Head hardpoint)
-*   **Team B (The Blades)**: 
+*   **Team B (The Blades) — 1375 pts**:
     *   1x **IF-25L-1 "Jackal"** (Piloted by **Kaito Kuroda** — Vow of Respect)
-    *   2x **IF-55M-1 "Vanguards"**
+    *   1x **IF-55M-1 "Vanguard"**
+    *   1x **IF-75H-1 "Paladin"**
+
+> *The Blades used to field two Vanguards, and the signal-warfare audit showed why that was a trap rather than a lance. Two ECM suites cover the same three Frames and each bills its own upkeep, so the second umbrella buys nothing and costs a point of energy every turn — which bites hardest here, in the one scenario with a −2 EP drain. Worse, all three of their Frames laid their Autocannons on radar, straight into the Spears' ECM. Swapping one Vanguard for a Paladin fixes both: one umbrella instead of two, and a lance that shoots on Visual and Infrared as well as Microwave. It also brings the two sides to exactly 1375 points.*
 
 ### Testing Parameters (What to look for)
 1.  **EP Starvation**: With severe arctic environmental interference reducing EP generation by 2, can frames still reasonably afford to Overcharge their weapons (Thermal Lances/Rail Guns) by banking in the Capacitor? Does the game slow down too much?
@@ -117,6 +120,10 @@ how the random stream is consumed, so **trust the paired deltas over the absolut
 4.  **Datalink Abuse**: Can Team A's Jackal spot targets from safety and allow the Paladin to rain indirect missiles, or does the arctic environment limit the Paladin's ability to fire enough salvos?
 
 ---
+
+> *Simulation, 30,000 battles: the Spears win **53%**, range 52–54% across five seeds, over 11.9 turns. Even points, and the small edge is the first-strike advantage that shows up in every matched fight in this suite.*
+>
+> *How it got here is worth recording. The scenario measured 51% for years and was the best-balanced in the book. Enforcing the signal-warfare rules pushed it to 61%, and neither the Autocannon fix (+7) nor the ECM umbrella (+9) was solely responsible — they compounded, because the Blades' lance happened to be built in exactly the way both fixes punish. The lesson is that a roster can be quietly dependent on a rule not working.*
 
 ## Scenario 3: The Hammer and the Anvil (4v4)
 **Focus**: Massive damage curves, Overcharge Rail Guns vs Armor DR, AoE splash damage, Ammo Explosions, and Core Meltdowns.
