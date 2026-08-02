@@ -239,7 +239,6 @@ export function instantiate(presetKey) {
     // live turn state
     ep: 0,
     capacitor: 0,
-    overchargeAvailable: 0,
     epSpentThisTurn: 0,
     hexesMoved: 0,
     flankSpeed: false,

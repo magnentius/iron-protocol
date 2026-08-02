@@ -81,29 +81,12 @@ function phaseCard(battle, order) {
     </div>`;
 }
 
-/**
- * The Capacitor is only ever loaded during the End Phase: the Energy Phase
- * empties it straight into the pool by rule (rules.md 5.3). A permanent "Cap"
- * meter therefore reads 0 for three phases out of four, which makes banked
- * charge look like it evaporated overnight.
- *
- * So show what the charge actually became. For the rest of the turn the number
- * that matters is the Overcharge Allowance — the cap on what may be spent on
- * Overcharges, and the only thing banking is ultimately for.
- */
-function capacitorMeter(frame, battle, capMax) {
-  const max = Math.max(capMax, 1);
-  return battle.phase === 'end'
-    ? meter('Cap', frame.capacitor, max, 'cap')
-    : meter('Overcharge', frame.overchargeAvailable || 0, max, 'cap');
-}
-
 function phaseHint(phase) {
   return {
-    energy: 'Reactors generate EP, and last round\u2019s banked Capacitor charge empties into the pool \u2014 that emptied amount becomes this turn\u2019s Overcharge Allowance. Stealth upkeep is deducted automatically.',
+    energy: 'Reactors generate EP into the turn’s pool. The Capacitor is untouched — banked charge is a standing reserve that keeps until it is spent. Stealth upkeep is deducted automatically.',
     activation: 'Frames move from lowest initiative to highest. Spend EP step by step; exit 4+ hexes for Flank Speed.',
     combat: 'Frames fire from highest initiative to lowest, resolved instantly. Use the Attack tab.',
-    end: 'Unused EP has been banked into capacitors and the pools emptied — the excess above each Capacitor Max was vented. Flank Speed cleared, cooldowns ticked down. Advancing starts the next round.',
+    end: 'Unused EP has been added to the Capacitors and the pools emptied — only the overflow past each Capacitor Max was vented. Flank Speed cleared, cooldowns ticked down. Advancing starts the next round.',
   }[phase];
 }
 
@@ -128,7 +111,7 @@ function frameCard(frame, position, battle) {
       ${R.isDestroyed(frame) ? '' : `
         <div class="row" style="gap:.7rem;margin-top:.6rem">
           <div class="grow">${meter('EP', frame.ep, Math.max(R.effectiveReactor(frame) + capMax, 1), 'ep')}</div>
-          <div class="grow">${capacitorMeter(frame, battle, capMax)}</div>
+          <div class="grow">${meter('Cap', frame.capacitor, Math.max(capMax, 1), 'cap')}</div>
           <div class="grow">${meter('Rerolls', rerolls, Math.max(rerolls, 1), 'reroll')}</div>
         </div>`}
 
@@ -189,7 +172,7 @@ function torsoTwistRow(frame) {
       ${['left', 'center', 'right'].map((dir) => `
         <button class="btn sm grow ${facing === dir ? 'primary' : ''}"
           data-action="twist" data-frame="${frame.id}" data-facing="${dir}"
-          ${blocked || facing === dir || cost > frame.ep ? 'disabled' : ''}>
+          ${blocked || facing === dir || cost > R.availableEP(frame) ? 'disabled' : ''}>
           ${LABELS[dir]}
         </button>`).join('')}
     </div>`;
@@ -208,7 +191,7 @@ function movementPanel(frame) {
     <div style="margin-top:.7rem;padding-top:.7rem;border-top:1px solid var(--border)">
       <div class="row between tiny dim" style="margin-bottom:.45rem">
         <span>Movement ${frame.hexesMoved}/${limit} hexes</span>
-        <span>${frame.ep} EP available</span>
+        <span>${frame.ep} EP pool${frame.capacitor ? ` + ${frame.capacitor} reserve` : ''}</span>
       </div>
       ${terrainRow(frame)}
       ${torsoTwistRow(frame)}
@@ -216,7 +199,7 @@ function movementPanel(frame) {
         ${actions.map((a) => {
           const blocked = R.movementBlockedReason(frame, a.action, { hexes: 1 });
           const cost = R.movementCost(frame, a.action, { hexes: 1 });
-          const noEP = cost > frame.ep;
+          const noEP = cost > R.availableEP(frame);
           const disabled = blocked || noEP;
           const title = blocked || (noEP ? `Needs ${cost} EP` : '');
           // Standing on a severed leg is a gamble, not a certainty.
@@ -399,12 +382,12 @@ function showJumpModal(frame) {
         <div>${grantsFlank ? 'A jump of 2+ hexes grants <b>Flank Speed</b> on landing' : 'A single-hex hop is repositioning, not a flight — <b>no Flank Speed</b>'}</div>
         <div class="dim">Costs propellant either way: roll the Ammo Die on landing, dry on a 1 or 2</div>
         ${blocked ? `<div style="color:var(--danger)">${esc(blocked)}</div>` : ''}
-        ${cost > frame.ep ? `<div style="color:var(--danger)">Not enough EP (has ${frame.ep})</div>` : ''}
+        ${cost > R.availableEP(frame) ? `<div style="color:var(--danger)">Not enough EP (has ${R.availableEP(frame)})</div>` : ''}
       </div>
       <p class="tiny dim">Landing in Rough, Deep Water, a Building Roof or Woods needs a Pilot Check on touchdown.</p>
       <div class="row" style="gap:.5rem;margin-top:.8rem">
         <button class="btn grow" data-action="modal-cancel">Cancel</button>
-        <button class="btn grow primary" data-action="do-jump" ${blocked || cost > frame.ep ? 'disabled' : ''}>Jump</button>
+        <button class="btn grow primary" data-action="do-jump" ${blocked || cost > R.availableEP(frame) ? 'disabled' : ''}>Jump</button>
       </div>`;
   };
 

@@ -149,12 +149,12 @@ function renderSheet(frame) {
         ${stepper('adjust-ep', frame.ep, { min: 0, max: 99, params: { frame: frame.id } })}
       </div>
       <div class="row between">
-        <div class="grow">${meter('Capacitor (banked)', frame.capacitor, Math.max(capMax, 1), 'cap')}</div>
+        <div class="grow">${meter('Capacitor (reserve)', frame.capacitor, Math.max(capMax, 1), 'cap')}</div>
         ${stepper('adjust-cap', frame.capacitor, { min: 0, max: capMax, params: { frame: frame.id } })}
       </div>
       <div class="row wrap tiny dim" style="gap:.5rem;margin-top:.6rem;justify-content:space-between">
         <span>Reactor ${R.effectiveReactor(frame)}${frame.reactorMod ? ` (${frame.reactorMod})` : ''}/turn</span>
-        <span>Overcharge Allowance ${frame.overchargeAvailable || 0} EP</span>
+        <span>${R.availableEP(frame)} EP available</span>
         <span>Spent ${frame.epSpentThisTurn || 0}${R.isIRLockable(frame) ? ' — IR lockable' : ''}</span>
       </div>
     </div>

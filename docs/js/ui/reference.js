@@ -61,7 +61,7 @@ function panel(title, body, open = false) {
 
 function turnSequence() {
   const phases = [
-    ['1. Energy', 'Every frame generates EP equal to its Reactor Rating, added to banked Capacitor charge. Pay Adaptive Skin (2 EP) and ECM (2 EP + 1 per hex of radius) upkeep. The capacitor size at the moment it empties is this turn’s Overcharge Allowance.'],
+    ['1. Energy', 'Every frame generates EP equal to its Reactor Rating into the turn’s pool. The Capacitor is untouched — banked charge is a standing reserve that persists until spent. Pay Adaptive Skin (2 EP) and ECM (2 EP + 1 per hex of radius) upkeep.'],
     ['2. Activation', `Lowest initiative moves first. Walk 1 EP · Reverse 2 EP · Pivot 1 EP · Jump 2 EP per hex · climbing +1 EP. Exit ${FLANK_SPEED_THRESHOLD}+ hexes, or complete a 2+ hex jump, to gain Flank Speed. Free torso twist at the end.`],
     ['3. Combat', 'Highest initiative fires first, resolved instantly. Pay EP → check arc and lock → defender’s Countermeasure Check → 2d6 location → damage → Flank Speed and Cover rerolls → compare to Armor DR → criticals.'],
     ['4. End', 'Bank unused EP into the Capacitor (excess is vented), clear Flank Speed, tick cooldowns and smoke down by 1. An Electrical Fire burns one Torso critical first.'],
@@ -211,7 +211,7 @@ function houseRulings() {
     ['Armor DR is a threshold', `Damage must be <b>strictly greater</b> than DR to do anything at all. Equal or less and the plate simply holds — no partial damage, no degradation. A penetration costs that location 1 DR permanently.`],
     ['Overkill Margin', `One critical die on any penetration, plus one more for every ${OVERKILL_STEP} full points of excess. Rapid Fire never uses it.`],
     ['Cascading Failure', 'A critical landing on a slot already marked climbs to the next unmarked one. If it climbs past the top of the table, the top result applies.'],
-    ['Overcharge Allowance', 'Whatever sat in the Capacitor when it emptied caps how much EP you may spend on Overcharges that turn, however full the pool is. Bank nothing, Overcharge nothing.'],
+    ['Overcharge', 'Paid exclusively from the Capacitor, so whatever it currently holds is your ceiling — no separate allowance to track. An empty Capacitor cannot Overcharge, however full the pool. Paying ordinary costs out of the reserve spends the same charge.'],
     ['Rapid Fire', 'Every die is tested separately against the DR the location had when the attack was declared. Each <b>burst</b> that puts at least one round through generates one critical — not one per die. Armor degrades by 1 in total however many got through.'],
     ['One attack per weapon', 'Each mounted weapon fires once per Combat Phase, however much EP is left. Fire each of your weapons once, in any order.'],
     ['Full Auto limit', 'A maximum of 3 bursts per attack, rolling one hit location for the barrage — and the belt runs Empty on 1–3 instead of 1.'],

@@ -488,16 +488,62 @@ export function run({ describe, it, eq, ok }) {
   // --- Energy (rules.md 2.1, 5.3) -------------------------------------------
   describe('Energy Phase & Overcharge');
 
-  it('banked charge joins the pool and sets the Overcharge Allowance', () => {
+  it('the Energy Phase does not touch the Capacitor — the reserve persists', () => {
     const f = frame('vanguard', { capacitor: 4 });
     R.energyPhase(f);
-    eq([f.ep, f.overchargeAvailable, f.capacitor], [16, 4, 0]);
+    eq([f.ep, f.capacitor], [12, 4], 'pool is this turn\u2019s generation; the reserve keeps');
   });
 
-  it('a Frame that banked nothing cannot Overcharge at all', () => {
+  it('the reserve is spendable on anything, pool first', () => {
+    const f = frame('vanguard', { ep: 12, capacitor: 4 });
+    const r = R.spendEP(f, 14);
+    eq([r.ok, f.ep, f.capacitor], [true, 0, 2], '12 from the pool, 2 from the reserve');
+  });
+
+  it('a reserve survives round after round until it is spent', () => {
+    const f = frame('vanguard', { capacitor: 3 });
+    for (let i = 0; i < 5; i += 1) { R.energyPhase(f); R.endPhase(f); }
+    ok(f.capacitor > 0, 'five untouched rounds and the charge is still there');
+  });
+
+  it('movement is paid out of the reserve once the pool is dry', () => {
+    const f = frame('jackal', { ep: 0, capacitor: 3 });
+    const r = R.performMovement(f, 'pivot');
+    eq([r.ok, f.ep, f.capacitor], [true, 0, 2]);
+  });
+
+  it('a cost spanning both is split pool-first', () => {
+    const f = frame('jackal', { ep: 1, capacitor: 3 });
+    R.performMovement(f, 'reverse'); // 2 EP
+    eq([f.ep, f.capacitor], [0, 2], '1 from the pool, 1 from the reserve');
+  });
+
+  it('nothing can be paid when pool and reserve together fall short', () => {
+    const f = frame('jackal', { ep: 0, capacitor: 1 });
+    eq(R.performMovement(f, 'reverse').ok, false, '2 EP needed, 1 available');
+  });
+
+  it('the Rail Gun draws its mandatory Overcharge from the Capacitor', () => {
+    const f = frame('paladin', { ep: 20, capacitor: 6 });
+    const rg = f.weapons.find((w) => w.key === 'railGun');
+    eq(R.consumeWeapon(f, rg, { overcharge: 6 }).ok, true);
+    eq(f.capacitor, 0, 'the whole reserve went into the shot');
+    const g = frame('paladin', { ep: 20, capacitor: 5 });
+    eq(R.consumeWeapon(g, g.weapons.find((w) => w.key === 'railGun'), { overcharge: 6 }).ok, false,
+       'a full pool cannot cover an Overcharge the Capacitor is short of');
+  });
+
+  it('a Frame with an empty Capacitor cannot Overcharge, however full its pool', () => {
     const f = frame('vanguard');
     R.energyPhase(f);
-    eq(R.spendEP(f, 2, { overcharge: 2 }).ok, false);
+    eq([f.ep > 0, R.spendEP(f, 2, { overcharge: 2 }).ok], [true, false],
+       'Overcharge is paid exclusively from banked charge (rules.md 5.3)');
+  });
+
+  it('Overcharge comes off the Capacitor, base cost off the pool', () => {
+    const f = frame('vanguard', { ep: 12, capacitor: 4 });
+    R.spendEP(f, 2, { overcharge: 2 });
+    eq([f.ep, f.capacitor], [10, 2]);
   });
 
   it('sustained suites bill every Energy Phase', () => {
@@ -539,7 +585,7 @@ export function run({ describe, it, eq, ok }) {
   });
 
   it('firing it always triggers a 1-turn cooldown', () => {
-    const f = frame('paladin', { ep: 20, overchargeAvailable: 6 });
+    const f = frame('paladin', { ep: 20, capacitor: 6 });
     const rg = f.weapons.find((w) => w.key === 'railGun');
     R.consumeWeapon(f, rg, { overcharge: 6 });
     eq(rg.cooldown, 1);
@@ -996,13 +1042,14 @@ export function run({ describe, it, eq, ok }) {
     });
   });
 
-  it('banked charge rejoins the pool only on the next Energy Phase', () => {
+  it('the reserve is still there at the next Energy Phase', () => {
     withStorage(() => {
       runTo('end');
       advancePhase(); // End -> next round's Energy
       const b = getBattle();
       eq(b.round, 2);
-      eq([b.frames.x.ep, b.frames.x.capacitor], [11, 0], 'reactor 8 + banked 3, capacitor spent');
+      eq([b.frames.x.ep, b.frames.x.capacitor], [8, 3],
+         'pool is this round\u2019s reactor output; the banked 3 is untouched');
     });
   });
 
@@ -1126,26 +1173,32 @@ export function run({ describe, it, eq, ok }) {
     });
   });
 
-  it('banked charge joins the next pool rather than being lost', () => {
-    // rules.md 5.3: the Capacitor empties into the pool each Energy Phase, and
-    // whatever it held at that moment is the turn's Overcharge Allowance. The
-    // capacitor reading 0 the round after it filled is the rule working.
+  it('banked charge persists across rounds until it is spent', () => {
     withStorage(() => {
       const f = runTo('end');
       eq(f.capacitor, 3, 'banked at the End Phase');
       advancePhase();
-      eq([f.ep, f.capacitor, f.overchargeAvailable], [11, 0, 3],
-         'reactor 8 + the banked 3; the capacitor empties and becomes the Allowance');
+      eq([f.ep, f.capacitor], [8, 3], 'a new pool, and the reserve untouched');
     });
   });
 
-  it('the Energy Phase entry says where the banked charge went', () => {
+  it('the End Phase adds to the reserve rather than replacing it', () => {
+    withStorage(() => {
+      const f = runTo('end');            // Jackal: cap max 3, banks 3
+      eq(f.capacitor, 3);
+      advancePhase();                    // round 2 Energy, pool 8
+      f.ep = 1;                          // spend almost everything
+      while (getBattle().phase !== 'end') advancePhase();
+      eq(f.capacitor, 3, 'already full — the extra 1 overflows and vents');
+    });
+  });
+
+  it('the Energy Phase entry names the reserve it left alone', () => {
     withStorage(() => {
       runTo('end');
       advancePhase();
       const e = getBattle().log.find((x) => x.text === 'Energy Phase' && x.round === 2);
-      ok(/\+3 banked from Capacitor/.test(e.detail[0]), e.detail[0]);
-      ok(/Overcharge Allowance 3 EP/.test(e.detail[0]), e.detail[0]);
+      ok(/Capacitor holds 3 EP in reserve/.test(e.detail[0]), e.detail[0]);
     });
   });
 

@@ -143,19 +143,18 @@ export function energyPhase(frame, { terrain = frame.terrain } = {}) {
 
   report.net = Math.max(0, base + cooling - report.glitch - upkeep);
 
-  // Banked charge joins the pool, and the capacitor size at the moment it empties
-  // is the turn's Overcharge Allowance (rules.md 5.3).
-  report.fromCapacitor = frame.capacitor || 0;
-  frame.overchargeAvailable = frame.capacitor || 0;
-  frame.ep = report.net + (frame.capacitor || 0);
-  frame.capacitor = 0;
+  // The Capacitor is NOT touched here. Banked charge persists until it is spent
+  // (rules.md 2.1): the pool is this turn's generation, the Capacitor is a
+  // standing reserve that carries across rounds until drawn on.
+  report.held = frame.capacitor || 0;
+  frame.ep = report.net;
 
   // Adaptive Skin upkeep is exempt from the IR threshold; everything else counts.
   frame.epSpentThisTurn = Math.max(0, upkeep - (frame.adaptiveSkinActive ? 2 : 0));
   frame.hexesMoved = 0;
   frame.flankSpeed = false;
   frame.torsoTwistedThisTurn = false;
-  report.steps.push(`Pool ${frame.ep} EP · Overcharge Allowance ${frame.overchargeAvailable} EP`);
+  report.steps.push(`Pool ${frame.ep} EP · Capacitor holds ${report.held} EP in reserve`);
   return report;
 }
 
@@ -240,7 +239,7 @@ export function twistTorso(frame, facing, { rng = Math.random } = {}) {
     return { ok: false, reason: 'The torso is already facing that way' };
   }
   const cost = movementCost(frame, 'torsoTwist');
-  if ((frame.ep || 0) < cost) return { ok: false, reason: `Needs ${cost} EP, has ${frame.ep || 0}` };
+  if (availableEP(frame) < cost) return { ok: false, reason: `Needs ${cost} EP, has ${availableEP(frame)}` };
   if (cost) spendEP(frame, cost);
   const from = frame.torsoFacing || 'center';
   frame.torsoFacing = facing;
@@ -272,7 +271,7 @@ export function performMovement(frame, action, opts = {}) {
   const blocked = movementBlockedReason(frame, action, opts);
   if (blocked) return { ok: false, reason: blocked };
   const cost = movementCost(frame, action, opts);
-  if ((frame.ep || 0) < cost) return { ok: false, reason: `Needs ${cost} EP, has ${frame.ep || 0}` };
+  if (availableEP(frame) < cost) return { ok: false, reason: `Needs ${cost} EP, has ${availableEP(frame)}` };
 
   spendEP(frame, cost);
 
@@ -323,16 +322,39 @@ export function updateFlankSpeed(frame, { jumpedHexes = 0 } = {}) {
   return frame.flankSpeed;
 }
 
+/**
+ * Everything the frame can pay with: this turn's pool plus the standing reserve.
+ * Affordability is always measured against this, never against the pool alone.
+ */
+export function availableEP(frame) {
+  return (frame.ep || 0) + (frame.capacitor || 0);
+}
+
+/**
+ * Spend EP, drawing the working pool down before the reserve.
+ *
+ * Overcharge is the exception: it is paid *exclusively* from banked Capacitor
+ * charge (rules.md 5.3), so it is taken off the reserve first and freshly
+ * generated reactor EP can never cover it.
+ */
 export function spendEP(frame, amount, { overcharge = 0 } = {}) {
-  if (overcharge > (frame.overchargeAvailable || 0)) {
-    return { ok: false, reason: `Overcharge Allowance is ${frame.overchargeAvailable || 0} EP` };
+  const pool = frame.ep || 0;
+  const cap = frame.capacitor || 0;
+
+  if (overcharge > cap) {
+    return { ok: false, reason: `Overcharge must come from the Capacitor, which holds ${cap} EP` };
   }
   const total = amount + overcharge;
-  if ((frame.ep || 0) < total) return { ok: false, reason: `Needs ${total} EP, has ${frame.ep || 0}` };
-  frame.ep -= total;
-  frame.overchargeAvailable = (frame.overchargeAvailable || 0) - overcharge;
+  if (pool + cap < total) return { ok: false, reason: `Needs ${total} EP, has ${pool + cap}` };
+
+  // Base cost: pool first, then whatever the reserve still has after Overcharge.
+  const fromPool = Math.min(pool, amount);
+  const fromReserve = amount - fromPool;
+
+  frame.ep = pool - fromPool;
+  frame.capacitor = cap - overcharge - fromReserve;
   frame.epSpentThisTurn = (frame.epSpentThisTurn || 0) + total;
-  return { ok: true, spent: total };
+  return { ok: true, spent: total, fromPool, fromCapacitor: overcharge + fromReserve };
 }
 
 // --- Defensive rerolls (rules.md 2.3 step 7, 3.3) --------------------------
@@ -536,7 +558,12 @@ export function applyCrit(frame, crit, { rng = Math.random } = {}) {
     case 'servoLock': frame.servoLock = true; break;
     case 'capacitorLeak':
       frame.capacitorMaxMod = (frame.capacitorMaxMod || 0) - 2;
-      frame.capacitor = Math.max(0, (frame.capacitor || 0) - 2);
+      // Clamp as well as drain: the reserve persists between rounds now, so a
+      // shrinking Max can leave it holding more than it is allowed to.
+      frame.capacitor = Math.min(
+        effectiveCapacitorMax(frame),
+        Math.max(0, (frame.capacitor || 0) - 2),
+      );
       break;
     case 'armorToZero': loc.dr = 0; break;
     case 'reactorDamage': frame.reactorMod = (frame.reactorMod || 0) - 2; break;
@@ -728,10 +755,10 @@ export function weaponBlockedReason(frame, weapon, { bursts = 1, overcharge = 0 
   const need = def.requiresOvercharge || 0;
   if (need && overcharge < need) return `Requires a ${need} EP Overcharge from the Capacitor`;
   const cost = weaponEPCost(frame, weapon, { bursts, overcharge });
-  if (overcharge > (frame.overchargeAvailable || 0)) {
-    return `Overcharge Allowance is ${frame.overchargeAvailable || 0} EP`;
+  if (overcharge > (frame.capacitor || 0)) {
+    return `Overcharge must come from the Capacitor, which holds ${frame.capacitor || 0} EP`;
   }
-  if ((frame.ep || 0) < cost.total) return `Needs ${cost.total} EP, has ${frame.ep || 0}`;
+  if (availableEP(frame) < cost.total) return `Needs ${cost.total} EP, has ${availableEP(frame)}`;
   return null;
 }
 
@@ -844,8 +871,12 @@ export function resolveEMP(frame, { rng = Math.random } = {}) {
 export function resolveDisruptor(frame, locKey, { overcharged = false, rng = Math.random, forcedDrain = null, forcedCrits = null } = {}) {
   const crits = resolveCrits(frame, locKey, overcharged ? 2 : 1, { rng, forcedRolls: forcedCrits });
   const drainRoll = forcedDrain ?? rollDie(6, rng);
-  const drained = Math.min(frame.ep || 0, drainRoll);
-  frame.ep = Math.max(0, (frame.ep || 0) - drainRoll);
+  // Drains the pool first, then the reserve. With banked charge persisting, a
+  // drain that stopped at the pool could be dodged by simply holding energy back.
+  const drained = Math.min(availableEP(frame), drainRoll);
+  const fromPool = Math.min(frame.ep || 0, drained);
+  frame.ep = (frame.ep || 0) - fromPool;
+  frame.capacitor = Math.max(0, (frame.capacitor || 0) - (drained - fromPool));
   return { crits, drainRoll, drained };
 }
 
@@ -907,12 +938,17 @@ export function endPhase(frame, { rng = Math.random } = {}) {
   // shrinks the maximum this very phase, so less is banked and more is vented.
   const capMax = effectiveCapacitorMax(frame);
   const pool = frame.ep || 0;
-  const banked = Math.min(capMax, pool);
+  const held = frame.capacitor || 0;
+  // The Capacitor persists, so unused EP is ADDED to what it already holds
+  // rather than replacing it. Only the overflow past the Max is vented.
+  const banked = Math.min(capMax, held + pool);
   report.capMax = capMax;
   report.pool = pool;
+  report.held = held;
   report.banked = banked;
-  report.vented = Math.max(0, pool - banked);
-  report.steps.push(`${banked} EP stored in Capacitor (max ${capMax})`);
+  report.added = banked - held;
+  report.vented = Math.max(0, pool - report.added);
+  report.steps.push(`Capacitor ${held} + ${report.added} = ${banked} EP (max ${capMax})`);
   if (report.vented) report.steps.push(`${report.vented} EP vented`);
 
   // Unused energy moves left into the Capacitor; the pool always ends empty,

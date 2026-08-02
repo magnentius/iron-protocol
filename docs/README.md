@@ -33,8 +33,8 @@ and works with no signal.
 
 **Battle tab** — round and phase control. Advancing the phase runs that phase's checklist for
 every frame at once: the Energy Phase generates EP, rolls banked capacitor charge into the pool,
-sets the turn's Overcharge Allowance and deducts Adaptive Skin and ECM upkeep; the End Phase
-burns any Electrical Fire, banks unused EP, vents the excess, clears Flank Speed and ticks
+and deducts Adaptive Skin and ECM upkeep, leaving the Capacitor alone; the End Phase
+burns any Electrical Fire, adds unused EP to the Capacitor, vents only the overflow, clears Flank Speed and ticks
 cooldowns down. Both Energy and End settle on *entry*, so what the phase did is on screen while
 that phase is showing — stop on the End Phase and you can see each pool at zero and the charge
 sitting in the capacitor, before the next round pulls it back out. Frames are listed in initiative order — reversed during Activation, forward
@@ -191,7 +191,8 @@ explicitly in `rules.md` §2.3, §5.0 and §6.
 | Countermeasure Check | Every deployed countermeasure — cartridge or suite — contests a lock on a **4+**. Terrain alone blocks outright |
 | Ammo Die | Nothing reloads. Autocannon Empty on 1 (Full Auto 1–3), missiles and jump propellant 1–2, cartridges 1 |
 | Jump Jets | 2 EP per hex and nothing else — no terrain or climbing surcharge. A 2+ hex jump grants Flank Speed; a single hop does not. Every jump burns propellant |
-| Overcharge Allowance | Whatever sat in the Capacitor when it emptied caps Overcharge EP for that turn, however full the pool is. The Capacitor is therefore only ever loaded during the End Phase — it empties into the pool every Energy Phase by rule, so the Battle tab shows the Allowance the rest of the turn rather than a meter stuck at zero |
+| Capacitor | A standing reserve, not a per-turn allowance. The Energy Phase never touches it, so banked charge carries from round to round until spent. Costs draw the pool down first, then the reserve |
+| Overcharge | Paid exclusively from the Capacitor, so what it holds *is* the ceiling — there is no separate Allowance to track. An empty Capacitor cannot Overcharge however full the pool, and spending the reserve on ordinary costs spends the same charge |
 | Overcharge adds dice | Never a flat bonus — a flat increase would sit outside the reroll system entirely |
 | Rapid Fire | Each die tested separately against the DR at declaration. One critical per **burst** that landed a round, never Overkill. Armor degrades by 1 in total |
 | One attack per weapon | Each weapon fires once per Combat Phase, however much EP remains |

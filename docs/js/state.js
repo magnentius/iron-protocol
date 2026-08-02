@@ -361,16 +361,15 @@ function movementText(frame, label, e) {
 /**
  * One frame's Energy Phase result, phrased the same wherever it is recorded.
  *
- * Names the Capacitor explicitly. Banked charge empties into the pool by rule
- * (rules.md 5.3), and without saying so the log shows a capacitor that was full
- * last round reading zero this one, with nothing to connect the two.
+ * Names the reserve when there is one. The Capacitor is untouched by this phase
+ * (rules.md 2.1), and saying so is what stops a pool smaller than last turn's
+ * from reading as energy gone missing.
  */
 function energyLine(frame, report) {
   const upkeep = report.upkeep ? `, −${report.upkeep} upkeep` : '';
   const glitch = report.glitch ? ', −1 System Glitch' : '';
-  const banked = report.fromCapacitor ? `, +${report.fromCapacitor} banked from Capacitor` : '';
-  const allowance = report.fromCapacitor ? ` · Overcharge Allowance ${report.fromCapacitor} EP` : '';
-  return `+${report.generated} EP${upkeep}${glitch}${banked} → ${frame.ep} EP in pool${allowance}`;
+  const reserve = report.held ? ` · Capacitor holds ${report.held} EP in reserve` : '';
+  return `+${report.generated} EP${upkeep}${glitch} → ${frame.ep} EP in pool${reserve}`;
 }
 
 /** Generate this round's energy, unless it has already been generated. */
@@ -416,9 +415,16 @@ function resolveEndPhase(b, reports) {
     // the pool and into the Capacitor is the End Phase's whole job, and a
     // player checking why they have 5 EP banked needs to see where it came
     // from — a silent transfer reads as EP going missing.
-    const line = report.pool > 0
-      ? `${report.pool} EP unused → ${report.banked} to Capacitor (max ${report.capMax})${report.vented > 0 ? `, vented ${report.vented}` : ''} · pool emptied`
-      : 'Pool already empty, nothing to store';
+    let line;
+    if (report.pool === 0) {
+      line = `Pool already empty · Capacitor holds ${report.banked}/${report.capMax}`;
+    } else if (report.added === 0) {
+      // Nothing fit: the reserve was already at its Max, so it all vents.
+      line = `${report.pool} EP unused · Capacitor already full at ${report.banked}/${report.capMax}, all ${report.vented} vented`;
+    } else {
+      const vented = report.vented > 0 ? `, vented ${report.vented}` : '';
+      line = `${report.pool} EP unused → +${report.added} to Capacitor, now ${report.banked}/${report.capMax}${vented} · pool emptied`;
+    }
     logFrame(frame, line, report.steps);
     detail.push(`${frame.callsign}: ${line}`);
   }

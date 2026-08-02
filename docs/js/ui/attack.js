@@ -232,13 +232,13 @@ function weaponOptions() {
     rows.push(`
       <div class="tiny dim" style="margin:.6rem 0 .25rem">
         Overcharge — ${per} EP per extra die, max +${def.overcharge.maxDice}d6, paid from banked
-        Capacitor charge (${a.overchargeAvailable || 0} available). Triggers a 1-turn cooldown.
+        Capacitor charge (${a.capacitor || 0} banked). Triggers a 1-turn cooldown.
       </div>
       <div class="row wrap" style="gap:.35rem">
         ${Array.from({ length: def.overcharge.maxDice + 1 }, (_, n) => `
           <button class="btn sm ${state.overchargeDice === n ? 'primary' : ''}"
             data-action="pick-overcharge" data-n="${n}"
-            ${n * per > (a.overchargeAvailable || 0) ? 'disabled' : ''}>
+            ${n * per > (a.capacitor || 0) ? 'disabled' : ''}>
             ${n === 0 ? 'None' : `+${n}d6`}
           </button>`).join('')}
       </div>`);
@@ -252,9 +252,9 @@ function weaponOptions() {
   const cost = totalCost();
   rows.push(`
     <div class="math" style="margin-top:.7rem">
-      <div>Total cost <span class="final">${cost} EP</span> — ${esc(a.callsign)} has ${a.ep} EP${overchargeEP() ? `, ${a.overchargeAvailable || 0} banked` : ''}</div>
-      ${cost > a.ep ? '<div style="color:var(--danger)">Not enough energy</div>' : ''}
-      ${overchargeEP() > (a.overchargeAvailable || 0) ? '<div style="color:var(--danger)">Not enough banked Capacitor charge</div>' : ''}
+      <div>Total cost <span class="final">${cost} EP</span> — ${esc(a.callsign)} has ${a.ep} EP in pool${(a.capacitor || 0) ? ` + ${a.capacitor} banked` : ''}</div>
+      ${cost > R.availableEP(a) ? '<div style="color:var(--danger)">Not enough energy</div>' : ''}
+      ${overchargeEP() > (a.capacitor || 0) ? '<div style="color:var(--danger)">Overcharge must come from the Capacitor — not enough banked</div>' : ''}
     </div>`);
 
   return rows.join('');
