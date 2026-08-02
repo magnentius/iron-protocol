@@ -1,19 +1,24 @@
+// Realtime Database security rules for the Iron Protocol battle tracker.
+//
+// Deployed by `firebase deploy --only database`, which reads this path from
+// firebase.json. It can still be pasted into the console by hand.
+//
+// Access is by knowledge of the room code alone: anyone who has the code can
+// read and write that battle. That is appropriate here — a battle document
+// holds nothing sensitive, and the two players are sitting at the same table —
+// but be aware it is not authentication. Anyone who guesses a code can edit
+// that battle, and codes are short.
+//
+// What these rules do enforce: writes are confined to /battles/<CODE>, codes
+// must look like room codes, a battle must carry the fields the app expects,
+// and nothing can be written outside /battles.
+//
+// NOTE: `$other: false` below rejects any battle field not named here, so this
+// list has to track createBattle() in docs/js/state.js. tools/run-tests.mjs
+// asserts that it does — a field added to the battle and not to these rules
+// makes every write fail with a permission error, which is invisible until
+// someone actually turns sync on.
 {
-  "_comment": [
-    "Realtime Database security rules for the Iron Protocol battle tracker.",
-    "Paste these into Firebase Console -> Realtime Database -> Rules.",
-    "",
-    "Access is by knowledge of the 4-character room code alone: anyone who has the",
-    "code can read and write that battle. That is appropriate here — a battle",
-    "document holds nothing sensitive, and the two players are sitting at the same",
-    "table — but be aware it is not authentication. Anyone who guesses a code can",
-    "edit that battle, and codes are short.",
-    "",
-    "What these rules do enforce: writes are confined to /battles/<CODE>, codes must",
-    "look like room codes, a battle must carry the fields the app expects, and",
-    "nothing can be written outside /battles."
-  ],
-
   "rules": {
     ".read": false,
     ".write": false,
@@ -26,17 +31,20 @@
         ".validate": "newData.hasChildren(['id', 'round', 'phase'])",
 
         "id": { ".validate": "newData.isString() && newData.val().length <= 8" },
+        "version": { ".validate": "newData.isNumber()" },
         "round": { ".validate": "newData.isNumber() && newData.val() >= 1" },
         "phase": { ".validate": "newData.isString() && newData.val().matches(/^(energy|activation|combat|end)$/)" },
         "createdAt": { ".validate": "newData.isNumber()" },
         "energyGenerated": { ".validate": "newData.isBoolean()" },
+        "endResolved": { ".validate": "newData.isBoolean()" },
         "advantagePlayer": { ".validate": "newData.isString() || !newData.exists()" },
 
         "frames": {
           "$frameId": {
             ".validate": "newData.hasChildren(['id', 'presetKey', 'ownerId'])",
             "ownerId": { ".validate": "newData.isString() && newData.val().length <= 32" },
-            "presetKey": { ".validate": "newData.val().matches(/^(jackal|specter|vanguard|paladin|colossus)$/)" }
+            "presetKey": { ".validate": "newData.val().matches(/^(jackal|specter|vanguard|paladin|colossus)$/)" },
+            "callsign": { ".validate": "newData.isString() && newData.val().length <= 24" }
           }
         },
 

@@ -1,0 +1,34 @@
+{
+  "hosting": {
+    "public": "docs",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "cleanUrls": false,
+    "trailingSlash": false,
+
+    "headers": [
+      {
+        "//": "The worker must never be served from cache. A stale one stays in charge and keeps handing out the assets it cached, which no later deploy can dislodge.",
+        "source": "/sw.js",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+      },
+      {
+        "//": "This app ships an ES module graph with no content hashes in the filenames. Cached modules paired with fresh ones produce a build that imports symbols its dependency does not export yet. no-cache still allows a 304 against Hosting's ETag, so revalidation is cheap — it is freshness that is mandatory, not re-download.",
+        "source": "**/*.@(html|js|mjs|css|webmanifest)",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+      },
+      {
+        "source": "/",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+      },
+      {
+        "//": "Images never change without the filename changing.",
+        "source": "**/*.@(png|jpg|jpeg|gif|svg|webp|ico|woff|woff2)",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      }
+    ]
+  },
+
+  "database": {
+    "rules": "firebase.rules.json"
+  }
+}

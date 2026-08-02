@@ -23,11 +23,43 @@ heuristic freshness and reuse stale CSS and modules without revalidating. The sy
 genuinely confusing: you change a file, reload, and still see the old build, so a fix looks like
 it did not work until you hard-refresh. `tools/serve.mjs` sends `no-store` on everything.
 
-### Deploying to GitHub Pages
+### Deploying
 
-Settings → Pages → Source: *Deploy from a branch* → branch `main`, folder `/docs`. Both players
-then just open the URL. On a phone, use *Add to Home Screen* to install it — it runs full screen
+Two routes. Either way, on a phone use *Add to Home Screen* to install it — it runs full screen
 and works with no signal.
+
+**Firebase Hosting** — preferred if you are using sync anyway, because one command ships the site
+and the database rules together, and you get a custom domain with an auto-renewing certificate at
+no cost.
+
+```bash
+npm install -g firebase-tools
+firebase login
+firebase use --add          # pick your project; writes .firebaserc
+firebase deploy             # hosting + database rules
+```
+
+[`firebase.json`](../firebase.json) already points Hosting at `docs/` and the rules at
+[`firebase.rules.json`](../firebase.rules.json), so there is nothing to configure. For a custom
+domain: Hosting → Add custom domain, add the TXT record it gives you to prove ownership, then point
+an A record (apex) or CNAME (subdomain) at Firebase. The SSL certificate is provisioned and renewed
+automatically; issuance can take up to 24 hours.
+
+Note the database endpoint itself keeps its Google domain — a custom domain covers the site, not
+`<project>-default-rtdb.<region>.firebasedatabase.app`. That URL only ever appears in `config.js`;
+no player sees or types it.
+
+The `headers` block in `firebase.json` is load-bearing, not boilerplate. `sw.js` is served
+`no-cache` because a cached service worker stays in charge and keeps handing out the assets it
+cached, which no later deploy can dislodge. HTML, JS and CSS are `no-cache` for the same reason
+the service worker is network-first: this is an ES module graph with no content hashes in the
+filenames, so a cached module paired with a fresh one produces a build that imports symbols its
+dependency does not export yet. `no-cache` still permits a 304 against Hosting's ETag — it is
+freshness that is mandatory, not re-download. Images cache for a year.
+
+**GitHub Pages** — Settings → Pages → Source: *Deploy from a branch* → branch `main`, folder
+`/docs`. Simpler if you are not using sync, but you will need to set cache headers some other way,
+and Pages cannot deploy the database rules.
 
 ## What it does
 
@@ -125,10 +157,14 @@ two players marking different slots on the same location never conflict.
    Google Analytics is not needed.
 2. In the left sidebar choose **Build → Realtime Database → Create Database**. Pick a location,
    and start in **locked mode** — the next step replaces the rules anyway.
-3. Open the **Rules** tab and paste in the contents of [`firebase.rules.json`](../firebase.rules.json),
-   then publish. Read the comment at the top of that file: access is by knowledge of the room
-   code, which suits a two-player game with nothing sensitive in it, but it is not
-   authentication.
+3. Deploy the rules with `firebase deploy --only database`, or open the **Rules** tab and paste in
+   [`firebase.rules.json`](../firebase.rules.json) by hand. Read the comment at the top of that
+   file: access is by knowledge of the room code, which suits a two-player game with nothing
+   sensitive in it, but it is not authentication.
+   - Those rules end with `$other: false`, so any battle field they do not name is rejected and
+     **every write fails with a permission error**. Because the app is fully usable with sync off,
+     that stays invisible until two people try to share a battle. `tools/run-tests.mjs` asserts the
+     rules name every field `createBattle()` writes, so the two cannot drift apart unnoticed.
 4. Back in **Project settings → General**, scroll to *Your apps* and register a **Web app**.
    Copy the `firebaseConfig` object it shows you.
 5. Paste those values into [`docs/js/config.js`](js/config.js) and commit.
