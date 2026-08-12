@@ -24,6 +24,9 @@ env:
   # Pinned deliberately. An unpinned toolchain is a layout change nobody asked
   # for, arriving on an unrelated commit.
   TYPST_VERSION: '0.15.1'
+  # Vendored faces only. Nothing is read from the runner's font set, so the
+  # published PDFs cannot change because a base image did.
+  TYPST_FONTS: '--font-path typst/fonts --ignore-system-fonts'
 
 jobs:
   build:
@@ -32,15 +35,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      # The template's first-choice faces are macOS ones. Libertinus Serif and
-      # DejaVu Sans Mono ship with Typst; DejaVu Sans does not, so install it and
-      # the runner resolves the same stack the sheets were designed against.
-      - name: Install fonts
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends fonts-dejavu-core
-          fc-cache -f
 
       - name: Install Typst ${{ env.TYPST_VERSION }}
         run: |
@@ -51,6 +45,9 @@ jobs:
           sudo install typst-x86_64-unknown-linux-musl/typst /usr/local/bin/typst
           typst --version
 
+      # --ignore-system-fonts is the point: the runner must use the vendored
+      # faces and nothing else, so the PDFs it publishes are the same document
+      # anyone gets building locally.
       - name: Build print and screen PDFs
         run: |
           set -euo pipefail
@@ -58,8 +55,8 @@ jobs:
           for src in typst/frames/*.typ; do
             name="$(basename "$src" .typ)"
             echo "::group::$name"
-            typst compile --root . "$src" "out/print/${name}.pdf"
-            typst compile --root . --input theme=screen "$src" "out/screen/${name}-screen.pdf"
+            typst compile --root . $TYPST_FONTS "$src" "out/print/${name}.pdf"
+            typst compile --root . $TYPST_FONTS --input theme=screen "$src" "out/screen/${name}-screen.pdf"
             echo "::endgroup::"
           done
           ls -la out/print out/screen
@@ -74,7 +71,7 @@ jobs:
           fail=0
           for src in typst/frames/*.typ; do
             name="$(basename "$src" .typ)"
-            typst compile --root . --format png --ppi 40 "$src" ".pagecheck/${name}-{p}.png"
+            typst compile --root . $TYPST_FONTS --format png --ppi 40 "$src" ".pagecheck/${name}-{p}.png"
             pages="$(find .pagecheck -name "${name}-*.png" | wc -l | tr -d ' ')"
             if [ "$pages" -ne 1 ]; then
               echo "::error file=${src}::${name} renders ${pages} pages; a record sheet must be exactly 1"

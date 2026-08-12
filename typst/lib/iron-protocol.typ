@@ -36,12 +36,23 @@
   armor:    rgb("#6ea8d8"),
 )
 
-// Font stacks, not single names. The first entry is what this was designed on
-// (macOS); the last is always something Typst bundles or CI installs, so a Linux
-// runner produces the same document rather than silently falling back to defaults.
-#let sans  = ("Helvetica Neue", "DejaVu Sans")        // DejaVu is installed by CI
-#let serif = ("Iowan Old Style", "Libertinus Serif")  // Libertinus ships with Typst
-#let mono  = ("Menlo", "DejaVu Sans Mono")            // DejaVu Mono ships with Typst
+// Fonts are vendored in typst/fonts/ and used exclusively — build with
+//   typst compile --root . --font-path typst/fonts --ignore-system-fonts
+// so that every machine produces the same document. The sheets were designed
+// against Iowan Old Style, Helvetica Neue and Menlo, none of which can be
+// redistributed; these are the free faces closest to them:
+//
+//   XCharter        Matthew Carter's Charter, extended. Same sturdy old-style
+//                   and large x-height as Iowan, which is what keeps 6.5pt text
+//                   readable — the size most of a record sheet is set in.
+//   TeX Gyre Heros  a genuine Helvetica clone from GUST.
+//   DejaVu Sans Mono  ships with Typst, and shares Bitstream Vera ancestry with
+//                   Menlo, so it is effectively the same face.
+//
+// Licences sit beside the files: GUST-FONT-LICENSE.txt and XCharter-README.txt.
+#let sans  = "TeX Gyre Heros"
+#let serif = "XCharter"
+#let mono  = "DejaVu Sans Mono"
 
 #let pal = state("pal", palette-print)
 
