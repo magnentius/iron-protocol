@@ -8,10 +8,12 @@
 ---
 
 ## Table of Contents
+- [**The Game in Brief**](#the-game-in-brief) — start here
 - [Introduction: The Iron Protocol](#introduction-the-iron-protocol)
   - [Why We Fight in Frames](#the-lore-of-the-protocol-why-we-fight-in-frames)
   - [Core Tenets of the Protocol](#core-tenets-of-the-protocol)
 - [1. Fundamental Concepts & Game Setup](#1-fundamental-concepts--game-setup)
+  - [Key Terms](#key-terms)
   - [1.1 Anatomy of an Iron Frame Profile](#11-anatomy-of-an-iron-frame-profile)
   - [1.2 The Hex Grid & Facing Conventions](#12-the-hex-grid--facing-conventions)
   - [1.3 Firing Arcs & Hit Zones](#13-firing-arcs--hit-zones)
@@ -35,9 +37,10 @@
   - [4.2 Stealth & Defensive Countermeasures](#42-stealth--defensive-countermeasures)
   - [4.3 Tactical Datalink](#43-tactical-datalink-head-location)
 - [5. Weapons & Munitions](#5-weapons--munitions)
+  - [5.0 Weapon Resolution Notes](#50-weapon-resolution-notes)
   - [5.1 Autocannon Munitions](#51-autocannon-munitions)
   - [5.2 Guided Missile Systems](#52-guided-missile-systems)
-  - [5.3 Universal System Traits](#53-universal-system-traits)
+  - [5.3 Universal System Traits](#53-universal-system-traits) — AP, AoE, Rapid Fire, Overcharge
 - [6. Damage & Critical Hits](#6-damage--critical-hits)
   - [6.1 Hit Location Table](#61-hit-location-table-2d6)
   - [6.2 Critical Hit Tables](#62-critical-hit-tables-1d6-cascading)
@@ -47,17 +50,72 @@
 - [7. Optional Rules](#7-optional-rules)
   - [7.1 Force Organization & Point Limits](#71-force-organization--point-limits)
   - [7.2 Base Chassis & Custom Frames](#72-base-chassis--custom-frames)
+    - [7.2.0 Hardpoints & Mounting](#720-hardpoints--mounting)
+    - [7.2.1 Base Armor DR](#721-base-armor-dr)
+    - [7.2.2 Engine, Mobility & Armor Upgrades](#722-engine-mobility--armor-upgrades)
+    - [7.2.3 Countermeasures & Active Systems](#723-countermeasures--active-systems)
+    - [7.2.4 Weapons & Armaments](#724-weapons--armaments)
+    - [7.2.5 Named Pilots](#725-named-pilots)
   - [7.3 Named Pilots & The Code of Honor](#73-named-pilots--the-code-of-honor)
+    - [7.3.1 Famous Aces](#731-famous-aces)
+    - [7.3.2 Initiative & Pilot Check Bonus](#732-initiative--pilot-check-bonus)
+    - [7.3.3 Iron Protocol Vows](#733-iron-protocol-vows)
 - [8. Iron Frame Roster](#8-iron-frame-roster)
   - [8.1 IF-25L-1 "Jackal"](#81-if-25l-1-jackal-light-recon-frame)
   - [8.2 IF-45M-1 "Specter"](#82-if-45m-1-specter-medium-stealth-frame)
   - [8.3 IF-55M-1 "Vanguard"](#83-if-55m-1-vanguard-medium-skirmisher-frame)
   - [8.4 IF-75H-1 "Paladin"](#84-if-75h-1-paladin-heavy-fire-support-frame)
   - [8.5 IF-90A-1 "Colossus"](#85-if-90a-1-colossus-heavy-assault-frame)
+- [Appendix A: Turn Reference](#appendix-a-turn-reference) — the one-page play aid
+- [Appendix B: Learning the Matchups](#appendix-b-learning-the-matchups)
+- [Appendix C: Glossary](#appendix-c-glossary)
+
+---
+
+## The Game in Brief
+
+*Read this page first. It teaches nothing you will not meet again in full — it is here so that everything after it has somewhere to land.*
+
+Two players each command one to four **Iron Frames**: 20-to-100-ton walking weapon platforms, moved on a hex map. You win by destroying the opposing Frames.
+
+**Everything runs on energy.** A Frame's reactor generates **Energy Points (EP)** at the start of every round, and EP is the only currency in the game. Walking costs it. Turning costs it. Firing costs it. Running a stealth system costs it every single round. Almost every decision you make is really the decision of what *not* to spend it on.
+
+**A round has four phases**, and every Frame on the board goes through each one before the next begins:
+
+| Phase | What happens | Order |
+| :--- | :--- | :--- |
+| **Energy** | Reactors generate EP. Stealth upkeep is deducted. | — |
+| **Activation** | Frames move, spending EP hex by hex. | Lowest Initiative first |
+| **Combat** | Frames shoot. Damage resolves immediately. | Highest Initiative first |
+| **End** | Unused EP banks into the Capacitor. Temporary effects clear. | — |
+
+Note that the two orders are opposites. A slow Frame moves first and shoots last — it commits to a position before it knows what anyone else will do, then watches the fast Frames fire before it can answer. That single inversion is the spine of the game's tactics.
+
+**Attacks do not roll to hit.** There is no to-hit number anywhere in these rules. If you can see a target, have it in the right arc, and hold a **sensor lock** on the band your weapon needs, the attack lands. The fight is therefore about two questions the shooter cannot take for granted:
+
+1. **Can I see it?** Every weapon needs a lock on one of three sensor bands — Visual, Infrared, or Radar. Woods, buildings and hills block bands outright; chaff, smoke and jammers contest them on a die roll. Blind a Frame on the right band and its gun is dead weight, however much energy it has.
+2. **Can I hurt it?** Every location has an **Armor DR**. Damage must be **strictly greater** than that number to do anything at all. Equal or less and the plate holds — no partial damage, nothing.
+
+**Armor erodes rather than depletes.** There are no hit points. When damage beats a location's Armor DR, three things happen: the DR drops by 1 permanently, and it never comes back; the attacker rolls a **Critical Hit** on that location's table; and the location is now that much easier to beat next time. A Frame dies from the criticals — a severed leg, a cooked-off magazine, a cockpit hit — not from accumulated damage.
+
+**What the dice do:**
+
+| Roll | Used for |
+| :--- | :--- |
+| **2d6** | Hit location, and Pilot Checks (target number 6) |
+| **1d6** | Critical hits, Countermeasure Checks (4+ stops the attack), the Ammo Die |
+| **Weapon dice** | Damage — 2d6 for a Laser, 5d6 for a Rail Gun, and so on |
+
+That is the whole engine. Everything else is detail.
+
+> **Design Note** — Passages marked like this one explain *why* a rule is the way it is. They are commentary, never rules: you can play the entire game without reading a single one, and skipping them costs you nothing at the table. They are here because most arguments about a rule are really arguments about its reason.
 
 ---
 
 ## Introduction: The Iron Protocol
+
+*Background and setting. Skip to Section 1 if you want to start playing.*
+
 In the war-torn era of a devastated Earth, surface warfare is not decided by faceless drone swarms, heavy tank divisions, or indiscriminate strategic missile strikes. Instead, factional conflicts and territorial disputes are resolved by the pilots of massive, heavily armed walking weapon platforms known as **Iron Frames**. 
 
 These elite pilots adhere to the **Iron Protocol**—an ancient, unyielding code of martial honor and combat conduct inspired by Earth's historical Bushido. The Protocol dictates that territorial conflicts must be settled within designated engagement zones, frame-to-frame, where tactical energy management, maneuverability, and pilot skill determine the victor. To violate the Protocol is to invite immediate dishonor, global outlaw status, and swift retaliation by all allied factions.
@@ -107,7 +165,7 @@ Following a catastrophic AI rebellion that nearly annihilated humanity, internat
 - **Honor in the Arc**: Foe must face foe. Torso twisting represents the deliberate, disciplined adjustment of a pilot's stance to align weapons with the enemy.
 - **Mastery of Energy**: An Iron Frame's reactor is the pilot's lifeblood. Distributing energy (EP) between movement, active countermeasures (Chaff, ECM, Smoke), and weapon overcharges is the ultimate test of tactical discipline.
 - **Precision Striking**: The Protocol forbids mindless carpet destruction. Pilots target specific locations—systematically degrading armor plates, disabling weapons, burning out thrusters, and blinding sensor suites to neutralize the opponent with precision.
-- **The Martial Vows**: Elite pilots swear ancient oaths before entering the Honor Field (such as the *Vow of Courage*, *Vow of Respect*, *Vow of Honor*, or *Vow of Loyalty*). These vows grant martial focus but impose unyielding tactical restrictions—breaking a vow mid-combat dishonors the pilot and severely degrades their Frame's neural performance.
+- **The Martial Vows**: Elite pilots swear ancient oaths before entering the Honor Field — the *Vow of Courage*, *Respect*, *Honor*, *Mercy*, *Honesty* or *Loyalty*. These vows grant martial focus but impose unyielding tactical restrictions—breaking a vow mid-combat dishonors the pilot and severely degrades their Frame's neural performance.
 
 ---
 
@@ -116,9 +174,32 @@ Following a catastrophic AI rebellion that nearly annihilated humanity, internat
 
 Before launching into combat, players must understand the core profile of an Iron Frame, facing conventions, firing arcs, and game setup.
 
+### Key Terms
+
+These fourteen terms carry the whole game, and several are used in the movement and combat rules before their own section arrives. One line each, with where to find the full rule:
+
+| Term | In one line | Full rule |
+| :--- | :--- | :---: |
+| **Round** (or **turn**) | One full pass through all four phases, for every Frame on the board. The two words mean the same thing throughout these rules. | 2 |
+| **Activation** | One *individual* Frame's move within the Activation Phase — not the same thing as a round. | 2.2 |
+| **Energy Point (EP)** | The single currency. Generated each round; spent on movement, systems and weapons. | 2.1 |
+| **Capacitor** | A standing reserve of unspent EP. Carries between rounds; the only source of Overcharge. | 2.1 |
+| **Armor DR** | A location's damage threshold. Damage must *exceed* it, and every penetration drops it by 1 for good. | 1.1, 7.2.1 |
+| **Initiative** | Move order and firing order — reversed between the two. | 2.2, 2.3 |
+| **Lock** | Detection on a sensor band (Visual, Infrared, Radar). No lock on the band a weapon needs, no attack. | 4.1 |
+| **Countermeasure Check** | 1d6, rolled by the defender. On a **4+** the lock fails and the attack is negated. One number for every defensive system. | 4.2 |
+| **Flank Speed** | Gained by exiting 4+ hexes in an activation. Lets the defender force one damage die to be rerolled. | 2.2 |
+| **Cover** | Terrain that forces rerolls the same way — 1 die in Light Woods, 2 in Heavy Woods or beside a building. Stacks with Flank Speed. | 3.3 |
+| **Pilot Check** | 2d6 against a target number of 6, plus modifiers. Usually rolled to stay upright. | 6.4 |
+| **Critical Hit** | 1d6 on the struck location's table, rolled whenever armor is penetrated. This is what actually kills Frames. | 6.2 |
+| **Cascading Failure** | A critical landing on an already-marked slot climbs to the next unmarked one. Damage concentrates. | 6.2 |
+| **Overkill Margin** | One extra critical die per full 5 points of damage past the Armor DR. | 2.3, 6.2 |
+| **Ammo Die** | 1d6 rolled after firing. At or below the weapon's number, it is **Empty for the rest of the battle**. Nothing reloads. | 5.0 |
+| **Overcharge** | Spending banked Capacitor charge for a magnified effect. Always adds dice, never a flat bonus. | 5.3 |
+
 ### 1.1 Anatomy of an Iron Frame Profile
 Each Iron Frame (IF) is defined by its chassis, reactor, capacitor, and mounted components:
-- **Initiative (2–12)**: A static value representing pilot reaction speed and chassis agility. Higher initiative frames shoot first but move last, while lower initiative frames move first but shoot last.
+- **Initiative (typically 2–12)**: A static value representing pilot reaction speed and chassis agility. Higher initiative frames shoot first but move last, while lower initiative frames move first but shoot last. A Named Pilot's bonus is added on top of the chassis figure and may carry a Frame past 12 (see Section 7.3.2).
 - **Chassis Mass (Tonnage)**: Built on a scale from **20 to 100 Tons** (in 5-ton increments). Tonnage determines the Frame's weight class and its corresponding **Mass Value** used for collision damage:
   - **Light** (20–35 Tons): Mass Value = 1
   - **Medium** (40–55 Tons): Mass Value = 2
@@ -145,7 +226,7 @@ The game is played on a standard hexagonal grid.
 - **Facing Conventions**: A Frame possesses two components of facing:
   - **Leg Facing (Movement)**: The direction the legs face, which determines the direction of forward, backward, and diagonal movement.
   - **Torso Facing (Combat)**: The direction the upper body faces. By default, the torso aligns with the leg facing, but a Frame can twist its torso at the end of its activation.
-- **Torso Twisting**: At the end of its activation, a Frame's upper body can twist 1 hex side (60 degrees) to the left or right of its current Leg Facing, setting its Torso Facing and Firing Arcs for the upcoming Combat Phase.
+- **Torso Twisting**: At the end of its activation, a Frame's upper body can twist 1 hexside (60 degrees) to the left or right of its current Leg Facing, setting its Torso Facing and Firing Arcs for the upcoming Combat Phase.
 
 ![Tactical Hex Grid Map](images/hexgrid.jpg)
 
@@ -190,13 +271,7 @@ Recommended for first-time players learning the *Iron Protocol* rules engine.
 
 - **Point Budget**: 500 Points per player.
 - **Recommended Matchup — Vanguard Mirror**: Both players field an **IF-55M-1 "Vanguard"** (455 pts). A mirror match is the clearest way to learn the engine: with identical Frames, every difference in the outcome comes from pilot decisions rather than from the matchup. It teaches the three things that decide games — banking EP for Overcharges, maneuvering to gain Flank Speed, and choosing between a Single Burst and Full Auto — without any asymmetry to untangle at the same time.
-- **Second Game — Vanguard vs. Specter**: Once both players are comfortable, field the **IF-55M-1 "Vanguard"** (455 pts) against the **IF-45M-1 "Specter"** (435 pts). This is a deliberately asymmetric matchup and it rewards knowing the Specter's line:
-  - The Specter cannot win a straight damage race. Its Laser cannot penetrate the Vanguard's Torso armor while the Vanguard is moving, and its Disruptor Cannon deals no damage at all — but the Disruptor lands its effect on every hit it is *allowed* to make, whatever the Vanguard's armor or speed.
-  - Instead, the Specter fights to **strip armor and then convert**. A Disruptor hit on any limb or the Head forces a Critical, and a result of 4 (*Structural Fracture*) reduces that location's Armor DR to **0**. Every subsequent Laser shot that lands there does full damage.
-  - **The whole plan runs on the Microwave band.** The Disruptor needs a Radar lock, and the Vanguard carries both a Chaff Dispenser and an ECM suite. Both contest the shot on a **Countermeasure Check**, so roughly half the Specter's pulses land through either — but Chaff is a finite store of about six cartridges fired one at a time, while the ECM umbrella runs all game for 2 EP a turn and never runs out. The Specter's opening problem is therefore electronic, not structural: make the Vanguard spend cartridges it cannot replace, and accept that every Disruptor shot is a coin flip.
-  - The Specter's **Adaptive Skin decides which of the Vanguard's guns still works.** Suppressing Visual forces every Laser shot to survive a Countermeasure Check, so about half of them simply fail to acquire; the Vanguard leans on its Autocannon and must close to make it count. Cloaking a second band costs an Overcharge and leaves the Skin offline entirely next round, so it is a spike, not a posture.
-  - Terrain still matters more than the Skin for hiding completely. Buildings and elevation break *every* band at once; Heavy Woods strip Visual and Infrared, leaving only Radar for an ECM or a Microwave-mode Skin to finish.
-  - The Vanguard, in turn, wins by forcing the exchange early, before its armor is opened up.
+- **Second Game — Vanguard vs. Specter**: Once both players are comfortable, field the **IF-55M-1 "Vanguard"** (455 pts) against the **IF-45M-1 "Specter"** (435 pts). This is a deliberately asymmetric matchup, and it rewards knowing the Specter's line — which is written out in full in **Appendix B**, once you have the sensor and countermeasure rules behind you.
 - **Map Size**: 16 x 16 Hexes.
 - **Terrain**: 
   - 1 Central Level 1 Hill (Elevation movement & LOS testing)
@@ -246,36 +321,43 @@ Every action below is paid for out of the Frame's energy pool, step by step, as 
 - **Terrain is paid on entry, for the hex you move *into*** — never for the hex you are leaving or passing through.
 - **A Jump pays 2 EP per hex and nothing else.** It bypasses everything between its start and its landing hex, and it pays no surcharge for the hex it lands in either: the **Pilot Check** on the Jump Jet Terrain Landing Table is already the price of coming down somewhere awkward, and charging both would bill the same terrain twice.
 - **Damaged movement**: a **Knee Lock** critical adds +1 EP to every Walk and Reverse. A **Prone** Frame pivots at 2 EP per 60°, or **3 EP** if one of its legs has been severed.
+- **Notation**: **W** forward walk, **R** reverse, **TL/TR** pivot left or right, **J** jump. A Reverse moves the Frame backwards *without* changing its Leg Facing; a Pivot changes facing without entering a hex.
 
-  - **Forward Walk (W)**: Move 1 hex forward. Cost: 1 EP.
-  - **Reverse (R)**: Move 1 hex backward without changing facing. Cost: 2 EP.
-  - **Pivot/Turn (TL/TR)**: Change facing by 60 degrees (one hexside) left or right. Cost: 1 EP.
-  - **Jump Jet (J)**: Only available to **Light** and **Medium** weight classes (20–55 Tons); Heavy and Assault Frames can never be equipped with jets and can never jump. Jump Jets occupy a **Light hardpoint in the Torso**, where the thrusters and their propellant tankage sit. *The limit is propellant, not thrust: lifting a Frame takes reaction mass, and the tankage needed scales with tonnage far faster than a chassis can carry it. A 90-ton Assault Frame would be mostly propellant and still barely clear the ground.*
-    - *Cost*: 2 EP per hex, **plus propellant**. After completing any jump, roll the **Ammo Die (1d6)**; on a **1 or 2** the tanks are dry and the Frame can never jump again this battle. Expect roughly three jumps from a full load.
-    - *Movement*: The Frame jumps in a straight line to a hex within its maximum jump distance (default maximum of 4 hexes). It bypasses all intervening terrain, obstacles, and other Frames.
-    - *Landing Mechanics*:
-      - **Clear & Paved Landing**: Landing in a Clear or Paved hex is an **automatic clean landing**. Set Leg Facing for free.
-      - **Hazardous & Feature Landing**: Landing in **Rough, Deep Water, Building Roofs, Light Woods, or Heavy Woods** requires a **Pilot Check (TN 6+)** upon touchdown:
-        **Landing Check = 2d6 vs TN 6+**
-        - *Success (6+)*: Clean landing! Set Leg Facing for free.
-        - *Failure (< 6)*: The Frame stumbles and falls **Prone** in the landing hex. (If landing in Heavy Woods, the canopy impact also inflicts **1 point of Armor DR degradation** to the Torso).
-      - **Kinetic Drop Strike**: Alternatively, a pilot may target an occupied hex to perform a Kinetic Drop Strike.
-      - **Drop Strike Damage**: Both Frames suffer a flat amount of damage:
-        **Drop Strike Damage = Jumping Frame's Mass Value x Hexes Jumped**
-        - The target Frame suffers the full flat damage.
-        - The jumping Frame suffers half the flat damage (rounded up).
-        - Roll **2d6 on the Hit Location Table** separately for the target and for the jumper, using the **Front / Rear** column in both cases — a falling impact has no meaningful facing.
-        - Both damage hits test against the respective location's Armor DR normally. Flank Speed does not apply to Drop Strike damage.
-      - **Displacement**: After damage is resolved, the target's player (the defender) slides the jumping Frame into any unoccupied adjacent hex of their choice. If no adjacent hex is unoccupied, the jumping Frame is dumped into the nearest unoccupied hex, falls **Prone**, and takes an additional **2d6** tested against one Leg's Armor DR — the defender chooses which leg (see Section 6.3).
-    - *Flank Speed*: A jump of **2 or more hexes** grants **Flank Speed** upon landing, regardless of the Frame's usual threshold — the ballistic trajectory of a full thruster burn is genuinely hard to track. A single-hex hop does not; it is a repositioning step, not a flight, and a Frame that hops one hex must still meet its normal Flank Speed by movement to gain the state. *(At 2 EP per hex, a 2-hex jump costs the same 4 EP that walking to the threshold does — Jump Jets buy terrain and elevation, not a cheaper defence.)*
+#### Jump Jets
+
+Jump Jets are available to **Light** and **Medium** weight classes only (20–55 Tons); Heavy and Assault Frames can never be equipped with jets and can never jump. They occupy a **Light hardpoint in the Torso**, where the thrusters and their propellant tankage sit.
+
+> **Design Note** — The limit is propellant, not thrust: lifting a Frame takes reaction mass, and the tankage needed scales with tonnage far faster than a chassis can carry it. A 90-ton Assault Frame would be mostly propellant and still barely clear the ground.
+
+- *Cost*: 2 EP per hex, **plus propellant**. After completing any jump, roll the **Ammo Die (1d6)**; on a **1 or 2** the tanks are dry and the Frame can never jump again this battle. Expect roughly three jumps from a full load.
+- *Movement*: The Frame jumps in a straight line to a hex up to **4 hexes** away. This maximum is the same for every Frame that mounts Jump Jets — it does not scale with the chassis, is not raised by a Movement upgrade, and is unrelated to the Movement Limit: a Jackal rated for 7 hexes of walking still jumps a maximum of 4. Each hex crossed does count against the Movement Limit. The jump bypasses all intervening terrain, obstacles, and other Frames.
+- *Landing Mechanics*:
+  - **Clear & Paved Landing**: Landing in a Clear or Paved hex is an **automatic clean landing**. Set Leg Facing for free.
+  - **Hazardous & Feature Landing**: Landing in **Rough, Deep Water, Building Roofs, Light Woods, or Heavy Woods** requires a **Pilot Check (TN 6+)** upon touchdown:
+    **Landing Check = 2d6 vs TN 6+**
+    - *Success (6+)*: Clean landing! Set Leg Facing for free.
+    - *Failure (< 6)*: The Frame stumbles and falls **Prone** in the landing hex. (If landing in Heavy Woods, the canopy impact also inflicts **1 point of Armor DR degradation** to the Torso).
+  - **Kinetic Drop Strike**: Alternatively, a pilot may target an occupied hex to perform a Kinetic Drop Strike.
+  - **Drop Strike Damage**: Both Frames suffer a flat amount of damage:
+    **Drop Strike Damage = Jumping Frame's Mass Value x Hexes Jumped**
+    - The target Frame suffers the full flat damage.
+    - The jumping Frame suffers half the flat damage (rounded up).
+    - Roll **2d6 on the Hit Location Table** separately for the target and for the jumper, using the **Front / Rear** column in both cases — a falling impact has no meaningful facing.
+    - Both damage hits test against the respective location's Armor DR normally. Flank Speed does not apply to Drop Strike damage.
+  - **Displacement**: After damage is resolved, the target's player (the defender) slides the jumping Frame into any unoccupied adjacent hex of their choice. If no adjacent hex is unoccupied, the jumping Frame is dumped into the nearest unoccupied hex, falls **Prone**, and takes an additional **2d6** tested against one Leg's Armor DR — the defender chooses which leg (see Section 6.3).
+- *Flank Speed*: A jump of **2 or more hexes** grants **Flank Speed** upon landing, regardless of the Frame's usual threshold — the ballistic trajectory of a full thruster burn is genuinely hard to track. A single-hex hop does not; it is a repositioning step, not a flight, and a Frame that hops one hex must still meet its normal Flank Speed by movement to gain the state. *(At 2 EP per hex, a 2-hex jump costs the same 4 EP that walking to the threshold does — Jump Jets buy terrain and elevation, not a cheaper defence.)*
+#### Collisions & Ramming
+
 - **Collisions & Blocking**: If a Frame's movement path would enter a hex occupied by another Frame, a collision occurs. The moving Frame immediately stops in the last unoccupied hex, its activation ends, and both frames suffer damage.
   - **Collision Damage**: Both the moving Frame and the stationary target Frame suffer damage to a random location determined by rolling on the Hit Location Table individually. Flank Speed does **not** allow rerolls against collision damage, as the impact is physical and unavoidable. **Armor DR is tested normally** against each hit, and a penetrating collision degrades that location's Armor DR by 1 and triggers a Critical Hit roll, exactly as a weapon hit would.
   - **Deliberate Ramming**: A pilot may intentionally drive into an occupied hex. Note that the flat damage is derived from the *moving* Frame's Mass Value, and **both Frames suffer that exact same flat damage** — a light Frame that rams a heavy one will almost always come off worse.
   - **Damage Calculation**: The collision inflicts a flat amount of damage based on the moving Frame's **Mass Value** (Light = 1, Medium = 2, Heavy = 3, Assault = 4) multiplied by its speed (the number of hexes moved in the current activation before impact):
     **Collision Damage = Mass Value x Speed**
   - **Pilot Check**: After resolving collision damage, both Frames must check if they fall Prone (see Section 6.3).
+#### Flank Speed & Torso Twist
+
 - **Flank Speed**: If a Frame successfully exits **4 or more hexes** during its activation *(changing facing/pivoting does not exit a hex)*, it gains **Flank Speed**. This represents the difficulty of targeting a fast-moving frame. Note that **Assault Frames cannot reach this threshold at all** — capped at 3 hexes of movement, they have no access to Flank Speed and must survive on Armor DR and terrain Cover alone. 
-- **Torso Twist**: At the very end of its activation (after all movement is completed), the Frame may perform a free Torso Twist. The player can rotate the upper body of the Frame 1 hex side (60 degrees) to the left or right of its current Leg Facing, or reset it to align with the Leg Facing. This sets the Frame's Torso Facing (and Firing Arcs) for the upcoming Combat Phase. The torso remains in this position until the Frame activates in the next turn's Activation Phase.
+- **Torso Twist**: At the very end of its activation (after all movement is completed), the Frame may perform a free Torso Twist. The player can rotate the upper body of the Frame 1 hexside (60 degrees) to the left or right of its current Leg Facing, or reset it to align with the Leg Facing. This sets the Frame's Torso Facing (and Firing Arcs) for the upcoming Combat Phase. The torso remains in this position until the Frame activates in the next turn's Activation Phase.
 
 #### 2.2.1 Movement Examples
 - **Example 1 (Tactical Maneuvering)**: An IF-55M-1 "Vanguard" (Reactor 12) starts its activation on Level 0 with a full energy pool of 12 EP. 
@@ -317,7 +399,7 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
      - A launched cartridge is spent either way — roll its Ammo Die afterwards. A sustained suite is never expended.
   5. **Determine Hit Location**: Roll 2d6 on the **Hit Location Table**.
   6. **Roll Damage**: Roll the weapon's damage dice.
-  7. **Apply Flank Speed & Cover (Rerolls)**: If the target is **Flank Speed**, the defender **may** force a reroll of one of the attacker's damage dice. If the target is in **Cover**, the defender may force additional rerolls (1 for Light Cover, 2 for Heavy Cover). The defender chooses which dice are rerolled and **may decline any or all of them** — there is no obligation to reroll a die that is already low. The attacker must accept the final results.
+  7. **Apply Flank Speed & Cover (Rerolls)**: If the target has **Flank Speed**, the defender **may** force a reroll of one of the attacker's damage dice. If the target is in **Cover**, the defender may force additional rerolls (1 for Light Cover, 2 for Heavy Cover). The defender chooses which dice are rerolled and **may decline any or all of them** — there is no obligation to reroll a die that is already low. The attacker must accept the final results.
   8. **Apply Armor DR**: Compare the final damage total to the target location's current Armor DR.
   9. **Resolve Damage & Armor Degradation**: 
      - If the total damage is **strictly greater** than the Armor DR, the armor is penetrated. The Armor DR of that location is permanently **reduced by 1** (to a minimum of 0).
@@ -329,7 +411,7 @@ Frames attack in order of **highest Initiative** to **lowest Initiative**.
 - **Example 1 (Direct Laser Fire & Critical Hit)**: During the Combat Phase, the IF-90A-1 "Colossus" (Initiative 3) resolves its attack against the IF-55M-1 "Vanguard" (Initiative 6).
   1. **Weapon Selection**: The Colossus pilot spends 4 EP to fire the **Thermal Lance** mounted on its Left Arm.
   2. **Verify Arc and LOS**: The Vanguard is located within the Colossus's Left Side Arc (Left Arm mount). Line of Sight is clear of blocking terrain.
-  3. **Verify Lock**: The Thermal Lance requires an **Infrared (IR)** lock. The Vanguard spent 7 EP this turn — well past the 4 EP threshold — so its heat bloom is plainly visible and the lock holds. *(Had the Vanguard run cold, or had it fired Flares, the Lance could not have been used at all, however much energy the Colossus had.)*
+  3. **Verify Lock**: The Thermal Lance requires an **Infrared (IR)** lock. The Vanguard spent 7 EP this turn — well past the 4 EP threshold — so its heat bloom is plainly visible and the lock holds. *(Had the Vanguard run cold, the Lance could not have been declared at all, however much energy the Colossus had. Its IRCM suite is a different kind of answer — it contests a lock rather than denying one, as step 4 shows.)*
   4. **Defender's Countermeasures**: The Vanguard declines to fire its IRCM suite. It is only a 4+ chance of stopping the shot, its Torso armor is still fresh, and the 2 EP is charge it would rather keep — spent here, it is not available to Overcharge with next turn. *(Its Chaff answers a different band entirely and is being saved for the Rail Gun.)* It is not running its ECM this turn either, so no Countermeasure Check is rolled and the attack proceeds.
   5. **Hit Location**: The Colossus rolls 2d6 on the Hit Location Table. The attack came from the Front Hit Zone, so the Front/Rear column is used. The roll is a 7, indicating a **Torso** hit.
   6. **Roll Damage**: The Colossus rolls 3d6 for the Thermal Lance: rolls a 5, 4, 3 (Total 12).
@@ -357,9 +439,9 @@ Combat under the Iron Protocol occurs across diverse Earth battlefields and cont
 | :--- | :---: | :--- | :--- |
 | **Clear** | +0 EP | None | Standard terrain. |
 | **Paved** | +0 EP | None | High traction surface. **+1 bonus** to all Pilot Checks. |
-| **Rough** | +1 EP | None | Uneven footing. **-1 penalty** to all Pilot Checks. |
+| **Rough** | +1 EP | None | Uneven footing. **−1 penalty** to all Pilot Checks. |
 | **Water (Shallow)** | +1 EP | None | Knee-deep liquid. Cannot gain **Flank Speed**. Generates **+1 EP** in Energy Phase. |
-| **Water (Deep)** | +2 EP | None | Waist-deep liquid. Cannot gain **Flank Speed**. **-1 penalty** to Pilot Checks. Generates **+2 EP** in Energy Phase. |
+| **Water (Deep)** | +2 EP | None | Waist-deep liquid. Cannot gain **Flank Speed**. **−1 penalty** to Pilot Checks. Generates **+2 EP** in Energy Phase. |
 | **Woods (Light)** | +1 EP | Light Cover (1 Reroll) | Sparse trees. Blocks VIS locks if 2+ hexes intervene. |
 | **Woods (Heavy)** | +2 EP | Heavy Cover (2 Rerolls) | Dense forest. Blocks VIS and IR locks if 2+ hexes. **Impassable to Heavy/Assault Frames on foot.** |
 | **Urban (Building)** | Impassable (Ground) | Solid Barrier | Structures block all locks (VIS/IR/Radar) up to height. Heavy Cover (2 Rerolls) if adjacent. Roofs (Level 2) can only be reached by **Jump Jets**, and count as their own hex at that elevation. |
@@ -455,13 +537,13 @@ Trees have vertical foliage that adds to ground level for **Visual (VIS)** LOS o
 #### 1. Terrain Pilot Check Adjustments
 Apply the standing hex's terrain modifier to all **Pilot Check** rolls (collision recovery, Drop Strike landing):
 - **Paved**: **+1 bonus** to Pilot Checks (high traction).
-- **Rough**: **-1 penalty** to Pilot Checks (uneven footing).
-- **Water (Deep)**: **-1 penalty** to Pilot Checks (water drag).
+- **Rough**: **−1 penalty** to Pilot Checks (uneven footing).
+- **Water (Deep)**: **−1 penalty** to Pilot Checks (water drag).
 
 #### 2. Environmental Cooling (Water)
 Standing in liquid provides passive cooling to an Iron Frame's reactor during the **Energy Phase**:
 - **Water (Shallow)**: Generates **+1 extra EP** during the Energy Phase. The Frame cannot gain **Flank Speed** while in shallow water.
-- **Water (Deep)**: Generates **+2 extra EP** during the Energy Phase (extreme submerged cooling). Entry costs **+2 EP**, the Frame cannot gain **Flank Speed**, and Pilot Checks take a **-1 penalty**.
+- **Water (Deep)**: Generates **+2 extra EP** during the Energy Phase (extreme submerged cooling). Entry costs **+2 EP**, the Frame cannot gain **Flank Speed**, and Pilot Checks take a **−1 penalty**.
 
 ---
 
@@ -474,10 +556,10 @@ Because attacks hit automatically if targeted, the tactical battle is won or los
 Every Frame has a sensor suite consisting of three bands, housed in the Head location, arranged here in order of increasing electromagnetic wavelength:
 1. **Visual (VIS)**: Shortest wavelength (approx. 380–700 nm). Housed in high-resolution optical cameras.
    - *Requires*: Direct Line of Sight (blocked by Elevation normally). To lock a target hidden behind solid Elevation, a Frame must receive telemetry via a **Tactical Datalink** from a friendly spotter with clear VIS LOS.
-   - *Blocked by*: heavy forests outright; a Smoke template or an Adaptive Skin in Visual mode contests it on a **Countermeasure Check**.
+   - *Blocked by*: woods at **2 or more intervening hexes**, and buildings and elevation, outright; a Smoke template or an Adaptive Skin in Visual mode contests it on a **Countermeasure Check**.
 2. **Infrared (IR)**: Medium wavelength (approx. 700 nm–1 mm). Thermal sensors detecting heat signatures.
    - *Requires*: Direct Line of Sight (blocked by Elevation normally), but entirely ignores Woods and Smoke penalties. To lock a target hidden behind solid Elevation, a Frame must receive telemetry via a **Tactical Datalink** from a friendly spotter with clear IR LOS.
-   - *Sensitivity*: Targets become visible and targetable on IR for the remainder of the turn the moment they spend their **4th EP** of the turn (cumulatively across the Energy, Activation, or Combat phases). *Skin upkeep paid during the Energy Phase does **not** count toward this total — an Adaptive Skin runs cold by design, and a Frame should never be punished on infrared for buying stealth. Every other expenditure counts: movement, weapons fire, standing up. Running cold means genuinely doing very little, and it is the only way to be invisible to infrared without spending a hardpoint on it.*
+   - *Sensitivity*: Targets become visible and targetable on IR for the remainder of the **round** the moment they spend their **4th EP** of that round — counted cumulatively across the Energy, Activation and Combat phases, not per activation. *Skin upkeep paid during the Energy Phase does **not** count toward this total — an Adaptive Skin runs cold by design, and a Frame should never be punished on infrared for buying stealth. Every other expenditure counts: movement, weapons fire, standing up. Running cold means genuinely doing very little, and it is the only way to be invisible to infrared without spending a hardpoint on it.*
    - *The exception is an **Assault Frame**, whose reactor never runs cold: it is **always** IR-lockable, whatever it has spent. This is the same fact as its Movement Limit rather than a separate rule — an Assault chassis tops out at 3 hexes and so can never spend the 4 EP that lights anything else up, which would otherwise leave the largest reactor on the board permanently invisible on infrared. The mass that stops it dodging stops it hiding.*
    - *Blocked by*: an IRCM suite or an Adaptive Skin in Infrared mode, each on a **Countermeasure Check**.
 3. **Microwave (Radar)**: Longest wavelength (approx. 1 mm–1 m). Active microwave radio detection.
@@ -497,27 +579,27 @@ Frames can run active systems to deny locks and hide from sensors:
   *What separates the two kinds of system is no longer certainty but cost. Cartridges are free to fire and run dry after roughly six launches; a sustained suite never runs out but bills 2 EP every Energy Phase, turn after turn, whether it is tested or not.*
 
 - **Electronic Countermeasures (ECM)**: Costs **2 EP** to activate in the Energy Phase. Contests Microwave (Radar) detection and locks on the host Frame (0-hex radius) — each attack tested against it requires a **Countermeasure Check**. **Overcharge** [+1 EP per +1 hex radius]. All friendly Frames within the active radius are protected. *(Note: Overcharging triggers the mandatory 1-Turn Cooldown on the ECM suite).*
-- **Infrared Countermeasure Suite (IRCM)**: (**2 EP per activation**, no Ammo Die). A directed jammer — it floods the attacker's infrared channel with a modulated source keyed to defeat a seeker's tracking logic, and dazzles an imaging thermal sight in the process. Activating it forces a **Countermeasure Check**; on a **4+** the incoming attack is negated entirely, and on a 1-3 the attacker burns through. The suite may only be used when **all** of the following are true:
+- **Infrared Countermeasure Suite (IRCM)**: (**2 EP per activation**, no Ammo Die). A directed jammer — it floods the attacker's infrared channel with a modulated source keyed to defeat a seeker's tracking logic, and dazzles an imaging thermal sight in the process. Activating it forces a **Countermeasure Check**; on a **4+** the incoming attack is negated entirely, and on a 1–3 the attacker burns through. The suite may only be used when **all** of the following are true:
   - The attacker resolved the attack using an **Infrared (IR) lock**. (A defender may run the IRCM suite and release Chaff simultaneously against the same attack, to cover two different weapons in the same Combat Phase.)
   - The suite is activated **before** the Hit Location roll.
   - The Frame can pay the **2 EP**, from its energy pool or its Capacitor reserve.
   The energy is spent whether the check succeeded or not. The suite never runs out — it is powered, not expendable — but a Frame that has emptied both pool and reserve cannot defend itself on infrared at all.
 
-  > *Why this is a jammer and not a bundle of decoy flares. A pyrotechnic flare defeats a **seeker** — a guidance head that steers toward the brightest source in its field of view and can be pulled off it. Against an imaging thermal sight, an operator simply sees a bright flare **and** the target, and nothing is decoyed. Since Iron Frames aim directly rather than launching seekers on every trigger pull, a decoy would be worthless against most of what shoots at them. A directed jammer is the system that actually does this job, and it is powered rather than expendable — which is why this is the one countermeasure that bills energy at the moment it fires.*
-- **Chaff Dispensers**: (Ammo Die: 1d6, **no EP cost**). Releasing chaff forces a **Countermeasure Check**; on a **4+** the incoming attack is negated entirely, and on a 1-3 the attacker burns through. The dispenser may only be used when **all** of the following are true:
+  > **Design Note — why this is a jammer, not decoy flares.** *A pyrotechnic flare defeats a **seeker** — a guidance head that steers toward the brightest source in its field of view and can be pulled off it. Against an imaging thermal sight, an operator simply sees a bright flare **and** the target, and nothing is decoyed. Since Iron Frames aim directly rather than launching seekers on every trigger pull, a decoy would be worthless against most of what shoots at them. A directed jammer is the system that actually does this job, and it is powered rather than expendable — which is why this is the one countermeasure that bills energy at the moment it fires.*
+- **Chaff Dispensers**: (Ammo Die: 1d6, **no EP cost**). Releasing chaff forces a **Countermeasure Check**; on a **4+** the incoming attack is negated entirely, and on a 1–3 the attacker burns through. The dispenser may only be used when **all** of the following are true:
   - The attacker resolved the attack using a **Microwave (Radar) lock**. (A defender may run the IRCM suite and release Chaff simultaneously against the same attack, to cover two different weapons in the same Combat Phase.)
   - Chaff is launched **before** the Hit Location roll.
   The cartridge is spent whether the check succeeded or not. After launching Chaff, roll the Ammo Die (1d6). On a **1**, the dispenser is empty for the rest of the battle.
-- **Smoke Launchers**: (Ammo Die: 1d6, **1 EP**). During the Activation Phase, a Frame may spend 1 EP to deploy a Smoke cloud in its current hex, or any of the 6 surrounding adjacent hexes (place a Smoke token). For as long as it remains on the board, any Visual (VIS) lock traced through that hex must survive a **Countermeasure Check** — on a **4+** the lock fails and the attack is negated; on a 1-3 the attacker picks the target out of the murk anyway. Infrared (IR) and Microwave (Radar) sensors are unaffected and scan through smoke unimpeded. After launching Smoke, roll the Ammo Die (1d6). On a **1**, the launcher is empty for the rest of the battle.
+- **Smoke Launchers**: (Ammo Die: 1d6, **1 EP**). During the Activation Phase, a Frame may spend 1 EP to deploy a Smoke cloud in its current hex, or any of the 6 surrounding adjacent hexes (place a Smoke token). For as long as it remains on the board, any Visual (VIS) lock traced through that hex must survive a **Countermeasure Check** — on a **4+** the lock fails and the attack is negated; on a 1–3 the attacker picks the target out of the murk anyway. Infrared (IR) and Microwave (Radar) sensors are unaffected and scan through smoke unimpeded. After launching Smoke, roll the Ammo Die (1d6). On a **1**, the launcher is empty for the rest of the battle.
 
-> *Why Chaff is free and the IRCM suite is not. Chaff is a cloud of cut filament: a magazine, and once it is gone it is gone. The Ammo Die is its whole cost — roughly six releases — and since it is only a **4+** to work and is spent either way, the question is not merely whether **this** attack is worth a cartridge but whether it is worth one you may well waste. Smoke is likewise expendable, and costs 1 EP on top because it is **proactive**: deployed on your own activation, in a hex of your choosing, at a moment you can budget for.*
+> **Design Note — why Chaff is free and the IRCM suite is not.** *Chaff is a cloud of cut filament: a magazine, and once it is gone it is gone. The Ammo Die is its whole cost — roughly six releases — and since it is only a **4+** to work and is spent either way, the question is not merely whether **this** attack is worth a cartridge but whether it is worth one you may well waste. Smoke is likewise expendable, and costs 1 EP on top because it is **proactive**: deployed on your own activation, in a hex of your choosing, at a moment you can budget for.*
 >
 > *The IRCM suite has no magazine to spend, so its cost has to be energy. An earlier draft of these rules argued that a reactive system must never charge EP — that "can I defend myself?" would be settled before you knew who was shooting or with what. That was true when unused energy was vented at the end of every turn and holding some back was simply waste. It is no longer true: the Capacitor is a standing reserve that persists until spent (Section 2.1), so keeping 2 EP against an infrared attack is a real and durable choice. It is also a **costly** one, because that same banked charge is what an Overcharge is paid from. A pilot who jams every shot fires nothing heavy; a pilot who saves it all for the Rail Gun takes the hits.*
 - **Adaptive Skin**: Costs **2 EP** to activate in the Energy Phase. The Frame tunes its coating to absorb **one** sensor spectrum (Microwave, IR, or VIS), contesting detection and locks on that spectrum — each attack made on the cloaked band requires a **Countermeasure Check**. **Overcharge**: [+2 EP to cloak a 2nd spectrum simultaneously].
   - **Re-tuning**: the spectrum is chosen in the Energy Phase when the suite is paid for, and may be **changed once more during the Frame's own Activation** — the coating is re-laid as the Frame repositions, on whatever the board now shows. It **locks when the Combat Phase begins** and cannot be changed again that turn.
 
-  > *Why the coating locks. A Skin that could be re-tuned after an attack was declared would not be a stealth system at all; it would be a guaranteed Countermeasure Check against one attack a turn, on whichever band happened to arrive. Fixing it at the start of Combat keeps it a **prediction**. Activation is the right moment to commit because it runs in reverse Initiative order: a slow Frame must choose early and blind, while a fast one tunes last, having watched almost the whole board move. That the Specter — the only Frame carrying a Skin — sits at Initiative 10 rather than the top is deliberate; it reads the field before committing, but the Jackal still moves after it.* *(Note: Overcharging triggers the mandatory 1-Turn Cooldown, meaning the Adaptive Skin will be completely offline during the following round, leaving the Frame fully exposed on all spectrums).*
-- **Pre-Combat System Deployment**: At the start of a battle (during Deployment), Frames equipped with **Adaptive Skin** or **ECM** may choose to deploy with those systems **Active**. The system's base upkeep cost (2 EP for Adaptive Skin, 2 EP for ECM) is automatically deducted from the Frame's generated energy pool during the Round 1 Energy Phase.
+  > **Design Note — why the coating locks.** *A Skin that could be re-tuned after an attack was declared would not be a stealth system at all; it would be a guaranteed Countermeasure Check against one attack a turn, on whichever band happened to arrive. Fixing it at the start of Combat keeps it a **prediction**. Activation is the right moment to commit because it runs in reverse Initiative order: a slow Frame must choose early and blind, while a fast one tunes last, having watched almost the whole board move. That the Specter — the only Frame carrying a Skin — sits at Initiative 10 rather than the top is deliberate; it reads the field before committing, but the Jackal still moves after it.* *(Note: Overcharging triggers the mandatory 1-Turn Cooldown, meaning the Adaptive Skin will be completely offline during the following round, leaving the Frame fully exposed on all spectrums).*
+- **Pre-Combat System Deployment**: An Adaptive Skin or ECM suite may be switched on at deployment rather than waiting for Round 1 — see Section 1.4, step 5.
 
 ### 4.3 Tactical Datalink (Head Location)
 A Frame may be equipped with a **Tactical Datalink** housed in its Head location.
@@ -543,19 +625,11 @@ Every weapon lists the sensor spectrum it needs in order to fire. **A weapon can
 
 *This is what gives Electronic Warfare its teeth. A countermeasure is no longer a vague inconvenience — it decides which of the enemy's guns can be brought to bear at all. Terrain denies a band **outright** — woods, buildings and elevation are the only reliable blindfolds. Everything else, cartridge or suite alike, contests the lock on a **Countermeasure Check**, roughly halving what that weapon achieves. Either way, choosing which spectrum to attack is a decision about which of the enemy's weapons you most want silenced, and an attacker carrying weapons on two different bands is far harder to disarm than one relying on a single spectrum.*
 
-- **Armor Piercing (AP X)**: Weapons or munitions designated as **AP X** ignore up to **X** points of the target's Armor DR when calculating damage. (For example, an AP 3 weapon fired at a location with Armor DR 5 treats that location's DR as 2).
+The four traits a weapon may carry — **AP X**, **AoE**, **Rapid Fire** and **Overcharge** — are defined together in Section 5.3.
 
-> *Design note — why heavy weapons roll dice rather than flat damage:* Flank Speed and Cover let a defender force **rerolls**, which can only ever touch dice. A weapon built around a large fixed bonus is therefore invisible to the entire defensive system — no amount of speed or terrain can affect it. This is why the Rail Gun rolls **5d6** rather than 3d6 + 10 for a nearly identical average: the five dice give a defender something to grab, doubling what Flank Speed and Cover are worth against it, while leaving it comfortably the deadliest weapon in the game. Keep this in mind when designing new equipment — **flat damage bonuses are defence-proof, and should be small or absent on anything powerful.**
+#### The Weapon Table
 
-- **Area of Effect (AoE)**: Damage designated as **AoE** (such as Missile Cluster and Splash damage) blankets a wide area and completely bypasses Flank Speed and Cover. A target attacked by an AoE weapon cannot force the attacker to reroll any damage dice, even if Flank Speed or in Heavy Cover. Armor DR still applies normally.
-
-- **Rapid Fire**: Weapons with this trait saturate the target with high-velocity munitions, ignoring minor evasive maneuvers. When firing a Rapid Fire weapon, the attack completely bypasses **Flank Speed** (the target cannot force rerolls due to movement). However, terrain **Cover** still applies normally. Rapid Fire weapons can be fired in two modes:
-  - **Single Burst (Base EP Cost)**: Roll 1 Hit Location. Roll the weapon's burst damage dice (e.g., 3x 1d6) and test each die against the target location's Armor DR separately. 
-  - **Full Auto (X × Base EP)**: Pay the base EP cost for each burst fired (up to 3 maximum). Roll 1 Hit Location. Roll the damage dice for *all* bursts combined against that location, testing each separately. Because this burns through ammunition at an incredible rate, the weapon runs **Empty** on an Ammo Die of **1, 2 or 3** instead of just 1 — roughly two Full Auto barrages will exhaust the whole belt.
-
-  **Rapid Fire and Criticals**: Rapid Fire weapons do **not** use the Overkill Margin — individual rounds do not carry enough energy to overpenetrate. Instead, **each Burst that puts at least one die through the armor generates one Critical Hit**. A Single Burst therefore produces at most 1 Critical; a three-Burst Full Auto produces up to 3. However many dice get through, the attack still degrades that location's Armor DR by **1 in total**.
-
-| Weapon | HP | EP Cost | Ammo Die | Damage | Detection | Traits | Special Rules |
+| Weapon | Mount | EP Cost | Ammo Die | Damage | Detection | Traits | Special Rules |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Autocannon** | Light | 1/burst | 1d6 (Explosive) | 3x 1d6 (Burst) | VIS *or* Radar | Rapid Fire | Fires 3-round bursts. Each 1d6 resolved separately. Can fire Full Auto. |
 | **Laser** | Light | 2 | Infinite | 2d6 | **VIS** | Overcharge | **Overcharge**: [+2 EP per +1d6, up to +2d6]. |
@@ -609,7 +683,7 @@ When a Rapid Fire weapon is fired:
 A single Full Auto attack may fire a **maximum of 3 Bursts**. Firing more than one Burst still rolls a single Hit Location for the whole barrage.
 
 #### Prone Damage Penalty
-The Prone state's **-1d6 penalty** removes one die from the weapon's damage pool, to a minimum of 1d6:
+The Prone state's **−1d6 penalty** removes one die from the weapon's damage pool, to a minimum of 1d6:
 - **Dice-plus-flat weapons** lose one die but keep any flat bonus intact.
 - **Rapid Fire weapons** lose one die from *each* Burst fired (an Autocannon burst becomes 2x 1d6).
 - **Weapons that roll no damage dice** (the Disruptor Cannon, EMP warheads) are unaffected.
@@ -623,7 +697,7 @@ When equipping an Autocannon, players must select a single ammunition type to lo
 Missiles must be configured with a guidance package and a warhead at build time:
 - **Guidance Systems**:
   - *Microwave (Radar)-Guided*: Permits indirect fire (ignoring Elevation/LOS blocks). Requires a Microwave (Radar) lock (which must be provided by a Tactical Datalink spotter if the firing Frame lacks direct LOS). Chaff, an active ECM suite and a Microwave-mode **Adaptive Skin** each contest the lock on a Countermeasure Check.
-  - *Infrared (IR)-Guided*: Permits indirect fire (ignoring Elevation/LOS blocks). Requires an Infrared (IR) lock (which must be provided by a Tactical Datalink spotter if the firing Frame lacks direct LOS). Target must have spent 5+ EP this turn. Flares and an Infrared-mode **Adaptive Skin** each contest the lock on a Countermeasure Check.
+  - *Infrared (IR)-Guided*: Permits indirect fire (ignoring Elevation/LOS blocks). Requires an Infrared (IR) lock (which must be provided by a Tactical Datalink spotter if the firing Frame lacks direct LOS). The target must have spent its **4th EP** this round to be lockable on infrared at all (see Section 4.1). An **IRCM suite** and an Infrared-mode **Adaptive Skin** each contest the lock on a Countermeasure Check.
   - *Visual (VIS)-Guided*: Permits indirect fire (ignoring Elevation/LOS blocks, utilizing onboard optical cameras during terminal descent). Requires a Visual (VIS) lock (which must be provided by a Tactical Datalink spotter if the firing Frame lacks direct LOS). Smoke and a Visual-mode **Adaptive Skin** each contest the lock on a Countermeasure Check.
 - **Warheads**:
   - *High Explosive (HE)*: Roll 1 Hit Location. Deals 3d6 damage to the primary hit location, and **1d6 splash damage** to all adjacent locations on the target Frame (e.g., if the Torso is hit, the Head, Arms, and Legs take splash damage).
@@ -634,20 +708,36 @@ Missiles must be configured with a guidance package and a warhead at build time:
       - **Do not mark the Head table.** A pulse breaches nothing, and a marked slot would let repeated pulses cascade upward into a Structural Fracture or a Pilot K.O. — killing a Frame outright with a weapon that rolls no damage and cannot be answered.
     - **Every Frame caught has its Tactical Datalink jammed** until the End Phase.
 
-  > *What the warhead is for. It rolls no damage and can never destroy anything, so it does not win a fight — it decides what kind of fight the next few turns will be. Because it ignores armour completely it is at its best **first**, before a shot has been fired: a lance that opens the game with one Frame blind, another paying a tithe of energy every turn to see at all, and a third down an array for good, is fighting a different battle from the one it planned. Two of the three results never wear off.*
+  > **Design Note — what the warhead is for.** *It rolls no damage and can never destroy anything, so it does not win a fight — it decides what kind of fight the next few turns will be. Because it ignores armour completely it is at its best **first**, before a shot has been fired: a lance that opens the game with one Frame blind, another paying a tithe of energy every turn to see at all, and a third down an array for good, is fighting a different battle from the one it planned. Two of the three results never wear off.*
   >
   > *The price is that it cannot be aimed narrowly. Seven hexes is a wide pattern on a 22-hex map, and the warhead does not know your paint from theirs. A Colossus that walks into its own pulse is as blind as anything it was aiming at, and unlike a missile you cannot decline to catch your own lance by aiming slightly off — the blast is uniform to its edge.*
 
 ### 5.3 Universal System Traits
-Many weapons and utility systems share standardized mechanical behaviors, represented by keywords or Traits.
+Many weapons and utility systems share standardized mechanical behaviors, represented by keywords or Traits. There are four, and every one of them is defined here.
+
+> **Trait: Armor Piercing (AP X)**
+> The weapon ignores up to **X** points of the target's Armor DR when calculating damage. An AP 3 weapon fired at a location with Armor DR 5 treats that DR as 2.
+
+> **Trait: Area of Effect (AoE)**
+> The damage blankets a wide area and **completely bypasses Flank Speed and Cover**. A target attacked by an AoE weapon cannot force the attacker to reroll any damage die, however fast it is moving or however deep the woods it is standing in. Armor DR still applies normally. Missile Cluster and Splash damage are both AoE.
+
+> **Trait: Rapid Fire**
+> The weapon saturates the target with high-velocity munitions, ignoring minor evasive maneuvers. The attack **completely bypasses Flank Speed**; terrain **Cover** still applies normally. A Rapid Fire weapon fires in one of two modes:
+> * **Single Burst (base EP cost)**: Roll 1 Hit Location. Roll the weapon's burst damage dice (e.g. 3× 1d6) and test **each die separately** against that location's Armor DR.
+> * **Full Auto (X × base EP)**: Pay the base cost for each burst fired, to a **maximum of 3**. Roll 1 Hit Location for the whole barrage. Roll the dice for all bursts combined against that location, still testing each separately. This burns the belt three times as fast: the weapon runs **Empty** on an Ammo Die of **1, 2 or 3** rather than just 1.
+> * **Criticals**: Rapid Fire does **not** use the Overkill Margin — individual rounds do not carry enough energy to overpenetrate. Instead, **each Burst that puts at least one die through the armor generates one Critical Hit**. A Single Burst yields at most 1; a three-Burst Full Auto up to 3. However many dice get through, the attack degrades that location's Armor DR by **1 in total**.
+>
+> Full resolution details, including how degradation is applied mid-attack, are in Section 5.0.
 
 > **Trait: Overcharge [Cost for Effect]**
 > Any weapon or system with the Overcharge trait allows a pilot to dump excess EP from their Capacitor beyond the base activation cost to achieve a magnified effect. 
 > * **Capacitor Drain**: The additional EP required to trigger an Overcharge must be paid *exclusively* from banked EP in the Frame's Capacitor. Freshly generated Reactor EP cannot be used to pay Overcharge costs.
 > * **Tracking Overcharge EP**: No separate bookkeeping is needed. Because the Capacitor is a standing reserve and is never swept into the pool (Section 2.1), the charge it currently holds *is* the maximum a Frame may spend on Overcharges. Each EP spent on an Overcharge comes straight off the Capacitor. A Frame with an empty Capacitor cannot Overcharge at all, however full its pool — and note that paying ordinary costs out of the reserve, once the pool is dry, spends the same charge an Overcharge would have needed.
 > * **Overcharge**: High-yield energy weapons (Lasers, Thermal Lances, Disruptor Cannons, Rail Guns) allow a pilot to dump additional EP from the Capacitor during the Combat Phase to boost damage or induce special effects. Overcharging a weapon triggers a **1-Turn Cooldown** on that weapon.
-> * **Damage Overcharges Add Dice**: Where an Overcharge increases a weapon's damage, it does so at a flat rate of **2 EP per additional damage die, to a maximum of +2d6**. Never a fixed bonus — see the design note in Section 5: a flat increase would sit outside the reroll system entirely, letting an overcharged shot ignore Flank Speed and Cover.
+> * **Damage Overcharges Add Dice**: Where an Overcharge increases a weapon's damage, it does so at a flat rate of **2 EP per additional damage die, to a maximum of +2d6**. Never a fixed bonus.
 > *(Example: A pilot overcharges their Thermal Lance. They spend 4 base EP + 4 overcharge EP = 8 EP total, rolling **5d6** instead of the usual 3d6. The weapon then enters a 1-Turn Cooldown and cannot be fired next round).*
+
+> **Design Note** — Why heavy weapons roll dice rather than flat damage. Flank Speed and Cover let a defender force **rerolls**, which can only ever touch dice. A weapon built around a large fixed bonus is therefore invisible to the entire defensive system: no amount of speed or terrain can affect it. This is why the Rail Gun rolls **5d6** rather than 3d6 + 10 for a nearly identical average — the five dice give a defender something to grab, doubling what Flank Speed and Cover are worth against it, while leaving it comfortably the deadliest weapon in the game. Keep this in mind when designing new equipment: **flat damage bonuses are defence-proof, and should be small or absent on anything powerful.**
 
 ---
 
@@ -731,6 +821,13 @@ The Head table stops at 5, because a cockpit hit that reaches the top kills the 
 ### 6.3 Falling and the Prone State
 When an Iron Frame is knocked over during combat (via collision, Drop Strike, or leg destruction), it enters the **Prone** state. Mark the Frame with a Prone token.
 
+#### Effects of the Prone State
+- **Defense**: A Prone Frame cannot gain **Flank Speed**, and it cannot force rerolls from Flank Speed. It still benefits from damage rerolls granted by Terrain Cover.
+- **Combat**: A Prone Frame cannot torso twist and suffers a **−1d6 penalty to all weapon damage rolls** (minimum of 1d6 rolled). For how that penalty applies to multi-die and Rapid Fire weapons, see Section 5.0.
+- **Maneuvering**: A Prone Frame cannot walk, reverse, or jump. Its only movement options are:
+  - **Stand Up**: Costs **3 EP** during its Activation Phase. Upon standing, the pilot removes the Prone token and may set the Leg Facing to any direction for free. A Frame with both legs intact stands automatically; a Frame with a **severed leg** must pass a Pilot Check to rise (see Section 6.5.4), and spends the 3 EP whether it succeeds or not.
+  - **Pivot**: While Prone, the Frame may crawl-turn, pivoting its Leg Facing by 60 degrees. Cost: **2 EP** per 60 degrees (**3 EP** if a leg has been severed).
+
 ### 6.4 Pilot Checks
 
 **A Pilot Check is always: 2d6 + modifiers, versus a Target Number of 6.**
@@ -763,13 +860,6 @@ A Frame must make a Pilot Check in the following situations:
 - **Fighting Through Sensor Scrambles**:
   - *EMP Recovery*: no check is made. A band knocked out by an EMP is simply unavailable until the End Phase, when it comes back on its own (Section 5.2). The other two bands are unaffected and lock normally.
 
-#### Effects of the Prone State
-- **Defense**: A Prone Frame cannot gain **Flank Speed**, and it cannot force rerolls from Flank Speed. It still benefits from damage rerolls granted by Terrain Cover.
-- **Combat**: A Prone Frame cannot torso twist and suffers a **-1d6 penalty to all weapon damage rolls** (minimum of 1d6 rolled).
-- **Maneuvering**: A Prone Frame cannot walk, reverse, or jump. Its only movement options are:
-  - **Stand Up**: Costs **3 EP** during its Activation Phase. Upon standing, the pilot removes the Prone token and may set the Leg Facing to any direction for free. A Frame with both legs intact stands automatically; a Frame with a **severed leg** must pass a Pilot Check to rise (see Section 6.5.4), and spends the 3 EP whether it succeeds or not.
-  - **Pivot**: While Prone, the Frame may crawl-turn, pivoting its Leg Facing by 60 degrees. Cost: **2 EP** per 60 degrees (**3 EP** if a leg has been severed).
-
 ### 6.5 Location Destruction & Damage Transfer
 A location is destroyed when the **top slot of its own table** is marked, whether rolled directly or reached by cascade. That slot differs by location: the **Head at 5**, the **Torso at 8**, and an **Arm or Leg at 6**. (Torso slot 6 is an Ammo Explosion, which is survivable — it is not the destruction rung.) Any subsequent hits to a destroyed location are handled using the following rules:
 
@@ -787,7 +877,7 @@ If an Arm is destroyed, it is severed and blown off.
 #### 6.5.4 Leg Destruction (Left or Right)
 If a Leg is destroyed, it is blown off.
 *   **Immediate Fall**: The Frame immediately falls **Prone**. No Pilot Check is permitted; the limb is gone and no amount of skill keeps the machine upright.
-*   **Fighting From the Ground**: A crippled Frame is not out of the battle. It may still fire every weapon it has, subject to the standard Prone penalties in Section 6.4.
+*   **Fighting From the Ground**: A crippled Frame is not out of the battle. It may still fire every weapon it has, subject to the standard Prone penalties in Section 6.3.
 *   **Hauling Itself Upright**: A Frame with one severed leg **may attempt to Stand Up**, balancing on its remaining leg and gyro. This costs the usual **3 EP** and requires a **Pilot Check**, taken at the standing **−2 penalty a crippled leg imposes on every check** (see Section 6.4) — an unaided pilot succeeds a little over 40% of the time, so getting a crippled Frame back on its foot is a real gamble, and an ace's bonus is worth a great deal here:
     - *Success (6+)*: The Frame rises. It is standing, and immediately sheds every Prone penalty — it regains its full damage dice and may torso twist again. Set its Leg Facing to any direction for free.
     - *Failure (< 6)*: The Frame slips back down. The 3 EP is spent regardless, and it may try again on a later activation.
@@ -795,7 +885,7 @@ If a Leg is destroyed, it is blown off.
 *   **Crippled Movement**: Standing or prone, the Frame is permanently crippled and can **never walk, reverse, or jump** again. Its only movement is to pivot its Leg Facing at a cost of **3 EP** per 60 degrees.
 *   **Double Leg Loss**: If both legs are destroyed, the Frame is completely disabled (treated as destroyed). A machine with nothing to stand on cannot fight.
 
-> *Design note: a severed leg is a crippling wound, not a death sentence. A one-legged Paladin that gets itself upright is still a Rail Gun platform that can traverse its torso and track targets — dangerous to approach, trivial to walk away from. Deciding whether to spend 3 EP and a Pilot Check on standing, or to stay down and keep shooting at a penalty, is the pilot's problem.*
+> **Design Note** — A severed leg is a crippling wound, not a death sentence. A one-legged Paladin that gets itself upright is still a Rail Gun platform that can traverse its torso and track targets — dangerous to approach, trivial to walk away from. Deciding whether to spend 3 EP and a Pilot Check on standing, or to stay down and keep shooting at a penalty, is the pilot's problem.
 
 #### 6.5.5 Damage Transfer (Blow-Through)
 If an attack hits a location that has already been destroyed (e.g. a random hit location rolls a severed Arm or Leg), the hit is not wasted:
@@ -886,7 +976,7 @@ Mobility stats (Init/Move) and Armor DR are strictly bound by the Limits and Cap
 - **Infrared Countermeasure Suite** [Light]: 15 pts
 - **Chaff Dispenser** [Light]: 15 pts
 - **Tactical Datalink** [Light]: 15 pts
-- **Jump Jets (Light/Medium only, mounts in the Torso; Ammo Die 1d6, Empty on 1-2)** [Light]: 20 pts
+- **Jump Jets (Light/Medium only, mounts in the Torso; Ammo Die 1d6, Empty on 1–2)** [Light]: 20 pts
 - **Electronic Countermeasures (ECM)** [Medium]: 25 pts
 - **Adaptive Skin** [Medium]: 30 pts
 
@@ -940,7 +1030,7 @@ Equipping a Named Pilot on an Iron Frame grants a flat Initiative bonus of **+1,
 
 A Named Pilot's bonus is applied **after** the chassis Initiative limits in Section 7.2, and may exceed them — that is the point of an ace. A Heavy chassis capped at Initiative 6 may therefore reach Initiative 9 with a +3 pilot, and there is no upper ceiling on the resulting figure.
 
-> *Buyer's note: Initiative is only ever compared, never looked up on a table, so its value is entirely **positional**. A Frame that already acts first in the order gains nothing further from a higher number. Putting a +3 ace in a Frame that is comfortably the fastest thing on the field buys you the Pilot Check bonus and very little else — and the Pilot Check bonus alone is worth having, since it lifts a 2d6 check against TN 6 from 72% to 97%. If that is all you want, a **+1 pilot at 15 pts** delivers most of it for a third of the cost.*
+> *Buyer's note: Initiative is only ever compared, never looked up on a table, so its value is entirely **positional**. A Frame that already acts first in the order gains nothing further from a higher number. Putting a +3 ace in a Frame that is comfortably the fastest thing on the field buys you the Pilot Check bonus and very little else — and the Pilot Check bonus alone is worth having: a 2d6 check against TN 6 succeeds 72% of the time unaided, 83% with a **+1**, and 97% with a **+3**. If the check is all you want, a **+1 pilot at 15 pts** buys the first and largest step of that for a third of the cost of a +3.*
 - **Pilot Checks**: In addition to modifying the Frame's Initiative, the Named Pilot adds their Initiative bonus (+1, +2, or +3) as a flat modifier to all **Pilot Checks** (to avoid falling Prone). If the pilot is dishonored, they immediately lose this bonus as well.
 - **Point Cost (Optional)**: If playing with the optional point rules (see Section 7.1), Named Pilots cost points based on their Initiative bonus:
   - **+1 Initiative & Pilot Checks**: 15 pts
@@ -1017,7 +1107,7 @@ Here are five pre-configured Iron Frames ready for combat.
   - Tactical Datalink [Light HP]
 - **Equipped Weapons**:
   - **Left Arm** [Light HP]: Laser (2d6 damage)
-  - **Right Arm** [Light HP]: Autocannon [Radar fire control] (3x 1d6 burst, AP 1 — Ammo Die 1d6, Empty on 1 / 1-3 on Full Auto)
+  - **Right Arm** [Light HP]: Autocannon [Radar fire control] (3x 1d6 burst, AP 1 — Ammo Die 1d6, Empty on 1 / 1–3 on Full Auto)
 
 ### 8.2 IF-45M-1 "Specter" (Medium Stealth Frame)
 ![IF-45M-1 "Specter" Technical Sketch](images/if_45m_1_specter.jpg)
@@ -1056,7 +1146,7 @@ Here are five pre-configured Iron Frames ready for combat.
   - Chaff Dispenser [Light HP]
   - Tactical Datalink [Light HP]
 - **Equipped Weapons**:
-  - **Left Arm** [Light HP]: Autocannon [Radar fire control] (3x 1d6 burst, AP 1 — Ammo Die 1d6, Empty on 1 / 1-3 on Full Auto)
+  - **Left Arm** [Light HP]: Autocannon [Radar fire control] (3x 1d6 burst, AP 1 — Ammo Die 1d6, Empty on 1 / 1–3 on Full Auto)
   - **Right Arm** [Light HP]: Laser (2d6 damage)
 
 ### 8.4 IF-75H-1 "Paladin" (Heavy Fire-Support Frame)
@@ -1078,7 +1168,7 @@ Here are five pre-configured Iron Frames ready for combat.
   - Tactical Datalink [Light HP]
 - **Equipped Weapons**:
   - **Right Arm** [Heavy HP]: Rail Gun (5d6, AP 3, inert slugs — infinite)
-  - **Left Arm** [Light HP]: Autocannon [Visual fire control] (3x 1d6 burst, AP 1 — Ammo Die 1d6, Empty on 1 / 1-3 on Full Auto)
+  - **Left Arm** [Light HP]: Autocannon [Visual fire control] (3x 1d6 burst, AP 1 — Ammo Die 1d6, Empty on 1 / 1–3 on Full Auto)
   - **Torso** [Medium HP]: Guided Missile Launcher (Infrared [IR] Guided, Cluster Warheads)
 
 ### 8.5 IF-90A-1 "Colossus" (Heavy Assault Frame)
@@ -1102,6 +1192,123 @@ Here are five pre-configured Iron Frames ready for combat.
   - **Left Arm** [Heavy HP]: Thermal Lance
   - **Right Arm** [Heavy HP]: Rail Gun (5d6, AP 3, inert slugs — infinite)
   - **Torso** [Medium HP]: Guided Missile Launcher (EMP Warheads — fired at a hex, needs no lock)
+
+---
+
+## Appendix A: Turn Reference
+
+*One page. Everything you look up mid-game, in the order you need it.*
+
+### The Round
+
+| Phase | Do this | Order |
+| :--- | :--- | :--- |
+| **1. Energy** | Each Frame generates EP = Reactor Rating into its **pool**. Add +1 EP in Shallow Water, +2 in Deep. Deduct 2 EP for each sustained system (Adaptive Skin, ECM). The **Capacitor is not touched** — it is a standing reserve. | — |
+| **2. Activation** | Frames move one at a time, spending EP step by step. Torso Twist free at the very end of each activation. | **Lowest** Initiative first |
+| **3. Combat** | Frames fire. Damage resolves instantly. Each weapon fires **once**. | **Highest** Initiative first |
+| **4. End** | Unused pool EP is added to the Capacitor up to its Max; overflow is vented. Clear Flank Speed, tick cooldowns down, roll 1d6 per Smoke token (1–2 disperses). | — |
+
+### Spending EP
+
+| Action | Cost | Terrain? | Climb +1? | Counts vs Move Limit? |
+| :--- | :---: | :---: | :---: | :---: |
+| Walk | 1 EP | Yes | +1 EP | Yes |
+| Reverse | 2 EP | Yes | +1 EP | Yes |
+| Jump | 2 EP / hex | No | No | Yes |
+| Pivot 60° | 1 EP | No | — | No |
+| Stand Up | 3 EP | No | — | No |
+| Torso Twist | Free | No | — | No |
+
+*Terrain is paid on entry, for the hex you move into. Knee Lock adds +1 EP to Walk and Reverse. Prone pivot costs 2 EP, or 3 EP on a severed leg.*
+
+### The Attack Sequence
+
+1. Pay the weapon's EP cost.
+2. Check **arc** and **line of sight**.
+3. Check the **sensor lock** the weapon requires. No lock, no attack.
+4. Defender may fire **countermeasures** → Countermeasure Check, **4+ negates the attack entirely**.
+5. Roll **2d6** for hit location, on the column matching the attack's Hit Zone.
+6. Roll damage dice.
+7. Defender spends **rerolls**: 1 for Flank Speed, 1 for Light Cover, 2 for Heavy Cover. They stack, and all are optional.
+8. Compare the total to the location's **Armor DR**.
+9. **Strictly greater** = penetration: DR drops by 1 permanently. Equal or less = nothing at all.
+10. On penetration, roll **1d6** on that location's Critical table, +1 die per full 5 points of excess damage. A marked slot cascades upward.
+
+### Numbers Worth Memorizing
+
+| | |
+| :--- | :--- |
+| Pilot Check | 2d6 vs **TN 6** |
+| Countermeasure Check | 1d6, **4+** stops it |
+| Flank Speed threshold | Exit **4** hexes (or jump **2+**) |
+| Overkill Margin | +1 crit die per **5** excess damage |
+| Maximum jump | **4** hexes, every Frame |
+| Full Auto | **3** bursts maximum |
+| Overcharge damage | **2 EP** per +1d6, max **+2d6** |
+| Infrared lockable | Once the target has spent its **4th EP** this round |
+| Ammo Die — Empty on | Autocannon **1** (Full Auto **1–3**) · Missiles & Jump **1–2** · Chaff & Smoke **1** |
+
+### Location Tables at a Glance
+
+| Location | Slots | Destroyed at | Table |
+| :--- | :---: | :---: | :--- |
+| Head | 5 | **5** | Sensor faults → Structural Fracture → Pilot K.O. |
+| Torso | 8 | **8** | Glitch → Servo Lock → Capacitor Leak → Fracture → Reactor → Ammo Explosion → Fire → Containment Failure |
+| Arm | 6 | **6** | Jitter → Strain → Hardpoint → Fracture → Weapon Destroyed → Severed |
+| Leg | 6 | **6** | Stutter → Knee Lock → Hip → Fracture → Actuator Destroyed → Severed |
+
+*Slot 4 is **Structural Fracture** on every table — that location's Armor DR drops to 0. Torso slots 7 and 8 cannot be rolled naturally; they are reached only by cascade or HEI's +1.*
+
+---
+
+## Appendix B: Learning the Matchups
+
+*Written for a player who has finished the rules. If you are still on your first game, the Vanguard mirror in Section 1.4.1 is the place to be.*
+
+### Vanguard vs. Specter
+
+A deliberately asymmetric matchup that rewards knowing the Specter's line.
+
+- The Specter cannot win a straight damage race. Its Laser cannot penetrate the Vanguard's Torso armor while the Vanguard is moving, and its Disruptor Cannon deals no damage at all — but the Disruptor lands its effect on every hit it is *allowed* to make, whatever the Vanguard's armor or speed.
+- Instead, the Specter fights to **strip armor and then convert**. A Disruptor hit on any limb or the Head forces a Critical, and a result of 4 (*Structural Fracture*) reduces that location's Armor DR to **0**. Every subsequent Laser shot that lands there does full damage.
+- **The whole plan runs on the Microwave band.** The Disruptor needs a Radar lock, and the Vanguard carries both a Chaff Dispenser and an ECM suite. Both contest the shot on a **Countermeasure Check**, so roughly half the Specter's pulses land through either — but Chaff is a finite store of about six cartridges fired one at a time, while the ECM umbrella runs all game for 2 EP a turn and never runs out. The Specter's opening problem is therefore electronic, not structural: make the Vanguard spend cartridges it cannot replace, and accept that every Disruptor shot is a coin flip.
+- The Specter's **Adaptive Skin decides which of the Vanguard's guns still works.** Suppressing Visual forces every Laser shot to survive a Countermeasure Check, so about half of them simply fail to acquire; the Vanguard leans on its Autocannon and must close to make it count. Cloaking a second band costs an Overcharge and leaves the Skin offline entirely next round, so it is a spike, not a posture.
+- Terrain still matters more than the Skin for hiding completely. Buildings and elevation break *every* band at once; Heavy Woods strip Visual and Infrared, leaving only Radar for an ECM or a Microwave-mode Skin to finish.
+- The Vanguard, in turn, wins by forcing the exchange early, before its armor is opened up.
+
+---
+
+## Appendix C: Glossary
+
+| Term | Meaning | Section |
+| :--- | :--- | :---: |
+| **Activation** | One Frame's turn to move, during the Activation Phase. | 2.2 |
+| **Ammo Die** | 1d6 rolled after firing; at or below the weapon's number it is Empty for the battle. | 5.0 |
+| **AoE** | Bypasses Flank Speed *and* Cover. Armor DR still applies. | 5.3 |
+| **AP X** | Ignores X points of the target's Armor DR. | 5.3 |
+| **Armor DR** | A location's damage threshold. Erodes by 1 per penetration; never repaired. | 1.1, 7.2.1 |
+| **Capacitor** | Standing reserve of banked EP. Carries between rounds; pays for Overcharges. | 2.1 |
+| **Cascading Failure** | A critical on a marked slot climbs to the next unmarked one. | 6.2 |
+| **Core Critical** | A hit location roll of 2. Torso DR counts as 0 for that entire attack. | 6.1 |
+| **Countermeasure Check** | 1d6; on 4+ the lock fails and the attack is negated. | 4.2 |
+| **Cover** | Terrain rerolls: 1 die in Light Woods, 2 in Heavy Woods or beside a building. | 3.3 |
+| **Dishonor** | A Named Pilot who breaks their Vow loses every bonus and pays +1 EP per weapon. | 7.3.3 |
+| **Element / Platoon** | 2 Frames / 3–4 Frames. | 7.1 |
+| **EP** | Energy Point. The game's only currency. | 2.1 |
+| **Flank Speed** | Gained by exiting 4+ hexes, or a jump of 2+. Grants one damage reroll. | 2.2 |
+| **Full Auto** | Up to 3 Rapid Fire bursts into one hit location. Empties on an Ammo Die of 1–3. | 5.3 |
+| **Hardpoint** | A fixed mounting slot in a specific location, sized Light, Medium or Heavy. | 7.2.0 |
+| **Hit Zone** | Which column of the Hit Location Table an attack uses, set by attack direction. | 1.3 |
+| **Lock** | Detection on a sensor band. Required to fire the weapon that needs it. | 4.1 |
+| **Mass Value** | 1–4 by weight class. Multiplies collision and Drop Strike damage. | 1.1 |
+| **Overcharge** | Spending Capacitor charge for a magnified effect; triggers a 1-Turn Cooldown. | 5.3 |
+| **Overkill Margin** | +1 critical die per full 5 points of damage past the Armor DR. | 6.2 |
+| **Pilot Check** | 2d6 + modifiers vs TN 6. | 6.4 |
+| **Prone** | Knocked down. No Flank Speed, −1d6 damage, cannot twist. | 6.3 |
+| **Rapid Fire** | Bypasses Flank Speed; each die tested separately; one critical per penetrating burst. | 5.3 |
+| **Running Cold** | Having spent fewer than 4 EP this round — no infrared signature at all. | 4.1 |
+| **Severity Ladder** | The six rungs every critical table climbs, so a number means the same kind of damage everywhere. | 6.2 |
+| **Torso Facing** | Where the upper body points; sets firing arcs. Twisted at the end of an activation. | 1.2 |
 
 ---
 *Game Design by Antigravity & the User.*

@@ -865,7 +865,7 @@ export function overchargeDiceFor(weapon, epSpent) {
  * the one beside it that spent a point moving.
  *
  * Infrared is the only band with such a rule. A Frame that has not yet spent its
- * 5th EP this turn has no heat bloom to find (rules.md 4.1), and this is a hard
+ * 4th EP this round has no heat bloom to find (rules.md 4.1), and this is a hard
  * block rather than a Countermeasure Check — there is nothing to contest, because
  * there is no signature. It is the only way to be invisible on infrared without
  * spending a hardpoint, and the price is doing almost nothing with your turn.
