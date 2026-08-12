@@ -1,4 +1,8 @@
-// Reference view — the reference.md tables, collapsible for one-handed lookup.
+// Reference view — the player-facing quick reference, collapsible for one-handed
+// lookup. This is the only quick reference the project ships: the hand-written
+// reference.md was deleted because it drifted from the rulebook twice, silently,
+// while this view could not — every number below is read from data/tables.js, the
+// same constants the engine resolves against.
 
 import {
   AMMO_TYPES, AMMO_DIE, CRIT_TABLES, CRIT_TABLE_MAX, COUNTERMEASURE_CHECK_TN,
