@@ -12,11 +12,11 @@
 // project's values here.
 
 export const FIREBASE_CONFIG = {
-  apiKey: '',
-  authDomain: '',
-  databaseURL: '',
-  projectId: '',
-  appId: '',
+  apiKey: 'AIzaSyAzDCHDix0_5kdYn6bLubnLVO0dDZDwRUY',
+  authDomain: 'iron-protocol-406da.firebaseapp.com',
+  databaseURL: 'https://iron-protocol-406da-default-rtdb.firebaseio.com',
+  projectId: 'iron-protocol-406da',
+  appId: '1:137450076073:web:4a297e2c5acff50194f6b8',
 };
 
 export const FIREBASE_SDK_VERSION = '10.12.0';

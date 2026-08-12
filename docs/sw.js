@@ -19,7 +19,7 @@
 // Carry a serial as well as the date: more than one deploy can land on the same
 // day, and a date that has not moved leaves the cache key unchanged while the
 // code underneath it has changed.
-const VERSION = '2026-08-01.2';
+const VERSION = '2026-08-12.1';
 const CACHE = `iron-protocol-${VERSION}`;
 
 const SHELL = [

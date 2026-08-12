@@ -233,7 +233,7 @@ Open `tests.html` in a browser, or from the repo root with Node installed:
 node tools/run-tests.mjs
 ```
 
-145 tests across 25 suites. The browser runner exercises the real ES module graph; the CLI runner
+229 tests across 29 suites. The browser runner exercises the real ES module graph; the CLI runner
 is the same suite.
 
 ## Rules coverage
