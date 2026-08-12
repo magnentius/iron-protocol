@@ -102,6 +102,18 @@ Plus energy, Flank Speed and the reroll allowance it grants, Ammo Die state for 
 sustained systems, terrain, prone state, pilot checks and a running log. Everything is manually
 adjustable, so the app never blocks you.
 
+**Map position** — the battle carries the name of the battlemat in play, and each frame carries the
+hex it stands in, as printed on the mat: four digits, column then row, `0101` through `1517`. The
+hex is entered in two places — on the frame sheet, and beside the movement buttons during the
+Activation Phase, because the moment you move is the moment the number is stale. It is stored as a
+string so the leading zero survives; `0304` is what is printed on the mat and `304` is not the same
+thing to anyone reading it aloud.
+
+Nothing is derived from it. The app cannot see the board, so it never advances a hex for you and
+never uses one to compute range or line of sight — this is bookkeeping, so that a battle put away
+half-finished can be set back up exactly as it stood. Both fields ride along with sync and are
+written into the downloaded transcript.
+
 **Attack tab** — a guided resolver following the Combat Phase sequence:
 
 1. attacker, target, weapon (blocked if destroyed, cooling down, Empty, unaffordable, or if the
@@ -233,7 +245,7 @@ Open `tests.html` in a browser, or from the repo root with Node installed:
 node tools/run-tests.mjs
 ```
 
-229 tests across 29 suites. The browser runner exercises the real ES module graph; the CLI runner
+239 tests across 30 suites. The browser runner exercises the real ES module graph; the CLI runner
 is the same suite.
 
 ## Rules coverage

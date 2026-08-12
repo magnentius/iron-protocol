@@ -13,9 +13,9 @@ import { diffInto } from './js/sync.js';
 import { battleTranscript, transcriptFilename } from './js/transcript.js';
 import { meter } from './js/ui/dom.js';
 import {
-  addFrame, advancePhase, createFrame, createBattle, getBattle, isCompatible, logAction,
-  removeFrame, renameFrame, setBattle,
-  SCHEMA_VERSION,
+  addFrame, advancePhase, createFrame, createBattle, getBattle, isCompatible, isValidHex,
+  logAction, normalizeHex, normalizeMapName, removeFrame, renameFrame, setBattle,
+  MAP_NAME_MAX, SCHEMA_VERSION,
 } from './js/state.js';
 
 const frame = (key, patch = {}) => Object.assign(instantiate(key), patch);
@@ -1710,6 +1710,61 @@ export function run({ describe, it, eq, ok }) {
   it('survives a battle with nothing logged yet', () => {
     const t = battleTranscript(createBattle({ code: 'MTPY' }), { now: AT });
     ok(t.includes('No entries yet.'), t.slice(0, 120));
+  });
+
+  it('names the map, and only when one was recorded', () => {
+    const bare = battleTranscript(createBattle({ code: 'MTPY' }), { now: AT });
+    ok(!/^Map /m.test(bare), 'no empty Map line when the field is blank');
+
+    const named = createBattle({ code: 'MAPS' });
+    named.mapName = 'Grasslands #2';
+    ok(battleTranscript(named, { now: AT }).includes('Map Grasslands #2'), 'names the mat');
+  });
+
+  it('records each frame’s hex in the roster', () => {
+    const b = createBattle({ code: 'HEXS' });
+    const f = createFrame('jackal', { ownerId: 'me' });
+    f.hex = '0304';
+    b.frames[f.id] = f;
+    ok(/Jackal — \S+ · Hex 0304/.test(battleTranscript(b, { now: AT })), 'hex beside the designation');
+  });
+
+  // --- Map position ----------------------------------------------------------
+  describe('Map position');
+
+  it('a hex number is four digits, column then row', () => {
+    eq([isValidHex('0304'), isValidHex('1517'), isValidHex('0000')], [true, true, true]);
+  });
+
+  it('rejects what a mat never prints', () => {
+    eq(['304', '03045', '03a4', '', '  ', null].map(isValidHex),
+       [false, false, false, false, false, false]);
+  });
+
+  it('keeps the leading zero, because that is what is printed', () => {
+    eq(normalizeHex('0304'), '0304');
+    eq(typeof normalizeHex('0304'), 'string');
+  });
+
+  it('normalizes anything unusable to unset rather than guessing', () => {
+    eq([normalizeHex('304'), normalizeHex('nonsense'), normalizeHex(undefined)], ['', '', '']);
+  });
+
+  it('tolerates the whitespace a phone keyboard adds', () => {
+    eq(normalizeHex(' 0304 '), '0304');
+  });
+
+  it('a new frame starts with no position recorded', () => {
+    eq(createFrame('jackal', { ownerId: 'me' }).hex, '');
+  });
+
+  it('a new battle starts with no map named', () => {
+    eq(createBattle({ code: 'AAAA' }).mapName, '');
+  });
+
+  it('a map name is trimmed and capped, not rejected', () => {
+    eq(normalizeMapName('  Grasslands #2  '), 'Grasslands #2');
+    eq(normalizeMapName('x'.repeat(200)).length, MAP_NAME_MAX);
   });
 
   it('accepts a battle it just created', () => {

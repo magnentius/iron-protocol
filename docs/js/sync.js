@@ -100,10 +100,31 @@ async function connect(code) {
   });
 }
 
+/**
+ * A code no battle is using yet.
+ *
+ * createRoom() writes with set(), which overwrites whatever is already at that
+ * path, and nothing ever deletes a battle — so occupancy only grows against a
+ * fixed keyspace. Without this check a collision silently destroys someone
+ * else's game instead of failing, which is the worst way for it to go wrong.
+ *
+ * Five draws rather than one: each is independent, so the odds of all five
+ * landing on taken codes are negligible until the keyspace is nearly full, at
+ * which point a longer code is the real fix.
+ */
+async function unusedRoomCode(api, attempts = 5) {
+  for (let i = 0; i < attempts; i += 1) {
+    const code = newRoomCode();
+    const snapshot = await api.get(api.ref(db, `battles/${code}`));
+    if (!snapshot.exists()) return code;
+  }
+  throw new Error('Could not find a free room code. Please try again.');
+}
+
 /** Create a room seeded with whatever is on this device. */
 export async function createRoom() {
-  const code = newRoomCode();
   const api = await loadFirebase();
+  const code = await unusedRoomCode(api);
   await connect(code);
 
   const battle = getBattle();

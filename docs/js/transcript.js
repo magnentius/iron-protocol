@@ -31,7 +31,7 @@ const chronological = (log = []) => [...log].reverse();
 function frameRoster(frames) {
   if (!frames.length) return ['  (none)'];
   return frames.map((f) => (
-    `  ${f.callsign} — ${f.designation}${f.vow ? ` · Vow of ${f.vow}` : ''}${isDestroyed(f) ? ' · DESTROYED' : ''}`
+    `  ${f.callsign} — ${f.designation}${f.hex ? ` · Hex ${f.hex}` : ''}${f.vow ? ` · Vow of ${f.vow}` : ''}${isDestroyed(f) ? ' · DESTROYED' : ''}`
   ));
 }
 
@@ -40,6 +40,7 @@ export function battleTranscript(battle, { now = Date.now() } = {}) {
   const out = [
     'IRON PROTOCOL — BATTLE LOG',
     `Room ${battle.id || '—'} · Round ${battle.round} · ${PHASE_NAMES[battle.phase] || battle.phase} Phase`,
+    ...(battle.mapName ? [`Map ${battle.mapName}`] : []),
     `Exported ${stampDate(now)}`,
     '',
     'FRAMES',

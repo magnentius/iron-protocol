@@ -5,13 +5,14 @@ import { TERRAIN, TERRAIN_KEYS } from '../data/tables.js';
 import * as R from '../rules.js';
 import { battleTranscript, transcriptFilename } from '../transcript.js';
 import {
-  PHASE_NAMES, advancePhase, deviceId, framesList, getBattle, getFrame,
-  logAction, logBattle, logFrame, mutate, orderedFrames, resetBattle, runEnergyPhase,
+  MAP_NAME_MAX, PHASE_NAMES, advancePhase, deviceId, framesList, getBattle, getFrame,
+  logAction, logBattle, logFrame, mutate, normalizeMapName, orderedFrames,
+  resetBattle, runEnergyPhase,
 } from '../state.js';
 import {
   closeModal, cls, confirmModal, downloadText, empty, esc, logList, meter, openModal, stepper, toast,
 } from './dom.js';
-import { locationStrip, setOpenFrame, statusChips } from './sheet.js';
+import { hexRow, locationStrip, setHex, setOpenFrame, statusChips } from './sheet.js';
 
 export function render() {
   const battle = getBattle();
@@ -70,6 +71,9 @@ function phaseCard(battle, order) {
         ${order.length ? `<div class="tiny dim center">${order.length} active<br>frame${order.length === 1 ? '' : 's'}</div>` : ''}
       </div>
       <div class="small muted" style="margin-bottom:.7rem">${phaseHint(battle.phase)}</div>
+      <input type="text" data-action="set-map-name" placeholder="Battlemat — e.g. Grasslands #2"
+             value="${esc(battle.mapName || '')}" maxlength="${MAP_NAME_MAX}"
+             autocomplete="off" style="margin-bottom:.7rem">
       ${battle.phase === 'energy' && !battle.energyGenerated && order.length ? `
         <button class="btn primary block" data-action="generate-energy" style="margin-bottom:.5rem">
           Generate Energy
@@ -193,6 +197,7 @@ function movementPanel(frame) {
         <span>Movement ${frame.hexesMoved}/${limit} hexes</span>
         <span>${frame.ep} EP pool${frame.capacitor ? ` + ${frame.capacitor} reserve` : ''}</span>
       </div>
+      ${hexRow(frame, 'set-hex-battle')}
       ${terrainRow(frame)}
       ${torsoTwistRow(frame)}
       <div class="row wrap" style="gap:.35rem">
@@ -222,6 +227,13 @@ function movementPanel(frame) {
 
 /** Select elements route here rather than through the click delegate. */
 export function handleChange(action, el) {
+  if (action === 'set-map-name') {
+    mutate(() => { getBattle().mapName = normalizeMapName(el.value); });
+    return true;
+  }
+
+  if (action === 'set-hex-battle') return setHex(el);
+
   if (action === 'set-terrain-battle') {
     const frame = getFrame(el.dataset.frame);
     mutate(() => {

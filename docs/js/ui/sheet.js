@@ -14,8 +14,8 @@ import {
 } from '../data/tables.js';
 import * as R from '../rules.js';
 import {
-  addFrame, deviceId, framesList, getBattle, getFrame, logAction, logFrame, mutate, myFrames,
-  removeFrame, renameFrame,
+  addFrame, deviceId, framesList, getBattle, getFrame, isValidHex, logAction, logFrame, mutate,
+  myFrames, removeFrame, renameFrame,
 } from '../state.js';
 import { FRAME_PRESETS } from '../data/frames.js';
 import { chip, closeModal, cls, confirmModal, esc, logList, meter, openModal, stepper, toast } from './dom.js';
@@ -83,6 +83,46 @@ export function locationStrip(frame) {
         <span>${SHORT[key]}</span>
       </div>`;
   }).join('')}</div>`;
+}
+
+/**
+ * Where the frame stands on the mat.
+ *
+ * Shared with the Battle tab, which shows it beside the movement buttons — the
+ * moment you move is the moment the number is stale, so it belongs next to the
+ * control that made it so. The action differs between the two callers only so
+ * each view can route it through its own handler.
+ */
+export function hexRow(frame, action) {
+  return `
+    <div class="row between" style="gap:.5rem;margin-bottom:.55rem;align-items:center">
+      <span class="tiny dim">Hex</span>
+      <input type="text" class="mono" data-action="${action}" data-frame="${frame.id}"
+             value="${esc(frame.hex || '')}" placeholder="0304" maxlength="4"
+             inputmode="numeric" autocomplete="off" spellcheck="false"
+             style="width:5.5rem;text-align:center;letter-spacing:.12em">
+    </div>`;
+}
+
+/**
+ * Record a hex, or refuse it without destroying what was there.
+ *
+ * A half-typed number is the ordinary case — the field loses focus on the way
+ * to the movement buttons — so an invalid entry is rejected with a toast and
+ * the re-render puts the stored value back, rather than saving nonsense or
+ * silently blanking a position someone had already written down.
+ */
+export function setHex(el) {
+  const frame = getFrame(el.dataset.frame);
+  if (!frame) return true;
+
+  const raw = el.value.trim();
+  if (raw && !isValidHex(raw)) {
+    toast('A hex number is four digits, like 0304', 'error');
+    return true;
+  }
+  mutate(() => { frame.hex = raw; });
+  return true;
 }
 
 export function statusChips(frame) {
@@ -435,6 +475,14 @@ function systemsCard(frame) {
 
       <div class="row between" style="margin-bottom:.4rem;gap:.5rem">
         <div class="grow">
+          <div style="font-weight:600">Position</div>
+          <div class="tiny dim">The hex as printed on the mat — four digits, column then row</div>
+        </div>
+      </div>
+      ${hexRow(frame, 'set-hex')}
+
+      <div class="row between" style="margin-bottom:.4rem;gap:.5rem">
+        <div class="grow">
           <div style="font-weight:600">Terrain</div>
           <div class="tiny dim">Sets Cover rerolls, movement cost and reactor cooling</div>
         </div>
@@ -665,6 +713,8 @@ export function handle(action, el) {
 }
 
 export function handleChange(action, el) {
+  if (action === 'set-hex') return setHex(el);
+
   if (action === 'set-terrain') {
     mutate(() => {
       const f = getFrame(el.dataset.frame);

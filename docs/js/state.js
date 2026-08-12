@@ -59,6 +59,33 @@ export function newRoomCode() {
   return randomId(4);
 }
 
+// --- Map position -----------------------------------------------------------
+
+/**
+ * Hex numbers as printed on a battlemat: two digits of column, two of row.
+ *
+ * Kept as a string rather than a number because the leading zero is part of the
+ * label — 0304 is what is printed on the mat, and 304 is not the same thing to
+ * anyone reading it aloud.
+ */
+export const HEX_PATTERN = /^\d{4}$/;
+
+export function isValidHex(value) {
+  return HEX_PATTERN.test(String(value ?? '').trim());
+}
+
+/** Empty string means "not recorded", which is always a legal state. */
+export function normalizeHex(value) {
+  const raw = String(value ?? '').trim();
+  return isValidHex(raw) ? raw : '';
+}
+
+export const MAP_NAME_MAX = 60;
+
+export function normalizeMapName(value) {
+  return String(value ?? '').trim().slice(0, MAP_NAME_MAX);
+}
+
 // --- Frame construction -----------------------------------------------------
 
 /**
@@ -83,6 +110,9 @@ export function createFrame(presetKey, { id, ownerId, team = 'a', callsign = nul
     pilotBonus,
     vow,
     dishonored: false,
+    // Where it stands on the mat, as printed. Empty until someone records it —
+    // the app never derives or advances this, because it cannot see the board.
+    hex: '',
     log: [],
   });
 }
@@ -92,6 +122,10 @@ export function createBattle({ code = newRoomCode() } = {}) {
     id: code,
     version: SCHEMA_VERSION,
     createdAt: Date.now(),
+    // Which battlemat is on the table, free text — the name printed on the mat.
+    // Additive and optional, so SCHEMA_VERSION does not move: an older save
+    // simply arrives without it rather than being thrown away.
+    mapName: '',
     round: 1,
     phase: 'energy',
     // Whether this round's reactor generation has already been applied. Round 1

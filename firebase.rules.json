@@ -32,6 +32,7 @@
 
         "id": { ".validate": "newData.isString() && newData.val().length <= 8" },
         "version": { ".validate": "newData.isNumber()" },
+        "mapName": { ".validate": "newData.isString() && newData.val().length <= 60" },
         "round": { ".validate": "newData.isNumber() && newData.val() >= 1" },
         "phase": { ".validate": "newData.isString() && newData.val().matches(/^(energy|activation|combat|end)$/)" },
         "createdAt": { ".validate": "newData.isNumber()" },
@@ -44,7 +45,8 @@
             ".validate": "newData.hasChildren(['id', 'presetKey', 'ownerId'])",
             "ownerId": { ".validate": "newData.isString() && newData.val().length <= 32" },
             "presetKey": { ".validate": "newData.val().matches(/^(jackal|specter|vanguard|paladin|colossus)$/)" },
-            "callsign": { ".validate": "newData.isString() && newData.val().length <= 24" }
+            "callsign": { ".validate": "newData.isString() && newData.val().length <= 24" },
+            "hex": { ".validate": "newData.isString() && (newData.val() == '' || newData.val().matches(/^[0-9]{4}$/))" }
           }
         },
 
