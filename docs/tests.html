@@ -30,44 +30,41 @@
 
 <script type="module">
 import { run } from './tests.js';
+import { createHarness } from './test-harness.js';
 
 const out = document.getElementById('out');
-let passed = 0, failed = 0, section = null;
+let section = null;
 
-run({
-  describe(name) {
+function row(name, state) {
+  const el = document.createElement('div');
+  el.className = state === 'fail' ? 'case fail' : 'case';
+  el.innerHTML = state === 'fail'
+    ? `<span class="fail">FAIL</span> ${name}`
+    : `<span class="ok">PASS</span> ${name}`;
+  section.appendChild(el);
+}
+
+const { api, drain } = createHarness({
+  onSuite(name) {
     section = document.createElement('section');
     section.innerHTML = `<h2>${name}</h2>`;
     out.appendChild(section);
   },
-  it(name, fn) {
-    const row = document.createElement('div');
-    row.className = 'case';
-    try {
-      fn();
-      passed++;
-      row.innerHTML = `<span class="ok">PASS</span> ${name}`;
-    } catch (err) {
-      failed++;
-      row.className = 'case fail';
-      row.innerHTML = `<span class="fail">FAIL</span> ${name}`;
-      section.appendChild(row);
-      const detail = document.createElement('div');
-      detail.className = 'detail';
-      detail.textContent = err.message;
-      section.appendChild(detail);
-      return;
-    }
-    section.appendChild(row);
+  onPass(name) {
+    row(name, 'pass');
   },
-  eq(actual, expected, label = '') {
-    const a = JSON.stringify(actual), e = JSON.stringify(expected);
-    if (a !== e) throw new Error(`${label}\n  expected: ${e}\n  actual:   ${a}`);
-  },
-  ok(value, label = 'expected truthy') {
-    if (!value) throw new Error(label);
+  onFail(name, err) {
+    row(name, 'fail');
+    const detail = document.createElement('div');
+    detail.className = 'detail';
+    detail.textContent = err.message;
+    section.appendChild(detail);
   },
 });
+
+run(api);
+const { passed, failures } = await drain();
+const failed = failures.length;
 
 const summary = document.getElementById('summary');
 summary.innerHTML = failed === 0

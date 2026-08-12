@@ -9,7 +9,7 @@
 import * as R from './js/rules.js';
 import { instantiate, FRAME_PRESETS, FRAME_KEYS, costOut } from './js/data/frames.js';
 import { CRIT_TABLES, CRIT_TABLE_MAX, overkillDice, COUNTERMEASURE_CHECK_TN } from './js/data/tables.js';
-import { diffInto } from './js/sync.js';
+import { diffInto, unusedRoomCode } from './js/sync.js';
 import { battleTranscript, transcriptFilename } from './js/transcript.js';
 import { meter } from './js/ui/dom.js';
 import {
@@ -23,7 +23,7 @@ const frame = (key, patch = {}) => Object.assign(instantiate(key), patch);
 const seq = (...rolls) => { let i = 0; return () => (rolls[i++ % rolls.length] - 1) / 6 + 0.0001; };
 const diff = (a, b) => { const out = {}; diffInto(a, b, '', out); return out; };
 
-export function run({ describe, it, eq, ok }) {
+export function run({ describe, it, eq, ok, rejects }) {
   // --- Hit location table (rules.md 6.1) -------------------------------------
   describe('Hit Location Table');
 
@@ -1836,5 +1836,66 @@ export function run({ describe, it, eq, ok }) {
 
   it('deletes removed keys with null rather than dropping them', () => {
     eq(diff({ frames: { a: { ep: 1 } } }, { frames: {} }), { 'frames/a': null });
+  });
+
+  // --- Room code allocation --------------------------------------------------
+  describe('Sync — room codes');
+
+  /**
+   * Stands in for the Firebase database api. `taken` is consulted by room code,
+   * and every lookup is recorded so a test can prove how many draws happened.
+   */
+  const fakeDb = (taken = []) => {
+    const asked = [];
+    return {
+      asked,
+      ref: (_db, path) => path,
+      get: async (path) => {
+        const code = String(path).split('/').pop();
+        asked.push(code);
+        return { exists: () => taken.includes(code) };
+      },
+    };
+  };
+
+  it('hands back a code and confirms it is free first', async () => {
+    const api = fakeDb();
+    const code = await unusedRoomCode(api);
+    ok(/^[A-Z0-9]{4}$/.test(code), `not a room code: ${code}`);
+    eq(api.asked, [code]);
+  });
+
+  it('draws again rather than overwriting a battle already at that code', async () => {
+    const api = fakeDb();
+    // Take whatever the first two draws produce, so the third must be a new one.
+    const first = await unusedRoomCode(fakeDb());
+    const second = await unusedRoomCode(fakeDb());
+    const busy = fakeDb([first, second]);
+
+    const code = await unusedRoomCode({
+      ...busy,
+      // Force the first two draws onto the taken codes, then let chance resume.
+      get: async (path) => {
+        const drawn = String(path).split('/').pop();
+        busy.asked.push(drawn);
+        return { exists: () => busy.asked.length <= 2 };
+      },
+    });
+
+    ok(busy.asked.length === 3, `expected 3 draws, made ${busy.asked.length}`);
+    eq(code, busy.asked[2]);
+  });
+
+  it('gives up rather than clobbering, when every draw is taken', async () => {
+    const api = { ref: (_db, path) => path, get: async () => ({ exists: () => true }) };
+    const err = await rejects(() => unusedRoomCode(api, 3), 'a full keyspace must not resolve');
+    ok(/free room code/.test(err.message), err.message);
+  });
+
+  it('an async case that rejects is reported as a failure, not a pass', async () => {
+    // Guards the harness itself: the previous runner called fn() without
+    // awaiting, so this test would have been counted green while failing.
+    const err = await rejects(async () => { throw new Error('deliberate'); });
+    eq(err.message, 'deliberate');
   });
 }

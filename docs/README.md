@@ -245,8 +245,16 @@ Open `tests.html` in a browser, or from the repo root with Node installed:
 node tools/run-tests.mjs
 ```
 
-239 tests across 30 suites. The browser runner exercises the real ES module graph; the CLI runner
+243 tests across 31 suites. The browser runner exercises the real ES module graph; the CLI runner
 is the same suite.
+
+Both runners share `test-harness.js`, which **collects cases and then awaits them one at a time**,
+so a test may be `async` and still be reported honestly. The obvious harness — call `fn()`, catch
+what it throws — passes every async test ever written: the call returns a promise immediately, the
+try block completes, the case prints green, and the rejection surfaces later as an unhandled
+rejection nobody reads. A test that cannot fail is worse than no test, because it is counted. Use
+`rejects(fn)` to assert a rejection; it returns the error and fails if the call unexpectedly
+succeeds.
 
 ## Rules coverage
 
@@ -291,6 +299,7 @@ docs/
   index.html            app shell
   tests.html            rules engine test runner
   tests.js              the test suite, shared with tools/run-tests.mjs
+  test-harness.js       collect-then-await harness, shared by both runners
   sw.js                 service worker (skipped on localhost)
   css/app.css
   js/

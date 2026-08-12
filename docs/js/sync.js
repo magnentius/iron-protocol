@@ -111,8 +111,12 @@ async function connect(code) {
  * Five draws rather than one: each is independent, so the odds of all five
  * landing on taken codes are negligible until the keyspace is nearly full, at
  * which point a longer code is the real fix.
+ *
+ * Takes the api rather than reaching for the module's own handle so the suite
+ * can drive it: a guard that never fires in normal use is exactly the code that
+ * rots unnoticed.
  */
-async function unusedRoomCode(api, attempts = 5) {
+export async function unusedRoomCode(api, attempts = 5) {
   for (let i = 0; i < attempts; i += 1) {
     const code = newRoomCode();
     const snapshot = await api.get(api.ref(db, `battles/${code}`));

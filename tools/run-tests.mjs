@@ -4,38 +4,25 @@
 // The same suite runs in the browser via docs/tests.html.
 
 import { run } from '../docs/tests.js';
+import { createHarness } from '../docs/test-harness.js';
 
 const green = (s) => `\x1b[32m${s}\x1b[0m`;
 const red = (s) => `\x1b[31m${s}\x1b[0m`;
 const dim = (s) => `\x1b[2m${s}\x1b[0m`;
 
-let passed = 0;
-const failures = [];
+const indent = (message) => red(message.split('\n').map((l) => `      ${l}`).join('\n'));
 
-run({
-  describe(name) {
-    console.log(`\n${dim(name)}`);
-  },
-  it(name, fn) {
-    try {
-      fn();
-      passed++;
-      console.log(`  ${green('✓')} ${name}`);
-    } catch (err) {
-      failures.push({ name, message: err.message });
-      console.log(`  ${red('✗')} ${name}`);
-      console.log(red(err.message.split('\n').map((l) => `      ${l}`).join('\n')));
-    }
-  },
-  eq(actual, expected, label = '') {
-    const a = JSON.stringify(actual);
-    const e = JSON.stringify(expected);
-    if (a !== e) throw new Error(`${label}\n  expected: ${e}\n  actual:   ${a}`);
-  },
-  ok(value, label = 'expected truthy') {
-    if (!value) throw new Error(label);
+const { api, drain } = createHarness({
+  onSuite: (name) => console.log(`\n${dim(name)}`),
+  onPass: (name) => console.log(`  ${green('✓')} ${name}`),
+  onFail: (name, err) => {
+    console.log(`  ${red('✗')} ${name}`);
+    console.log(indent(err.message));
   },
 });
+
+run(api);
+let { passed, failures } = await drain();
 
 // --- Security rules drift (node only) ----------------------------------------
 //
@@ -73,7 +60,7 @@ run({
     failures.push({ name, message: err.message });
     console.log(`\n${dim('Security rules')}`);
     console.log(`  ${red('✗')} ${name}`);
-    console.log(red(err.message.split('\n').map((l) => `      ${l}`).join('\n')));
+    console.log(indent(err.message));
   }
 }
 
