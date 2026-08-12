@@ -560,7 +560,7 @@ Every Frame has a sensor suite consisting of three bands, housed in the Head loc
 2. **Infrared (IR)**: Medium wavelength (approx. 700 nm–1 mm). Thermal sensors detecting heat signatures.
    - *Requires*: Direct Line of Sight (blocked by Elevation normally), but entirely ignores Woods and Smoke penalties. To lock a target hidden behind solid Elevation, a Frame must receive telemetry via a **Tactical Datalink** from a friendly spotter with clear IR LOS.
    - *Sensitivity*: Targets become visible and targetable on IR for the remainder of the **round** the moment they spend their **4th EP** of that round — counted cumulatively across the Energy, Activation and Combat phases, not per activation. *Skin upkeep paid during the Energy Phase does **not** count toward this total — an Adaptive Skin runs cold by design, and a Frame should never be punished on infrared for buying stealth. Every other expenditure counts: movement, weapons fire, standing up. Running cold means genuinely doing very little, and it is the only way to be invisible to infrared without spending a hardpoint on it.*
-   - *The exception is an **Assault Frame**, whose reactor never runs cold: it is **always** IR-lockable, whatever it has spent. This is the same fact as its Movement Limit rather than a separate rule — an Assault chassis tops out at 3 hexes and so can never spend the 4 EP that lights anything else up, which would otherwise leave the largest reactor on the board permanently invisible on infrared. The mass that stops it dodging stops it hiding.*
+   - *The exception is an **Assault Frame**, whose reactor never runs cold: it is **always** IR-lockable, whatever it has spent. This is the same fact as its Movement Limit rather than a separate rule — an Assault chassis tops out at 3 hexes and so can never spend the 4 EP that lights anything else up, which would otherwise leave the largest reactor on the board permanently invisible on infrared. The mass that stops it dodging stops it hiding. The Assault chassis is priced for this — see the design note under the Chassis Limits Table in Section 7.2.*
    - *Blocked by*: an IRCM suite or an Adaptive Skin in Infrared mode, each on a **Countermeasure Check**.
 3. **Microwave (Radar)**: Longest wavelength (approx. 1 mm–1 m). Active microwave radio detection.
    - *Requires*: Direct Line of Sight (blocked by Elevation normally), but entirely ignores Woods and Smoke penalties. To lock a target hidden behind solid Elevation, a Frame must receive telemetry via a **Tactical Datalink** from a friendly spotter with clear Radar LOS.
@@ -919,6 +919,12 @@ Every Frame is defined by its physical **Tonnage** (Weight Class). Tonnage deter
 | **Medium** | 40–55 Tons | Init 6 \| Move 4 \| Reactor 6 \| Capacitor 2 | Init 10 \| Move 5 | 230 pts |
 | **Heavy** | 60–75 Tons | Init 4 \| Move 3 \| Reactor 5 \| Capacitor 2 | Init 6 \| Move 4 | 280 pts |
 | **Assault** | 80–100 Tons | Init 2 \| Move 2 \| Reactor 5 \| Capacitor 2 | Init 4 \| Move 3 | 270 pts |
+
+> **Design Note — why an Assault chassis costs less than a Heavy.** It is not a misprint. An Assault Frame is the only class that can neither dodge nor hide. Its Movement Limit tops out at 3 hexes, one short of the Flank Speed threshold, so it never gains a defensive reroll (Section 1.1) — and because it can never spend the 4th EP that lights a Frame up on infrared, it is instead **always** IR-lockable, whatever it has spent (Section 4.1). Every other chassis in the game can be made hard to see; this one cannot.
+>
+> That second rule was priced rather than guessed. Making the largest reactor on the board permanently visible on infrared cost the Colossus 6.4 points of win rate in matched-frame-count lances; against a measured slope of roughly 11 points of win rate per 100 points of cost, that is worth about 60 points, and the Assault base was cut from 330 to 270 accordingly. Three scenarios came back into their target bands at once — Ghost & Wall 41% → 51%, Hammer & Anvil 58% → 51%, Titan Bout 83% → 62% — and nothing without an Assault Frame in it moved at all.
+>
+> So the ten points between a Heavy and an Assault chassis are the price of a machine that stands still and takes it. If you build a custom Assault Frame, build it knowing that armor and firepower are the whole of its defence.
 
 #### 7.2.0 Hardpoints & Mounting
 
