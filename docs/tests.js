@@ -1222,7 +1222,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(R.effectiveCapacitorMax(vanguard), 4, 'Capacitor Max 6 → 4');
   });
 
-  // --- Frame data (rules.md 7.2, 8, frames/*.md) ----------------------------
+  // --- Frame data (rules.md 7.2, 8, typst/frames/) --------------------------
   describe('Frame Data');
 
   it('every roster frame costs out to its printed point value exactly', () => {

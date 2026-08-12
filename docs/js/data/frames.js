@@ -1,8 +1,8 @@
-// Iron Protocol — the five roster frames (rules.md section 8 + frames/*.md).
+// Iron Protocol — the five roster frames (rules.md section 8 + typst/frames/).
 //
-// The printable frame sheet is the source of truth. Every value here is checked
-// against frames/*.md by the test suite, and every frame is proved to cost out
-// exactly under the section 7.2 construction rules.
+// The printable record sheet is the source of truth. Every value here is checked
+// against it by the test suite, and every frame is proved to cost out exactly
+// under the section 7.2 construction rules.
 //
 // Note there is no Internal Structure and no Evasion. Armor DR is a Frame's only
 // durability stat, and it is a threshold rather than a pool (rules.md 7.2.1).

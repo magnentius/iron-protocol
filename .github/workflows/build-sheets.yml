@@ -1,0 +1,94 @@
+name: Frame Sheets
+
+# Builds every frame record sheet in typst/frames/ and attaches the PDFs to the
+# run. Nothing is committed: the PDFs are derived from the .typ sources and the
+# constants they quote, so keeping copies in the tree would only give them a way
+# to drift — the failure mode this project has spent a lot of effort removing.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'typst/**'
+      - '.github/workflows/build-sheets.yml'
+  pull_request:
+    paths:
+      - 'typst/**'
+      - '.github/workflows/build-sheets.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # Pinned deliberately. An unpinned toolchain is a layout change nobody asked
+  # for, arriving on an unrelated commit.
+  TYPST_VERSION: '0.15.1'
+
+jobs:
+  build:
+    name: Build record sheets
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # The template's first-choice faces are macOS ones. Libertinus Serif and
+      # DejaVu Sans Mono ship with Typst; DejaVu Sans does not, so install it and
+      # the runner resolves the same stack the sheets were designed against.
+      - name: Install fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends fonts-dejavu-core
+          fc-cache -f
+
+      - name: Install Typst ${{ env.TYPST_VERSION }}
+        run: |
+          set -euo pipefail
+          url="https://github.com/typst/typst/releases/download/v${TYPST_VERSION}/typst-x86_64-unknown-linux-musl.tar.xz"
+          curl -fsSL "$url" -o typst.tar.xz
+          tar -xJf typst.tar.xz
+          sudo install typst-x86_64-unknown-linux-musl/typst /usr/local/bin/typst
+          typst --version
+
+      - name: Build print and screen PDFs
+        run: |
+          set -euo pipefail
+          mkdir -p out/print out/screen
+          for src in typst/frames/*.typ; do
+            name="$(basename "$src" .typ)"
+            echo "::group::$name"
+            typst compile --root . "$src" "out/print/${name}.pdf"
+            typst compile --root . --input theme=screen "$src" "out/screen/${name}-screen.pdf"
+            echo "::endgroup::"
+          done
+          ls -la out/print out/screen
+
+      # A record sheet that runs to two pages is unusable at the table, and the
+      # overflow is silent — the PDF still builds. Typst will only write multiple
+      # PNGs when there are multiple pages, so counting them is the check.
+      - name: Every sheet must fit on one page
+        run: |
+          set -euo pipefail
+          mkdir -p .pagecheck
+          fail=0
+          for src in typst/frames/*.typ; do
+            name="$(basename "$src" .typ)"
+            typst compile --root . --format png --ppi 40 "$src" ".pagecheck/${name}-{p}.png"
+            pages="$(find .pagecheck -name "${name}-*.png" | wc -l | tr -d ' ')"
+            if [ "$pages" -ne 1 ]; then
+              echo "::error file=${src}::${name} renders ${pages} pages; a record sheet must be exactly 1"
+              fail=1
+            else
+              echo "ok  ${name} — 1 page"
+            fi
+          done
+          exit "$fail"
+
+      - name: Upload sheets
+        uses: actions/upload-artifact@v4
+        with:
+          name: frame-sheets
+          path: out/
+          if-no-files-found: error
+          retention-days: 90

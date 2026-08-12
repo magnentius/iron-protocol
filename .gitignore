@@ -2,3 +2,8 @@
 firebase-debug.log
 firebase-debug.*.log
 .DS_Store
+
+# Typst build output — the workflow attaches these to each run instead.
+typst/**/*.pdf
+out/
+.pagecheck/

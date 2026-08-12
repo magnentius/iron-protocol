@@ -1,5 +1,5 @@
-// Frame sheet — the digital equivalent of frames/*.md, with the derived numbers
-// kept live. Everything here is manually adjustable; the attack resolver writes
+// Frame sheet — the digital equivalent of the printed record sheets in
+// typst/frames/, with the derived numbers kept live. Everything here is manually adjustable; the attack resolver writes
 // to the same fields.
 //
 // The two trackers deliberately mirror the paper sheet, because players will

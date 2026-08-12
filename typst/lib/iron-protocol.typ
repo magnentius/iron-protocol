@@ -36,9 +36,12 @@
   armor:    rgb("#6ea8d8"),
 )
 
-#let sans  = "Helvetica Neue"
-#let serif = "Iowan Old Style"
-#let mono  = "Menlo"
+// Font stacks, not single names. The first entry is what this was designed on
+// (macOS); the last is always something Typst bundles or CI installs, so a Linux
+// runner produces the same document rather than silently falling back to defaults.
+#let sans  = ("Helvetica Neue", "DejaVu Sans")        // DejaVu is installed by CI
+#let serif = ("Iowan Old Style", "Libertinus Serif")  // Libertinus ships with Typst
+#let mono  = ("Menlo", "DejaVu Sans Mono")            // DejaVu Mono ships with Typst
 
 #let pal = state("pal", palette-print)
 
@@ -50,7 +53,7 @@
 
   set page(
     paper: "us-letter",
-    margin: (x: 1.3cm, y: 0.85cm),
+    margin: (x: 1.25cm, y: 0.7cm),
     fill: p.paper,
     footer: context [
       #set text(size: 6.5pt, font: mono, fill: p.dim)
@@ -199,3 +202,82 @@
       ))),
   )
 }
+
+// --- The critical log -------------------------------------------------------
+//
+// Identical on every Frame in the game: Head 5, Torso 8, Arms 6, Legs 6, each
+// climbing the same Severity Ladder. It lives here rather than in five sheets
+// so a rules change lands once — the whole argument for this template.
+
+#let crit-log() = grid(columns: (1fr, 1fr), gutter: 8pt, align: (top, top),
+
+  stack(dir: ttb, spacing: 5pt,
+    crit-table("Head — 5 slots", (
+      crit-slot(1, "Sensor Ghosting", "drop all locks; none until end of next activation"),
+      crit-slot(2, "Calibration Drift", "1 EP each Energy Phase or no locks"),
+      crit-slot(3, "Sensor Array Destroyed", "1d6 — 1–2 IR, 3–4 VIS, 5–6 Radar; permanent"),
+      crit-slot(4, "Structural Fracture", "Head DR to 0; Datalink severed", tier: "fracture"),
+      crit-slot(5, "Pilot K.O.", "Frame disabled — destroyed", tier: "fatal"),
+    )),
+    crit-table("Torso — 8 slots", (
+      crit-slot(1, "System Glitch", "−1 EP generated next round"),
+      crit-slot(2, "Servo Lock", "Torso Twist costs 2 EP"),
+      crit-slot(3, "Capacitor Leak", "Cap Max −2; lose 2 stored EP now"),
+      crit-slot(4, "Structural Fracture", "Torso DR to 0", tier: "fracture"),
+      crit-slot(5, "Reactor Damage", "−2 EP per round, permanently"),
+      crit-slot(6, "Ammo Explosion", "volatile store detonates; +2 Torso crits", tier: "fatal"),
+      crit-slot(7, "Electrical Fire", "1 crit each End Phase; 3 EP and a 4+ to smother"),
+      crit-slot(8, "Containment Failure", "2d6 to adjacent hexes; destroyed", tier: "fatal"),
+    )),
+  ),
+
+  stack(dir: ttb, spacing: 5pt,
+    crit-table("Arms — 6 slots each (L / R)", (
+      crit-slot(1, "Targeting Jitter", "−1 damage on this arm's next attack"),
+      crit-slot(2, "Actuator Strain", "weapons in this arm cost +1 EP"),
+      crit-slot(3, "Hardpoint Failure", "−1 damage die, permanently"),
+      crit-slot(4, "Structural Fracture", "this arm's DR to 0", tier: "fracture"),
+      crit-slot(5, "Weapon Destroyed", "the mounted weapon is lost"),
+      crit-slot(6, "Arm Severed", "arm and everything in it destroyed", tier: "fatal"),
+    )),
+    crit-table("Legs — 6 slots each (L / R)", (
+      crit-slot(1, "Servo Stutter", "Move Limit −2 until end of next activation"),
+      crit-slot(2, "Knee Lock", "Walk and Reverse cost +1 EP per hex"),
+      crit-slot(3, "Hip Actuator", "Move Limit −2, permanently"),
+      crit-slot(4, "Structural Fracture", "this leg's DR to 0", tier: "fracture"),
+      crit-slot(5, "Actuator Destroyed", "Prone; check to rise at −2; cannot jump", tier: "fatal"),
+      crit-slot(6, "Leg Severed", "Prone; crippled; never walks again", tier: "fatal"),
+    )),
+  ),
+)
+
+/// The status / terrain / facing strip carried by every sheet.
+#let status-strip() = context {
+  let p = pal.get()
+  card({
+    grid(columns: (auto, 1fr), gutter: 8pt, align: (horizon, horizon),
+      stack(dir: ltr, spacing: 4pt,
+        chip("Prone", kind: "warn"), chip("Flank Speed", kind: "ok"), chip("Destroyed", kind: "danger")),
+      text(size: 6.3pt, fill: p.muted)[
+        *Terrain* Clear · Paved · Rough · Water · Woods · Building #h(0.8em)
+        *Torso facing* Left 60° · Centred · Right 60°, set once after all movement
+      ],
+    )
+  })
+}
+
+/// One equipment entry, stacked so it fits a half-width column.
+#let equip-row(mount, head, detail) = context {
+  let p = pal.get()
+  stack(dir: ttb, spacing: 1pt,
+    { chip(mount) + h(4pt) + text(size: 7.4pt)[#head] },
+    text(size: 6.4pt, fill: p.muted)[#detail],
+  )
+}
+
+/// A titled equipment card — weapons on one side, defensive systems on the other.
+#let equip-card(title, rows) = card({
+  label-text(title)
+  v(4pt)
+  stack(dir: ttb, spacing: 4pt, ..rows)
+})
