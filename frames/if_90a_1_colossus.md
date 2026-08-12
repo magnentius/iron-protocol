@@ -6,8 +6,8 @@
 * **Hardpoints**: Head 1L | Torso 2M+3L | L.Arm 1H | R.Arm 1H
 
 ### ⚡ Energy
-* **Reactor EP (18/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5 (IR Lockable)` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12` | `[ ] 13` | `[ ] 14` | `[ ] 15` | `[ ] 16` | `[ ] 17` | `[ ] 18`  
-  *(Fill left-to-right during Energy Phase to generate EP. Erase/unmark right-to-left as EP is spent; spending 5+ EP total during the turn makes the Frame vulnerable to IR locks)*
+* **Reactor EP (18/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10` | `[ ] 11` | `[ ] 12` | `[ ] 13` | `[ ] 14` | `[ ] 15` | `[ ] 16` | `[ ] 17` | `[ ] 18`  
+  *(Fill left-to-right during Energy Phase to generate EP. Erase/unmark right-to-left as EP is spent. **An Assault chassis never runs cold: it is always lockable on IR, whatever it has spent.** Capped one hex short of the Flank Speed threshold, it can never spend the EP that lights anything else up — the mass that stops it dodging stops it hiding.)*
 * **Capacitor Storage (Max 10 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8` | `[ ] 9` | `[ ] 10`
 
 ### 🔫 Armaments & Systems

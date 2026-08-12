@@ -6,8 +6,8 @@
 * **Hardpoints**: Head 1L | Torso 2L | L.Arm 1L | R.Arm 1L
 
 ### ⚡ Energy
-* **Reactor EP (8/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4` | `[ ] 5 (IR Lockable)` | `[ ] 6` | `[ ] 7` | `[ ] 8`  
-  *(Fill left-to-right during Energy Phase to generate EP. Erase/unmark right-to-left as EP is spent; spending 5+ EP total during the turn makes the Frame vulnerable to IR locks)*
+* **Reactor EP (8/turn)**: `[ ] 1` | `[ ] 2` | `[ ] 3` | `[ ] 4 (IR Lockable)` | `[ ] 5` | `[ ] 6` | `[ ] 7` | `[ ] 8`  
+  *(Fill left-to-right during Energy Phase to generate EP. Erase/unmark right-to-left as EP is spent; spending the **4th EP** in a round leaves a heat bloom, and the Frame is lockable on IR for the rest of that round. Adaptive Skin upkeep does not count toward the total.)*
 * **Capacitor Storage (Max 3 EP)**: `[ ] 1` | `[ ] 2` | `[ ] 3`
 
 ### 🔫 Armaments & Systems
