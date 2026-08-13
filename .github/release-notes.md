@@ -1,38 +1,32 @@
 ## What changed in this edition
 
-**One rule changed outright.** The Advantage Player now simply *goes first* on
-every Initiative tie — in deployment, in the Activation Phase and in the Combat
-Phase. Previously they chose which tied Frame went first, which was a strictly
-better deal and a decision made up to twice a round with no real tension in it.
-Note that first is not consistently the good end: placing first is placing blind
-and moving first is committing blind, so only firing first is worth having.
+**No rules changed.** The rulebook is identical to the previous edition apart
+from its edition line, and nothing in it has been renumbered. If you have a
+current printout of the rules you do not need a new one — this release is
+entirely about the **record sheets**, which are worth reprinting.
 
-**Deployment is now fully specified** (§1.4). It was a paragraph that left three
-questions unanswered. Every Frame on the board deploys in one order of ascending
-Initiative, lowest first regardless of side, each within 2 hexes of its own home
-edge; the deploying player sets Leg Facing freely and Torso Facing starts aligned
-with it. Every Frame is deployed — there are no reserves. Deployment order now
-matches the Activation Phase, so a slow Frame commits to ground before it has
-seen much and a scout places last.
+**The terrain row is gone from the sheets.** Terrain is a property of the hex,
+and the hex is on the table in front of you. Everything left on the state strip
+is a property of the machine and invisible from across the board — Prone, Flank
+Speed, Destroyed, Torso facing. The strip is now two rows that split the way the
+information does: *State* for the Frame, *Board* for where it is standing.
 
-**New sections.** §2.5 Ending the Battle — last force standing, what surrender
-means, and a 15-round limit decided on destroyed Deployment Points. §6.5.6 The
-Wreck — it stays on the board, blocks movement and line of sight, and grants no
-Cover. §8.0 Reading a Designation — what `IF-45M-1A1` actually says.
+**The infrared track is gone too.** It was four numbered boxes sitting directly
+under a note that already stated the same rule, and the count was never hard to
+hold: above 4 EP you cross the threshold on your first action and stop thinking
+about it, and below it you are running cold deliberately, which makes counting to
+three the whole plan for your round. The rule is now one sentence — and it now
+says the part that actually catches people out, which is that **EP spent from the
+Capacitor counts toward the threshold**. That is the part the pip row can never
+show you.
 
-**Seven worked examples**, each with real Frames and each checked against the
-rules engine before it was written. Plus a ruling that a cold read could not
-settle: a Forward Walk enters the single hex the Leg Facing points at, and there
-is no diagonal step.
+**Shorter headers.** The ammunition instruction went from two lines to one; what
+it lost was three things printed elsewhere on the same card. The Autocannon store
+no longer explains that it is one magazine however it is fired — being a single
+row with a single box says that already, and Section 5 states the rule outright.
 
-**Four binding traits** were sitting inside a box the rules say you may skip.
-They are rules, and they now read as rules.
-
-**Record sheet fixes.** The ammunition tick-boxes are gone — they contradicted
-the Ammo Die, which does not count rounds; there is now a box that records only
-that a store is spent. The IR-lockable marker sat at the wrong threshold. The
-state strip records something instead of decorating. There is somewhere to write
-the hex and the name of the mat.
+**Nothing on a sheet is maintained by hand any more** that the sheet can work out
+for itself, including how the reactor pips wrap.
 
 ---
 
