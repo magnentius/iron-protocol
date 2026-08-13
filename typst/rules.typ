@@ -231,25 +231,23 @@ To begin a game of _Iron Protocol_, players complete the following setup steps:
 + *Agree on Force Limit*: Players select a Deployment Point budget (e.g. 500 pts for introductory 1v1, 1000 pts for 2v2 Element combat, 1500 pts for 3v3–4v4 Platoon battles).
 + *Select Frames & Pilots*: Players choose pre-built technical readouts from the *Iron Frame Roster (#sec("8"))* or construct custom frames using Section 7.2.
 + *Determine the Advantage Player*: whoever brings the *lower* total force cost is the *Advantage Player* — deliberately spending less than the budget to claim it is called a *Point Bid*. If the two forces cost the same, roll 2d6; the higher roll takes it. The Advantage Player chooses their home map edge and settles every Initiative tie for the rest of the battle.
-+ *Map Setup & Unit Deployment*: Lay out hex map tiles. The Advantage Player chooses their home map edge and deploys first. Deployment then *alternates* between the two players, and each player places their own Frames in *ascending Initiative order* — slowest first, fastest last. Each Frame is placed within 2 hexes of its own home edge, and the deploying player sets its Leg Facing freely; its Torso Facing begins aligned with the legs. Where one force has more Frames than the other, alternation continues until the smaller force is fully deployed, and the larger then places whatever remains, still slowest first. *Every Frame in a force is deployed* — there are no reserves and nothing is held back unless a scenario provides for it.
++ *Map Setup & Unit Deployment*: Lay out hex map tiles. The Advantage Player chooses their home map edge. Every Frame on the board then deploys in a single order of *ascending Initiative* — lowest first, regardless of side — each placed within 2 hexes of its own home edge. Where Frames on *opposing* sides are tied on Initiative, the Advantage Player places first and the tied Frames alternate from there; where a player's *own* Frames are tied, that player places them in whatever order they choose. The deploying player sets that Frame's Leg Facing freely, and its Torso Facing begins aligned with the legs. *Every Frame in a force is deployed* — there are no reserves and nothing is held back unless a scenario provides for it.
 + *Pre-Combat System Activation*: Frames carrying an *Adaptive Skin* or *ECM* may deploy with those systems *Active*, and the 2 EP upkeep for each is deducted in the Round 1 Energy Phase exactly as in every later round. Deployment decides only whether a system is *running*. An Adaptive Skin's cloaked band is chosen in that first Energy Phase like any other (#sec("4.2")), so nothing about which spectrum you are hiding on is committed before the board is set.
 
 #design-note[
-  Deployment runs the same way the Activation Phase does, and for the same
-  reason. A slow Frame commits to its ground before it has seen much, and a fast
-  one places last with the whole board in front of it — the identical trade the
-  turn sequence makes every round, arriving before the first round begins. It
-  also means nobody chooses their deployment order: your scout goes last because
-  it is your scout, not because you decided to hold it back.
+  Deployment runs in exactly the order the Activation Phase does, and for the
+  same reason. A slow Frame commits to its ground before it has seen much, and a
+  fast one places last with the whole board in front of it — the identical trade
+  the turn sequence makes every round, arriving before the first round begins.
+  It also means nobody chooses their deployment order. Your scout goes last
+  because it is your scout, not because you decided to hold it back, and an
+  assault chassis plants itself first whatever you would rather do.
 
-  Deploying first is what the Advantage Player pays for choosing the ground.
-  Placing last is worth roughly what the edge is worth, and that player already
-  settles every Initiative tie for the whole battle; handing them all three would
-  leave the Point Bid as the only decision in setup that mattered.
-
-  The uneven case is the compensation for being outnumbered: a lance of four
-  against a lance of two alternates twice, and the larger force then places its
-  remaining pair knowing everything.
+  Note which half of a tie the Advantage Player takes. Everywhere else in the
+  rules they *choose* the order of tied Frames; here they simply go first, and
+  going first in deployment is the worse end of the deal — it is placing blind.
+  That is a small standing cost paid for choosing the ground, and it is why this
+  tie-break is not written the way the ones in Sections 2.2 and 2.3 are.
 ]
 
 === 1.4.1 Introductory Scenario: Trial by Fire (1v1 Duel)
