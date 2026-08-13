@@ -526,7 +526,7 @@ Line of Sight (LOS) between an Attacker (standing on Level A, top height A+2) an
 === 1. Terrain & Elevation LOS Formula
 
 An intervening hex of elevation level Y or building height Y blocks *all* sensor locks (VIS, IR, Radar) if:
-#design-note[
+#rule-box[
 *LOS Blocked if Y ≥ min(A + 2, B + 2)*
 ]
 
@@ -760,7 +760,7 @@ _The price is that it cannot be aimed narrowly. Seven hexes is a wide pattern on
 
 Many weapons and utility systems share standardized mechanical behaviors, represented by keywords or Traits. There are four, and every one of them is defined here.
 
-#design-note[
+#rule-box[
 *Trait: Armor Piercing (AP X)*
 The weapon ignores up to *X* points of the target's Armor DR when calculating damage. An AP 3 weapon fired at a location with Armor DR 5 treats that DR as 2.
 

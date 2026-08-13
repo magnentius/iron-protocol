@@ -115,6 +115,16 @@
   )
 }
 
+/// A rule set apart for emphasis — a formula, a trait definition. Binding,
+/// and deliberately styled unlike a design note: the note convention promises
+/// the reader that anything in that box can be skipped.
+#let rule-box(body) = context {
+  let p = pal.get()
+  block(width: 100%, above: 10pt, below: 10pt,
+    fill: p.surface, stroke: (left: 2pt + p.ink.transparentize(55%)),
+    inset: (x: 9pt, y: 7pt), body)
+}
+
 /// The chapter epigraphs.
 #let epigraph(quote, source) = context {
   let p = pal.get()
