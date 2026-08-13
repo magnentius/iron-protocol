@@ -1,0 +1,86 @@
+name: Deploy tracker
+
+# Deploys the Battle Tracker to Firebase Hosting, with the database rules.
+#
+# Kept separate from Release on purpose. The app and the rulebook change at
+# different rates — a rules erratum should not redeploy the app, and a CSS fix
+# should not cut a rules release — they fail in different ways, and only this
+# one needs a credential.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'firebase.json'
+      - 'firebase.rules.json'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-tracker
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Test, stamp and deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # git describe needs the tags
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Nothing deploys over a failing suite. This is also the first time the
+      # tests have gated anything.
+      - name: Run the rules engine tests
+        run: node tools/run-tests.mjs
+
+      # The service worker's VERSION is a cache key: if it does not change when
+      # the code does, every client keeps serving the previous build from an
+      # unchanged key, and no later deploy can dislodge it. It has been bumped
+      # by hand until now, which is a manual step with a silent failure mode.
+      # git describe changes on every commit, so it cannot be forgotten.
+      - name: Stamp the service worker
+        run: |
+          set -euo pipefail
+          version="$(git describe --tags --always --dirty)"
+          echo "Stamping sw.js VERSION = $version"
+          perl -pi -e "s/^const VERSION = '.*';/const VERSION = '${version}';/" docs/sw.js
+          grep -n "^const VERSION" docs/sw.js
+
+      - name: Authenticate to Firebase
+        env:
+          KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          set -euo pipefail
+          if [ -z "${KEY:-}" ]; then
+            echo "::error::FIREBASE_SERVICE_ACCOUNT is not set — see .github/workflows/deploy.yml"
+            exit 1
+          fi
+          printf '%s' "$KEY" > "$RUNNER_TEMP/firebase-key.json"
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$RUNNER_TEMP/firebase-key.json" >> "$GITHUB_ENV"
+
+      - name: Deploy hosting and database rules
+        run: |
+          set -euo pipefail
+          npm install -g firebase-tools@13
+          firebase deploy --only hosting,database --project iron-protocol-406da --non-interactive
+
+      # A green deploy step is not proof the right bytes are being served.
+      - name: Verify what is live
+        run: |
+          set -euo pipefail
+          expected="$(git describe --tags --always --dirty)"
+          for host in iron-protocol-406da.web.app play.ironproto.app; do
+            live="$(curl -fsSL "https://$host/sw.js" | sed -n "s/^const VERSION = '\(.*\)';/\1/p")"
+            echo "$host serving VERSION $live"
+            [ "$live" = "$expected" ] || { echo "::error::$host is serving '$live', expected '$expected'"; exit 1; }
+          done

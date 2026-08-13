@@ -10,7 +10,7 @@
 // so on), and auto-numbering cannot produce "5.0" at all — it would renumber
 // 7.2.0 upward and silently invalidate every one of those citations.
 
-#import "iron-protocol.typ": palette-print, palette-screen, sans, serif, mono
+#import "iron-protocol.typ": palette-print, palette-screen, sans, serif, mono, edition
 
 #let pal = state("rules-pal", palette-print)
 
@@ -38,8 +38,9 @@
     },
     footer: context {
       if counter(page).get().first() <= 1 { return }
-      set text(font: mono, size: 7.5pt, fill: p.muted)
-      align(center, counter(page).display())
+      set text(font: mono, size: 7pt, fill: p.muted)
+      grid(columns: (1fr, auto, 1fr), align: (left, center, right),
+        text(fill: p.dim)[#edition], counter(page).display(), [])
     },
   )
 
@@ -145,6 +146,8 @@
     text(size: 12pt, style: "italic", fill: p.muted)[#subtitle]
     v(24pt)
     if art != none { image(art, width: 74%) }
+    v(14pt)
+    text(font: mono, size: 8pt, fill: p.muted, tracking: 0.1em)[#upper(edition)]
     if tagline != none {
       v(18pt)
       block(width: 72%, align(center, text(size: 9pt, style: "italic", fill: p.dim, tagline)))

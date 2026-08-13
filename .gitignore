@@ -7,3 +7,4 @@ firebase-debug.*.log
 typst/**/*.pdf
 out/
 .pagecheck/
+dist/

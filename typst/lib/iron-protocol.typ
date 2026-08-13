@@ -56,6 +56,19 @@
 
 #let pal = state("pal", palette-print)
 
+/// What edition this artifact is, for the footer of everything.
+///
+/// A player holds a printout, not a git tag, so the only thing that can tell
+/// them how current their copy is has to be printed on it. Releases pass the
+/// date in; anything else is honestly labelled a draft so a local build is
+/// never mistaken for the published one.
+#let edition = {
+  let e = sys.inputs.at("edition", default: none)
+  if e != none { "Edition " + e } else {
+    "Draft " + datetime.today().display("[year]-[month]-[day]")
+  }
+}
+
 // --- Document shell ---------------------------------------------------------
 
 #let frame-sheet(theme: "print", title: none, body) = {
@@ -70,7 +83,7 @@
       #set text(size: 6.5pt, font: mono, fill: p.dim)
       #grid(columns: (1fr, auto),
         align: (left, right),
-        [IRON PROTOCOL · FRAME RECORD SHEET],
+        [IRON PROTOCOL · FRAME RECORD SHEET · #edition],
         [#title #h(0.6em) #counter(page).display()],
       )
     ],
