@@ -77,15 +77,10 @@
 
 // --- Ammo dice --------------------------------------------------------------
 
-#card({
-  label-text("Ammunition — tick a use; nothing reloads in the field")
-  v(4pt)
-  grid(columns: (1fr, 1fr, 1fr), gutter: 8pt, align: (left, left, left),
-    { text(font: mono, size: 6.5pt, fill: rgb("#5d6b7d"))[Autocannon · empty on 1]; v(2pt); pip-row(6) },
-    { text(font: mono, size: 6.5pt, fill: rgb("#5d6b7d"))[Full Auto · empty on 1–3]; v(2pt); pip-row(2) },
-    { text(font: mono, size: 6.5pt, fill: rgb("#5d6b7d"))[Jump propellant · empty on 1–2]; v(2pt); pip-row(3) },
-  )
-})
+#ammo-card((
+  ammo-store([Autocannon *— one magazine, however it is fired*], [1, or 1–3 on Full Auto]),
+  ammo-store([Jump Jet propellant], [1–2]),
+))
 
 #v(3pt)
 

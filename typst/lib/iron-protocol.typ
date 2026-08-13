@@ -305,3 +305,24 @@
   v(4pt)
   stack(dir: ttb, spacing: 4pt, ..rows)
 })
+
+/// One Ammo Die store: a single box to mark when it runs dry.
+///
+/// Not a countdown. The Ammo Die exists precisely so that nobody counts rounds
+/// — "expect roughly six attacks" is what the die averages to, not a budget, and
+/// a store can run dry on its first roll or last all battle. A row of pips would
+/// promise a number the rules never give you.
+#let ammo-store(name, empty-on) = context {
+  let p = pal.get()
+  grid(columns: (auto, 1fr, auto), gutter: 5pt, align: (horizon, horizon, horizon),
+    box(width: 10pt, height: 10pt, radius: 1.5pt, stroke: 0.6pt + p.border, fill: p.paper),
+    text(size: 7.4pt)[#name],
+    text(font: mono, size: 6.6pt, fill: p.danger)[empty on #empty-on],
+  )
+}
+
+#let ammo-card(stores) = card({
+  label-text("Ammunition — roll the Ammo Die after each attack; at or below the number it is Empty for the battle")
+  v(4pt)
+  grid(columns: (1fr, 1fr), gutter: 10pt, row-gutter: 4pt, ..stores)
+})

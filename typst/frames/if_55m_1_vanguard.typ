@@ -61,15 +61,10 @@
 
 #v(2pt)
 
-#card({
-  label-text("Ammunition — tick a use; nothing reloads in the field")
-  v(3pt)
-  grid(columns: (1fr, 1fr, 1fr), gutter: 8pt, align: (left, left, left),
-    { text(font: mono, size: 6.5pt, fill: rgb("#5d6b7d"))[Autocannon · empty on 1]; v(1pt); pip-row(6) },
-    { text(font: mono, size: 6.5pt, fill: rgb("#5d6b7d"))[Full Auto · empty on 1–3]; v(1pt); pip-row(2) },
-    { text(font: mono, size: 6.5pt, fill: rgb("#5d6b7d"))[Chaff · empty on 1]; v(1pt); pip-row(6) },
-  )
-})
+#ammo-card((
+  ammo-store([Autocannon *— one magazine, however it is fired*], [1, or 1–3 on Full Auto]),
+  ammo-store([Chaff Dispenser], [1]),
+))
 
 #v(2pt)
 

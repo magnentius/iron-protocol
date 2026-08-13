@@ -67,15 +67,11 @@
 
 #v(2pt)
 
-#card({
-  label-text("Ammunition — tick a use; nothing reloads in the field")
-  v(3pt)
-  grid(columns: (1fr, 1fr, 1fr), gutter: 8pt, align: (left, left, left),
-    { text(font: mono, size: 6.5pt, fill: rgb("#5d6b7d"))[EMP missiles · empty on 1–2]; v(1pt); pip-row(3) },
-    { text(font: mono, size: 6.5pt, fill: rgb("#5d6b7d"))[Smoke · empty on 1]; v(1pt); pip-row(6) },
-    { text(font: mono, size: 6.5pt, fill: rgb("#5d6b7d"))[Chaff · empty on 1]; v(1pt); pip-row(6) },
-  )
-})
+#ammo-card((
+  ammo-store([Guided Missiles — EMP], [1–2]),
+  ammo-store([Smoke Launcher], [1]),
+  ammo-store([Chaff Dispenser], [1]),
+))
 
 #v(2pt)
 

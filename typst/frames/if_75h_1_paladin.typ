@@ -62,16 +62,12 @@
 
 #v(3pt)
 
-#card({
-  label-text("Ammunition — tick a use; nothing reloads in the field")
-  v(3pt)
-  grid(columns: (1fr, 1fr, 1fr, 1fr), gutter: 7pt, align: (left, left, left, left),
-    { text(font: mono, size: 6.3pt, fill: rgb("#5d6b7d"))[Autocannon · 1]; v(1pt); pip-row(6) },
-    { text(font: mono, size: 6.3pt, fill: rgb("#5d6b7d"))[Missiles · 1–2]; v(1pt); pip-row(3) },
-    { text(font: mono, size: 6.3pt, fill: rgb("#5d6b7d"))[Smoke · 1]; v(1pt); pip-row(6) },
-    { text(font: mono, size: 6.3pt, fill: rgb("#5d6b7d"))[Chaff · 1]; v(1pt); pip-row(6) },
-  )
-})
+#ammo-card((
+  ammo-store([Autocannon *— one magazine, however it is fired*], [1, or 1–3 on Full Auto]),
+  ammo-store([Guided Missiles], [1–2]),
+  ammo-store([Smoke Launcher], [1]),
+  ammo-store([Chaff Dispenser], [1]),
+))
 
 #v(3pt)
 
