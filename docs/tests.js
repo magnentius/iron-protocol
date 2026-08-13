@@ -425,6 +425,24 @@ export function run({ describe, it, eq, ok, rejects }) {
     }
   });
 
+  it('charge drawn from the Capacitor counts toward the threshold', () => {
+    // The printed sheet got this wrong: it tied the threshold to a position on
+    // the reactor pool row, which reserve spending never touches. The rule
+    // counts EP spent from any source.
+    const f = frame('vanguard', { ep: 0, capacitor: 6, epSpentThisTurn: 0 });
+    eq(R.isIRLockable(f), false, 'nothing spent yet');
+    const r = R.spendEP(f, 4);
+    eq([r.ok, r.fromPool, r.fromCapacitor], [true, 0, 4], 'all four came from the reserve');
+    eq(R.isIRLockable(f), true, 'and the Frame is lit up regardless of where it came from');
+  });
+
+  it('an Overcharge counts toward the threshold too', () => {
+    const f = frame('vanguard', { ep: 10, capacitor: 6, epSpentThisTurn: 0 });
+    R.spendEP(f, 2, { overcharge: 2 });
+    eq(f.epSpentThisTurn, 4, 'base plus overcharge');
+    eq(R.isIRLockable(f), true);
+  });
+
   it('running cold is a hard block, not a Countermeasure Check', () => {
     // Nothing to contest, because there is no signature to find.
     eq(R.targetLockBlockedReason(frame('jackal', { epSpentThisTurn: 0 }), 'ir') !== null, true);
