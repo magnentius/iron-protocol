@@ -157,6 +157,46 @@
   }))
 }
 
+/// A muted note inside a card, for sheets writing their own rather than passing
+/// one to a component. Takes its colour from the palette: the frame files used
+/// to spell the print theme's ink as a literal, which left every note dark on a
+/// dark ground in the screen build.
+#let note(body, size: 6.5pt) = context {
+  text(size: size, fill: pal.get().muted, body)
+}
+
+/// The two energy cards.
+///
+/// A Frame's reactor figure used to be typed three times per sheet — once in the
+/// stat strip, once in this card's header, and once as the pip count — with
+/// nothing comparing the copies. A pip row that disagrees with the header above
+/// it renders perfectly and fits on the page. Both cards now take the number
+/// once, and the sheet passes the same variable to the stat strip.
+///
+/// The note colour comes from the palette rather than a literal, so it follows
+/// the screen theme instead of staying print-dark on a dark ground.
+#let reactor-card(ep, note, emphasis: false) = context {
+  let p = pal.get()
+  card(tint: if emphasis { p.warn } else { none }, {
+    label-text("Reactor pool — " + str(ep) + " EP per round")
+    v(4pt)
+    pip-row(ep)
+    v(3pt)
+    text(size: 6.5pt, fill: if emphasis { p.warn } else { p.muted })[#note]
+  })
+}
+
+#let capacitor-card(ep, note) = context {
+  let p = pal.get()
+  card({
+    label-text("Capacitor — max " + str(ep) + " EP")
+    v(4pt)
+    pip-row(ep)
+    v(3pt)
+    text(size: 6.5pt, fill: p.muted)[#note]
+  })
+}
+
 /// Armour DR track: boxes crossed off from the highest down to zero.
 #let dr-track(loc, max) = context {
   let p = pal.get()

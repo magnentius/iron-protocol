@@ -11,10 +11,14 @@
 #state-strip()
 #v(3pt)
 
+// Written once, read by the stat strip, the card headers and the pip counts.
+#let reactor = 14
+#let capacitor = 8
+
 #stat-strip(
   ("Initiative", "5"),
-  ("Reactor", "14 EP"),
-  ("Capacitor", "8 EP"),
+  ("Reactor", str(reactor) + " EP"),
+  ("Capacitor", str(capacitor) + " EP"),
   ("Move limit", "4 hex"),
   ("Flank speed", "4 hex"),
   ("Jump", "—"),
@@ -23,27 +27,15 @@
 #v(3pt)
 
 #grid(columns: (1.35fr, 1fr), gutter: 9pt,
-  card({
-    label-text("Reactor pool — 14 EP per round")
-    v(4pt)
-    pip-row(14)
-    v(3pt)
-    text(size: 6.5pt, fill: rgb("#5d6b7d"))[
+  reactor-card(reactor)[
       Fill in the Energy Phase, erase as spent. A 4th EP spent in a round — from
-      this pool *or* the Capacitor — leaves a heat bloom, and the Frame stays
-      lockable on infrared for the rest of it. A Heavy cannot enter Heavy Woods
-      on foot, so terrain will not hide it either.
-    ]
-  }),
-  card({
-    label-text("Capacitor — max 8 EP")
-    v(4pt)
-    pip-row(8)
-    v(3pt)
-    text(size: 6.5pt, fill: rgb("#5d6b7d"))[
+    this pool *or* the Capacitor — leaves a heat bloom, and the Frame stays
+    lockable on infrared for the rest of it. A Heavy cannot enter Heavy Woods
+    on foot, so terrain will not hide it either.
+  ],
+  capacitor-card(capacitor)[
       The Rail Gun needs *6 banked EP* to fire at all.
-    ]
-  }),
+  ],
 )
 
 #v(3pt)
@@ -51,13 +43,13 @@
 #grid(columns: (1fr, 1fr), gutter: 9pt, align: (top, top),
   equip-card("Weapons", (
     equip-row("R.Arm · Heavy", [*Rail Gun* — 5d6 · AP 3 · #chip("Radar", kind: "armor")], [*Must Overcharge +6 EP from the Capacitor to fire*, so it always cools down for a turn. Inert slugs — infinite, and they never cook off]),
-    equip-row("L.Arm · Light", [*Autocannon* — 3 × 1d6 · 1 EP/burst · AP 1 · #chip("VIS", kind: "armor")], [Visual fire control — a different band from the Rail Gun, so no single countermeasure silences both. Empty on *1*, or *1–3* on Full Auto]),
-    equip-row("Torso · Medium", [*Guided Missiles* — 4 EP · Cluster · #chip("IR guided", kind: "armor")], [Roll three Hit Locations, one per column, 2d6 to each. AoE: bypasses Flank Speed *and* Cover. Indirect fire permitted. Empty on *1–2*]),
+    equip-row("L.Arm · Light", [*Autocannon* — 3 × 1d6 · 1 EP/burst · AP 1 · #chip("VIS", kind: "armor")], [Visual fire control — a different band from the Rail Gun, so no single countermeasure silences both]),
+    equip-row("Torso · Medium", [*Guided Missiles* — 4 EP · Cluster · #chip("IR guided", kind: "armor")], [Roll three Hit Locations, one per column, 2d6 to each. AoE: bypasses Flank Speed *and* Cover. Indirect fire permitted]),
   )),
   equip-card("Defensive systems", (
-    equip-row("Torso · Light", [*Smoke Launcher* — 1 EP · #chip("vs VIS", kind: "armor")], [Deployed on your own Activation, into your hex or one adjacent. Visual locks traced through it take a 4+. Empty on *1*]),
+    equip-row("Torso · Light", [*Smoke Launcher* — 1 EP · #chip("vs VIS", kind: "armor")], [Deployed on your own Activation, into your hex or one adjacent. Visual locks traced through it take a 4+]),
     equip-row("Torso · Light", [*IRCM Suite* — 2 EP per use · #chip("vs IR", kind: "armor")], [Never runs dry, but drawn from the reserve the Rail Gun needs]),
-    equip-row("Torso · Light", [*Chaff Dispenser* — free · #chip("vs Radar", kind: "armor")], [Spent whether it worked or not. Empty on *1*]),
+    equip-row("Torso · Light", [*Chaff Dispenser* — free · #chip("vs Radar", kind: "armor")], [Spent whether it worked or not]),
     equip-row("Head · Light", [*Tactical Datalink*], [Shares locks across the lance]),
   )),
 )

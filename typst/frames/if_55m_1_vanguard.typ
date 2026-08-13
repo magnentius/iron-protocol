@@ -11,10 +11,14 @@
 #state-strip()
 #v(2pt)
 
+// Written once, read by the stat strip, the card headers and the pip counts.
+#let reactor = 12
+#let capacitor = 6
+
 #stat-strip(
   ("Initiative", "6"),
-  ("Reactor", "12 EP"),
-  ("Capacitor", "6 EP"),
+  ("Reactor", str(reactor) + " EP"),
+  ("Capacitor", str(capacitor) + " EP"),
   ("Move limit", "5 hex"),
   ("Flank speed", "4 hex"),
   ("Jump", "—"),
@@ -23,39 +27,27 @@
 #v(2pt)
 
 #grid(columns: (1.35fr, 1fr), gutter: 9pt,
-  card({
-    label-text("Reactor pool — 12 EP per round")
-    v(4pt)
-    pip-row(12)
-    v(3pt)
-    text(size: 6.5pt, fill: rgb("#5d6b7d"))[
+  reactor-card(reactor)[
       Fill in the Energy Phase, erase as spent. A 4th EP spent in a round — from
-      this pool *or* the Capacitor — leaves a heat bloom, and the Frame stays
-      lockable on infrared for the rest of it. The largest reactor of any Medium.
-    ]
-  }),
-  card({
-    label-text("Capacitor — max 6 EP")
-    v(4pt)
-    pip-row(6)
-    v(3pt)
-    text(size: 6.5pt, fill: rgb("#5d6b7d"))[
+    this pool *or* the Capacitor — leaves a heat bloom, and the Frame stays
+    lockable on infrared for the rest of it. The largest reactor of any Medium.
+  ],
+  capacitor-card(capacitor)[
       Pays for Laser Overcharges *and* the IRCM suite — jamming costs firepower.
-    ]
-  }),
+  ],
 )
 
 #v(2pt)
 
 #grid(columns: (1fr, 1fr), gutter: 9pt, align: (top, top),
   equip-card("Weapons", (
-    equip-row("L.Arm · Medium", [*Autocannon* — 3 × 1d6 · 1 EP/burst · AP 1 · #chip("Radar", kind: "armor")], [Rapid Fire: bypasses Flank Speed, Cover still applies. Full Auto up to 3 bursts. Empty on *1*, or *1–3* on Full Auto]),
+    equip-row("L.Arm · Medium", [*Autocannon* — 3 × 1d6 · 1 EP/burst · AP 1 · #chip("Radar", kind: "armor")], [Rapid Fire: bypasses Flank Speed, Cover still applies. Full Auto up to 3 bursts]),
     equip-row("R.Arm · Medium", [*Laser* — 2d6 · 2 EP · #chip("VIS", kind: "armor")], [Overcharge +2 EP per +1d6, max +2d6 · infinite ammunition. A second band, so no single countermeasure silences both arms]),
   )),
   equip-card("Defensive systems", (
     equip-row("Torso · Medium", [*ECM Suite* — 2 EP upkeep · #chip("vs Radar", kind: "armor")], [Contests every Radar lock on a 4+ and never runs out. 0-hex radius; Overcharge +1 EP per +1 hex to umbrella allies, triggering a 1-turn cooldown]),
     equip-row("Torso · Light", [*IRCM Suite* — 2 EP per use · #chip("vs IR", kind: "armor")], [Powered, not expendable: never dry, but spends the charge an Overcharge needs]),
-    equip-row("Torso · Light", [*Chaff Dispenser* — free · #chip("vs Radar", kind: "armor")], [Spent whether it worked or not. Empty on *1*]),
+    equip-row("Torso · Light", [*Chaff Dispenser* — free · #chip("vs Radar", kind: "armor")], [Spent whether it worked or not]),
     equip-row("Head · Light", [*Tactical Datalink*], [Shares locks across the lance]),
   )),
 )

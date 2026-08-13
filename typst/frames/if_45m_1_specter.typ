@@ -11,10 +11,14 @@
 #state-strip()
 #v(3pt)
 
+// Written once, read by the stat strip, the card headers and the pip counts.
+#let reactor = 9
+#let capacitor = 4
+
 #stat-strip(
   ("Initiative", "10"),
-  ("Reactor", "9 EP"),
-  ("Capacitor", "4 EP"),
+  ("Reactor", str(reactor) + " EP"),
+  ("Capacitor", str(capacitor) + " EP"),
   ("Move limit", "5 hex"),
   ("Flank speed", "4 hex"),
   ("Jump", "—"),
@@ -23,27 +27,15 @@
 #v(3pt)
 
 #grid(columns: (1.35fr, 1fr), gutter: 9pt,
-  card({
-    label-text("Reactor pool — 9 EP per round")
-    v(4pt)
-    pip-row(9)
-    v(3pt)
-    text(size: 6.5pt, fill: rgb("#5d6b7d"))[
+  reactor-card(reactor)[
       Fill in the Energy Phase, erase as spent. A 4th EP spent in a round — from
-      this pool *or* the Capacitor — leaves a heat bloom, and the Frame stays
-      lockable on infrared for the rest of it. Adaptive Skin upkeep is exempt, so
-      buying stealth never exposes you.
-    ]
-  }),
-  card({
-    label-text("Capacitor — max 4 EP")
-    v(4pt)
-    pip-row(4)
-    v(3pt)
-    text(size: 6.5pt, fill: rgb("#5d6b7d"))[
+    this pool *or* the Capacitor — leaves a heat bloom, and the Frame stays
+    lockable on infrared for the rest of it. Adaptive Skin upkeep is exempt, so
+    buying stealth never exposes you.
+  ],
+  capacitor-card(capacitor)[
       A standing reserve. The Disruptor's Overcharge is paid from here.
-    ]
-  }),
+  ],
 )
 
 #v(3pt)
@@ -68,7 +60,7 @@
     stack(dir: ltr, spacing: 5pt,
       chip("Active", kind: "ok"), chip("VIS", kind: "armor"),
       chip("IR", kind: "armor"), chip("Radar", kind: "armor")),
-    text(size: 6.5pt, fill: rgb("#5d6b7d"))[
+    note[
       Mark one band, or two if Overcharged. Neither weapon aboard carries an
       Ammo Die — the Specter never runs dry, only out of energy.
     ],
