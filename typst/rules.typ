@@ -231,8 +231,21 @@ To begin a game of _Iron Protocol_, players complete the following setup steps:
 + *Agree on Force Limit*: Players select a Deployment Point budget (e.g. 500 pts for introductory 1v1, 1000 pts for 2v2 Element combat, 1500 pts for 3v3–4v4 Platoon battles).
 + *Select Frames & Pilots*: Players choose pre-built technical readouts from the *Iron Frame Roster (#sec("8"))* or construct custom frames using Section 7.2.
 + *Determine the Advantage Player*: whoever brings the *lower* total force cost is the *Advantage Player* — deliberately spending less than the budget to claim it is called a *Point Bid*. If the two forces cost the same, roll 2d6; the higher roll takes it. The Advantage Player chooses their home map edge and settles every Initiative tie for the rest of the battle.
-+ *Map Setup & Unit Deployment*: Lay out hex map tiles. The Advantage Player chooses their home map edge. Players alternate deploying 1 Frame at a time within 2 hexes of their designated home map edge. *The deploying player sets that Frame's Leg Facing freely*, and its Torso Facing begins aligned with the legs.
-+ *Pre-Combat System Activation*: At the moment of deployment, Frames equipped with an *Adaptive Skin* or *ECM* (Electronic Countermeasures) may deploy with those systems *Active*. Upkeep costs (2 EP for Adaptive Skin, 2 EP for ECM) are automatically deducted during the Round 1 Energy Phase.
++ *Map Setup & Unit Deployment*: Lay out hex map tiles. The Advantage Player chooses their home map edge and *deploys first*. Players then alternate placing one Frame at a time, each within 2 hexes of its own home edge, until one force is fully deployed; the other player then places whatever they have left, one after another. *Every Frame in a force is deployed* — there are no reserves and nothing is held back unless a scenario provides for it. The deploying player sets that Frame's Leg Facing freely, and its Torso Facing begins aligned with the legs.
++ *Pre-Combat System Activation*: Frames carrying an *Adaptive Skin* or *ECM* may deploy with those systems *Active*, and the 2 EP upkeep for each is deducted in the Round 1 Energy Phase exactly as in every later round. Deployment decides only whether a system is *running*. An Adaptive Skin's cloaked band is chosen in that first Energy Phase like any other (#sec("4.2")), so nothing about which spectrum you are hiding on is committed before the board is set.
+
+#design-note[
+  Deploying first is a real cost, and it is what the Advantage Player pays for
+  choosing the ground. Placing last means seeing the enemy line before committing
+  your own, which is worth about as much as the edge itself — handing one player
+  both, on top of settling every Initiative tie, would make the Point Bid the
+  only decision in setup that mattered.
+
+  The uneven case runs the same way rather than staggering the extras: a lance of
+  four against a lance of two alternates twice, and the larger force then places
+  its remaining pair knowing everything. That is the compensation for being
+  outnumbered, and it is the same logic as deploying last.
+]
 
 === 1.4.1 Introductory Scenario: Trial by Fire (1v1 Duel)
 #anchor("1.4.1")
