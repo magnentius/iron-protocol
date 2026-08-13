@@ -47,7 +47,7 @@
   .wrap { max-width: 60rem; margin: 0 auto; padding: 0 1.25rem; }
 
   /* ---- hero ---- */
-  header { padding: 4rem 0 2.5rem; text-align: center; }
+  header { padding: 5rem 0 1rem; text-align: center; }
   .eyebrow {
     font-family: var(--mono); font-size: .72rem; letter-spacing: .34em;
     text-transform: uppercase; color: var(--accent); margin: 0 0 1.1rem;
@@ -56,16 +56,11 @@
     font-size: clamp(2.6rem, 9vw, 4.4rem); line-height: 1; margin: 0 0 .6rem;
     font-weight: 800; letter-spacing: -.03em;
   }
-  .tagline { font-size: clamp(1rem, 2.6vw, 1.2rem); color: var(--muted); margin: 0 auto 2rem; max-width: 34rem; }
-
-  .cover {
-    display: block; width: 100%; max-width: 30rem; margin: 0 auto;
-    border: 1px solid var(--border); border-radius: 8px;
-  }
+  .tagline { font-size: clamp(1.02rem, 2.6vw, 1.24rem); color: var(--muted); margin: 0 auto; max-width: 36rem; }
 
   /* ---- downloads ---- */
   .downloads {
-    display: grid; gap: .85rem; margin: 2.5rem 0 1rem;
+    display: grid; gap: .85rem; margin: 2.2rem 0 1rem;
     grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   }
   .dl {
@@ -118,7 +113,7 @@
   a { color: var(--accent); }
 
   @media (max-width: 34rem) {
-    header { padding: 2.5rem 0 1.5rem; }
+    header { padding: 3rem 0 .5rem; }
     body { font-size: 16px; }
   }
 </style>
@@ -131,7 +126,6 @@
     <p class="eyebrow">Iron Protocol</p>
     <h1>Iron Frame Combat</h1>
     <p class="tagline">A hex-grid tabletop wargame of heavy mechanical combat — tactical resource management, locational damage and critical cascades, with the turn-order dynamics of a dogfighter.</p>
-    <img class="cover" src="images/iron_protocol.jpg" alt="Two Iron Frames exchanging fire across broken ground" width="1200" height="1600">
   </header>
 
   <div class="downloads">
