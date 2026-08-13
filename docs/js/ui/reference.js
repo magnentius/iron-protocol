@@ -51,7 +51,7 @@ export function render() {
     ${panel('Movement & Falling', movementNotes())}
     ${panel('Special Resolution Cases', houseRulings())}
     <p class="tiny dim center" style="margin-top:1.5rem">
-      Full rules in rules.md · Iron Protocol © 2026 John Karakashian · CC BY-NC-SA 4.0
+      Full rules in rules.typ · Iron Protocol © 2026 John Karakashian · CC BY-NC-SA 4.0
     </p>`;
 }
 
@@ -229,5 +229,5 @@ function houseRulings() {
   ];
   return `<div class="log">${rulings.map(([t, d]) => `
     <div class="log-entry"><b>${esc(t)}</b><br>${d}</div>`).join('')}</div>
-    <p class="tiny dim">The cases most often argued over at the table, resolved explicitly in rules.md sections 2.3, 5.0 and 6.</p>`;
+    <p class="tiny dim">The cases most often argued over at the table, resolved explicitly in rules.typ sections 2.3, 5.0 and 6.</p>`;
 }

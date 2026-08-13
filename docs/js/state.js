@@ -486,7 +486,7 @@ function movementText(frame, label, e) {
  * One frame's Energy Phase result, phrased the same wherever it is recorded.
  *
  * Names the reserve when there is one. The Capacitor is untouched by this phase
- * (rules.md 2.1), and saying so is what stops a pool smaller than last turn's
+ * (rules.typ 2.1), and saying so is what stops a pool smaller than last turn's
  * from reading as energy gone missing.
  */
 function energyLine(frame, report) {

@@ -2,7 +2,7 @@
 //
 // Pure functions only: no DOM, no I/O, no module-level mutable state. Every
 // random draw takes an injectable `rng`, so the whole engine is deterministic
-// under test. Section references point at rules.md, which is the source of truth.
+// under test. Section references point at rules.typ, which is the source of truth.
 //
 // Three things worth understanding before reading further:
 //
@@ -107,11 +107,11 @@ export function isIRLockable(frame) {
 export function isDestroyed(frame) {
   if (frame.destroyed) return true;
   if (frame.locations.torso.destroyed || frame.locations.head.destroyed) return true;
-  // Both legs gone = completely disabled (rules.md 6.5.4).
+  // Both legs gone = completely disabled (rules.typ 6.5.4).
   return frame.locations.leftLeg.destroyed && frame.locations.rightLeg.destroyed;
 }
 
-/** A leg that is severed, or whose actuator is destroyed (rules.md 6.4). */
+/** A leg that is severed, or whose actuator is destroyed (rules.typ 6.4). */
 export function hasCrippledLeg(frame) {
   return ['leftLeg', 'rightLeg'].some(
     (l) => frame.locations[l].destroyed || frame.locations[l].actuatorDestroyed,
@@ -125,7 +125,7 @@ export function canJump(frame) {
     && !hasCrippledLeg(frame);
 }
 
-// --- Energy Phase (rules.md 2.1) -------------------------------------------
+// --- Energy Phase (rules.typ 2.1) -------------------------------------------
 
 export function energyPhase(frame, { terrain = frame.terrain } = {}) {
   const report = { generated: 0, cooling: 0, upkeep: 0, glitch: 0, net: 0, steps: [] };
@@ -156,7 +156,7 @@ export function energyPhase(frame, { terrain = frame.terrain } = {}) {
   report.net = Math.max(0, base + cooling - report.glitch - upkeep);
 
   // The Capacitor is NOT touched here. Banked charge persists until it is spent
-  // (rules.md 2.1): the pool is this turn's generation, the Capacitor is a
+  // (rules.typ 2.1): the pool is this turn's generation, the Capacitor is a
   // standing reserve that carries across rounds until drawn on.
   report.held = frame.capacitor || 0;
   frame.ep = report.net;
@@ -170,7 +170,7 @@ export function energyPhase(frame, { terrain = frame.terrain } = {}) {
   return report;
 }
 
-// --- Movement (rules.md 2.2) -----------------------------------------------
+// --- Movement (rules.typ 2.2) -----------------------------------------------
 
 export function movementCost(frame, action, { elevationDelta = 0, hexes = 1, terrain = frame.terrain } = {}) {
   const t = TERRAIN[terrain] || TERRAIN.clear;
@@ -225,7 +225,7 @@ export function movementBlockedReason(frame, action, { terrain = frame.terrain, 
 }
 
 /**
- * Torso Facing (rules.md 1.2) is tracked relative to Leg Facing, which is how a
+ * Torso Facing (rules.typ 1.2) is tracked relative to Leg Facing, which is how a
  * player thinks about it at the table: the torso is twisted left, centred, or
  * twisted right. It decides every firing arc (1.3) and the attacker's Hit Zone
  * against this frame (1.4).
@@ -307,7 +307,7 @@ export function performMovement(frame, action, opts = {}) {
   updateFlankSpeed(frame, { jumpedHexes: action === 'jump' ? hexes : 0 });
 
   // A jump costs propellant as well as EP: roll the Ammo Die afterwards, and on
-  // a 1 or 2 the tanks are dry for the rest of the battle (rules.md 2.2).
+  // a 1 or 2 the tanks are dry for the rest of the battle (rules.typ 2.2).
   let propellant = null;
   if (action === 'jump') {
     propellant = rollAmmoDie(AMMO_DIE.jumpJets.empty, { rng: opts.rng, forcedRoll: opts.forcedAmmoRoll });
@@ -318,7 +318,7 @@ export function performMovement(frame, action, opts = {}) {
 }
 
 /**
- * Flank Speed (rules.md 2.2): exit 4+ hexes in an activation, or complete a jump
+ * Flank Speed (rules.typ 2.2): exit 4+ hexes in an activation, or complete a jump
  * of 2+ hexes. Water denies it outright, as does being Prone. The threshold is
  * fixed, which is why an Assault chassis capped at 3 can never reach it.
  */
@@ -346,7 +346,7 @@ export function availableEP(frame) {
  * Spend EP, drawing the working pool down before the reserve.
  *
  * Overcharge is the exception: it is paid *exclusively* from banked Capacitor
- * charge (rules.md 5.3), so it is taken off the reserve first and freshly
+ * charge (rules.typ 5.3), so it is taken off the reserve first and freshly
  * generated reactor EP can never cover it.
  */
 export function spendEP(frame, amount, { overcharge = 0 } = {}) {
@@ -369,7 +369,7 @@ export function spendEP(frame, amount, { overcharge = 0 } = {}) {
   return { ok: true, spent: total, fromPool, fromCapacitor: overcharge + fromReserve };
 }
 
-// --- Defensive rerolls (rules.md 2.3 step 7, 3.3) --------------------------
+// --- Defensive rerolls (rules.typ 2.3 step 7, 3.3) --------------------------
 
 /**
  * How many of the attacker's damage dice the defender may force a reroll of.
@@ -410,7 +410,7 @@ export function applyRerolls(pool, allowance, { rng = Math.random, floor = 3, fo
   return { dice, log };
 }
 
-// --- Countermeasure Check (rules.md 4.2) -----------------------------------
+// --- Countermeasure Check (rules.typ 4.2) -----------------------------------
 
 /**
  * Every deployed countermeasure — cartridge or sustained suite — negates an
@@ -423,7 +423,7 @@ export function countermeasureCheck({ rng = Math.random, forcedRoll = null } = {
 }
 
 /**
- * When an Adaptive Skin's coating may be re-tuned (rules.md 4.2).
+ * When an Adaptive Skin's coating may be re-tuned (rules.typ 4.2).
  *
  * Set in the Energy Phase when the suite is paid for, and may be re-tuned during
  * the Frame's own Activation — you re-lay the coating as you reposition, on what
@@ -452,7 +452,7 @@ export function datalinkActive(frame) {
 }
 
 /**
- * A teammate who can hand this Frame a lock on `band` (rules.md 4.3).
+ * A teammate who can hand this Frame a lock on `band` (rules.typ 4.3).
  *
  * Both ends need a working Datalink, and the spotter needs the band itself. This
  * is the designed counter to losing an array: a Colossus with its Radar burned
@@ -488,7 +488,7 @@ export function availableCountermeasures(frame, band, { allies = [] } = {}) {
   if (band === 'vis' && frame.inSmoke) out.push({ key: 'smoke', kind: 'cartridge' });
   if (band === 'rad' && frame.ecmActive) out.push({ key: 'ecm', kind: 'sustained' });
   // An ECM umbrella covers every friendly Frame inside its radius, not just the
-  // Frame carrying it (rules.md 4.2) — which is the whole point of paying to
+  // Frame carrying it (rules.typ 4.2) — which is the whole point of paying to
   // Overcharge the radius outward. Range is the players' to confirm; the tracker
   // has no map, so it names the host and leaves the geometry to the table.
   if (band === 'rad' && !frame.ecmActive) {
@@ -531,7 +531,7 @@ export function useCountermeasure(frame, cm, { rng = Math.random, forcedRoll = n
   return out;
 }
 
-// --- Damage (rules.md 2.3, 6.1) --------------------------------------------
+// --- Damage (rules.typ 2.3, 6.1) --------------------------------------------
 
 /**
  * Resolve a damage total against one location.
@@ -562,7 +562,7 @@ export function applyDamage(frame, locKey, damage, opts = {}) {
 
   const loc = frame.locations[locKey];
 
-  // A hit on an already-severed limb blows through to the Torso (rules.md 6.5.5).
+  // A hit on an already-severed limb blows through to the Torso (rules.typ 6.5.5).
   if (loc.destroyed && locKey !== 'torso') {
     report.steps.push(`${LOCATION_NAMES[locKey]} is gone — the hit transfers to the Torso`);
     report.transferred = applyDamage(frame, 'torso', damage, { apX, transferred: true });
@@ -599,7 +599,7 @@ export function applyDamage(frame, locKey, damage, opts = {}) {
   return report;
 }
 
-// --- Critical hits (rules.md 6.2) ------------------------------------------
+// --- Critical hits (rules.typ 6.2) ------------------------------------------
 
 export function critTableFor(locKey) {
   return CRIT_TABLE_FOR[locKey];
@@ -727,7 +727,7 @@ export function applyCrit(frame, crit, { rng = Math.random, mark = true } = {}) 
         const other = locKey === 'leftLeg' ? 'rightLeg' : 'leftLeg';
         if (frame.locations[other].destroyed) {
           frame.destroyed = true;
-          out.notes.push('Both legs gone — the Frame is disabled (rules.md 6.5.4)');
+          out.notes.push('Both legs gone — the Frame is disabled (rules.typ 6.5.4)');
         }
       }
       break;
@@ -766,7 +766,7 @@ export function resolveCrits(frame, locKey, count, { mod = 0, rng = Math.random,
   return results;
 }
 
-// --- Volatile stores (rules.md 6.2, Torso slot 6) --------------------------
+// --- Volatile stores (rules.typ 6.2, Torso slot 6) --------------------------
 
 export function hasVolatileStore(frame) {
   const liveAmmo = (frame.weapons || []).some((w) => {
@@ -784,7 +784,7 @@ export function emptyVolatileStores(frame) {
   if (frame.systems?.jumpJets) frame.jumpJetsEmpty = true;
 }
 
-// --- Ammo Die (rules.md 5.0) -----------------------------------------------
+// --- Ammo Die (rules.typ 5.0) -----------------------------------------------
 
 /** Roll a system's Ammo Die. At or below the threshold it is Empty for good. */
 export function rollAmmoDie(threshold, { rng = Math.random, forcedRoll = null } = {}) {
@@ -817,7 +817,7 @@ export function weaponDef(weapon) {
 /**
  * The sensor band a weapon needs to establish its lock, or null if it needs none.
  *
- * An EMP warhead is aimed at a hex rather than a Frame (rules.md 5.2), so there
+ * An EMP warhead is aimed at a hex rather than a Frame (rules.typ 5.2), so there
  * is no lock to acquire and none to contest — no countermeasure can touch it.
  * Line of sight and terrain are the only things that stop it.
  */
@@ -850,7 +850,7 @@ export function damageDiceCount(frame, weapon, { overchargeDice = 0 } = {}) {
   return Math.max(1, dice);
 }
 
-/** Overcharge adds dice at 2 EP each, never a flat bonus (rules.md 5.3). */
+/** Overcharge adds dice at 2 EP each, never a flat bonus (rules.typ 5.3). */
 export function overchargeDiceFor(weapon, epSpent) {
   const def = weaponDef(weapon);
   if (!def.overcharge?.epPerDie) return 0;
@@ -865,7 +865,7 @@ export function overchargeDiceFor(weapon, epSpent) {
  * the one beside it that spent a point moving.
  *
  * Infrared is the only band with such a rule. A Frame that has not yet spent its
- * 4th EP this round has no heat bloom to find (rules.md 4.1), and this is a hard
+ * 4th EP this round has no heat bloom to find (rules.typ 4.1), and this is a hard
  * block rather than a Countermeasure Check — there is nothing to contest, because
  * there is no signature. It is the only way to be invisible on infrared without
  * spending a hardpoint, and the price is doing almost nothing with your turn.
@@ -933,7 +933,7 @@ export function consumeWeapon(frame, weapon, { bursts = 1, overcharge = 0, rng =
 // --- Special weapon resolutions --------------------------------------------
 
 /**
- * Rapid Fire (rules.md 5.0): each 1d6 is tested separately against the DR the
+ * Rapid Fire (rules.typ 5.0): each 1d6 is tested separately against the DR the
  * location had when the attack was declared. Each BURST that puts at least one
  * die through generates one Critical. Armor degrades by 1 in total however many
  * rounds got through, and Overkill never applies.
@@ -965,7 +965,7 @@ export function resolveRapidFire(frame, locKey, { bursts = 1, apX = 0, coreCriti
   return report;
 }
 
-/** Cluster: three locations, one per column, 2d6 to each (rules.md 5.2). */
+/** Cluster: three locations, one per column, 2d6 to each (rules.typ 5.2). */
 export function resolveCluster(frame, { rng = Math.random, forcedLocations = null, forcedDamage = null } = {}) {
   const zones = ['left', 'front', 'right'];
   const results = [];
@@ -997,7 +997,7 @@ export function resolveHighExplosive(frame, locKey, { rng = Math.random, forcedP
  * Catches friendly Frames in the blast too — the caller decides who is in it.
  */
 /**
- * EMP warhead (rules.md 5.2). No damage, and no lock to acquire.
+ * EMP warhead (rules.typ 5.2). No damage, and no lock to acquire.
  *
  * Three effects, and only the last is gated on armour:
  *   - one sensor band knocked out until the End Phase, rolled 1d6 on the same
@@ -1011,7 +1011,7 @@ export function resolveHighExplosive(frame, locKey, { rng = Math.random, forcedP
  *     a breach lets the pulse in.
  */
 /**
- * EMP warhead (rules.md 5.2). No damage, no lock, and nothing to do with armour.
+ * EMP warhead (rules.typ 5.2). No damage, no lock, and nothing to do with armour.
  *
  * Every Frame in the seven-hex blast takes a **Sensor Critical** — a 1d6 across
  * the three sensor results of the Head table (Ghosting, Calibration Drift, Array
@@ -1055,9 +1055,9 @@ export function resolveDisruptor(frame, locKey, { overcharged = false, rng = Mat
   return { crits, drainRoll, drained };
 }
 
-// --- Falling, collisions & drop strikes (rules.md 2.2, 3.2) ----------------
+// --- Falling, collisions & drop strikes (rules.typ 2.2, 3.2) ----------------
 
-/** Falling damage: 1d6 per Level as ONE pooled roll (rules.md 3.2). */
+/** Falling damage: 1d6 per Level as ONE pooled roll (rules.typ 3.2). */
 export function resolveFall(frame, levels, { rng = Math.random, forcedLocation = null, forcedDamage = null } = {}) {
   const roll = forcedLocation ?? roll2d6(rng).total;
   const hit = lookupHitLocation(roll, 'front');
@@ -1067,7 +1067,7 @@ export function resolveFall(frame, levels, { rng = Math.random, forcedLocation =
   return { levels, roll, hit, damage, report };
 }
 
-/** Collision: flat Mass Value x Speed, suffered by BOTH Frames (rules.md 2.2). */
+/** Collision: flat Mass Value x Speed, suffered by BOTH Frames (rules.typ 2.2). */
 export function collisionDamage(movingFrame, hexesMoved) {
   return massValue(movingFrame) * hexesMoved;
 }
@@ -1078,7 +1078,7 @@ export function dropStrikeDamage(jumper, hexesJumped) {
   return { target: full, jumper: Math.ceil(full / 2) };
 }
 
-// --- Pilot Checks (rules.md 6.4) -------------------------------------------
+// --- Pilot Checks (rules.typ 6.4) -------------------------------------------
 
 export function pilotCheck(frame, { modifier = 0, rng = Math.random, forcedRoll = null } = {}) {
   const terrain = TERRAIN[frame.terrain]?.pilotMod || 0;
@@ -1098,7 +1098,7 @@ export function pilotCheck(frame, { modifier = 0, rng = Math.random, forcedRoll 
   };
 }
 
-// --- End Phase (rules.md 2.4) ----------------------------------------------
+// --- End Phase (rules.typ 2.4) ----------------------------------------------
 
 export function endPhase(frame, { rng = Math.random } = {}) {
   const report = { pool: 0, banked: 0, vented: 0, capMax: 0, fire: null, steps: [] };
@@ -1127,7 +1127,7 @@ export function endPhase(frame, { rng = Math.random } = {}) {
   if (report.vented) report.steps.push(`${report.vented} EP vented`);
 
   // Unused energy moves left into the Capacitor; the pool always ends empty,
-  // whether it was banked or vented (rules.md 2.4).
+  // whether it was banked or vented (rules.typ 2.4).
   frame.capacitor = banked;
   frame.ep = 0;
   frame.epSpentThisTurn = 0;
@@ -1146,7 +1146,7 @@ export function endPhase(frame, { rng = Math.random } = {}) {
   return report;
 }
 
-// --- Turn order (rules.md 2.2, 2.3) ----------------------------------------
+// --- Turn order (rules.typ 2.2, 2.3) ----------------------------------------
 
 /**
  * Activation runs lowest Initiative first; Combat runs highest first. The flip

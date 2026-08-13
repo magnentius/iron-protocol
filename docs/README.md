@@ -236,7 +236,7 @@ build is ignored rather than adopted, and does not become the sync baseline.
 
 The rules engine (`js/rules.js`) is pure — no DOM, no storage, no network, and every random draw
 takes an injectable `rng`, so the suite is fully deterministic. It asserts the engine against
-`rules.md`, including the worked example from §2.3.1 step for step, and proves every roster frame
+`rules.typ`, including the worked example from §2.3.1 step for step, and proves every roster frame
 costs out to its printed point value under the §7.2 construction rules.
 
 Open `tests.html` in a browser, or from the repo root with Node installed:
@@ -259,7 +259,7 @@ succeeds.
 ## Rules coverage
 
 The cases the engine implements that are most often argued over at the table. All are resolved
-explicitly in `rules.md` §2.3, §5.0 and §6.
+explicitly in `rules.typ` §2.3, §5.0 and §6.
 
 | Case | Ruling |
 | :--- | :--- |

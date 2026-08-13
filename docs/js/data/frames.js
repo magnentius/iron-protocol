@@ -1,18 +1,18 @@
-// Iron Protocol — the five roster frames (rules.md section 8 + typst/frames/).
+// Iron Protocol — the five roster frames (rules.typ section 8 + typst/frames/).
 //
 // The printable record sheet is the source of truth. Every value here is checked
 // against it by the test suite, and every frame is proved to cost out exactly
 // under the section 7.2 construction rules.
 //
 // Note there is no Internal Structure and no Evasion. Armor DR is a Frame's only
-// durability stat, and it is a threshold rather than a pool (rules.md 7.2.1).
+// durability stat, and it is a threshold rather than a pool (rules.typ 7.2.1).
 
 /**
  * Weapon mount shape:
  *   key       — WEAPONS key from data/tables.js
- *   loc       — mount location; determines firing arc (rules.md 1.3)
+ *   loc       — mount location; determines firing arc (rules.typ 1.3)
  *   hardpoint — size of the mount it occupies
- *   ammoType  — autocannon only: 'ap' | 'hei', chosen at build time (rules.md 5.1)
+ *   ammoType  — autocannon only: 'ap' | 'hei', chosen at build time (rules.typ 5.1)
  *   warhead   — guidedMissiles only: 'he' | 'cluster' | 'emp'
  *   band      — autocannon only: 'vis' | 'rad'. Its fire control is slaved to one
  *               set or the other at construction, so the gun has a lock to break
@@ -249,7 +249,7 @@ export function instantiate(presetKey) {
     flankSpeed: false,
     terrain: 'clear',
     prone: false,
-    torsoFacing: 'center',        // relative to Leg Facing (rules.md 1.2)
+    torsoFacing: 'center',        // relative to Leg Facing (rules.typ 1.2)
     torsoTwistedThisTurn: false,  // once per activation
     destroyed: false,
 
@@ -282,7 +282,7 @@ export function instantiate(presetKey) {
   };
 }
 
-// --- Construction costs (rules.md 7.2) -------------------------------------
+// --- Construction costs (rules.typ 7.2) -------------------------------------
 // Kept beside the presets so the test suite can prove each roster frame costs
 // out to its printed point value exactly.
 
@@ -294,7 +294,7 @@ export const CHASSIS = {
   heavy: { base: 280, init: 4, move: 3, reactor: 5, capacitor: 2, maxInit: 6, maxMove: 4,
            dr: { head: 5, torso: 7, arm: 5, leg: 6 }, cap: { head: 6, torso: 8, arm: 6, leg: 7 } },
   // 270, cut from 330. An Assault chassis can no longer hide on infrared — its
-  // reactor never runs cold (rules.md 4.1) — and that measured at roughly 6.4
+  // reactor never runs cold (rules.typ 4.1) — and that measured at roughly 6.4
   // points of win rate in matched-frame-count fights, about 60 points of value.
   // Cut for that and no more: an Assault lance also underperforms because it
   // concentrates its points in one Frame, and that is a property of the game

@@ -4,7 +4,7 @@
 // Register a describe/it/eq/ok harness and call run(harness).
 //
 // Every die roll here is forced, so the suite is fully deterministic. Where a
-// test encodes a worked example from rules.md, the section is named.
+// test encodes a worked example from rules.typ, the section is named.
 
 import * as R from './js/rules.js';
 import { instantiate, FRAME_PRESETS, FRAME_KEYS, costOut } from './js/data/frames.js';
@@ -24,7 +24,7 @@ const seq = (...rolls) => { let i = 0; return () => (rolls[i++ % rolls.length] -
 const diff = (a, b) => { const out = {}; diffInto(a, b, '', out); return out; };
 
 export function run({ describe, it, eq, ok, rejects }) {
-  // --- Hit location table (rules.md 6.1) -------------------------------------
+  // --- Hit location table (rules.typ 6.1) -------------------------------------
   describe('Hit Location Table');
 
   it('2 is a Torso Core Critical on every column', () => {
@@ -52,7 +52,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(R.lookupHitLocation(4, 'right').location, 'rightArm');
   });
 
-  // --- Threshold armor (rules.md 2.3) ---------------------------------------
+  // --- Threshold armor (rules.typ 2.3) ---------------------------------------
   describe('Armor DR is a threshold, not a pool');
 
   it('damage equal to DR bounces off with no effect at all', () => {
@@ -93,7 +93,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(r.critDice, 1, 'Overkill is measured against 0, not the real armor');
   });
 
-  // --- Overkill (rules.md 2.3) ----------------------------------------------
+  // --- Overkill (rules.typ 2.3) ----------------------------------------------
   describe('Overkill Margin');
 
   it('one crit die on any penetration, plus one per full 5 points of excess', () => {
@@ -101,7 +101,7 @@ export function run({ describe, it, eq, ok, rejects }) {
        [1, 1, 2, 3, 3]);
   });
 
-  it('rules.md 2.3 worked example: 16 damage vs DR 5 is 3 Criticals', () => {
+  it('rules.typ 2.3 worked example: 16 damage vs DR 5 is 3 Criticals', () => {
     const f = frame('paladin');
     f.locations.torso.dr = 5;
     eq(R.applyDamage(f, 'torso', 16).critDice, 3);
@@ -111,7 +111,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(overkillDice(0), 0);
   });
 
-  // --- Critical tables (rules.md 6.2) ---------------------------------------
+  // --- Critical tables (rules.typ 6.2) ---------------------------------------
   describe('Critical Hit Tables');
 
   it('the tables are different lengths: head 5, torso 8, arms and legs 6', () => {
@@ -163,7 +163,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq([R.effectiveCapacitorMax(f), f.capacitor], [6, 6]);
   });
 
-  // --- Ammo Explosion (rules.md 6.2, torso 6) -------------------------------
+  // --- Ammo Explosion (rules.typ 6.2, torso 6) -------------------------------
   describe('Ammo Explosion');
 
   it('detonates a live store and inflicts 2 further Torso Criticals', () => {
@@ -195,7 +195,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(R.hasVolatileStore(f), false);
   });
 
-  // --- Destruction & transfer (rules.md 6.5) --------------------------------
+  // --- Destruction & transfer (rules.typ 6.5) --------------------------------
   describe('Location Destruction & Damage Transfer');
 
   it('a severed arm loses its weapon', () => {
@@ -213,7 +213,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(f.locations.torso.dr, 5, 'the Torso takes the degradation');
   });
 
-  it('losing BOTH legs destroys the Frame (rules.md 6.5.4)', () => {
+  it('losing BOTH legs destroys the Frame (rules.typ 6.5.4)', () => {
     const f = frame('paladin');
     R.applyCrit(f, R.rollCrit(f, 'leftLeg', { forcedRoll: 6 }));
     eq(R.isDestroyed(f), false, 'one leg is a crippling wound, not a kill');
@@ -234,7 +234,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(R.isDestroyed(f), true);
   });
 
-  // --- Flank Speed (rules.md 2.2) -------------------------------------------
+  // --- Flank Speed (rules.typ 2.2) -------------------------------------------
   describe('Flank Speed');
 
   it('is gained by exiting 4 hexes, not 3', () => {
@@ -271,7 +271,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(f.flankSpeed, false);
   });
 
-  // --- Defensive rerolls (rules.md 2.3, 3.3) --------------------------------
+  // --- Defensive rerolls (rules.typ 2.3, 3.3) --------------------------------
   describe('Flank Speed & Cover rerolls');
 
   it('Flank Speed and Cover stack', () => {
@@ -300,7 +300,7 @@ export function run({ describe, it, eq, ok, rejects }) {
        'nothing above the floor is worth rerolling');
   });
 
-  // --- Terrain & Cover (rules.md 3.1, 3.3) ----------------------------------
+  // --- Terrain & Cover (rules.typ 3.1, 3.3) ----------------------------------
   describe('Terrain & Cover');
 
   it('Light Woods grant one reroll, Heavy Woods two', () => {
@@ -336,7 +336,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(f.flankSpeed, false);
   });
 
-  // --- Countermeasure Check (rules.md 4.2) ----------------------------------
+  // --- Countermeasure Check (rules.typ 4.2) ----------------------------------
   describe('Countermeasure Check');
 
   it('negates on 4, 5 or 6 and lets 1-3 through', () => {
@@ -440,7 +440,7 @@ export function run({ describe, it, eq, ok, rejects }) {
   });
 
   it('Adaptive Skin upkeep does not warm a Frame up', () => {
-    // rules.md 4.1: a Skin runs cold by design, so buying stealth must not
+    // rules.typ 4.1: a Skin runs cold by design, so buying stealth must not
     // expose you on the band you bought it to hide from.
     const f = frame('specter', { adaptiveSkinActive: true, adaptiveSkinBandKeys: ['ir'] });
     R.energyPhase(f);
@@ -582,7 +582,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(R.availableCountermeasures(f, 'rad'), []);
   });
 
-  // --- Ammo Die (rules.md 5.0) ----------------------------------------------
+  // --- Ammo Die (rules.typ 5.0) ----------------------------------------------
   describe('Ammo Die');
 
   it('an autocannon single burst runs Empty only on a 1', () => {
@@ -617,7 +617,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(R.weaponBlockedReason(f, laser), 'Already fired this Combat Phase');
   });
 
-  // --- Rapid Fire (rules.md 5.0) --------------------------------------------
+  // --- Rapid Fire (rules.typ 5.0) --------------------------------------------
   describe('Rapid Fire');
 
   it('each die is tested separately against the DR at declaration', () => {
@@ -655,7 +655,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(r.critDice, 1, 'three 6s against DR 2 is still one Critical');
   });
 
-  // --- Special weapons (rules.md 5.2) ---------------------------------------
+  // --- Special weapons (rules.typ 5.2) ---------------------------------------
   describe('Guided Missiles, EMP & Disruptor');
 
   it('Cluster rolls three locations, one per column', () => {
@@ -767,7 +767,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(R.resolveDisruptor(f, 'torso', { overcharged: true, forcedDrain: 1, forcedCrits: [1, 2] }).crits.length, 2);
   });
 
-  // --- Energy (rules.md 2.1, 5.3) -------------------------------------------
+  // --- Energy (rules.typ 2.1, 5.3) -------------------------------------------
   describe('Energy Phase & Overcharge');
 
   it('the Energy Phase does not touch the Capacitor — the reserve persists', () => {
@@ -819,7 +819,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     const f = frame('vanguard');
     R.energyPhase(f);
     eq([f.ep > 0, R.spendEP(f, 2, { overcharge: 2 }).ok], [true, false],
-       'Overcharge is paid exclusively from banked charge (rules.md 5.3)');
+       'Overcharge is paid exclusively from banked charge (rules.typ 5.3)');
   });
 
   it('Overcharge comes off the Capacitor, base cost off the pool', () => {
@@ -885,7 +885,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(R.damageDiceCount(f, lance), 2);
   });
 
-  // --- Movement (rules.md 2.2) ----------------------------------------------
+  // --- Movement (rules.typ 2.2) ----------------------------------------------
   describe('Movement');
 
   it('reverse costs double a walk', () => {
@@ -937,7 +937,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     ok(R.movementBlockedReason(f, 'walk').includes('Movement Limit'));
   });
 
-  // --- Torso Facing (rules.md 1.2, 1.3, 2.2) --------------------------------
+  // --- Torso Facing (rules.typ 1.2, 1.3, 2.2) --------------------------------
   describe('Torso Facing');
 
   it('a fresh Frame is centred', () => {
@@ -997,7 +997,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     ok(!R.weaponArc(f, torso).arcs.includes('Rear'), 'a torso battery is fixed forward');
   });
 
-  // --- Jump Jet propellant (rules.md 2.2) -----------------------------------
+  // --- Jump Jet propellant (rules.typ 2.2) -----------------------------------
   describe('Jump Jet propellant');
 
   it('a jump rolls the Ammo Die on landing', () => {
@@ -1066,7 +1066,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     }
   });
 
-  // --- Pilot Checks (rules.md 6.4) ------------------------------------------
+  // --- Pilot Checks (rules.typ 6.4) ------------------------------------------
   describe('Pilot Checks');
 
   it('a crippled leg imposes −2, whether severed or Actuator Destroyed', () => {
@@ -1105,7 +1105,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(R.performMovement(f, 'standUp').stoodUp, true);
   });
 
-  // --- Falls, collisions, drop strikes (rules.md 2.2, 3.2) ------------------
+  // --- Falls, collisions, drop strikes (rules.typ 2.2, 3.2) ------------------
   describe('Falling, Collisions & Drop Strikes');
 
   it('a fall rolls 1d6 per Level as ONE pooled roll', () => {
@@ -1124,7 +1124,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(R.dropStrikeDamage(frame('specter'), 3), { target: 6, jumper: 3 });
   });
 
-  // --- End Phase (rules.md 2.4) ---------------------------------------------
+  // --- End Phase (rules.typ 2.4) ---------------------------------------------
   describe('End Phase');
 
   it('banks up to the Capacitor Max and vents the rest', () => {
@@ -1175,7 +1175,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(f.locations.torso.crits[1], true);
   });
 
-  // --- Turn order (rules.md 2.2, 2.3) ---------------------------------------
+  // --- Turn order (rules.typ 2.2, 2.3) ---------------------------------------
   describe('Turn Order');
 
   it('Activation is lowest Initiative first, Combat highest first', () => {
@@ -1194,8 +1194,8 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(R.turnOrder([frame('jackal', { destroyed: true }), frame('vanguard')], 'combat').length, 1);
   });
 
-  // --- Worked example (rules.md 2.3.1) --------------------------------------
-  describe('rules.md 2.3.1 — Colossus Thermal Lance vs Vanguard');
+  // --- Worked example (rules.typ 2.3.1) --------------------------------------
+  describe('rules.typ 2.3.1 — Colossus Thermal Lance vs Vanguard');
 
   it('reproduces the book exactly, step for step', () => {
     const vanguard = frame('vanguard', { flankSpeed: true });
@@ -1222,7 +1222,7 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(R.effectiveCapacitorMax(vanguard), 4, 'Capacitor Max 6 → 4');
   });
 
-  // --- Frame data (rules.md 7.2, 8, typst/frames/) --------------------------
+  // --- Frame data (rules.typ 7.2, 8, typst/frames/) --------------------------
   describe('Frame Data');
 
   it('every roster frame costs out to its printed point value exactly', () => {

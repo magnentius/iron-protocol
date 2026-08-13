@@ -20,7 +20,12 @@
 
 ## 📂 Repository Guide
 
-* 📓 **[rules.md](rules.md)**: The full master rulebook, including core phases, terrain modifiers, planetary hazards, custom pilot vows, and pre-configured frame technical readouts.
+* 📓 **[rules.typ](typst/rules.typ)**: The full master rulebook — core phases, terrain, sensors and stealth, weapons, damage and criticals, the construction rules, pilot vows and the five technical readouts. Written in [Typst](https://typst.app); cross-references are resolved at compile time, so a stale one fails the build rather than misdirecting a player. The PDF is attached to each run of the [Rulebook & Sheets workflow](../../actions/workflows/build-sheets.yml), or build it with:
+
+```bash
+typst compile --root . --font-path typst/fonts --ignore-system-fonts \
+  typst/rules.typ iron-protocol-rules.pdf
+```
 * 📋 **Quick reference**: the **Ref tab** of the [Battle Tracker](docs/) carries the turn sequence, the sensor matrix, terrain, weapons, Ammo Dice, movement costs and all four critical tables. It is generated from the same constants the rules engine resolves against, so unlike the hand-written sheet it replaces, it cannot fall out of step with the rulebook.
 * 🛠️ **[Frame Record Sheets](typst/frames/)**: Printable sheets for the five standard frames (**IF-25L-1 Jackal**, **IF-45M-1 Specter**, **IF-55M-1 Vanguard**, **IF-75H-1 Paladin**, and **IF-90A-1 Colossus**), each on a single page, with real tracking boxes for energy pools, armor DR, critical slots and Ammo Dice. Written in [Typst](https://typst.app) against [vendored free fonts](typst/fonts/), so every build produces the same document. The PDFs are attached to each run of the [Frame Sheets workflow](../../actions/workflows/build-sheets.yml), or build them yourself:
 

@@ -1,4 +1,4 @@
-// Guided attack resolver — walks the Combat Phase sequence from rules.md 2.3.
+// Guided attack resolver — walks the Combat Phase sequence from rules.typ 2.3.
 //
 // An attacker never rolls for accuracy in Iron Protocol, so this flow is the
 // bulk of the game's bookkeeping. Every die can be rolled by the app or
@@ -309,7 +309,7 @@ function stepZone() {
 
 /**
  * The defender's chance to break the lock. Every deployed countermeasure —
- * cartridge or sustained suite — negates the attack on a 4+ (rules.md 4.2).
+ * cartridge or sustained suite — negates the attack on a 4+ (rules.typ 4.2).
  */
 function stepCountermeasures() {
   const t = target();
@@ -523,7 +523,7 @@ function stepPreview() {
     </div>`);
 }
 
-/** How many bursts landed at least one round — one Critical each (rules.md 5.0). */
+/** How many bursts landed at least one round — one Critical each (rules.typ 5.0). */
 function countBurstsThrough(dr) {
   let n = 0;
   for (let b = 0; b < state.bursts; b += 1) {

@@ -1,6 +1,6 @@
-name: Frame Sheets
+name: Rulebook & Sheets
 
-# Builds every frame record sheet in typst/frames/ and attaches the PDFs to the
+# Builds the rulebook and every frame record sheet, and attaches the PDFs to the
 # run. Nothing is committed: the PDFs are derived from the .typ sources and the
 # constants they quote, so keeping copies in the tree would only give them a way
 # to drift — the failure mode this project has spent a lot of effort removing.
@@ -30,7 +30,7 @@ env:
 
 jobs:
   build:
-    name: Build record sheets
+    name: Build rulebook and sheets
     runs-on: ubuntu-latest
 
     steps:
@@ -59,6 +59,8 @@ jobs:
             typst compile --root . $TYPST_FONTS --input theme=screen "$src" "out/screen/${name}-screen.pdf"
             echo "::endgroup::"
           done
+          typst compile --root . $TYPST_FONTS typst/rules.typ "out/print/iron-protocol-rules.pdf"
+          typst compile --root . $TYPST_FONTS --input theme=screen typst/rules.typ "out/screen/iron-protocol-rules-screen.pdf"
           ls -la out/print out/screen
 
       # A record sheet that runs to two pages is unusable at the table, and the
@@ -85,7 +87,7 @@ jobs:
       - name: Upload sheets
         uses: actions/upload-artifact@v4
         with:
-          name: frame-sheets
+          name: iron-protocol-pdfs
           path: out/
           if-no-files-found: error
           retention-days: 90

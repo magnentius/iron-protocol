@@ -1,6 +1,6 @@
 // Iron Protocol — core rules tables.
-// Transcribed from rules.md. Section references in comments point at the source
-// of truth; when rules.md and a frame sheet disagree, see docs/README.md.
+// Transcribed from rules.typ. Section references in comments point at the source
+// of truth; when rules.typ and a frame sheet disagree, see docs/README.md.
 
 export const LOCATIONS = ['head', 'torso', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg'];
 
@@ -23,7 +23,7 @@ export const CRIT_TABLE_FOR = {
   rightLeg: 'leg',
 };
 
-// Adjacency for High Explosive splash damage (rules.md 5.2). "Adjacent locations"
+// Adjacency for High Explosive splash damage (rules.typ 5.2). "Adjacent locations"
 // on the chassis: the torso touches everything, limbs touch only the torso.
 export const ADJACENT_LOCATIONS = {
   head: ['torso'],
@@ -34,7 +34,7 @@ export const ADJACENT_LOCATIONS = {
   rightLeg: ['torso'],
 };
 
-// --- Hit Location Table (rules.md 6.1) -------------------------------------
+// --- Hit Location Table (rules.typ 6.1) -------------------------------------
 // Indexed by 2d6 roll, then by the hit zone the attack came from.
 // Front and Rear share a column.
 
@@ -76,7 +76,7 @@ export function lookupHitLocation(roll, zone) {
   };
 }
 
-// --- Critical Hit Tables (rules.md 6.2) ------------------------------------
+// --- Critical Hit Tables (rules.typ 6.2) ------------------------------------
 //
 // Every table climbs the same Severity Ladder, so the same number means the same
 // *kind* of damage wherever it lands:
@@ -146,7 +146,7 @@ export function lookupCrit(tableKey, roll) {
 }
 
 /**
- * Cascading Failure (rules.md 6.2): if the rolled slot is already marked, the
+ * Cascading Failure (rules.typ 6.2): if the rolled slot is already marked, the
  * damage climbs to the next unmarked slot. If it climbs past the top of the
  * table, the top result applies again.
  * @param {object} marked - map of slot number -> true
@@ -158,7 +158,7 @@ export function cascadeSlot(tableKey, roll, marked = {}) {
   return { slot: Math.min(slot, max), overflowed: slot > max };
 }
 
-// --- Terrain (rules.md 3.1, 3.5) -------------------------------------------
+// --- Terrain (rules.typ 3.1, 3.5) -------------------------------------------
 // `cover` is the number of damage-dice rerolls the defender may force.
 
 export const TERRAIN = {
@@ -174,10 +174,10 @@ export const TERRAIN = {
 
 export const TERRAIN_KEYS = Object.keys(TERRAIN);
 
-// Heavy Woods are impassable on foot to Heavy and Assault frames (rules.md 3.2).
+// Heavy Woods are impassable on foot to Heavy and Assault frames (rules.typ 3.2).
 export const HEAVY_WOODS_BLOCKED_CLASSES = ['heavy', 'assault'];
 
-// --- Weight classes (rules.md 1.1) -----------------------------------------
+// --- Weight classes (rules.typ 1.1) -----------------------------------------
 
 export const WEIGHT_CLASSES = {
   light: { name: 'Light', massValue: 1, tons: [20, 35], maxMovement: 7 },
@@ -193,10 +193,10 @@ export function weightClassForTons(tons) {
   return 'assault';
 }
 
-// Only Light and Medium chassis may mount Jump Jets (rules.md 2.2).
+// Only Light and Medium chassis may mount Jump Jets (rules.typ 2.2).
 export const JUMP_CAPABLE_CLASSES = ['light', 'medium'];
 
-// --- Movement costs (rules.md 2.2) -----------------------------------------
+// --- Movement costs (rules.typ 2.2) -----------------------------------------
 
 export const MOVE_COSTS = {
   walk: 1,
@@ -209,14 +209,14 @@ export const MOVE_COSTS = {
   climbUp: 1, // per level, added to terrain cost
 };
 
-// Exiting this many hexes in an activation grants Flank Speed (rules.md 2.2).
+// Exiting this many hexes in an activation grants Flank Speed (rules.typ 2.2).
 // Fixed across all chassis: an Assault frame capped at 3 can never reach it.
 export const FLANK_SPEED_THRESHOLD = 4;
 
 // A jump of this many hexes grants Flank Speed regardless of the usual threshold.
 export const JUMP_FLANK_SPEED_HEXES = 2;
 
-// --- Damage resolution (rules.md 2.3, 6.2) ---------------------------------
+// --- Damage resolution (rules.typ 2.3, 6.2) ---------------------------------
 
 // Armor DR is a threshold: damage must be STRICTLY greater to penetrate.
 // For every this many points of excess, the attacker rolls one extra crit die.
@@ -228,7 +228,7 @@ export function overkillDice(excess) {
   return 1 + Math.floor(excess / OVERKILL_STEP);
 }
 
-// --- Weapons (rules.md 5) --------------------------------------------------
+// --- Weapons (rules.typ 5) --------------------------------------------------
 // `damage` is { dice, sides, flat }. Overcharge adds DICE, never flat: a flat
 // bonus would sit outside the reroll system entirely (see the design note in 5).
 
@@ -305,13 +305,13 @@ export const WEAPONS = {
   },
 };
 
-// Autocannon munitions (rules.md 5.1). A single type is chosen at build time.
+// Autocannon munitions (rules.typ 5.1). A single type is chosen at build time.
 export const AMMO_TYPES = {
   ap: { name: 'AP', ap: 1, critMod: 0, note: 'Ignores 1 point of Armor DR per hit.' },
   hei: { name: 'HEI', ap: 0, critMod: 1, note: 'Adds +1 to Critical Hit rolls caused by this weapon.' },
 };
 
-// --- Ammo Die (rules.md 5.0) -----------------------------------------------
+// --- Ammo Die (rules.typ 5.0) -----------------------------------------------
 // Nothing reloads in the field. After an attack, roll 1d6; at or below the
 // threshold the system is Empty for the rest of the battle.
 
@@ -323,7 +323,7 @@ export const AMMO_DIE = {
   jumpJets: { empty: 2, expect: '3 jumps' },
 };
 
-// --- Sensors & countermeasures (rules.md 4) --------------------------------
+// --- Sensors & countermeasures (rules.typ 4) --------------------------------
 
 export const SENSOR_BANDS = { vis: 'Visual', ir: 'Infrared', rad: 'Microwave' };
 
@@ -352,7 +352,7 @@ export const COUNTERMEASURE_FOR_BAND = {
   vis: ['smoke', 'adaptiveSkin'],
 };
 
-// Spending this much EP in a turn exposes the frame to IR locks (rules.md 4.1).
+// Spending this much EP in a turn exposes the frame to IR locks (rules.typ 4.1).
 // Adaptive Skin upkeep paid in the Energy Phase does NOT count toward this.
 // Set at 4 rather than 5 deliberately: Flank Speed costs exactly 4 EP, so a
 // Frame that sprints four hexes lights up. At 5 it could sprint, collect a Cover
@@ -361,10 +361,10 @@ export const COUNTERMEASURE_FOR_BAND = {
 // itself upright and doing nothing else has no bloom worth finding.
 export const IR_LOCK_THRESHOLD = 4;
 
-// A single Full Auto attack may fire at most this many bursts (rules.md 5.0).
+// A single Full Auto attack may fire at most this many bursts (rules.typ 5.0).
 export const MAX_FULL_AUTO_BURSTS = 3;
 
-// --- Pilot Checks (rules.md 6.4) -------------------------------------------
+// --- Pilot Checks (rules.typ 6.4) -------------------------------------------
 
 export const PILOT_CHECK_TN = 6;
 

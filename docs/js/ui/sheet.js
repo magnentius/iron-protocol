@@ -432,7 +432,7 @@ function systemsCard(frame) {
       </div>`);
   }
 
-  // Cartridge launchers: no counters, just loaded or Empty (rules.md 5.0).
+  // Cartridge launchers: no counters, just loaded or Empty (rules.typ 5.0).
   const CARTRIDGES = [
     ['dircm', 'IR Countermeasures', 'Directed jammer. Contests an IR-locked attack for 2 EP, drawn from the pool or the reserve. Never runs out.'],
     ['chaff', 'Chaff Dispenser', 'Contests a Radar-locked attack. Free to fire.'],

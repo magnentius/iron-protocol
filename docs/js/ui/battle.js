@@ -127,7 +127,7 @@ function frameCard(frame, position, battle) {
 }
 
 /**
- * Torso Facing (rules.md 1.2). Set at the very end of the activation, after all
+ * Torso Facing (rules.typ 1.2). Set at the very end of the activation, after all
  * movement, and only once — so this is three states rather than a verb, and it
  * locks after use. Free unless a Servo Lock critical has been taken.
  */
@@ -477,7 +477,7 @@ function showCollisionModal(frame) {
       mutate((battle) => {
         for (const victim of [frame, target]) {
           const hit = R.lookupHitLocation(R.roll2d6().total, 'front');
-          // Armor DR applies to collisions; Flank Speed does not (rules.md 2.2).
+          // Armor DR applies to collisions; Flank Speed does not (rules.typ 2.2).
           const report = R.applyDamage(victim, hit.location, damage, { coreCritical: hit.coreCritical });
           const landed = report.transferred || report;
           let critNote = '';
