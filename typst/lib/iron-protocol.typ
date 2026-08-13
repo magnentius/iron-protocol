@@ -376,29 +376,17 @@
   grid(columns: (1fr, 1fr), gutter: 10pt, row-gutter: 3pt, ..stores)
 })
 
-/// Infrared exposure: the 4 EP that give a Frame a heat signature.
-///
-/// Deliberately separate from the reactor pool. The rule counts EP *spent*
-/// cumulatively across the whole round, from any source — so charge drawn from
-/// the Capacitor counts too, and never appears on the pool row. Marking a
-/// position on that row would also mean a different pip on every chassis, and
-/// would shift the moment water cooling added a point.
-#let ir-track() = context {
-  let p = pal.get()
-  let box4(i) = {
-    let hot = i == 4
-    box(width: 13pt, height: 13pt, radius: 2pt,
-      fill: if hot { p.warn.transparentize(82%) } else { p.paper },
-      stroke: (if hot { 0.9pt + p.warn } else { 0.6pt + p.border }),
-      align(center + horizon, text(font: mono, size: 7pt, weight: "bold",
-        fill: if hot { p.warn } else { p.dim })[#i]))
-  }
-  grid(columns: (auto, 1fr), gutter: 8pt, align: (horizon, horizon),
-    stack(dir: ltr, spacing: 3pt, ..range(1, 5).map(box4)),
-    text(size: 6.4pt, fill: p.muted)[
-      Tick every EP spent this round, from the pool *or* the Capacitor. On the
-      *4th* the Frame is lockable on infrared for the rest of the round. Adaptive
-      Skin upkeep is exempt. Clears each Energy Phase.
-    ],
-  )
-}
+// There was an infrared track here: four numbered boxes to tick off, sitting
+// under a note that already stated the same rule. It is gone, and nothing
+// replaced it.
+//
+// A counter earns its boxes when the count is hard to hold. This one is not.
+// Above 4 EP you cross the threshold on your first action and never think about
+// it again; below it you are running cold deliberately, which means counting to
+// three *is* your plan for the round. Either way the boxes record something the
+// player already knows, and cost an erase every Energy Phase to say it.
+//
+// The obvious replacement — highlight the 4th pip on the reactor row — is worse
+// than nothing. EP drawn from the Capacitor counts toward the threshold and
+// never appears on that row, so the mark would be right whenever a player spends
+// from the pool and quietly wrong the moment they spend from the reserve.

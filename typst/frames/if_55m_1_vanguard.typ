@@ -29,11 +29,10 @@
     pip-row(12, per-row: 6)
     v(3pt)
     text(size: 6.5pt, fill: rgb("#5d6b7d"))[
-      The 4th EP in a round leaves a heat bloom — lockable on infrared for the
-      rest of it. The largest reactor of any Medium.
+      Fill in the Energy Phase, erase as spent. A 4th EP spent in a round — from
+      this pool *or* the Capacitor — leaves a heat bloom, and the Frame stays
+      lockable on infrared for the rest of it. The largest reactor of any Medium.
     ]
-    v(4pt)
-    ir-track()
   }),
   card({
     label-text("Capacitor — max 6 EP")
