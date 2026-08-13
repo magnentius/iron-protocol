@@ -8,7 +8,7 @@
 #sheet-header("IF-45M-1", "Specter", "Medium Stealth Frame — 45 tons, Mass Value 2", "435 pts")
 
 #v(3pt)
-#status-strip()
+#state-strip()
 #v(3pt)
 
 #stat-strip(

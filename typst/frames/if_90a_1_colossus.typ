@@ -12,7 +12,7 @@
 #sheet-header("IF-90A-1", "Colossus", "Heavy Assault Frame — 90 tons, Mass Value 4", "620 pts")
 
 #v(2pt)
-#status-strip()
+#state-strip()
 #v(2pt)
 
 #stat-strip(

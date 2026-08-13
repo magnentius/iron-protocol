@@ -187,7 +187,7 @@
 
 #let crit-table(title, slots) = context {
   let p = pal.get()
-  card(stack(dir: ttb, spacing: 2pt,
+  card(stack(dir: ttb, spacing: 1.8pt,
     label-text(title),
     ..slots,
   ))
@@ -275,19 +275,35 @@
   ),
 )
 
-/// The status / terrain / facing strip carried by every sheet.
-#let status-strip() = context {
+/// A tickable option: a box and its label.
+#let tick(label) = context {
   let p = pal.get()
-  card({
-    grid(columns: (auto, 1fr), gutter: 8pt, align: (horizon, horizon),
-      stack(dir: ltr, spacing: 4pt,
-        chip("Prone", kind: "warn"), chip("Flank Speed", kind: "ok"), chip("Destroyed", kind: "danger")),
-      text(size: 6.3pt, fill: p.muted)[
-        *Terrain* Clear · Paved · Rough · Water · Woods · Building #h(0.8em)
-        *Torso facing* Left 60° · Centred · Right 60°, set once after all movement
-      ],
-    )
-  })
+  box(baseline: 20%, stack(dir: ltr, spacing: 3pt,
+    box(width: 8pt, height: 8pt, radius: 1.5pt, stroke: 0.55pt + p.border, fill: p.paper),
+    text(size: 6.6pt)[#label],
+  ))
+}
+
+/// Current state: what is true of this Frame right now.
+///
+/// Everything here is markable. An earlier version printed coloured pills and a
+/// list of terrain names, which looked like status and recorded nothing — you
+/// cannot toggle ink. It also collapsed the terrain list from eight entries to
+/// six, folding shallow water in with deep and light woods in with heavy, which
+/// are different terrain with different costs, cover and cooling.
+#let state-strip() = context {
+  let p = pal.get()
+  let row(label, items) = grid(
+    columns: (46pt, 1fr), gutter: 6pt, align: (right + horizon, left + horizon),
+    text(font: mono, size: 5.9pt, fill: p.muted, tracking: 0.1em)[#upper(label)],
+    stack(dir: ltr, spacing: 7pt, ..items.map(tick)),
+  )
+  card(stack(dir: ttb, spacing: 3pt,
+    row("State", ("Prone", "Flank Speed", "Destroyed",
+                  "Torso left 60°", "Torso centred", "Torso right 60°")),
+    row("Terrain", ("Clear", "Paved", "Rough", "Water shallow", "Water deep",
+                    "Woods light", "Woods heavy", "Building")),
+  ))
 }
 
 /// One equipment entry, stacked so it fits a half-width column.
@@ -303,7 +319,7 @@
 #let equip-card(title, rows) = card({
   label-text(title)
   v(4pt)
-  stack(dir: ttb, spacing: 4pt, ..rows)
+  stack(dir: ttb, spacing: 3pt, ..rows)
 })
 
 /// One Ammo Die store: a single box to mark when it runs dry.
@@ -325,7 +341,7 @@
 #let ammo-card(stores) = card({
   label-text("Ammunition — roll the Ammo Die after each attack; at or below its number, tick the box: that store is gone for the rest of the battle")
   v(4pt)
-  grid(columns: (1fr, 1fr), gutter: 10pt, row-gutter: 4pt, ..stores)
+  grid(columns: (1fr, 1fr), gutter: 10pt, row-gutter: 3pt, ..stores)
 })
 
 /// Infrared exposure: the 4 EP that give a Frame a heat signature.

@@ -18,7 +18,7 @@
 
 #v(3pt)
 
-#status-strip()
+#state-strip()
 
 #v(3pt)
 

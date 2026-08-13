@@ -8,7 +8,7 @@
 #sheet-header("IF-55M-1", "Vanguard", "Medium Skirmisher Frame — 55 tons, Mass Value 2", "455 pts")
 
 #v(2pt)
-#status-strip()
+#state-strip()
 #v(2pt)
 
 #stat-strip(

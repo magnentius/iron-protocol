@@ -8,7 +8,7 @@
 #sheet-header("IF-75H-1", "Paladin", "Heavy Fire-Support Frame — 75 tons, Mass Value 3", "555 pts")
 
 #v(3pt)
-#status-strip()
+#state-strip()
 #v(3pt)
 
 #stat-strip(
