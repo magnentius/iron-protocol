@@ -83,13 +83,32 @@ jobs:
           npm install -g firebase-tools@13
           firebase deploy --only hosting,database --project iron-protocol-406da --non-interactive
 
-      # A green deploy step is not proof the right bytes are being served.
+      # A green deploy step is not proof the right bytes are being served, but
+      # neither is a single check the instant it finishes: Firebase reports
+      # "release complete" before the edges have caught up, so a check that runs
+      # immediately reads the previous build and fails a deploy that worked.
+      # Poll instead, and only give up after the propagation window.
       - name: Verify what is live
         run: |
           set -euo pipefail
           expected="${{ steps.version.outputs.version }}"
-          for host in iron-protocol-406da.web.app play.ironproto.app; do
-            live="$(curl -fsSL "https://$host/sw.js" | sed -n "s/^const VERSION = '\(.*\)';/\1/p")"
-            echo "$host serving VERSION $live"
-            [ "$live" = "$expected" ] || { echo "::error::$host is serving '$live', expected '$expected'"; exit 1; }
+          hosts="iron-protocol-406da.web.app play.ironproto.app"
+          for host in $hosts; do
+            ok=0
+            for attempt in $(seq 1 20); do
+              live="$(curl -fsSL -H 'Cache-Control: no-cache' "https://$host/sw.js" \
+                       | sed -n "s/^const VERSION = '\(.*\)';/\1/p" || true)"
+              if [ "$live" = "$expected" ]; then
+                echo "$host serving $live (attempt $attempt)"
+                ok=1
+                break
+              fi
+              echo "  $host still on '${live:-?}', waiting for $expected ($attempt/20)"
+              sleep 6
+            done
+            [ "$ok" -eq 1 ] || {
+              echo "::error::$host never served '$expected' within 2 minutes"
+              exit 1
+            }
           done
+          echo "Both hosts are serving $expected"
