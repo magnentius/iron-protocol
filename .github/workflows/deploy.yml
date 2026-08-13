@@ -43,6 +43,15 @@ jobs:
       - name: Run the rules engine tests
         run: node tools/run-tests.mjs
 
+      # Resolved once, before anything touches the tree. Deriving it a second
+      # time later would read a working copy the stamp step has already
+      # modified, and --dirty would then disagree with what was stamped.
+      - name: Resolve the version
+        id: version
+        run: |
+          set -euo pipefail
+          echo "version=$(git describe --tags --always)" >> "$GITHUB_OUTPUT"
+
       # The service worker's VERSION is a cache key: if it does not change when
       # the code does, every client keeps serving the previous build from an
       # unchanged key, and no later deploy can dislodge it. It has been bumped
@@ -51,7 +60,7 @@ jobs:
       - name: Stamp the service worker
         run: |
           set -euo pipefail
-          version="$(git describe --tags --always --dirty)"
+          version="${{ steps.version.outputs.version }}"
           echo "Stamping sw.js VERSION = $version"
           perl -pi -e "s/^const VERSION = '.*';/const VERSION = '${version}';/" docs/sw.js
           grep -n "^const VERSION" docs/sw.js
@@ -78,7 +87,7 @@ jobs:
       - name: Verify what is live
         run: |
           set -euo pipefail
-          expected="$(git describe --tags --always --dirty)"
+          expected="${{ steps.version.outputs.version }}"
           for host in iron-protocol-406da.web.app play.ironproto.app; do
             live="$(curl -fsSL "https://$host/sw.js" | sed -n "s/^const VERSION = '\(.*\)';/\1/p")"
             echo "$host serving VERSION $live"
