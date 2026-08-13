@@ -298,30 +298,38 @@
 
 /// Current state: what is true of this Frame right now.
 ///
-/// Everything here is markable. An earlier version printed coloured pills and a
-/// list of terrain names, which looked like status and recorded nothing — you
-/// cannot toggle ink. It also collapsed the terrain list from eight entries to
-/// six, folding shallow water in with deep and light woods in with heavy, which
-/// are different terrain with different costs, cover and cooling.
+/// Everything here is markable. An earlier version printed coloured pills, which
+/// looked like status and recorded nothing — you cannot toggle ink.
+///
+/// Everything here is also a property of the *machine* rather than the ground,
+/// which is why there is no longer a terrain row. Terrain belongs to the hex,
+/// and the hex is on the table in front of you; recording it here made a third
+/// copy — after the board itself and the Hex field two inches away — with
+/// nothing keeping the three in agreement. The copy that goes stale is the one
+/// the player reads when counting Cover rerolls. The Battle Tracker still tracks
+/// terrain per Frame, and should: the app cannot see the board. This sheet is
+/// lying next to it.
 #let state-strip() = context {
   let p = pal.get()
   let label(s) = text(font: mono, size: 5.9pt, fill: p.muted, tracking: 0.1em)[#upper(s)]
-  let row(name, items, trailing) = grid(
+  let row(name, middle, trailing) = grid(
     columns: (46pt, auto, 1fr), gutter: 6pt,
     align: (right + horizon, left + horizon, right + horizon),
-    label(name),
-    stack(dir: ltr, spacing: 7pt, ..items.map(tick)),
-    trailing,
+    label(name), middle, trailing,
   )
+  // Two rows, split the way the information splits: what is true of the machine,
+  // and where the machine is. Both write-fields will not share the tick row —
+  // the Hex cells land on top of "Torso right 60°".
   card(stack(dir: ttb, spacing: 3pt,
-    // Hex and battlemat ride on the rows that already exist: the Paladin carries
-    // seven equipment entries and has no room for a row of its own.
-    row("State", ("Prone", "Flank Speed", "Destroyed",
-                  "Torso left 60°", "Torso centred", "Torso right 60°"),
-        write-field("Hex", cells: 4)),
-    row("Terrain", ("Clear", "Paved", "Rough", "Water S", "Water D",
-                    "Woods L", "Woods H", "Building"),
-        write-field("Battlemat", width: 96pt)),
+    row("State",
+        stack(dir: ltr, spacing: 7pt, ..("Prone", "Flank Speed", "Destroyed",
+              "Torso left 60°", "Torso centred", "Torso right 60°").map(tick)),
+        []),
+    row("Board",
+        stack(dir: ltr, spacing: 14pt,
+          write-field("Hex", cells: 4),
+          write-field("Battlemat", width: 150pt)),
+        []),
   ))
 }
 
