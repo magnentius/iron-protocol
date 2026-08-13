@@ -1212,6 +1212,26 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(R.turnOrder([frame('jackal', { destroyed: true }), frame('vanguard')], 'combat').length, 1);
   });
 
+  it('the Advantage Player takes the tie in BOTH phases, not one each', () => {
+    // Two Vanguards, Initiative 6 apiece. 'them' is listed first, so a plain
+    // stable sort would give them Activation; reversing for Combat would then
+    // hand the tie back. The Advantage Player must lead both.
+    const tied = [
+      frame('vanguard', { ownerId: 'them', callsign: 'Theirs' }),
+      frame('vanguard', { ownerId: 'us', callsign: 'Ours' }),
+    ];
+    eq(R.turnOrder(tied, 'activation', 'us').map((f) => f.callsign), ['Ours', 'Theirs']);
+    eq(R.turnOrder(tied, 'combat', 'us').map((f) => f.callsign), ['Ours', 'Theirs']);
+  });
+
+  it('same-side ties keep the order their owner built them in', () => {
+    const mine = [
+      frame('vanguard', { ownerId: 'us', callsign: 'Second' }),
+      frame('vanguard', { ownerId: 'us', callsign: 'First' }),
+    ];
+    eq(R.turnOrder(mine, 'activation', 'us').map((f) => f.callsign), ['Second', 'First']);
+  });
+
   // --- Worked example (rules.typ 2.3.1) --------------------------------------
   describe('rules.typ 2.3.1 — Colossus Thermal Lance vs Vanguard');
 

@@ -404,7 +404,7 @@ export function removeFrame(frameId) {
 }
 
 export function orderedFrames(b = getBattle()) {
-  return turnOrder(framesList(b), b.phase);
+  return turnOrder(framesList(b), b.phase, b.advantagePlayer);
 }
 
 // --- Logging ----------------------------------------------------------------

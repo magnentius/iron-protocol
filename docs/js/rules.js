@@ -1151,9 +1151,25 @@ export function endPhase(frame, { rng = Math.random } = {}) {
 /**
  * Activation runs lowest Initiative first; Combat runs highest first. The flip
  * every round is the rule most worth automating.
+ *
+ * Each phase sorts in its own direction rather than sorting once and reversing.
+ * Reversing also reverses tied Frames, which would hand Combat's tie to the
+ * player who did not win Activation's — and the Advantage Player is supposed to
+ * take every tie in both.
+ *
+ * `advantagePlayer` is an ownerId. Ties between Frames with the same owner keep
+ * their existing order: the rules leave those to the owning player, and sort is
+ * stable, so the list order they built is the order they get.
  */
-export function turnOrder(frames, phase) {
+export function turnOrder(frames, phase, advantagePlayer = null) {
   const live = frames.filter((f) => !isDestroyed(f));
-  const sorted = [...live].sort((a, b) => effectiveInitiative(a) - effectiveInitiative(b));
-  return phase === 'combat' ? sorted.reverse() : sorted;
+  const dir = phase === 'combat' ? -1 : 1;
+  return [...live].sort((a, b) => {
+    const byInit = (effectiveInitiative(a) - effectiveInitiative(b)) * dir;
+    if (byInit !== 0) return byInit;
+    if (!advantagePlayer || a.ownerId === b.ownerId) return 0;
+    if (a.ownerId === advantagePlayer) return -1;
+    if (b.ownerId === advantagePlayer) return 1;
+    return 0;
+  });
 }

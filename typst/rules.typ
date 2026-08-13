@@ -230,7 +230,7 @@ When a Frame is attacked, the direction of the incoming attack determines the *H
 To begin a game of _Iron Protocol_, players complete the following setup steps:
 + *Agree on Force Limit*: Players select a Deployment Point budget (e.g. 500 pts for introductory 1v1, 1000 pts for 2v2 Element combat, 1500 pts for 3v3–4v4 Platoon battles).
 + *Select Frames & Pilots*: Players choose pre-built technical readouts from the *Iron Frame Roster (#sec("8"))* or construct custom frames using Section 7.2.
-+ *Determine the Advantage Player*: whoever brings the *lower* total force cost is the *Advantage Player* — deliberately spending less than the budget to claim it is called a *Point Bid*. If the two forces cost the same, roll 2d6; the higher roll takes it. The Advantage Player chooses their home map edge and settles every Initiative tie for the rest of the battle.
++ *Determine the Advantage Player*: whoever brings the *lower* total force cost is the *Advantage Player* — deliberately spending less than the budget to claim it is called a *Point Bid*. If the two forces cost the same, roll 2d6; the higher roll takes it. The Advantage Player chooses their home map edge, and *goes first on every Initiative tie* for the rest of the battle — in deployment, in the Activation Phase and in the Combat Phase alike.
 + *Map Setup & Unit Deployment*: Lay out hex map tiles. The Advantage Player chooses their home map edge. Every Frame on the board then deploys in a single order of *ascending Initiative* — lowest first, regardless of side — each placed within 2 hexes of its own home edge. Where Frames on *opposing* sides are tied on Initiative, the Advantage Player places first and the tied Frames alternate from there; where a player's *own* Frames are tied, that player places them in whatever order they choose. The deploying player sets that Frame's Leg Facing freely, and its Torso Facing begins aligned with the legs. *Every Frame in a force is deployed* — there are no reserves and nothing is held back unless a scenario provides for it.
 + *Pre-Combat System Activation*: Frames carrying an *Adaptive Skin* or *ECM* may deploy with those systems *Active*, and the 2 EP upkeep for each is deducted in the Round 1 Energy Phase exactly as in every later round. Deployment decides only whether a system is *running*. An Adaptive Skin's cloaked band is chosen in that first Energy Phase like any other (#sec("4.2")), so nothing about which spectrum you are hiding on is committed before the board is set.
 
@@ -243,11 +243,13 @@ To begin a game of _Iron Protocol_, players complete the following setup steps:
   because it is your scout, not because you decided to hold it back, and an
   assault chassis plants itself first whatever you would rather do.
 
-  Note which half of a tie the Advantage Player takes. Everywhere else in the
-  rules they *choose* the order of tied Frames; here they simply go first, and
-  going first in deployment is the worse end of the deal — it is placing blind.
-  That is a small standing cost paid for choosing the ground, and it is why this
-  tie-break is not written the way the ones in Sections 2.2 and 2.3 are.
+  The Advantage Player goes first on every tie, everywhere — here, in the
+  Activation Phase and in the Combat Phase. That is one rule to remember rather
+  than a decision to make three times a round, and it is not the gift it looks
+  like, because *first* is not consistently the good end. Placing first is
+  placing blind and moving first is committing blind, so two of the three cost
+  them something; only firing first is worth having. Choosing the ground is paid
+  for twice and refunded once.
 ]
 
 === 1.4.1 Introductory Scenario: Trial by Fire (1v1 Duel)
@@ -291,7 +293,7 @@ At the start of the turn, players perform the following steps:
 #anchor("2.2")
 
 Frames activate one at a time, beginning with the *lowest Initiative* value and counting up.
-- *Initiative Tie-Breakers (Activation)*: If opposing Frames share the same Initiative value, the *Advantage Player* (determined during setup via Point Bid or die roll) decides which of the tied Frames activates first (choosing to activate their own unit first or forcing the opponent's tied unit to activate first). Frames on the *same* side that share an Initiative value activate in whatever order their own player chooses.
+- *Initiative Tie-Breakers (Activation)*: If opposing Frames share the same Initiative value, the *Advantage Player's* Frame activates first. Frames on the *same* side that share an Initiative value activate in whatever order their own player chooses.
 - *Dynamic Movement Execution*: When a Frame activates, the player decides how to move it on the fly, spending EP from their current energy pool step-by-step. This allows players to react directly to the movements of previously activated (lower-initiative) frames.
 - *Movement Limit*: A Frame cannot enter more hexes during its activation than its stat sheet Movement Limit. Changing Leg Facing (pivoting) does not count as entering a hex and is not restricted by this limit.
 - *Which hex you may enter*: a *Forward Walk* enters the single hex the Leg Facing points at, and a *Reverse* the single hex directly behind it. There is no diagonal step. Reaching any other adjacent hex means pivoting first, at 1 EP per 60°, so a Frame that wants to turn a corner pays for the corner.
@@ -402,7 +404,7 @@ The limit is propellant, not thrust: lifting a Frame takes reaction mass, and th
 #anchor("2.3")
 
 Frames attack in order of *highest Initiative* to *lowest Initiative*.
-- *Initiative Tie-Breakers (Combat)*: If opposing Frames share the same Initiative value, the *Advantage Player* decides which of the tied Frames declares and resolves its attack first (choosing to fire with their own unit first or allowing the opponent's tied unit to declare its attack first). Frames on the *same* side that share an Initiative value fire in whatever order their own player chooses.
+- *Initiative Tie-Breakers (Combat)*: If opposing Frames share the same Initiative value, the *Advantage Player's* Frame declares and resolves its attack first. Frames on the *same* side that share an Initiative value fire in whatever order their own player chooses.
 - *Instant Resolution*: Unlike some tabletop games, damage is resolved _instantly_. If a high-initiative Frame destroys or disables a weapon on a lower-initiative Frame, that lower-initiative Frame cannot use that weapon when its turn to fire comes.
 - *One Attack Per Weapon*: Each mounted weapon may be fired *once per Combat Phase*, regardless of how much EP remains. A Frame with several weapons may fire each of them once, in any order it chooses. _(This is what gives Full Auto its purpose: a pilot who wants to put more rounds downrange must concentrate them into a single attack against a single hit location, rather than spreading them across several.)_
 - *Attack Sequence*:
