@@ -80,7 +80,7 @@
 // --- Ammo dice --------------------------------------------------------------
 
 #ammo-card((
-  ammo-store([Autocannon *— one magazine, however it is fired*], [1, or 1–3 on Full Auto]),
+  ammo-store([Autocannon], [1, or 1–3 on Full Auto]),
   ammo-store([Jump Jet propellant], [1–2]),
 ))
 

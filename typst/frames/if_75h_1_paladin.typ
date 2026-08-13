@@ -65,7 +65,7 @@
 #v(3pt)
 
 #ammo-card((
-  ammo-store([Autocannon *— one magazine, however it is fired*], [1, or 1–3 on Full Auto]),
+  ammo-store([Autocannon], [1, or 1–3 on Full Auto]),
   ammo-store([Guided Missiles], [1–2]),
   ammo-store([Smoke Launcher], [1]),
   ammo-store([Chaff Dispenser], [1]),
