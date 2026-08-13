@@ -336,6 +336,25 @@ The limit is propellant, not thrust: lifting a Frame takes reaction mass, and th
   - *Damage Calculation*: The collision inflicts a flat amount of damage based on the moving Frame's *Mass Value* (Light = 1, Medium = 2, Heavy = 3, Assault = 4) multiplied by its speed (the number of hexes moved in the current activation before impact):
     *Collision Damage = Mass Value x Speed*
   - *Pilot Check*: After resolving collision damage, both Frames must check if they fall Prone (see #sec("6.3")).
+#example[
+  *Worked example — a Jackal rams a Colossus.* The Jackal has walked *4 hexes*
+  this activation and drives into the Colossus's hex deliberately.
+
+  + *Damage*: the moving Frame's Mass Value × its speed. A Jackal is Light, so
+    Mass Value *1*, times 4 hexes — *4 points*. Both Frames suffer that same 4.
+  + *The Colossus*: 2d6 for location comes up 7 — Torso, DR *8*. Four does not
+    beat eight. *It takes nothing at all.*
+  + *The Jackal*: its own location roll is a 7 as well — Torso, DR *3*. Four
+    beats three, so its Torso drops to DR *2* and it takes *1 Critical*. Flank
+    Speed grants no rerolls against a collision.
+  + *Both* Frames then make a Pilot Check or fall Prone.
+
+  The Jackal spent its whole activation to deal nothing and wound itself. Mass
+  Value is the entire equation, and ramming up the weight classes is a way to
+  lose a Frame rather than kill one.
+]
+
+
 === Flank Speed & Torso Twist
 
 - *Flank Speed*: If a Frame successfully exits *4 or more hexes* during its activation _(changing facing/pivoting does not exit a hex)_, it gains Flank Speed. This represents the difficulty of targeting a fast-moving frame. Note that *Assault Frames cannot reach this threshold at all* — capped at 3 hexes of movement, they have no access to Flank Speed and must survive on Armor DR and terrain Cover alone. 
@@ -362,12 +381,6 @@ The limit is propellant, not thrust: lifting a Frame takes reaction mass, and th
   - _Landing_: The cliff top is Clear terrain, so this is an automatic clean landing with no Pilot Check. The pilot sets Leg Facing toward the enemy's rear quadrant for free.
   - _Final Step_: The Jackal has *5 EP* remaining — enough for its Laser (2 EP) and three Autocannon bursts (3 EP) in the Combat Phase.
 
-- *Example 3 (Water Cooling & Urban Cover)*: An IF-25L-1 "Jackal" (Base Reactor 8) starts its turn standing in a Shallow Water hex.
-  + *Energy Phase*: The water submerged legs cool the reactor, generating *+1 extra EP* (total energy pool = 9 EP).
-  + *Activation Phase*: The Jackal performs 2 *Forward Walks* (2 EP) out of the water into a Paved street hex.
-  + It performs a *Pivot* (1 EP) and a *Forward Walk* (1 EP) into a hex adjacent to a Level 2 *Urban Building*.
-  - _EP Expenditure_: 2 + 1 + 1 = 4 EP. The Jackal has 5 EP remaining to fire its Autocannon or Laser.
-  - _Defensive Status_: The Jackal moved 3 total hexes. Since the threshold is 4 hexes, it does _not_ gain Flank Speed. However, positioned adjacent to the building, it gains *Heavy Cover* against incoming attacks crossing the building's hexside, letting it force rerolls on up to 2 of the attacker's damage dice.
 
 == 2.3 Combat Phase (Initiative Order)
 #anchor("2.3")
@@ -561,6 +574,26 @@ An intervening hex of elevation level Y or building height Y blocks *all* sensor
 
 _(Example: Two Frames on Level 0 [top height 2] can see over a Level 1 hill [height 1]. A Level 2 hill [height 2] blocks Line of Sight completely)._
 
+#example[
+  *Worked example — the same shot on two bands.* A Paladin on *Level 0* wants to
+  fire at a Specter standing on a *Level 1* hill. Between them is one hex of
+  *Light Woods*, also on Level 1.
+
+  + *The ceiling*: the Paladin's top height is 0 + 2 = 2, the Specter's is
+    1 + 2 = 3. LOS is blocked by anything reaching min(2, 3) = *2*.
+  + *On Visual*: the intervening hex is ground Level 1, and Light Woods adds *+1
+    Level* of canopy — an obstruction height of *2*. Two is not below two, so
+    *Visual is blocked*. The Paladin's Autocannon is slaved to the optical set
+    and cannot be fired at all.
+  + *On Radar*: canopy height is ignored entirely, so the hex is simply Level
+    *1*. One is below the ceiling of two, the lock holds, and the *Rail Gun fires
+    normally*.
+
+  The same trees, the same hex, and one of the Paladin's two guns is useless. A
+  Frame carrying weapons on two bands is far harder to disarm than one relying on
+  a single spectrum.
+]
+
 === 2. Vegetation Canopy Height (Visual LOS Only)
 
 Trees have vertical foliage that adds to ground level for *Visual (VIS)* LOS only. IR and Radar sensors ignore canopy height:
@@ -619,6 +652,25 @@ Frames can run active systems to deny locks and hide from sensors:
   _A failed check does not disable the system._ A sustained suite remains active and is rolled again against the next attack; a launched cartridge is spent whether it worked or not, and its Ammo Die is rolled as normal. Terrain is the exception — woods, buildings and elevation block a spectrum *outright*, with no roll. Only the ground is reliable.
 
   _What separates the two kinds of system is no longer certainty but cost. Cartridges are free to fire and run dry after roughly six launches; a sustained suite never runs out but bills 2 EP every Energy Phase, turn after turn, whether it is tested or not._
+
+#example[
+  *Worked example — Chaff against a Rail Gun.* A Paladin declares its Rail Gun at
+  a Vanguard. The gun costs 0 EP at base but *must* Overcharge +6 EP from the
+  Capacitor to fire at all, so the Paladin pays six banked EP on declaration.
+
+  + The Rail Gun needs a *Microwave (Radar)* lock, and the Paladin has one.
+  + *Before any location is rolled*, the Vanguard releases *Chaff* — the
+    countermeasure that answers Radar.
+  + *Countermeasure Check*: 1d6 comes up *5*. On a 4+ the lock fails and *the
+    attack is negated entirely* — no Hit Location, no damage roll, nothing.
+  + *The 6 EP is gone anyway.* It was spent on declaration, and the Rail Gun
+    still enters its 1-Turn Cooldown, because firing it always Overcharges.
+  + *The cartridge is gone anyway too.* Roll the Chaff Ammo Die: a 4, so the
+    dispenser still holds. A 1 would have emptied it for the battle.
+
+  Six of the Paladin's eight banked EP and one cartridge, for nothing on either
+  side. That is what a 4+ costs both players.
+]
 
 - *Electronic Countermeasures (ECM)*: Costs *2 EP* to activate in the Energy Phase. Contests Microwave (Radar) detection and locks on the host Frame (0-hex radius) — each attack tested against it requires a Countermeasure Check. Overcharge [+1 EP per +1 hex radius]. All friendly Frames within the active radius are protected. _(Note: Overcharging triggers the mandatory 1-Turn Cooldown on the ECM suite)._
 - *Infrared Countermeasure Suite (IRCM)*: (*2 EP per activation*, no Ammo Die). A directed jammer — it floods the attacker's infrared channel with a modulated source keyed to defeat a seeker's tracking logic, and dazzles an imaging thermal sight in the process. Activating it forces a Countermeasure Check; on a *4+* the incoming attack is negated entirely, and on a 1–3 the attacker burns through. The suite may only be used when *all* of the following are true:
@@ -773,6 +825,27 @@ Missiles must be configured with a guidance package and a warhead at build time:
 - *Warheads*:
   - _High Explosive (HE)_: Roll 1 Hit Location. Deals 3d6 damage to the primary hit location, and *1d6 splash damage* to all adjacent locations on the target Frame (e.g., if the Torso is hit, the Head, Arms, and Legs take splash damage).
   - _Cluster_: Sandblasts the target with a wide spread. Roll three times for Hit Locations: once on the *Left Side* column, once on the *Front/Rear* column, and once on the *Right Side* column. The Cluster Missile deals *2d6 damage* to each of these three rolled locations. *Each location is resolved as a complete attack in its own right*: test the 2d6 against that location's Armor DR, and where it penetrates, degrade that DR by 1, roll its Critical, and measure its own Overkill Margin against its own armor. Three locations can therefore produce three separate cascades. Being AoE, none of the three may be rerolled for Flank Speed or Cover (#sec("5.3")).
+  - #example[
+    *Worked example — a Cluster salvo.* A Paladin fires its Torso launcher (4 EP,
+    Infrared guidance, Cluster warheads) at a Vanguard that has already spent its
+    4th EP this round, so the infrared lock holds.
+
+    Three Hit Locations are rolled, one per column, and *each is a complete
+    attack in its own right*:
+    + *Left Side column, roll 4* — the Vanguard's *Left Arm*, DR 4. 2d6 comes up
+      3 + 5 = *8*. Eight beats four: the arm drops to DR 3 and takes *1
+      Critical*. The excess is 4, short of a full 5, so no Overkill.
+    + *Front/Rear column, roll 7* — the *Torso*, DR 6. 2d6 comes up 2 + 3 = *5*.
+      Five does not beat six. *Nothing happens at all.*
+    + *Right Side column, roll 11* — the *Left Leg*, DR 5. 2d6 comes up 6 + 6 =
+      *12*. The leg drops to DR 4, and the excess of 7 is one full step of 5, so
+      the base Critical plus one more: *2 Criticals*.
+
+    Three Criticals across two locations from one salvo, and *the Vanguard could
+    not reroll a single die* — Cluster is AoE, which bypasses Flank Speed and
+    Cover alike. Then roll the Ammo Die: the launcher empties on a *1–2*.
+  ]
+
   - _EMP (Electromagnetic Pulse)_: Detonates in a massive sphere. Targets a *specific hex* rather than a single Frame. *All Frames* within the target hex and the 6 surrounding adjacent hexes suffer the effect, *including your own*. Deals no physical damage, rolls no damage dice, and *ignores Armor DR entirely* — plate is no protection against it, and stripped plate earns the attacker no bonus.
     - *No lock is required, and none can be contested.* The warhead is aimed at a point on the map, not at a Frame, so there is nothing for Chaff, an IRCM suite, Smoke, ECM or an Adaptive Skin to break — a countermeasure denies a _lock_, and there is no lock here. *Line of sight and terrain are the only things that stop it*, which is the one place this game has ever promised reliability: only the ground.
     - *Every Frame caught takes a Sensor Critical.* Roll *1d6* separately for each: on a *1–2* _Sensor Ghosting_, on a *3–4* _Sensor Calibration Drift_, on a *5–6* _Sensor Array Destroyed_. These are the three sensor results of the Head Critical Table and resolve exactly as they do there, including the further 1d6 for which array burns out. There is no softer edge to the blast — standing beside the target hex is standing in it.
@@ -813,8 +886,37 @@ Any weapon or system with the Overcharge trait allows a pilot to dump excess EP 
 - *Damage Overcharges Add Dice*: Where an Overcharge increases a weapon's damage, it does so at a flat rate of *2 EP per additional damage die, to a maximum of +2d6*. Never a fixed bonus.
 _(Example: A pilot overcharges their Thermal Lance. They spend 4 base EP + 4 overcharge EP = 8 EP total, rolling *5d6* instead of the usual 3d6. The weapon then enters a 1-Turn Cooldown and cannot be fired next round)._
 
-*Design Note* — Why heavy weapons roll dice rather than flat damage. Flank Speed and Cover let a defender force *rerolls*, which can only ever touch dice. A weapon built around a large fixed bonus is therefore invisible to the entire defensive system: no amount of speed or terrain can affect it. This is why the Rail Gun rolls *5d6* rather than 3d6 + 10 for a nearly identical average — the five dice give a defender something to grab, doubling what Flank Speed and Cover are worth against it, while leaving it comfortably the deadliest weapon in the game. Keep this in mind when designing new equipment: *flat damage bonuses are defence-proof, and should be small or absent on anything powerful.*
 ]
+
+#design-note[
+Why heavy weapons roll dice rather than flat damage. Flank Speed and Cover let a defender force *rerolls*, which can only ever touch dice. A weapon built around a large fixed bonus is therefore invisible to the entire defensive system: no amount of speed or terrain can affect it. This is why the Rail Gun rolls *5d6* rather than 3d6 + 10 for a nearly identical average — the five dice give a defender something to grab, doubling what Flank Speed and Cover are worth against it, while leaving it comfortably the deadliest weapon in the game. Keep this in mind when designing new equipment: *flat damage bonuses are defence-proof, and should be small or absent on anything powerful.*
+]
+
+#example[
+  *Worked example — Full Auto against heavy plate.* A Vanguard opens up with its
+  Autocannon (AP 1, Radar fire control) on a Paladin, declaring all three Bursts.
+  That costs *3 EP*, one per Burst.
+
+  + *Hit Location*: 2d6 on the Left Side column comes up 4 — the Paladin's *Left
+    Arm*, Armor DR *5*. AP 1 ignores a point of it, so every die this attack
+    tests against *4*. One location for the whole barrage.
+  + *Nine dice, tested one at a time* against that same DR 4 — the armour does
+    not degrade between them:
+    - Burst 1 — 6, 2, 3. The 6 is through. *The Burst landed.*
+    - Burst 2 — 4, 1, 3. A 4 does not beat a 4. *Nothing through.*
+    - Burst 3 — 5, 5, 2. Two through, which is no better than one. *Landed.*
+  + *Criticals*: two Bursts landed, so *two* Critical Hits — not three for the
+    three dice that penetrated, and not one for the attack.
+  + *Armour*: the Left Arm drops from DR 5 to *4*. Once, however many got through.
+  + *Overkill*: none. Rapid Fire never rolls it.
+  + *Ammunition*: Full Auto burns the belt three times as fast, so the Ammo Die
+    empties on *1–3* rather than 1.
+
+  Had the Hit Location roll been a *2*, the Core Critical would set Torso DR to 0
+  for the attack — every die through, but still one Critical per Burst, so three
+  rather than nine.
+]
+
 
 = 6. Damage & Critical Hits
 #anchor("6")
@@ -853,6 +955,22 @@ If damage penetrates the Armor DR of a location, roll 1d6 on the corresponding t
 - *Overkill Margin*: For every *5 points* of damage that exceeds the Armor DR, roll an additional 1d6 on the Critical Hit Table.
 - *Cascading Failure*: If you roll a number on the Crit Table that has already been marked, the damage cascades upward to the next highest available (unmarked) number. (Remember: HEI ammo adds a flat +1 modifier to these rolls. If a modified roll or cascade exceeds the highest slot on the table, apply that maximum effect).
 
+#example[
+  *Worked example — a cascade.* A Colossus lands a Thermal Lance on a Specter's
+  Torso. The Specter has already taken hits there: slots *2* and *3* are marked.
+
+  + The Colossus rolls 1d6 for the Critical: a *2*.
+  + Slot 2 is already marked, so the damage *climbs* to slot 3.
+  + Slot 3 is marked too, so it climbs again — to *4, Structural Fracture*, and
+    the Specter's Torso Armor DR drops to *0*.
+  + Mark slot 4. Every later hit on that Torso now penetrates automatically.
+
+  A roll of 2 is the mildest result on the table, and it landed the worst one the
+  Specter had left. Damage concentrates: the more a location has taken, the
+  further each new hit climbs. Past slot 8 the top result applies — a location
+  cannot absorb a critical by being full.
+]
+
 === The Severity Ladder
 
 Every table climbs the same six rungs, so a result of the same number means the same _kind_ of damage wherever it lands:
@@ -870,6 +988,27 @@ Every table climbs the same six rungs, so a result of the same number means the 
 )
 
 The Head table stops at 5, because a cockpit hit that reaches the top kills the pilot outright — there is no Component Loss rung to climb. The Torso runs two rungs _past_ 6, because it is the largest and most frequently struck location; slots 7 and 8 cannot be reached by a natural 1d6 and are entered only by cascade or by HEI's +1 modifier.
+
+#example[
+  *Worked example — Overkill through the core.* A Colossus fires its Rail Gun
+  (5d6, AP 3) at a Jackal and rolls a *2* for Hit Location: *Torso — Core
+  Critical*. The shot has found a structural gap, so the Jackal's Torso DR counts
+  as *0* for this entire attack. The AP 3 is irrelevant; there is nothing left to
+  ignore.
+
+  + *Damage*: 5d6 comes up 3, 2, 4, 1, 5 — *15*. The Jackal has no Flank Speed
+    this round and stands in the open, so nothing is rerolled.
+  + *Penetration*: 15 beats 0. The Torso's real DR drops from 3 to *2* — the
+    permanent loss is 1, as always, however large the hit.
+  + *Overkill Margin*: the excess is measured against 0, not against 3. Fifteen
+    is *three* full steps of 5, so three extra Critical dice.
+  + *Total*: the base die plus three — *four Critical Hits* on the Torso, each
+    cascading upward from whatever the last one marked.
+
+  Four criticals on an eight-slot table, in one shot, from a weapon needing only
+  a Radar lock and six banked EP. This is what the Core Critical is for, and why
+  a 2 on the Hit Location Table is the most feared roll in the game.
+]
 
 === Head (Cockpit) Critical Table
 
