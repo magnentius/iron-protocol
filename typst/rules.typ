@@ -231,20 +231,25 @@ To begin a game of _Iron Protocol_, players complete the following setup steps:
 + *Agree on Force Limit*: Players select a Deployment Point budget (e.g. 500 pts for introductory 1v1, 1000 pts for 2v2 Element combat, 1500 pts for 3v3–4v4 Platoon battles).
 + *Select Frames & Pilots*: Players choose pre-built technical readouts from the *Iron Frame Roster (#sec("8"))* or construct custom frames using Section 7.2.
 + *Determine the Advantage Player*: whoever brings the *lower* total force cost is the *Advantage Player* — deliberately spending less than the budget to claim it is called a *Point Bid*. If the two forces cost the same, roll 2d6; the higher roll takes it. The Advantage Player chooses their home map edge and settles every Initiative tie for the rest of the battle.
-+ *Map Setup & Unit Deployment*: Lay out hex map tiles. The Advantage Player chooses their home map edge and *deploys first*. Players then alternate placing one Frame at a time, each within 2 hexes of its own home edge, until one force is fully deployed; the other player then places whatever they have left, one after another. *Every Frame in a force is deployed* — there are no reserves and nothing is held back unless a scenario provides for it. The deploying player sets that Frame's Leg Facing freely, and its Torso Facing begins aligned with the legs.
++ *Map Setup & Unit Deployment*: Lay out hex map tiles. The Advantage Player chooses their home map edge and deploys first. Deployment then *alternates* between the two players, and each player places their own Frames in *ascending Initiative order* — slowest first, fastest last. Each Frame is placed within 2 hexes of its own home edge, and the deploying player sets its Leg Facing freely; its Torso Facing begins aligned with the legs. Where one force has more Frames than the other, alternation continues until the smaller force is fully deployed, and the larger then places whatever remains, still slowest first. *Every Frame in a force is deployed* — there are no reserves and nothing is held back unless a scenario provides for it.
 + *Pre-Combat System Activation*: Frames carrying an *Adaptive Skin* or *ECM* may deploy with those systems *Active*, and the 2 EP upkeep for each is deducted in the Round 1 Energy Phase exactly as in every later round. Deployment decides only whether a system is *running*. An Adaptive Skin's cloaked band is chosen in that first Energy Phase like any other (#sec("4.2")), so nothing about which spectrum you are hiding on is committed before the board is set.
 
 #design-note[
-  Deploying first is a real cost, and it is what the Advantage Player pays for
-  choosing the ground. Placing last means seeing the enemy line before committing
-  your own, which is worth about as much as the edge itself — handing one player
-  both, on top of settling every Initiative tie, would make the Point Bid the
-  only decision in setup that mattered.
+  Deployment runs the same way the Activation Phase does, and for the same
+  reason. A slow Frame commits to its ground before it has seen much, and a fast
+  one places last with the whole board in front of it — the identical trade the
+  turn sequence makes every round, arriving before the first round begins. It
+  also means nobody chooses their deployment order: your scout goes last because
+  it is your scout, not because you decided to hold it back.
 
-  The uneven case runs the same way rather than staggering the extras: a lance of
-  four against a lance of two alternates twice, and the larger force then places
-  its remaining pair knowing everything. That is the compensation for being
-  outnumbered, and it is the same logic as deploying last.
+  Deploying first is what the Advantage Player pays for choosing the ground.
+  Placing last is worth roughly what the edge is worth, and that player already
+  settles every Initiative tie for the whole battle; handing them all three would
+  leave the Point Bid as the only decision in setup that mattered.
+
+  The uneven case is the compensation for being outnumbered: a lance of four
+  against a lance of two alternates twice, and the larger force then places its
+  remaining pair knowing everything.
 ]
 
 === 1.4.1 Introductory Scenario: Trial by Fire (1v1 Duel)
@@ -435,6 +440,13 @@ Frames attack in order of *highest Initiative* to *lowest Initiative*.
   + *Check Overkill*: The damage exceeded the Armor DR by 3 (9 − 6). That is less than 5, so no additional Critical dice are earned — this attack rolls one Critical.
   + *Roll Cascading Critical*: The Colossus rolls 1d6 on the Torso Critical Hit Table. It rolls a *3: Capacitor Leak* — the Vanguard's Capacitor Max drops permanently by 2 and it loses 2 stored EP immediately, which may cost it an Overcharge next turn. The Vanguard marks the '3' slot on its Torso table. _(Had the '3' slot already been marked, the damage would have cascaded upward to the next unmarked slot.)_
 
+== 2.4 End Phase
+#anchor("2.4")
+
+- *Energy Storage*: Unused EP is *added to whatever the Capacitor already holds*, up to the Capacitor Max. Only the overflow past the Max is vented and lost. A Capacitor that is already full vents the entire unused pool.
+- *Clean Up*: Remove Flank Speed status from all Frames, and decrement cooldown tokens on weapons.
+- *Smoke Dissipation*: For each active Smoke token on the board, roll 1d6. On a roll of 1 or 2, the smoke dissipates; remove the token.
+
 == 2.5 Ending the Battle
 #anchor("2.5")
 
@@ -460,13 +472,6 @@ what follows. Absent that:
   When it is, counting destroyed points rather than surviving ones is what stops
   a player winning by hiding a cheap Frame in a corner for the last five rounds.
 ]
-
-== 2.4 End Phase
-#anchor("2.4")
-
-- *Energy Storage*: Unused EP is *added to whatever the Capacitor already holds*, up to the Capacitor Max. Only the overflow past the Max is vented and lost. A Capacitor that is already full vents the entire unused pool.
-- *Clean Up*: Remove Flank Speed status from all Frames, and decrement cooldown tokens on weapons.
-- *Smoke Dissipation*: For each active Smoke token on the board, roll 1d6. On a roll of 1 or 2, the smoke dissipates; remove the token.
 
 = 3. Terrain & Elevation
 #anchor("3")
