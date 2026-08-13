@@ -16,6 +16,16 @@ on:
       - 'firebase.json'
       - 'firebase.rules.json'
       - '.github/workflows/deploy.yml'
+
+  # Now that the landing page advertises the released edition, a release has to
+  # redeploy it. A rules-only release touches typst/ and nothing else, so none of
+  # the paths above match and the page would keep showing the previous edition
+  # with nothing failing. This does not couple the two workflows the wrong way
+  # round: a tracker change still never cuts a release.
+  workflow_run:
+    workflows: ['Release']
+    types: [completed]
+
   workflow_dispatch:
 
 permissions:
@@ -29,6 +39,10 @@ jobs:
   deploy:
     name: Test, stamp and deploy
     runs-on: ubuntu-latest
+    # workflow_run fires on completion whatever the conclusion, so a failed
+    # release would otherwise deploy a page announcing an edition that has no
+    # artifacts behind it.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
 
     steps:
       - uses: actions/checkout@v4
@@ -52,6 +66,18 @@ jobs:
         run: |
           set -euo pipefail
           echo "version=$(git describe --tags --always)" >> "$GITHUB_OUTPUT"
+          # The landing page advertises the last *released* edition, which is a
+          # different question from sw.js's cache key. --always would put
+          # "v2026.08.13.2-3-gabc123" on the page three commits after a release,
+          # and a bare sha on a repo with no tags at all.
+          tag="$(git describe --tags --abbrev=0 2>/dev/null || true)"
+          if [ -n "$tag" ]; then
+            edition="$(echo "${tag#v}" | sed -E 's/^([0-9]{4})\.([0-9]{2})\.([0-9]{2})/\1-\2-\3/')"
+          else
+            edition="Draft"
+          fi
+          echo "edition=$edition" >> "$GITHUB_OUTPUT"
+          echo "sw.js version $(git describe --tags --always), landing page edition $edition"
 
       # The service worker's VERSION is a cache key: if it does not change when
       # the code does, every client keeps serving the previous build from an
@@ -65,6 +91,18 @@ jobs:
           echo "Stamping sw.js VERSION = $version"
           perl -pi -e "s/^const VERSION = '.*';/const VERSION = '${version}';/" docs/sw.js
           grep -n "^const VERSION" docs/sw.js
+
+      # Same reasoning as the service worker: the edition was maintained by hand
+      # in two files, and a hand-copy of a fact the tag already carries is a copy
+      # that goes stale silently. The page keeps advertising the old edition and
+      # nothing fails.
+      - name: Stamp the landing page edition
+        run: |
+          set -euo pipefail
+          edition="${{ steps.version.outputs.edition }}"
+          echo "Stamping the landing page with edition $edition"
+          perl -pi -e 's|<b id="edition">.*?</b>|<b id="edition">'"$edition"'</b>|' www/index.html
+          grep -o '<b id="edition">[^<]*</b>' www/index.html
 
       - name: Authenticate to Firebase
         env:

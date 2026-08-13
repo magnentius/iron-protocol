@@ -10,7 +10,7 @@
 
 ## 📥 Download and play
 
-**[Latest release — edition 2026-08-13.2](../../releases/latest)**
+**[Latest release](../../releases/latest)** — the edition date is on the cover and every sheet.
 
 | | |
 | :--- | :--- |
@@ -53,7 +53,7 @@ only one of them needs a credential.
 | Workflow | Runs when | Does |
 | :--- | :--- | :--- |
 | **[Rulebook & Sheets](.github/workflows/build-sheets.yml)** | a push or PR touching `typst/**` | Builds the rulebook and all five sheets, in print and screen themes, and attaches them to the run as a 90-day artifact. Fast feedback; publishes nothing. |
-| **[Deploy tracker](.github/workflows/deploy.yml)** | a push touching `docs/**`, `www/**` or the Firebase config | Runs the test suite, stamps the service worker, deploys both Hosting targets and the database rules, then polls until both hosts serve the build it just made. |
+| **[Deploy tracker](.github/workflows/deploy.yml)** | a push touching `docs/**`, `www/**` or the Firebase config — or a successful **Release**, since the landing page advertises the edition | Runs the test suite, stamps the service worker and the landing page edition, deploys both Hosting targets and the database rules, then polls until both hosts serve the build it just made. |
 | **[Release](.github/workflows/release.yml)** | a tag matching `v*` | Builds everything with the edition date stamped in, checks every sheet still fits one page, and publishes a GitHub Release with the rulebook, the five sheets and a zip of the set. |
 
 ### How versions work
@@ -88,6 +88,19 @@ and if it fails to change when the code does, every client keeps serving the
 previous build from an unchanged key — a manual step with a silent failure mode,
 so it is not a manual step.
 
+The edition shown on the landing page is derived the same way, from a different
+question — the last edition actually *released*, rather than a key that must
+change on every commit:
+
+```bash
+git describe --tags --abbrev=0   # → v2026.08.13.2
+```
+
+Nothing in the repository records the current edition by hand. It was recorded
+twice, in this file and in `www/index.html`, and both were copies of something
+the tag already knew; a copy like that goes stale without anything failing, and
+the page simply advertises the wrong edition until somebody notices.
+
 ### Cutting a release
 
 ```bash
@@ -95,11 +108,14 @@ git tag v2026.08.13
 git push origin v2026.08.13
 ```
 
-That is the whole process. The workflow derives `2026-08-13` from the tag, stamps
-it into every document, and publishes them. Nothing is built by hand and no PDF
-is committed to the repository: they are derived from the sources and the
-constants those sources quote, so a stored copy would only be one more thing that
-can disagree with the original.
+That is the whole process, and it is one edit. The Release workflow derives
+`2026-08-13` from the tag, stamps it into every document and publishes them; its
+success then triggers Deploy tracker, which re-stamps the landing page so the
+site and the release agree without either being told twice.
+
+Nothing is built by hand and no PDF is committed to the repository: they are
+derived from the sources and the constants those sources quote, so a stored copy
+would only be one more thing that can disagree with the original.
 
 ### What CI will not let through
 
