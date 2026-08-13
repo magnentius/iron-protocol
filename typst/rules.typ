@@ -1220,6 +1220,46 @@ _“My shield is the wall that protects my kin. I will fall before they do.”_
 
 Here are five pre-configured Iron Frames ready for combat.
 
+== 8.0 Reading a Designation
+#anchor("8.0")
+
+Every Iron Frame carries a type designation that identifies it precisely, in the
+form:
+
+#align(center, block(inset: (y: 6pt), text(font: "DejaVu Sans Mono", size: 11pt)[
+  IF#text(fill: rgb("#0e7899"))[-45M]#text(fill: rgb("#8a5a12"))[-1]#text(fill: rgb("#b3342c"))[A1]
+]))
+
+#table(
+  columns: 3,
+  align: (left, left, left),
+  [Part], [Meaning], [Example],
+  [`IF`], [Iron Frame. Every fielded chassis carries it.], [—],
+  [`45M`], [*Description* — tonnage, then weight class: `L` Light, `M` Medium, `H` Heavy, `A` Assault. Readable at a glance across the table, which is the point: an opponent seeing `IF-90A` knows what is walking toward them before they read the name.], [45 tons, Medium],
+  [`-1`], [*Design number.* Which design this is among frames of that tonnage and class, in the order they were fielded. This is what makes a designation unique — two different 45-ton mediums are `IF-45M-1` and `IF-45M-2`, never both `IF-45M`.], [the first 45M design],
+  [`A1`], [*Variant*, omitted on the base model. `A1` is the first refit of that design, `A2` the second. A variant keeps its parent's design number, because it is the same machine modified.], [first refit],
+)
+
+So the Specter is `IF-45M-1`. A refitted Specter is `IF-45M-1A1`. A wholly
+different 45-ton medium — another manufacturer, another hull — is `IF-45M-2`,
+and *its* first refit is `IF-45M-2A1`.
+
+#design-note[
+  Real military designations keep identity and description apart, because a code
+  that only describes a machine collides the moment two machines share a
+  description. `F-16` and `M1` say nothing about weight; the design number is
+  arbitrary and sequential, and the specification lives on the sheet.
+
+  This scheme keeps the descriptive prefix, because a wargame is played across a
+  table and `IF-90A` earns its space by telling an opponent what they are facing
+  without a lookup. The design number restores what description alone cannot
+  give: a code that identifies exactly one machine.
+
+  The variant convention follows ground-vehicle practice — `M1` becomes `M1A1`
+  becomes `M1A2` — rather than the aircraft convention of series letters, on the
+  grounds that an Iron Frame is a ground vehicle and refits it in the field.
+]
+
 == 8.1 IF-25L-1 "Jackal" (Light Recon Frame)
 #anchor("8.1")
 

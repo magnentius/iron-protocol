@@ -28,8 +28,15 @@
     header: context {
       // Nothing on the title page or the contents.
       if counter(page).get().first() <= 2 { return }
-      let here-sec = query(selector(heading.where(level: 1)).before(here()))
-      let name = if here-sec.len() > 0 { here-sec.last().body } else { [] }
+      // A level-1 heading opens its own page, so prefer one on *this* page:
+      // querying only what precedes the header would name the previous chapter
+      // on every chapter-opening page.
+      let all = query(heading.where(level: 1))
+      let on-page = all.filter(h => h.location().page() == here().page())
+      let before = all.filter(h => h.location().page() < here().page())
+      let name = if on-page.len() > 0 { on-page.first().body }
+                 else if before.len() > 0 { before.last().body }
+                 else { [] }
       set text(font: mono, size: 7pt, fill: p.dim)
       grid(columns: (1fr, auto), align: (left, right),
         upper(title), name)
