@@ -30,7 +30,7 @@
   card(tint: rgb("#8a5a12"), {
     label-text("Reactor pool — 18 EP per round")
     v(4pt)
-    pip-row(18, per-row: 9)
+    pip-row(18)
     v(3pt)
     text(size: 6.8pt, fill: rgb("#8a5a12"))[
       *An Assault chassis never runs cold* — always lockable on infrared, whatever
@@ -41,7 +41,7 @@
   card({
     label-text("Capacitor — max 10 EP")
     v(4pt)
-    pip-row(10, per-row: 5)
+    pip-row(10)
     v(3pt)
     text(size: 6.5pt, fill: rgb("#5d6b7d"))[
       The deepest reserve in the game: the Rail Gun costs *6 banked EP* a shot.

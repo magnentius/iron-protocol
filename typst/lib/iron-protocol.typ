@@ -130,30 +130,31 @@
 
 // --- Trackers: the things markdown cannot draw ------------------------------
 
-/// A row of pips to fill in. `mark` labels one pip (the IR threshold).
-#let pip-row(n, mark: none, mark-label: "IR", per-row: 12) = context {
+/// A row of pips to fill in.
+///
+/// The wrap is derived rather than chosen: ten or more pips split into two
+/// balanced rows, fewer stay on one. It used to be a `per-row` argument passed
+/// by hand at four of the ten call sites, which left the convention living in
+/// those four numbers — and the default of 12 disagreed with it, so a chassis
+/// with a 10, 11 or 12 EP reactor would have rendered as one long row, matching
+/// none of the other sheets, with nothing to catch it.
+///
+/// Width is not what forces the split. All eighteen of the Colossus's pips fit
+/// on one row with roughly half the card to spare. The two rows are for reading:
+/// a count you scan should look the same shape on every sheet.
+#let pip-row(n) = context {
   let p = pal.get()
-  let pip(i) = {
-    let hot = mark != none and i == mark
-    box(baseline: 25%, stack(dir: ttb, spacing: 1.5pt,
-      circle(
-        radius: 3.6pt,
-        fill: if hot { p.warn.transparentize(80%) } else { p.paper },
-        stroke: (if hot { 0.9pt + p.warn } else { 0.5pt + p.border }),
-      ),
-      text(font: mono, size: 5pt, fill: if hot { p.warn } else { p.dim })[#i],
-    ))
-  }
+  let pip(i) = box(baseline: 25%, stack(dir: ttb, spacing: 1.5pt,
+    circle(radius: 3.6pt, fill: p.paper, stroke: 0.5pt + p.border),
+    text(font: mono, size: 5pt, fill: p.dim)[#i],
+  ))
+  let per-row = if n >= 10 { calc.ceil(n / 2) } else { n }
   let rows = calc.ceil(n / per-row)
   stack(dir: ttb, spacing: 4pt, ..range(rows).map(r => {
     let lo = r * per-row + 1
     let hi = calc.min(n, (r + 1) * per-row)
     stack(dir: ltr, spacing: 3pt, ..range(lo, hi + 1).map(pip))
   }))
-  if mark != none {
-    linebreak()
-    text(font: mono, size: 6pt, fill: p.warn)[#h(1pt) ▲ #mark-label at #mark EP]
-  }
 }
 
 /// Armour DR track: boxes crossed off from the highest down to zero.

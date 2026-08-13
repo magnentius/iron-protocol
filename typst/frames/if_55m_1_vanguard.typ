@@ -26,7 +26,7 @@
   card({
     label-text("Reactor pool — 12 EP per round")
     v(4pt)
-    pip-row(12, per-row: 6)
+    pip-row(12)
     v(3pt)
     text(size: 6.5pt, fill: rgb("#5d6b7d"))[
       Fill in the Energy Phase, erase as spent. A 4th EP spent in a round — from
