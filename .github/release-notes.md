@@ -1,32 +1,33 @@
 ## What changed in this edition
 
 **No rules changed.** The rulebook is identical to the previous edition apart
-from its edition line, and nothing in it has been renumbered. If you have a
-current printout of the rules you do not need a new one — this release is
-entirely about the **record sheets**, which are worth reprinting.
+from its edition line. This release is entirely about the **record sheets**, and
+two of the fixes are corrections rather than tidying — if you printed sheets from
+`2026-08-13.3`, these are worth reprinting.
 
-**The terrain row is gone from the sheets.** Terrain is a property of the hex,
-and the hex is on the table in front of you. Everything left on the state strip
-is a property of the machine and invisible from across the board — Prone, Flank
-Speed, Destroyed, Torso facing. The strip is now two rows that split the way the
-information does: *State* for the Frame, *Board* for where it is standing.
+**The Jackal's armour header was wrong.** Four sheets read *"cross off the
+highest on each penetration; damage must strictly exceed the current value"*. The
+Jackal omitted the strictly-exceed clause — which is the threshold mechanic the
+entire damage system rests on, missing from the sheet a new player is most likely
+to be holding. Fixed.
 
-**The infrared track is gone too.** It was four numbered boxes sitting directly
-under a note that already stated the same rule, and the count was never hard to
-hold: above 4 EP you cross the threshold on your first action and stop thinking
-about it, and below it you are running cold deliberately, which makes counting to
-three the whole plan for your round. The rule is now one sentence — and it now
-says the part that actually catches people out, which is that **EP spent from the
-Capacitor counts toward the threshold**. That is the part the pip row can never
-show you.
+**The Colossus referred to something that no longer exists.** Its reactor note
+distinguished the chassis by saying there was "no threshold pip to watch", but the
+infrared track it was contrasting against was removed in the last edition. It now
+states the rule directly: an Assault chassis is lockable on infrared from the
+first round to the last, and the 4 EP rule on every other sheet does not apply to
+it at all.
 
-**Shorter headers.** The ammunition instruction went from two lines to one; what
-it lost was three things printed elsewhere on the same card. The Autocannon store
-no longer explains that it is one magazine however it is fired — being a single
-row with a single box says that already, and Section 5 states the rule outright.
+**Ammunition thresholds are printed once, not twice.** Every store had its Ammo
+Die number on the equipment row *and* again on the ammunition card. The card is
+where you roll and tick, so it keeps the number; the equipment rows were the
+densest text on the sheet and are now shorter for it.
 
-**Nothing on a sheet is maintained by hand any more** that the sheet can work out
-for itself, including how the reactor pips wrap.
+**Under the hood**, a Frame's reactor and capacitor figures are written once per
+sheet instead of three times — stat strip, card header and pip count now read one
+value, so a sheet can no longer disagree with itself about how much energy a
+chassis makes. Notes also take their colour from the theme, which fixes low
+contrast in the dark-theme build.
 
 ---
 
