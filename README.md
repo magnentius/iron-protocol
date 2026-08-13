@@ -24,29 +24,6 @@ New to the game? Start with **Trial by Fire** (§1.4.1), a 1v1 Vanguard mirror m
 
 ---
 
-## ⚡ Core Features
-
-*   **No "To-Hit" Rolls**: *Iron Protocol* eliminates the frustration of missing a 95% shot — an attacker never rolls for accuracy. Secure a sensor lock and the shot connects, so no shot is ever wasted on a bad accuracy roll. What you fight over is not whether you hit; it is whether you can see.
-*   **Electronic Warfare Is the Battle**: Every weapon is slaved to one of three sensor bands — **Visual**, **Infrared** or **Microwave (Radar)** — and cannot fire without a lock on it. Terrain denies a band **outright**: woods, buildings and elevation are the only reliable blindfolds. Everything else *contests* it — Chaff, Smoke, an IRCM jammer, an ECM umbrella, an Adaptive Skin tuned band by band — on a **Countermeasure Check**, one number for every defensive system in the game. Blind a Frame on the band its gun needs and it is carrying dead weight, whatever its energy reserve. The economies differ too: cartridges are free to fire and run dry after roughly six releases, while a sustained suite never runs out but bills EP every single round. And a Frame that spends almost nothing has **no infrared signature at all** — not a saving throw, a hard block, because there is nothing to contest.
-*   **The Overcharge Economy**: Combat is an intense, knife-edge game of resource management. You must carefully allocate your Reactor Energy (EP) every single turn. Do you spend EP to sprint for cover, or do you stand your ground to bank energy into your Capacitor to unleash a devastating, overcharged Rail Gun strike on the following turn?
-*   **The Double-Initiative Mind Game**: The turn sequence brilliantly simulates mechanical warfare. Heavy, slow frames are forced to move *first*, committing to their positions. Fast, agile scouts move *last*, allowing them to perfectly react and flank. However, when the Combat Phase begins, the turn order reverses—the fast frames fire first, creating a massive tactical advantage for the agile.
-*   **Brutal Attrition & Critical Cascades**: Attacks damage specific hit locations (Head, Torso, Arms, Legs). Instead of subtracting HP, a penetrating hit permanently degrades that location's Armor Damage Reduction (DR), so a frame is progressively opened up rather than whittled down. Armor is a **threshold, not a buffer** — heavy plate does not slow a light weapon down, it stops it dead, and an autocannon cannot scratch an Assault frame's torso at all. Cracking a heavy chassis takes a real gun, and every point of DR stripped makes the next hit easier. Once a location is opened, criticals cascade *upward* through it: ammunition detonations, severed limbs, electrical fires, and finally a containment failure that dumps the capacitor bank through the wreck and into every adjacent hex.
-*   **The Code of Honor**: Field legendary named pilots who swear ancient oaths before combat. Every vow is a bargain — a binding constraint paid for with a **Boon** that makes the pilot formidable at the way they have chosen to fight. A pilot sworn to the *Vow of Courage* may never walk backward, and in exchange has learned to stay on their feet and get back up; a pilot sworn to the *Vow of Mercy* must cripple before they kill, and dismantles limbs better than anyone. Break your vow and the pilot is dishonored, losing the Boon, their Initiative bonus and their Pilot Check bonus, and paying +1 EP on every weapon for the rest of the battle.
-
----
-
-## 🛰️ A Setting That Argues For Itself
-
-Most mecha settings ask you to take the machines on faith. This one makes the case, and the case is what generates the rules.
-
-A runaway orbital debris cascade — the **Kessler Shroud** — shredded low orbit and never thinned. No GPS, no reconnaissance satellites, and ballistic warheads stripped apart before they reach apogee. Humanity walled itself out of space, and *battlefield intelligence collapsed back to line of sight*. **That is precisely why the game is built on three short-range sensor bands**: the electronic warfare layer is not a subsystem bolted onto a wargame, it is what is left of reconnaissance when the satellites are gone.
-
-The rest follows the same way. The Cinder Wars burned the fossil reserves, so a single jet sortie now consumes a faction's monthly stockpile of refined propellant while a fusion-powered Frame runs for months on hydrogen isotopes — and unlike an aircraft, it can hold ground. Tracked armor bogs down in tectonic fracture and rubble where an articulated biped steps over it. Duels between champions collapsed within a generation because leaders sent proxies and disavowed them, whereas a Frame is rare materials, years of fabrication and a decade-calibrated neural link — a stake a faction genuinely feels losing. And after the AI rebellion, a human has to be in the cockpit.
-
-The full argument is in the Introduction of the [rulebook](typst/rules.typ).
-
----
-
 ## 📂 Repository Guide
 
 * 📓 **[rules.typ](typst/rules.typ)**: The full master rulebook — core phases, terrain, sensors and stealth, weapons, damage and criticals, the construction rules, pilot vows and the five technical readouts. Written in [Typst](https://typst.app); cross-references are resolved at compile time, so a stale one fails the build rather than misdirecting a player. Download the built PDF from the [latest release](../../releases/latest); every push also attaches one to the [Rulebook & Sheets workflow](../../actions/workflows/build-sheets.yml). To build it yourself:
@@ -64,6 +41,91 @@ typst compile --root . --font-path typst/fonts --ignore-system-fonts \
 ```
 * 🧪 **[playtest.md](playtest.md)**: Twelve scenarios used as a test suite for the rules engine, from a 1v1 introductory duel up to a 4v4 slugfest, each written to stress a specific system — armor degradation, sensor stealth, the Overcharge economy, the Vow system, action economy, vertical terrain and impact damage, the wrecked-Frame endgame, electromagnetic warfare, and the full Vow system.
 * 📱 **[Battle Tracker](docs/)**: A mobile web app that carries the bookkeeping for you — energy and capacitor charge, the Armor DR track and critical slots for every location, Ammo Dice, and the permanent critical effects that are easy to lose track of. It includes a guided attack resolver that walks the Combat Phase sequence — countermeasures, hit location, damage, Flank Speed and Cover rerolls, Armor DR, Overkill and cascading criticals — showing its arithmetic at each step, and two players on separate phones can share one live battle via a room code. See **[docs/README.md](docs/README.md)** to run or deploy it.
+
+---
+
+## ⚙️ Workflows, Versions and Releases
+
+Three GitHub Actions workflows. They are kept separate because the book, the app
+and a published edition change at different rates, fail in different ways, and
+only one of them needs a credential.
+
+| Workflow | Runs when | Does |
+| :--- | :--- | :--- |
+| **[Rulebook & Sheets](.github/workflows/build-sheets.yml)** | a push or PR touching `typst/**` | Builds the rulebook and all five sheets, in print and screen themes, and attaches them to the run as a 90-day artifact. Fast feedback; publishes nothing. |
+| **[Deploy tracker](.github/workflows/deploy.yml)** | a push touching `docs/**`, `www/**` or the Firebase config | Runs the test suite, stamps the service worker, deploys both Hosting targets and the database rules, then polls until both hosts serve the build it just made. |
+| **[Release](.github/workflows/release.yml)** | a tag matching `v*` | Builds everything with the edition date stamped in, checks every sheet still fits one page, and publishes a GitHub Release with the rulebook, the five sheets and a zip of the set. |
+
+### How versions work
+
+Releases are tagged by **date**, not semver:
+
+```
+v2026.08.13        the edition published that day
+v2026.08.13.2      a second edition the same day
+```
+
+A player holds a printed sheet and wants to know how current it is. `2026-08-13`
+answers that at a glance; `v1.4.0` does not. What a date cannot express is
+*magnitude*, so a change that invalidates printouts belongs in the release title
+rather than in a digit.
+
+**The edition date is printed on the artifacts**, which is the part that reaches
+players: on the rulebook cover, in its running footer, and in the footer of every
+record sheet. Everything in a release carries the *same* date, including sheets
+that did not change, so a sheet and the rulebook can always be told to be from
+one set. A build made locally reads `Draft <date>` instead, and can never be
+mistaken for a published one.
+
+The Battle Tracker's service worker version is **derived, never hand-edited**:
+
+```bash
+git describe --tags --always     # → v2026.08.13-2-ga9ff788
+```
+
+That string becomes `VERSION` in `docs/sw.js` at deploy time. It is a cache key,
+and if it fails to change when the code does, every client keeps serving the
+previous build from an unchanged key — a manual step with a silent failure mode,
+so it is not a manual step.
+
+### Cutting a release
+
+```bash
+git tag v2026.08.13
+git push origin v2026.08.13
+```
+
+That is the whole process. The workflow derives `2026-08-13` from the tag, stamps
+it into every document, and publishes them. Nothing is built by hand and no PDF
+is committed to the repository: they are derived from the sources and the
+constants those sources quote, so a stored copy would only be one more thing that
+can disagree with the original.
+
+### What CI will not let through
+
+- **A sheet that runs to two pages.** Overflow is silent — the PDF still builds —
+  and you would find out at the table. Both PDF workflows fail on it.
+- **A stale cross-reference.** The rulebook's section links are resolved at
+  compile time, so pointing at a section that does not exist fails the build
+  rather than misdirecting a reader.
+- **A failing test suite.** Nothing deploys over red.
+- **A deploy that did not take.** The final step polls both hosts until they serve
+  the version just stamped, because a green deploy step is not proof of what is
+  being served.
+- **A sync field the database rules do not name.** `firebase.rules.json` ends with
+  `$other: false`, so a field added to the battle and not to the rules makes every
+  write fail — invisibly, until two people share a battle. A test asserts the two
+  agree.
+
+### Setup
+
+Deploying needs one repository secret, **`FIREBASE_SERVICE_ACCOUNT`** — a service
+account key with Firebase Hosting Admin and Realtime Database Admin. Without it
+the deploy workflow fails at that step with a named error and nothing else is
+affected. The other two workflows need no secrets.
+
+Building documents locally needs [Typst](https://typst.app); the fonts are
+[vendored](typst/fonts/), so no font installation is required.
 
 ---
 
