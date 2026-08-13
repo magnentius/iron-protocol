@@ -314,15 +314,16 @@
 /// promise a number the rules never give you.
 #let ammo-store(name, empty-on) = context {
   let p = pal.get()
-  grid(columns: (auto, 1fr, auto), gutter: 5pt, align: (horizon, horizon, horizon),
-    box(width: 10pt, height: 10pt, radius: 1.5pt, stroke: 0.6pt + p.border, fill: p.paper),
+  grid(columns: (auto, auto, 1fr, auto), gutter: 5pt, align: (horizon, horizon, horizon, horizon),
+    box(width: 10pt, height: 10pt, radius: 1.5pt, stroke: 0.7pt + p.danger.transparentize(45%), fill: p.paper),
+    text(font: mono, size: 5.8pt, fill: p.danger, tracking: 0.08em)[DRY],
     text(size: 7.4pt)[#name],
-    text(font: mono, size: 6.6pt, fill: p.danger)[empty on #empty-on],
+    text(font: mono, size: 6.6pt, fill: p.muted)[empty on #empty-on],
   )
 }
 
 #let ammo-card(stores) = card({
-  label-text("Ammunition — roll the Ammo Die after each attack; at or below the number it is Empty for the battle")
+  label-text("Ammunition — roll the Ammo Die after each attack; at or below its number, tick the box: that store is gone for the rest of the battle")
   v(4pt)
   grid(columns: (1fr, 1fr), gutter: 10pt, row-gutter: 4pt, ..stores)
 })
