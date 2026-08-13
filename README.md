@@ -10,7 +10,7 @@
 
 ## 📥 Download and play
 
-**[Latest release — edition 2026-08-13](../../releases/latest)**
+**[Latest release — edition 2026-08-13.2](../../releases/latest)**
 
 | | |
 | :--- | :--- |
