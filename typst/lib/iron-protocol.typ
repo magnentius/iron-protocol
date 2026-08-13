@@ -123,7 +123,7 @@
     fill: if tint == none { p.surface } else { tint.transparentize(92%) },
     stroke: 0.5pt + p.border,
     radius: 3pt,
-    inset: (x: 7pt, y: 5pt),
+    inset: (x: 7pt, y: 4pt),
     body,
   )
 }
@@ -284,6 +284,18 @@
   ))
 }
 
+/// A ruled field to write in — hex number, battlemat name.
+#let write-field(label, cells: 0, width: none) = context {
+  let p = pal.get()
+  let cell = box(width: 13pt, height: 12pt, radius: 1.5pt,
+                 stroke: 0.55pt + p.border, fill: p.paper)
+  stack(dir: ltr, spacing: 5pt,
+    text(font: mono, size: 5.9pt, fill: p.muted, tracking: 0.1em)[#upper(label)],
+    if cells > 0 { stack(dir: ltr, spacing: 2pt, ..range(cells).map(_ => cell)) }
+    else { box(width: width, height: 12pt, stroke: (bottom: 0.55pt + p.border)) },
+  )
+}
+
 /// Current state: what is true of this Frame right now.
 ///
 /// Everything here is markable. An earlier version printed coloured pills and a
@@ -293,16 +305,23 @@
 /// are different terrain with different costs, cover and cooling.
 #let state-strip() = context {
   let p = pal.get()
-  let row(label, items) = grid(
-    columns: (46pt, 1fr), gutter: 6pt, align: (right + horizon, left + horizon),
-    text(font: mono, size: 5.9pt, fill: p.muted, tracking: 0.1em)[#upper(label)],
+  let label(s) = text(font: mono, size: 5.9pt, fill: p.muted, tracking: 0.1em)[#upper(s)]
+  let row(name, items, trailing) = grid(
+    columns: (46pt, auto, 1fr), gutter: 6pt,
+    align: (right + horizon, left + horizon, right + horizon),
+    label(name),
     stack(dir: ltr, spacing: 7pt, ..items.map(tick)),
+    trailing,
   )
   card(stack(dir: ttb, spacing: 3pt,
+    // Hex and battlemat ride on the rows that already exist: the Paladin carries
+    // seven equipment entries and has no room for a row of its own.
     row("State", ("Prone", "Flank Speed", "Destroyed",
-                  "Torso left 60°", "Torso centred", "Torso right 60°")),
-    row("Terrain", ("Clear", "Paved", "Rough", "Water shallow", "Water deep",
-                    "Woods light", "Woods heavy", "Building")),
+                  "Torso left 60°", "Torso centred", "Torso right 60°"),
+        write-field("Hex", cells: 4)),
+    row("Terrain", ("Clear", "Paved", "Rough", "Water S", "Water D",
+                    "Woods L", "Woods H", "Building"),
+        write-field("Battlemat", width: 96pt)),
   ))
 }
 
