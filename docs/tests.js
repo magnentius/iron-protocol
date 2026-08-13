@@ -1193,6 +1193,67 @@ export function run({ describe, it, eq, ok, rejects }) {
     eq(f.locations.torso.crits[1], true);
   });
 
+  // --- The Advantage Player (rules.typ 1.4) ----------------------------------
+  describe('Advantage Player');
+
+  const force = (owner, ...frames) => frames.map((f) => Object.assign(f, { ownerId: owner }));
+
+  it('a Named Pilot adds 15 pts per point of bonus', () => {
+    eq(R.frameCost(frame('jackal')), 365);
+    eq(R.frameCost(frame('jackal', { pilotBonus: 3 })), 365 + 45);
+  });
+
+  it('the cheaper force takes the Advantage, no roll needed', () => {
+    const frames = [...force('us', frame('jackal')), ...force('them', frame('colossus'))];
+    const res = R.determineAdvantage(frames);
+    eq(res.ownerId, 'us');
+    eq(res.rolls, null);
+  });
+
+  it('a Named Pilot can cost you the Point Bid', () => {
+    // Pilot cost has to be counted, or an ace would be free in the bid.
+    const frames = [
+      ...force('us', frame('jackal', { pilotBonus: 3 })),   // 410
+      ...force('them', frame('vanguard')),                  // 435
+    ];
+    eq(R.determineAdvantage(frames).ownerId, 'us');
+    const flipped = [
+      ...force('us', frame('vanguard', { pilotBonus: 3 })), // 480
+      ...force('them', frame('jackal', { pilotBonus: 3 })), // 410
+    ];
+    eq(R.determineAdvantage(flipped).ownerId, 'them');
+  });
+
+  it('equal points roll off, and the higher roll takes it', () => {
+    const frames = [...force('us', frame('vanguard')), ...force('them', frame('vanguard'))];
+    // 'us' rolls first: 2+2 = 4, then 'them' rolls 5+5 = 10.
+    const res = R.determineAdvantage(frames, { rng: seq(2, 2, 5, 5) });
+    eq(res.ownerId, 'them');
+    eq(res.rolls.map((r) => r.total), [4, 10]);
+  });
+
+  it('a tied roll-off is rerolled rather than settled arbitrarily', () => {
+    const frames = [...force('us', frame('vanguard')), ...force('them', frame('vanguard'))];
+    // 3+3 apiece, then 6+6 against 1+1.
+    const res = R.determineAdvantage(frames, { rng: seq(3, 3, 3, 3, 6, 6, 1, 1) });
+    eq(res.ownerId, 'us');
+    eq(res.rolls.map((r) => r.total), [12, 2]);
+  });
+
+  it('destroyed Frames still count toward what a side brought', () => {
+    // Otherwise losing a Frame could hand you the Advantage mid-battle.
+    const frames = [
+      ...force('us', frame('colossus', { destroyed: true }), frame('colossus')),
+      ...force('them', frame('jackal')),
+    ];
+    eq(R.determineAdvantage(frames).ownerId, 'them');
+  });
+
+  it('one side alone has no Advantage to determine', () => {
+    eq(R.determineAdvantage(force('us', frame('jackal'), frame('colossus'))), null);
+    eq(R.determineAdvantage([]), null);
+  });
+
   // --- Turn order (rules.typ 2.2, 2.3) ---------------------------------------
   describe('Turn Order');
 

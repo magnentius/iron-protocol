@@ -6,6 +6,7 @@
 
 import { FRAME_PRESETS, getPreset, instantiate } from './data/frames.js';
 import {
+  determineAdvantage as resolveAdvantage,
   effectiveCapacitorMax, effectiveInitiative, endPhase, energyPhase, isDestroyed, turnOrder,
 } from './rules.js';
 
@@ -405,6 +406,42 @@ export function removeFrame(frameId) {
 
 export function orderedFrames(b = getBattle()) {
   return turnOrder(framesList(b), b.phase, b.advantagePlayer);
+}
+
+/**
+ * Settle the Advantage Player (rules.typ 1.4) and record it on the battle.
+ *
+ * This is a shared mutation rather than something each device works out for
+ * itself, and that matters: on equal points the answer comes from a die roll,
+ * so two devices deciding independently would disagree, and the disagreement
+ * would surface as the two of them ordering tied Frames differently. Whoever
+ * presses the button rolls, and the result syncs like any other action.
+ *
+ * Deliberately not automatic. It is a setup step in the rules, it wants both
+ * players' rosters on the board before it runs, and re-running it after
+ * deployment would re-roll a decision the whole battle is resting on.
+ */
+export function determineAdvantage(opts = {}) {
+  return mutate((b) => {
+    const result = resolveAdvantage(framesList(b), opts);
+    if (!result) return null;
+
+    b.advantagePlayer = result.ownerId;
+    const detail = [...result.costs.entries()]
+      .map(([owner, pts]) => `${owner === deviceId() ? 'You' : 'Opponent'}: ${pts} pts`);
+    if (result.rolls) {
+      detail.push(...result.rolls.map(
+        (r) => `${r.ownerId === deviceId() ? 'You' : 'Opponent'} rolled ${r.total} (${r.dice.join('+')})`,
+      ));
+    }
+    logBattle(
+      b,
+      `Advantage — ${result.ownerId === deviceId() ? 'you' : 'your opponent'}${result.rolls ? ' (equal points, rolled off)' : ''}`,
+      detail,
+      'round',
+    );
+    return result;
+  });
 }
 
 // --- Logging ----------------------------------------------------------------

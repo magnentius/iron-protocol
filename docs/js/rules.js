@@ -1146,6 +1146,59 @@ export function endPhase(frame, { rng = Math.random } = {}) {
   return report;
 }
 
+// --- The Advantage Player (rules.typ 1.4) -----------------------------------
+
+/** A Named Pilot costs 15 pts per point of Initiative bonus (rules.typ 7.2.5). */
+export const PILOT_COST_PER_BONUS = 15;
+
+/** What a Frame cost to field: chassis plus its Named Pilot. Vows are free. */
+export function frameCost(frame) {
+  return (frame.points || 0) + (frame.pilotBonus || 0) * PILOT_COST_PER_BONUS;
+}
+
+/**
+ * Total force cost per side, as ownerId -> points.
+ *
+ * Destroyed Frames still count. This is what each player *brought*, which is
+ * settled at setup and cannot change afterwards — recomputing it from the
+ * survivors would hand the Advantage to whoever is currently losing.
+ */
+export function forceCosts(frames) {
+  const costs = new Map();
+  for (const f of frames) {
+    costs.set(f.ownerId, (costs.get(f.ownerId) || 0) + frameCost(f));
+  }
+  return costs;
+}
+
+/**
+ * Whoever brought the *lower* total cost is the Advantage Player — the Point
+ * Bid. Equal forces roll 2d6 and the higher roll takes it, rerolling until the
+ * rolls differ.
+ *
+ * Returns null when there are not two sides to compare, so a solo roster or an
+ * empty battle simply has no Advantage Player yet.
+ */
+export function determineAdvantage(frames, { rng = Math.random } = {}) {
+  const costs = forceCosts(frames);
+  const owners = [...costs.keys()];
+  if (owners.length < 2) return null;
+
+  const lowest = Math.min(...costs.values());
+  const tied = owners.filter((o) => costs.get(o) === lowest);
+  if (tied.length === 1) return { ownerId: tied[0], costs, rolls: null };
+
+  // A 2d6 roll-off can itself tie. Bounded because an unbounded loop in a
+  // reducer is worse than the vanishing chance of 40 straight ties.
+  for (let attempt = 0; attempt < 40; attempt += 1) {
+    const rolls = tied.map((o) => ({ ownerId: o, ...roll2d6(rng) }));
+    const best = Math.max(...rolls.map((r) => r.total));
+    const won = rolls.filter((r) => r.total === best);
+    if (won.length === 1) return { ownerId: won[0].ownerId, costs, rolls };
+  }
+  return { ownerId: tied[0], costs, rolls: null };
+}
+
 // --- Turn order (rules.typ 2.2, 2.3) ----------------------------------------
 
 /**

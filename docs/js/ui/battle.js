@@ -5,9 +5,9 @@ import { TERRAIN, TERRAIN_KEYS } from '../data/tables.js';
 import * as R from '../rules.js';
 import { battleTranscript, transcriptFilename } from '../transcript.js';
 import {
-  MAP_NAME_MAX, PHASE_NAMES, advancePhase, deviceId, framesList, getBattle, getFrame,
-  logAction, logBattle, logFrame, mutate, normalizeMapName, orderedFrames,
-  resetBattle, runEnergyPhase,
+  MAP_NAME_MAX, PHASE_NAMES, advancePhase, determineAdvantage, deviceId, framesList,
+  getBattle, getFrame, logAction, logBattle, logFrame, mutate, normalizeMapName,
+  orderedFrames, resetBattle, runEnergyPhase,
 } from '../state.js';
 import {
   closeModal, cls, confirmModal, downloadText, empty, esc, logList, meter, openModal, stepper, toast,
@@ -74,6 +74,7 @@ function phaseCard(battle, order) {
       <input type="text" data-action="set-map-name" placeholder="Battlemat — e.g. Grasslands #2"
              value="${esc(battle.mapName || '')}" maxlength="${MAP_NAME_MAX}"
              autocomplete="off" style="margin-bottom:.7rem">
+      ${advantageRow(battle)}
       ${battle.phase === 'energy' && !battle.energyGenerated && order.length ? `
         <button class="btn primary block" data-action="generate-energy" style="margin-bottom:.5rem">
           Generate Energy
@@ -83,6 +84,38 @@ function phaseCard(battle, order) {
         <button class="btn primary block" data-action="advance-phase">Advance → ${esc(nextLabel)}</button>
       `}
     </div>`;
+}
+
+/**
+ * The Advantage Player (rules.typ 1.4): chooses the home edge and takes every
+ * Initiative tie. Shown here because it is a setup decision that keeps mattering
+ * — a player who cannot see who holds it cannot check the turn order is right.
+ *
+ * The button appears only once both sides have Frames on the board, since the
+ * Point Bid compares two force costs and there is nothing to compare until then.
+ */
+function advantageRow(battle) {
+  const frames = framesList();
+  const costs = R.forceCosts(frames);
+  const me = deviceId();
+
+  if (battle.advantagePlayer) {
+    const mine = battle.advantagePlayer === me;
+    const summary = [...costs.entries()]
+      .map(([owner, pts]) => `${owner === me ? 'You' : 'Opp'} ${pts}`)
+      .join(' · ');
+    return `
+      <div class="row between small" style="margin-bottom:.7rem;gap:.5rem">
+        <span class="muted">Advantage — <b style="color:var(--accent)">${mine ? 'you' : 'opponent'}</b></span>
+        <span class="tiny dim" style="font-variant-numeric:tabular-nums">${esc(summary)} pts</span>
+      </div>`;
+  }
+
+  if (costs.size < 2) return '';
+  return `
+    <button class="btn block ghost" data-action="determine-advantage" style="margin-bottom:.7rem">
+      Determine Advantage Player
+    </button>`;
 }
 
 function phaseHint(phase) {
@@ -254,6 +287,17 @@ export function handle(action, el) {
   const frameId = el.dataset.frame;
 
   switch (action) {
+    case 'determine-advantage': {
+      const result = determineAdvantage();
+      if (!result) return true;
+      const mine = result.ownerId === deviceId();
+      const how = result.rolls
+        ? `equal points — rolled ${result.rolls.map((r) => r.total).join(' vs ')}`
+        : 'lower force cost';
+      toast(`Advantage: ${mine ? 'you' : 'opponent'} — ${how}`, mine ? 'ok' : null);
+      return true;
+    }
+
     case 'generate-energy': {
       const reports = runEnergyPhase();
       const total = reports.reduce((n, r) => n + (r.report?.pool || 0), 0);
