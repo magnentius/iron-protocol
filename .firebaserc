@@ -2,6 +2,17 @@
   "projects": {
     "prod": "iron-protocol-406da"
   },
-  "targets": {},
+  "targets": {
+    "iron-protocol-406da": {
+      "hosting": {
+        "tracker": [
+          "iron-protocol-406da"
+        ],
+        "site": [
+          "ironproto-site"
+        ]
+      }
+    }
+  },
   "etags": {}
 }

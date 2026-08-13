@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iron Protocol — A Tactical Game of Iron Frame Combat</title>
+<meta name="description" content="A hex-grid tabletop wargame of heavy mechanical combat. No to-hit rolls: secure a sensor lock and the shot connects. Free rulebook and record sheets.">
+<link rel="icon" href="images/logo.jpg">
+
+<meta property="og:title" content="Iron Protocol">
+<meta property="og:description" content="A hex-grid tabletop wargame of heavy mechanical combat. Free rulebook, record sheets and a browser battle tracker.">
+<meta property="og:image" content="https://ironproto.app/images/iron_protocol.jpg">
+<meta property="og:url" content="https://ironproto.app">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+
+<style>
+  /* Same tokens as the Battle Tracker, so the site and the app are one thing. */
+  :root {
+    --bg: #0b0e13;
+    --surface: #141a23;
+    --surface-2: #1b222d;
+    --border: #253040;
+    --text: #dce3ec;
+    --muted: #8593a5;
+    --dim: #5d6b7d;
+    --accent: #4dd2ff;
+    --accent-dim: #1d4d63;
+    --warn: #ffb347;
+    --ok: #57d38c;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 60rem; margin: 0 auto; padding: 0 1.25rem; }
+
+  /* ---- hero ---- */
+  header { padding: 4rem 0 2.5rem; text-align: center; }
+  .eyebrow {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .34em;
+    text-transform: uppercase; color: var(--accent); margin: 0 0 1.1rem;
+  }
+  h1 {
+    font-size: clamp(2.6rem, 9vw, 4.4rem); line-height: 1; margin: 0 0 .6rem;
+    font-weight: 800; letter-spacing: -.03em;
+  }
+  .tagline { font-size: clamp(1rem, 2.6vw, 1.2rem); color: var(--muted); margin: 0 auto 2rem; max-width: 34rem; }
+
+  .cover {
+    display: block; width: 100%; max-width: 30rem; margin: 0 auto;
+    border: 1px solid var(--border); border-radius: 8px;
+  }
+
+  /* ---- downloads ---- */
+  .downloads {
+    display: grid; gap: .85rem; margin: 2.5rem 0 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  }
+  .dl {
+    display: block; text-decoration: none; color: inherit;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.1rem 1.2rem; transition: border-color .15s, transform .15s;
+  }
+  .dl:hover, .dl:focus-visible { border-color: var(--accent); transform: translateY(-2px); }
+  .dl:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .dl.primary { background: var(--accent-dim); border-color: var(--accent); }
+  .dl .k {
+    font-family: var(--mono); font-size: .66rem; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--accent); display: block; margin-bottom: .4rem;
+  }
+  .dl .t { font-size: 1.06rem; font-weight: 650; display: block; margin-bottom: .2rem; }
+  .dl .s { font-size: .85rem; color: var(--muted); }
+
+  .edition {
+    font-family: var(--mono); font-size: .78rem; color: var(--dim);
+    text-align: center; margin: 0 0 3.5rem;
+  }
+  .edition b { color: var(--muted); font-weight: 500; }
+
+  /* ---- features ---- */
+  section { padding: 0 0 3rem; }
+  h2 {
+    font-size: .78rem; font-family: var(--mono); letter-spacing: .2em;
+    text-transform: uppercase; color: var(--dim); margin: 0 0 1.4rem;
+    padding-bottom: .6rem; border-bottom: 1px solid var(--border);
+  }
+  .features { display: grid; gap: 1.6rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+  .feature h3 { font-size: 1.05rem; margin: 0 0 .45rem; font-weight: 650; }
+  .feature p { margin: 0; color: var(--muted); font-size: .94rem; }
+  .feature .lede { color: var(--accent); font-weight: 600; }
+
+  /* ---- start here ---- */
+  .start {
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent); border-radius: 8px;
+    padding: 1.3rem 1.4rem; margin-bottom: 3rem;
+  }
+  .start h3 { margin: 0 0 .5rem; font-size: 1.05rem; }
+  .start p { margin: 0; color: var(--muted); font-size: .94rem; }
+
+  footer {
+    border-top: 1px solid var(--border); padding: 2rem 0 3rem;
+    font-size: .86rem; color: var(--dim);
+  }
+  footer a { color: var(--muted); }
+  a { color: var(--accent); }
+
+  @media (max-width: 34rem) {
+    header { padding: 2.5rem 0 1.5rem; }
+    body { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Iron Protocol</p>
+    <h1>Iron Frame Combat</h1>
+    <p class="tagline">A hex-grid tabletop wargame of heavy mechanical combat — tactical resource management, locational damage and critical cascades, with the turn-order dynamics of a dogfighter.</p>
+    <img class="cover" src="images/iron_protocol.jpg" alt="Two Iron Frames exchanging fire across broken ground" width="1200" height="1600">
+  </header>
+
+  <div class="downloads">
+    <a class="dl primary" href="https://github.com/magnentius/iron-protocol/releases/latest">
+      <span class="k">Rulebook · PDF</span>
+      <span class="t">Download the rules</span>
+      <span class="s">62 pages, US Letter. Everything you need to play.</span>
+    </a>
+    <a class="dl" href="https://github.com/magnentius/iron-protocol/releases/latest">
+      <span class="k">Record sheets · PDF</span>
+      <span class="t">Print the Frames</span>
+      <span class="s">All five chassis, one page each. Grab the zip for the set.</span>
+    </a>
+    <a class="dl" href="https://play.ironproto.app">
+      <span class="k">Battle Tracker · Web</span>
+      <span class="t">Play in a browser</span>
+      <span class="s">Carries the bookkeeping. Works offline; two phones can share one battle.</span>
+    </a>
+  </div>
+
+  <p class="edition">
+    Current edition <b>2026-08-13</b> — printed on the rulebook cover and every sheet, so you can always tell how current your copy is.
+  </p>
+
+  <section>
+    <h2>What makes it different</h2>
+    <div class="features">
+      <div class="feature">
+        <h3>No to-hit rolls</h3>
+        <p><span class="lede">Secure a sensor lock and the shot connects.</span> No shot is ever wasted on a bad accuracy roll. The whole tactical puzzle is getting and keeping that lock — terrain, line of sight, and an electronic warfare battle fought across three sensor bands.</p>
+      </div>
+      <div class="feature">
+        <h3>Armor is a threshold</h3>
+        <p><span class="lede">Damage must beat the plate, or it does nothing at all.</span> There are no hit points. A penetrating hit strips one point of armor permanently, so a Frame is progressively opened up rather than whittled down — and an autocannon cannot scratch an assault chassis until something heavier has opened it.</p>
+      </div>
+      <div class="feature">
+        <h3>The initiative inverts</h3>
+        <p><span class="lede">Slow Frames move first and shoot last.</span> They commit to a position blind, then watch the fast ones fire before they can answer. Scouts move last and shoot first. That single inversion is the spine of every decision on the board.</p>
+      </div>
+      <div class="feature">
+        <h3>Energy is the only currency</h3>
+        <p><span class="lede">Walking costs it. Firing costs it. Hiding costs it every round.</span> Bank charge in the capacitor for an overcharged rail gun, or spend it sprinting for cover — but the same reserve pays for both, and it never stretches.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="start">
+    <h3>New here? Start with Trial by Fire.</h3>
+    <p>A 1v1 mirror match between two Vanguards, in Section 1.4.1 of the rulebook. Identical Frames mean every difference in the outcome comes from your decisions rather than the matchup — which is the fastest way to learn what the energy economy is actually asking of you.</p>
+  </div>
+
+  <footer>
+    <p>
+      <strong>Iron Protocol</strong> © 2026 John Karakashian, released under
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>.
+      Free to share, remix and build on, non-commercially, with credit.
+    </p>
+    <p>
+      <a href="https://github.com/magnentius/iron-protocol">Source, rules and record sheets on GitHub</a> ·
+      <a href="https://play.ironproto.app">Battle Tracker</a>
+    </p>
+  </footer>
+
+</div>
+</body>
+</html>
