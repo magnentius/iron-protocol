@@ -191,7 +191,7 @@ The game is played on a standard hexagonal grid.
 - *Distance Scale*: Each hex represents approximately *30 meters* of terrain.
 - *Time Scale*: A single combat turn (round) represents approximately *10 seconds* of real-time combat.
 - *Facing Conventions*: A Frame possesses two components of facing:
-  - *Leg Facing (Movement)*: The direction the legs face, which determines the direction of forward, backward, and diagonal movement.
+  - *Leg Facing (Movement)*: The direction the legs face. It points at exactly one of the six hexsides, and it is the only direction a Frame may walk into. To go anywhere else, pivot first.
   - *Torso Facing (Combat)*: The direction the upper body faces. By default, the torso aligns with the leg facing, but a Frame can twist its torso at the end of its activation.
 - *Torso Twisting*: At the end of its activation, a Frame's upper body can twist 1 hexside (60 degrees) to the left or right of its current Leg Facing, setting its Torso Facing and Firing Arcs for the upcoming Combat Phase.
 
@@ -230,8 +230,8 @@ When a Frame is attacked, the direction of the incoming attack determines the *H
 To begin a game of _Iron Protocol_, players complete the following setup steps:
 + *Agree on Force Limit*: Players select a Deployment Point budget (e.g. 500 pts for introductory 1v1, 1000 pts for 2v2 Element combat, 1500 pts for 3v3–4v4 Platoon battles).
 + *Select Frames & Pilots*: Players choose pre-built technical readouts from the *Iron Frame Roster (#sec("8"))* or construct custom frames using Section 7.2.
-+ *Determine Point Bid & Advantage Player*: The player who brings a lower total force point cost (leaving an intentional point gap, commonly referred to as a *"Point Bid"*) wins the *Tactical Advantage* and chooses who is designated the *Advantage Player* for the match. If total force points are tied, players roll 2d6; the winner chooses the Advantage Player.
-+ *Map Setup & Unit Deployment*: Lay out hex map tiles. The Advantage Player chooses their home map edge. Players alternate deploying 1 Frame at a time within 2 hexes of their designated home map edge.
++ *Determine the Advantage Player*: whoever brings the *lower* total force cost is the *Advantage Player* — deliberately spending less than the budget to claim it is called a *Point Bid*. If the two forces cost the same, roll 2d6; the higher roll takes it. The Advantage Player chooses their home map edge and settles every Initiative tie for the rest of the battle.
++ *Map Setup & Unit Deployment*: Lay out hex map tiles. The Advantage Player chooses their home map edge. Players alternate deploying 1 Frame at a time within 2 hexes of their designated home map edge. *The deploying player sets that Frame's Leg Facing freely*, and its Torso Facing begins aligned with the legs.
 + *Pre-Combat System Activation*: At the moment of deployment, Frames equipped with an *Adaptive Skin* or *ECM* (Electronic Countermeasures) may deploy with those systems *Active*. Upkeep costs (2 EP for Adaptive Skin, 2 EP for ECM) are automatically deducted during the Round 1 Energy Phase.
 
 === 1.4.1 Introductory Scenario: Trial by Fire (1v1 Duel)
@@ -275,9 +275,11 @@ At the start of the turn, players perform the following steps:
 #anchor("2.2")
 
 Frames activate one at a time, beginning with the *lowest Initiative* value and counting up.
-- *Initiative Tie-Breakers (Activation)*: If opposing Frames share the same Initiative value, the *Advantage Player* (determined during setup via Point Bid or die roll) decides which of the tied Frames activates first (choosing to activate their own unit first or forcing the opponent's tied unit to activate first).
+- *Initiative Tie-Breakers (Activation)*: If opposing Frames share the same Initiative value, the *Advantage Player* (determined during setup via Point Bid or die roll) decides which of the tied Frames activates first (choosing to activate their own unit first or forcing the opponent's tied unit to activate first). Frames on the *same* side that share an Initiative value activate in whatever order their own player chooses.
 - *Dynamic Movement Execution*: When a Frame activates, the player decides how to move it on the fly, spending EP from their current energy pool step-by-step. This allows players to react directly to the movements of previously activated (lower-initiative) frames.
 - *Movement Limit*: A Frame cannot enter more hexes during its activation than its stat sheet Movement Limit. Changing Leg Facing (pivoting) does not count as entering a hex and is not restricted by this limit.
+- *Which hex you may enter*: a *Forward Walk* enters the single hex the Leg Facing points at, and a *Reverse* the single hex directly behind it. There is no diagonal step. Reaching any other adjacent hex means pivoting first, at 1 EP per 60°, so a Frame that wants to turn a corner pays for the corner.
+- *Doing nothing is a choice*: a Frame is never obliged to move, and may end its activation without spending a point. It may equally decline to fire in the Combat Phase. Spending almost nothing is the only way to stay off infrared (#sec("4.1")), so standing still is a tactic rather than a forfeit.
 
 === Movement Cost Summary
 
@@ -327,7 +329,8 @@ The limit is propellant, not thrust: lifting a Frame takes reaction mass, and th
 - _Flank Speed_: A jump of *2 or more hexes* grants Flank Speed upon landing, regardless of the Frame's usual threshold — the ballistic trajectory of a full thruster burn is genuinely hard to track. A single-hex hop does not; it is a repositioning step, not a flight, and a Frame that hops one hex must still meet its normal Flank Speed by movement to gain the state. _(At 2 EP per hex, a 2-hex jump costs the same 4 EP that walking to the threshold does — Jump Jets buy terrain and elevation, not a cheaper defence.)_
 === Collisions & Ramming
 
-- *Collisions & Blocking*: If a Frame's movement path would enter a hex occupied by another Frame, a collision occurs. The moving Frame immediately stops in the last unoccupied hex, its activation ends, and both frames suffer damage.
+- *One Frame to a hex*: no two Frames may occupy the same hex, and that includes wrecks (#sec("6.5")). A *friendly* Frame blocks movement but is never rammed — a Frame may not enter its hex at all, and simply stops. Only an *enemy* Frame can be collided with.
+- *Collisions & Blocking*: If a Frame's movement path would enter a hex occupied by an enemy Frame, a collision occurs. The moving Frame immediately stops in the last unoccupied hex, its activation ends, and both frames suffer damage.
   - *Collision Damage*: Both the moving Frame and the stationary target Frame suffer damage to a random location determined by rolling on the Hit Location Table individually. Flank Speed does *not* allow rerolls against collision damage, as the impact is physical and unavoidable. *Armor DR is tested normally* against each hit, and a penetrating collision degrades that location's Armor DR by 1 and triggers a Critical Hit roll, exactly as a weapon hit would.
   - *Deliberate Ramming*: A pilot may intentionally drive into an occupied hex. Note that the flat damage is derived from the _moving_ Frame's Mass Value, and *both Frames suffer that exact same flat damage* — a light Frame that rams a heavy one will almost always come off worse.
   - *Damage Calculation*: The collision inflicts a flat amount of damage based on the moving Frame's *Mass Value* (Light = 1, Medium = 2, Heavy = 3, Assault = 4) multiplied by its speed (the number of hexes moved in the current activation before impact):
@@ -370,7 +373,7 @@ The limit is propellant, not thrust: lifting a Frame takes reaction mass, and th
 #anchor("2.3")
 
 Frames attack in order of *highest Initiative* to *lowest Initiative*.
-- *Initiative Tie-Breakers (Combat)*: If opposing Frames share the same Initiative value, the *Advantage Player* decides which of the tied Frames declares and resolves its attack first (choosing to fire with their own unit first or allowing the opponent's tied unit to declare its attack first).
+- *Initiative Tie-Breakers (Combat)*: If opposing Frames share the same Initiative value, the *Advantage Player* decides which of the tied Frames declares and resolves its attack first (choosing to fire with their own unit first or allowing the opponent's tied unit to declare its attack first). Frames on the *same* side that share an Initiative value fire in whatever order their own player chooses.
 - *Instant Resolution*: Unlike some tabletop games, damage is resolved _instantly_. If a high-initiative Frame destroys or disables a weapon on a lower-initiative Frame, that lower-initiative Frame cannot use that weapon when its turn to fire comes.
 - *One Attack Per Weapon*: Each mounted weapon may be fired *once per Combat Phase*, regardless of how much EP remains. A Frame with several weapons may fire each of them once, in any order it chooses. _(This is what gives Full Auto its purpose: a pilot who wants to put more rounds downrange must concentrate them into a single attack against a single hit location, rather than spreading them across several.)_
 - *Attack Sequence*:
@@ -405,6 +408,32 @@ Frames attack in order of *highest Initiative* to *lowest Initiative*.
   + *Resolve Degradation*: The Vanguard's Torso Armor DR is permanently *reduced by 1* (from 6 to 5).
   + *Check Overkill*: The damage exceeded the Armor DR by 3 (9 − 6). That is less than 5, so no additional Critical dice are earned — this attack rolls one Critical.
   + *Roll Cascading Critical*: The Colossus rolls 1d6 on the Torso Critical Hit Table. It rolls a *3: Capacitor Leak* — the Vanguard's Capacitor Max drops permanently by 2 and it loses 2 stored EP immediately, which may cost it an Overcharge next turn. The Vanguard marks the '3' slot on its Torso table. _(Had the '3' slot already been marked, the damage would have cascaded upward to the next unmarked slot.)_
+
+== 2.5 Ending the Battle
+#anchor("2.5")
+
+A scenario may set its own victory conditions, and where it does, they replace
+what follows. Absent that:
+
+- *A Frame is out of the battle* when it is destroyed — Head or Torso destroyed,
+  or both Legs gone (#sec("6.5")) — or when its pilot surrenders.
+- *A force is defeated* when it has no Frames left in the battle.
+- *Surrender* is declared by the owning player, for one Frame, at any point they
+  hold priority. That Frame is out of the battle immediately and leaves a wreck
+  in its hex exactly as a destroyed one does. A surrendered Frame counts as
+  destroyed for every purpose, including a Named Pilot's Vow. Surrender is
+  irrevocable.
+- *The round limit is 15.* If both forces still have Frames in the battle at the
+  end of round 15, the side that has destroyed the greater value in Deployment
+  Points wins. If that is also equal, the battle is a draw.
+
+#design-note[
+  The limit exists so a game always ends, not because games run long: across the
+  twelve playtest scenarios the longest averages a little over twelve rounds, so
+  fifteen sits clear of every measured length and will almost never be reached.
+  When it is, counting destroyed points rather than surviving ones is what stops
+  a player winning by hiding a cheap Frame in a corner for the last five rounds.
+]
 
 == 2.4 End Phase
 #anchor("2.4")
@@ -813,7 +842,7 @@ When a Frame is hit, the player rolls 2d6 and determines the hit location using 
   [*12*], [Head (Sensors)\*\*], [Head (Sensors)\*\*], [Head (Sensors)\*\*],
 )
 
-_\*Torso (Core Critical): The shot slips through a structural gap into the center mass. *Treat the Torso's Armor DR as 0 for this entire attack* — it penetrates automatically, Torso DR is permanently reduced by 1, and the Overkill Margin is measured against 0 rather than the Frame's real armor. A heavy weapon that finds the core will therefore land several Critical Hits at once._  
+_\*Torso (Core Critical): The shot slips through a structural gap into the center mass. *Treat the Torso's Armor DR as 0 for this entire attack* — it penetrates automatically, Torso DR is permanently reduced by 1, and the Overkill Margin is measured against 0 rather than the Frame's real armor. A heavy weapon that finds the core will therefore land several Critical Hits at once. *A Rapid Fire weapon keeps its own rule*: every die beats a DR of 0, but the attack still yields one Critical per Burst that landed rather than one per die, still degrades Torso DR by 1 in total, and still rolls no Overkill. A Full Auto barrage into the core is three Criticals, not nine._  
 _\*\*Head (Sensors): Contains the cockpit and Sensor Suite. Critical hits on the Head are highly dangerous and can stun or blind the Frame._
 
 == 6.2 Critical Hit Tables (1d6 Cascading)
@@ -977,6 +1006,30 @@ If an attack hits a location that has already been destroyed (e.g. a random hit 
 -   The damage transfers directly to the *Torso*. Resolve the attack against the Torso's current Armor DR exactly as if you had rolled a Torso hit normally.
 -   Because the attack travels inward through structural gaps to strike the center mass, the target cannot force the attacker to reroll damage dice using *Flank Speed* (terrain Cover rerolls still apply).
 -   Damage cannot transfer further than the Torso (as Torso destruction destroys the Frame).
+
+=== 6.5.6 The Wreck
+#anchor("6.5.6")
+
+A destroyed Frame is not removed. The wreck stays in its hex for the rest of the
+battle and is treated as an obstacle:
+
+- *It blocks movement.* No Frame may enter the hex. A Frame whose path runs into
+  a wreck stops in the last clear hex, exactly as it would for a friendly Frame,
+  and takes no collision damage — there is nothing left to ram that can ram back.
+- *It blocks line of sight* to the height it stood at, two Levels, on every
+  sensor band, exactly as the standing Frame did.
+- *It grants no Cover.* A hulk is not a fortification, and nothing in these rules
+  lets a Frame shelter behind one for rerolls.
+
+A wreck is never repaired, salvaged or moved during a battle.
+
+#design-note[
+  Removing the model would be tidier and is what most rules do, but it quietly
+  deletes information the battle earned: a Colossus that died holding a corridor
+  should keep holding it. It also gives Containment Failure something to measure
+  from, and it means the board grows more constrained as the fight goes on, which
+  is the shape a battle of attrition ought to have.
+]
 
 = 7. Optional Rules
 #anchor("7")
