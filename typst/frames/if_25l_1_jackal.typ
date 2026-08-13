@@ -39,12 +39,14 @@
   card({
     label-text("Reactor pool — 8 EP per round")
     v(4pt)
-    pip-row(8, mark: 4, mark-label: "IR lockable")
+    pip-row(8)
     v(3pt)
     text(size: 6.5pt, fill: rgb("#5d6b7d"))[
       Fill in the Energy Phase, erase as spent. The 4th EP in a round leaves a
       heat bloom — lockable on infrared for the rest of it. Skin upkeep is exempt.
     ]
+    v(4pt)
+    ir-track()
   }),
   card({
     label-text("Capacitor — max 3 EP")

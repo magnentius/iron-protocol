@@ -26,12 +26,14 @@
   card({
     label-text("Reactor pool — 12 EP per round")
     v(4pt)
-    pip-row(12, mark: 4, mark-label: "IR lockable", per-row: 6)
+    pip-row(12, per-row: 6)
     v(3pt)
     text(size: 6.5pt, fill: rgb("#5d6b7d"))[
       The 4th EP in a round leaves a heat bloom — lockable on infrared for the
       rest of it. The largest reactor of any Medium.
     ]
+    v(4pt)
+    ir-track()
   }),
   card({
     label-text("Capacitor — max 6 EP")

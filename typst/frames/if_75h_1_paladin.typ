@@ -26,12 +26,14 @@
   card({
     label-text("Reactor pool — 14 EP per round")
     v(4pt)
-    pip-row(14, mark: 4, mark-label: "IR lockable", per-row: 7)
+    pip-row(14, per-row: 7)
     v(3pt)
     text(size: 6.5pt, fill: rgb("#5d6b7d"))[
       The 4th EP in a round leaves a heat bloom. A Heavy cannot enter Heavy
       Woods on foot, so terrain will not hide it either.
     ]
+    v(4pt)
+    ir-track()
   }),
   card({
     label-text("Capacitor — max 8 EP")
