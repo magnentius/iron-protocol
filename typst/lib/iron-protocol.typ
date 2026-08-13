@@ -365,8 +365,13 @@
   )
 }
 
+/// The header carries only what the rows cannot: *when* you roll, and that a
+/// store never comes back. The threshold is already printed on each row as
+/// "empty on 1", the box is already drawn, and it is already labelled DRY — so
+/// "at or below its number, tick the box" was explaining three things the reader
+/// is looking straight at.
 #let ammo-card(stores) = card({
-  label-text("Ammunition — roll the Ammo Die after each attack; at or below its number, tick the box: that store is gone for the rest of the battle")
+  label-text("Ammunition — roll the Ammo Die after each attack; a store that runs dry stays dry")
   v(4pt)
   grid(columns: (1fr, 1fr), gutter: 10pt, row-gutter: 3pt, ..stores)
 })
