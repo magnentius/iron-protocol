@@ -69,6 +69,23 @@
   }
 }
 
+/// Who designed the game, for the credit printed on everything.
+///
+/// One binding rather than a literal at each site: the name appears on the
+/// rulebook cover, in the PDF metadata and in the footer of every record
+/// sheet, and three copies of a person's name is three chances to spell it
+/// differently.
+#let designer = "John Karakashian"
+
+/// The terms, in the two lengths the layouts have room for.
+///
+/// The cover has a line to spare and says it in full; a record-sheet footer is
+/// already carrying the edition, the designer and the sheet name across one
+/// 6.5pt line, so it says it short. Both live here so that relicensing is one
+/// edit and cannot leave a stale claim printed on half the artifacts.
+#let license-line = "Dedicated to the public domain — CC0 1.0 Universal"
+#let license-short = "Public domain (CC0 1.0)"
+
 // --- Document shell ---------------------------------------------------------
 
 #let frame-sheet(theme: "print", title: none, body) = {
@@ -83,7 +100,7 @@
       #set text(size: 6.5pt, font: mono, fill: p.dim)
       #grid(columns: (1fr, auto),
         align: (left, right),
-        [IRON PROTOCOL · FRAME RECORD SHEET · #edition],
+        [IRON PROTOCOL · FRAME RECORD SHEET · #edition · DESIGNED BY #upper(designer) · #upper(license-short)],
         [#title #h(0.6em) #counter(page).display()],
       )
     ],

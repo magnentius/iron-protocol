@@ -15,8 +15,10 @@
   "Iron Protocol",
   "A Tactical Game of Iron Frame Combat",
   "/images/iron_protocol.jpg",
+  designer: designer,
   tagline: [Fusing tactical resource management and locational damage with fluid
     turn-order dynamics and initiative-based action.],
+  license: license-line,
 )
 
 #outline(title: [Contents], depth: 3, indent: auto)
@@ -1709,6 +1711,4 @@ A deliberately asymmetric matchup that rewards knowing the Specter's line.
   [*Severity Ladder*], [The six rungs every critical table climbs, so a number means the same kind of damage everywhere.], [6.2],
   [*Torso Facing*], [Where the upper body points; sets firing arcs. Twisted at the end of an activation.], [1.2],
 )
-
-_Game Design by Antigravity & the User._
 

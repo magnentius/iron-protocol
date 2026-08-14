@@ -10,7 +10,7 @@
 // so on), and auto-numbering cannot produce "5.0" at all — it would renumber
 // 7.2.0 upward and silently invalidate every one of those citations.
 
-#import "iron-protocol.typ": palette-print, palette-screen, sans, serif, mono, edition
+#import "iron-protocol.typ": palette-print, palette-screen, sans, serif, mono, edition, designer, license-line
 
 #let pal = state("rules-pal", palette-print)
 
@@ -20,7 +20,7 @@
   let p = if theme == "screen" { palette-screen } else { palette-print }
   pal.update(p)
 
-  set document(title: title, author: "John Karakashian")
+  set document(title: title, author: designer)
   set page(
     paper: "us-letter",
     margin: (x: 2.2cm, top: 2.1cm, bottom: 1.9cm),
@@ -152,7 +152,7 @@
 /// Attach the anchor a `sec()` call resolves to.
 #let anchor(num) = [#metadata(num)#label("s-" + num.replace(".", "-"))]
 
-#let cover(title, subtitle, art, tagline: none) = context {
+#let cover(title, subtitle, art, tagline: none, designer: none, license: none) = context {
   let p = pal.get()
   set page(header: none, footer: none)
   align(center + horizon, block(width: 100%, {
@@ -161,13 +161,26 @@
     text(font: sans, size: 40pt, weight: "bold", fill: p.ink)[#title]
     v(6pt)
     text(size: 12pt, style: "italic", fill: p.muted)[#subtitle]
-    v(24pt)
-    if art != none { image(art, width: 74%) }
-    v(14pt)
+    if designer != none {
+      v(12pt)
+      text(font: mono, size: 9pt, fill: p.muted, tracking: 0.16em)[#upper("Designed by " + designer)]
+    }
+    v(18pt)
+    // 60%, not the 74% this began at. The cover is a single page and it was
+    // already full; the credit and the licence line each want a line of their
+    // own, and the art is the only element here that can give ground.
+    if art != none { image(art, width: 60%) }
+    v(12pt)
     text(font: mono, size: 8pt, fill: p.muted, tracking: 0.1em)[#upper(edition)]
     if tagline != none {
-      v(18pt)
+      v(16pt)
       block(width: 72%, align(center, text(size: 9pt, style: "italic", fill: p.dim, tagline)))
+    }
+    // The terms close the cover, where a copyright line normally would: a
+    // reader who only ever sees the PDF still learns what they may do with it.
+    if license != none {
+      v(16pt)
+      text(font: mono, size: 7.5pt, fill: p.dim, tracking: 0.1em)[#upper(license)]
     }
   }))
   pagebreak()
