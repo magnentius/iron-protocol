@@ -322,5 +322,5 @@ slots: a mis-tap there applies an effect through the engine that cannot be undon
 
 ---
 
-*Iron Protocol* © 2026 John Karakashian, released under
-[CC BY-NC-SA 4.0](../LICENSE.md).
+*Iron Protocol* is dedicated to the public domain under
+[CC0 1.0](../LICENSE.md).

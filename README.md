@@ -145,10 +145,10 @@ Building documents locally needs [Typst](https://typst.app); the fonts are
 
 ---
 
-## 📜 License & Copyright
+## 📜 License
 
-**Copyright (c) 2026 John Karakashian**
+*Iron Protocol* is dedicated to the public domain under **[CC0 1.0 Universal](LICENSE.md)**.
 
-*Iron Protocol* is released under the **[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)](LICENSE.md)**. 
+To the extent possible under law, John Karakashian has waived all copyright and related rights to this work. Share it, remix it, print it, build homebrew frames and campaigns on it, sell it — no permission needed and no attribution required. Credit is welcome, but it is not a condition of use.
 
-You are entirely free to share, copy, and remix the rules to create your own homebrew content, custom frames, or campaigns, provided you credit the original project, link back to this repository, and do not use the material for commercial purposes. Any derivative works must be distributed under this same license.
+Most of the text and art here was generated with AI assistance, and rights in such material are unsettled; the dedication waives whatever rights exist rather than leaving anyone to guess. The vendored fonts in [`typst/fonts/`](typst/fonts/) are third-party and keep their own licences — see [LICENSE.md](LICENSE.md) for the details.

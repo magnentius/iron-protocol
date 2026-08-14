@@ -51,7 +51,7 @@ export function render() {
     ${panel('Movement & Falling', movementNotes())}
     ${panel('Special Resolution Cases', houseRulings())}
     <p class="tiny dim center" style="margin-top:1.5rem">
-      Full rules in rules.typ · Iron Protocol © 2026 John Karakashian · CC BY-NC-SA 4.0
+      Full rules in rules.typ · Iron Protocol · public domain (CC0 1.0)
     </p>`;
 }
 
