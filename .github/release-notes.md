@@ -1,33 +1,33 @@
 ## What changed in this edition
 
-**No rules changed.** The rulebook is identical to the previous edition apart
-from its edition line. This release is entirely about the **record sheets**, and
-two of the fixes are corrections rather than tidying — if you printed sheets from
-`2026-08-13.3`, these are worth reprinting.
+**Iron Protocol is now in the public domain.** The project was CC BY-NC-SA 4.0;
+it is now dedicated to the public domain under [CC0
+1.0](https://creativecommons.org/publicdomain/zero/1.0/). Copy it, remix it,
+print it, sell it, fold it into something of your own — no permission needed and
+no attribution required. The NonCommercial and ShareAlike terms are gone for
+good, and nothing you were allowed to do under the old licence is forbidden now.
 
-**The Jackal's armour header was wrong.** Four sheets read *"cross off the
-highest on each penetration; damage must strictly exceed the current value"*. The
-Jackal omitted the strictly-exceed clause — which is the threshold mechanic the
-entire damage system rests on, missing from the sheet a new player is most likely
-to be holding. Fixed.
+Credit is welcome, it is simply no longer a condition of use. The vendored fonts
+are third-party and keep their own licences; `LICENSE.md` names them.
 
-**The Colossus referred to something that no longer exists.** Its reactor note
-distinguished the chassis by saying there was "no threshold pip to watch", but the
-infrared track it was contrasting against was removed in the last edition. It now
-states the rule directly: an Assault chassis is lockable on infrared from the
-first round to the last, and the 4 EP rule on every other sheet does not apply to
-it at all.
+**No rules changed.** Every number, threshold and procedure is identical to
+`2026-08-13.4`. If your sheets are current you do not need to reprint them —
+though the rulebook's two arc diagrams are worth a look.
 
-**Ammunition thresholds are printed once, not twice.** Every store had its Ammo
-Die number on the equipment row *and* again on the ammunition card. The card is
-where you roll and tick, so it keeps the number; the equipment rows were the
-densest text on the sheet and are now shorter for it.
+**The firing-arc and hit-zone diagrams are redrawn.** Both were raster art, and
+the hit-zone figure showed white "target's choice" hexes without showing the
+geometry that produces them — you could see *that* four hexes were special
+without being able to work out *which* four, or why. They are now drawn from the
+rules: the boundary hexes fall out of the sector bearings, each hexside is named,
+and the arc diagram says which mounts can fire into each arc. Being vector, they
+stay sharp however large you print them.
 
-**Under the hood**, a Frame's reactor and capacitor figures are written once per
-sheet instead of three times — stat strip, card header and pip count now read one
-value, so a sheet can no longer disagree with itself about how much energy a
-chassis makes. Notes also take their colour from the theme, which fixes low
-contrast in the dark-theme build.
+**The cover and sheets now carry a credit and the terms.** *Designed by John
+Karakashian* appears on the rulebook cover and in every record-sheet footer,
+alongside a line stating the public-domain dedication. A printout has no
+`LICENSE.md` beside it, and the sheets travel separately from the book, so each
+has to say for itself what may be done with it. The cover art is slightly smaller
+to make room.
 
 ---
 
