@@ -13,43 +13,38 @@ only orientation in which a Frame can face a hexside and have a hex directly
 ahead of it, which is what Section 1.2 requires. Torso Facing is north in both
 diagrams and every bearing below is degrees clockwise from it.
 
-Every fill is opaque, mixed against the paper colour rather than laid over the
-page with alpha, so one file renders identically in the print and screen
-builds instead of needing a variant per theme.
+Every fill is a flat opaque grey rather than a wash laid over the page with
+alpha, so one file renders identically in the print and screen builds instead
+of needing a variant per theme.
 """
 import math
 from pathlib import Path
 
 DST = Path("images")
 
-# Mirrors palette-print in typst/lib/iron-protocol.typ. The screen palette is
-# deliberately not used: a light figure reads on both papers, a dark one does
-# not print.
-PAPER   = "#f7f9fb"
-SURFACE = "#eef2f6"
-BORDER  = "#c3ccd7"
-INK     = "#141a23"
-MUTED   = "#5d6b7d"
-DIM     = "#8593a5"
-ACCENT  = "#0e7899"
-DANGER  = "#b3342c"
-WARN    = "#8a5a12"
-OK      = "#2f7a52"
-ARMOR   = "#3d6f9c"
+# Greyscale, so the figures survive a black-and-white print and a photocopy of
+# that print. Deliberately not the palette-print colours in
+# typst/lib/iron-protocol.typ: these two figures carry their meaning in fills,
+# and hue-per-sector collapses the moment the colour is dropped.
+PAPER   = "#ffffff"
+SURFACE = "#f2f2f2"
+BORDER  = "#9a9a9a"
+INK     = "#000000"
+MUTED   = "#4a4a4a"
+DIM     = "#767676"
+ACCENT  = INK
 
-# One hue per sector, so no two that touch on the map read alike.
-FRONT, LEFT, RIGHT, REAR = ARMOR, WARN, OK, DANGER
+# One tone per sector, so no two that touch on the map read alike. These are
+# the finished fills, not tints to be mixed: a grey light enough to sit under
+# 11pt type is too light to set that type in, so the sector is carried by the
+# fill alone and every label stays at ink. The two side sectors share a tone
+# because they never touch — position and the labels tell them apart.
+SIDE = "#cccccc"
+FRONT, LEFT, RIGHT, REAR = "#e4e4e4", SIDE, SIDE, "#b3b3b3"
 
 # Vendored in typst/fonts/ and embedded in Typst respectively, so the text in
 # these files renders under --ignore-system-fonts like everything else.
 MONO = "DejaVu Sans Mono"
-
-
-def mix(fg: str, bg: str, t: float) -> str:
-    """Opaque blend of fg over bg at fraction t."""
-    f = [int(fg[i:i + 2], 16) for i in (1, 3, 5)]
-    b = [int(bg[i:i + 2], 16) for i in (1, 3, 5)]
-    return "#" + "".join("%02x" % round(f[i] * t + b[i] * (1 - t)) for i in range(3))
 
 
 # --- geometry ---------------------------------------------------------------
@@ -98,9 +93,15 @@ def arrowhead(name, color):
             '<path d="M 0 0 L 10 5 L 0 10 z" fill="%s"/></marker>' % (name, color))
 
 
+def ah(color):
+    """Marker id for an arrowhead in this colour; ink is the one named id."""
+    return "ink" if color == INK else color[1:]
+
+
 def defs(colors):
+    extra = [c for c in dict.fromkeys(colors) if c != INK]
     return "<defs>\n  %s\n</defs>" % "\n  ".join(
-        [arrowhead("ink", INK)] + [arrowhead(c[1:], c) for c in colors])
+        [arrowhead("ink", INK)] + [arrowhead(ah(c), c) for c in extra])
 
 
 def panel(w, h):
@@ -159,7 +160,7 @@ def head(w, h, aria, title):
             ' viewBox="0 0 %d %d" role="img" aria-label="%s">'
             % (w, h, w, h, esc(aria)),
             '<title>%s</title>' % esc(title),
-            defs([FRONT, LEFT, RIGHT, REAR, ACCENT]),
+            defs([ACCENT]),
             panel(w, h)]
 
 
@@ -172,20 +173,20 @@ def arcs_svg():
     out = head(W, H, "Firing arcs measured from a frame's torso facing",
                "Firing Arcs")
 
-    # The six hexsides, each named and tinted by the arc that covers it. All
+    # The six hexsides, each named and shaded by the arc that covers it. All
     # three front hexsides belong to one 180-degree arc; the rest are 60 each.
     ring = [(0, "FRONT", FRONT), (60, "FRONT-RIGHT", FRONT),
             (120, "RIGHT-REAR", RIGHT), (180, "REAR", REAR),
             (240, "LEFT-REAR", LEFT), (300, "FRONT-LEFT", FRONT)]
 
-    for bearing, _, color in ring:
+    for bearing, _, fill in ring:
         dx, dy = neighbour(bearing, R)
-        out.append(hexagon(CX + dx, CY + dy, R, mix(color, PAPER, 0.20)))
+        out.append(hexagon(CX + dx, CY + dy, R, fill))
     out.append(hexagon(CX, CY, R, SURFACE))
 
-    for bearing, name, color in ring:
+    for bearing, name, _ in ring:
         dx, dy = neighbour(bearing, R)
-        out.append(label(CX + dx, CY + dy - 5, name, size=11, fill=color,
+        out.append(label(CX + dx, CY + dy - 5, name, size=11, fill=INK,
                          weight="bold", track=0.06))
 
     out.append(mech(CX, CY, 0.95))
@@ -197,28 +198,28 @@ def arcs_svg():
     for bearing, far in ((90, 246), (150, 200), (210, 200), (270, 246)):
         out.append(ray(CX, CY, bearing, R * 0.9, far))
 
-    def span(bearing, r, s, color):
+    def span(bearing, r, s):
         dx, dy = polar(bearing, r)
-        return label(CX + dx, CY + dy, s, size=12, fill=color, weight="bold",
+        return label(CX + dx, CY + dy, s, size=12, fill=INK, weight="bold",
                      track=0.04)
-    out.append(span(0, 176, "180°", FRONT))
-    out.append(span(120, 186, "60°", RIGHT))
-    out.append(span(180, 176, "60°", REAR))
-    out.append(span(240, 186, "60°", LEFT))
+    out.append(span(0, 176, "180°"))
+    out.append(span(120, 186, "60°"))
+    out.append(span(180, 176, "60°"))
+    out.append(span(240, 186, "60°"))
 
-    def name(x, y, anchor, title, subs, color, size=15):
-        o = [label(x, y, title, size=size, fill=color, weight="bold",
+    def name(x, y, anchor, title, subs, size=15):
+        o = [label(x, y, title, size=size, fill=INK, weight="bold",
                    anchor=anchor)]
         o += [label(x, y + 19 + i * 15, s, size=11, anchor=anchor)
               for i, s in enumerate(subs)]
         return o
 
-    out += name(CX, CY - 234, "middle", "Forward arc", ["all weapons"], FRONT)
+    out += name(CX, CY - 234, "middle", "Forward arc", ["all weapons"])
     out += name(CX + 172, CY + 44, "start", "Right side arc",
-                ["right-arm", "weapons only"], RIGHT, size=13)
+                ["right-arm", "weapons only"], size=13)
     out += name(CX - 172, CY + 44, "end", "Left side arc",
-                ["left-arm", "weapons only"], LEFT, size=13)
-    out += name(CX, CY + 212, "middle", "Rear arc", ["no weapons bear"], REAR)
+                ["left-arm", "weapons only"], size=13)
+    out += name(CX, CY + 212, "middle", "Rear arc", ["no weapons bear"])
 
     out += footnotes(W, H, CX, [
         "arcs are measured from torso facing, not leg facing",
@@ -258,8 +259,7 @@ def zones_svg():
 
     for (dx, dy), bearing in cells:
         z = zone_of(bearing)
-        out.append(hexagon(CX + dx, CY + dy, R,
-                           mix(z, PAPER, 0.22) if z else PAPER,
+        out.append(hexagon(CX + dx, CY + dy, R, z or PAPER,
                            stroke=BORDER if z else DIM,
                            dash=None if z else "6 4"))
     out.append(hexagon(CX, CY, R, SURFACE))
@@ -284,21 +284,21 @@ def zones_svg():
                ' stroke-width="2.2" stroke-dasharray="7 5"'
                ' marker-end="url(#ah%s)"/>'
                % (CX + ax + ux * 22, CY + ay + uy * 22,
-                  CX + ax + ux * 118, CY + ay + uy * 118, ACCENT, ACCENT[1:]))
+                  CX + ax + ux * 118, CY + ay + uy * 118, ACCENT, ah(ACCENT)))
     out.append(label(CX + ax, CY + ay - 26, "attacker", size=10, fill=ACCENT,
                      weight="bold"))
 
-    def name(x, y, anchor, title, sub, color, size=15):
-        return [label(x, y, title, size=size, fill=color, weight="bold",
+    def name(x, y, anchor, title, sub, size=15):
+        return [label(x, y, title, size=size, fill=INK, weight="bold",
                       anchor=anchor),
                 label(x, y + 19, sub, size=11, anchor=anchor)]
 
-    out += name(CX, CY - 254, "middle", "Front hit zone", "3 hexsides", FRONT)
+    out += name(CX, CY - 254, "middle", "Front hit zone", "3 hexsides")
     out += name(CX + 158, CY + 146, "start", "Right side zone", "1 hexside",
-                RIGHT, size=13)
+                size=13)
     out += name(CX - 158, CY + 146, "end", "Left side zone", "1 hexside",
-                LEFT, size=13)
-    out += name(CX, CY + 248, "middle", "Rear hit zone", "1 hexside", REAR)
+                size=13)
+    out += name(CX, CY + 248, "middle", "Rear hit zone", "1 hexside")
 
     out += footnotes(W, H, CX, [
         "draw the line from the attacker's hex centre to the target's",
