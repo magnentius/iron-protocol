@@ -210,7 +210,7 @@ Firing arcs are determined relative to the Frame's *Torso Facing*. Weapons may f
 
 In practice this means a Torso weapon is a fixed forward battery covering 3 hexsides, while an Arm weapon traverses: it covers those same 3 hexsides _plus_ the one to its own side, for 4 of the 6 hexsides. Arms are the only mounts that can engage a target on the Frame's flank.
 
-#figure(image("/images/arcs.jpg", width: 82%), caption: [Firing Arcs Diagram])
+#figure(image("/images/arcs.svg", width: 82%), caption: [Firing Arcs Diagram])
 
 === 2. Attack Directions & Hit Zones
 
@@ -222,7 +222,7 @@ When a Frame is attacked, the direction of the incoming attack determines the *H
 - *Determining the Hit Zone*: Draw a straight line of sight from the center of the attacker's hex to the center of the target's hex. The sector of the target's Torso that this line passes through determines the Hit Zone.
 - *Boundary Hexes (Target's Choice)*: If the line of attack passes exactly along the boundary between two Hit Zones, the defender chooses which of the two adjacent Hit Zones the attack is resolved as.
 
-#figure(image("/images/zones.jpg", width: 82%), caption: [Attack Directions & Hit Zones Diagram])
+#figure(image("/images/zones.svg", width: 82%), caption: [Attack Directions & Hit Zones Diagram])
 
 == 1.4 Scenario Setup & Deployment
 #anchor("1.4")

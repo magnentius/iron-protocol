@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="620" height="656" viewBox="0 0 620 656" role="img" aria-label="Hit zones measured from the target frame's torso facing">
+<title>Attack Directions &amp; Hit Zones</title>
+<defs>
+  <marker id="ahink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#141a23"/></marker>
+  <marker id="ah3d6f9c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#3d6f9c"/></marker>
+  <marker id="ah8a5a12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#8a5a12"/></marker>
+  <marker id="ah2f7a52" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#2f7a52"/></marker>
+  <marker id="ahb3342c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#b3342c"/></marker>
+  <marker id="ah0e7899" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#0e7899"/></marker>
+</defs>
+<rect x="1" y="1" width="618" height="654" rx="10" fill="#f7f9fb" stroke="#c3ccd7" stroke-width="1.5"/>
+<path d="M 357.0 210.6 L 333.5 251.3 L 286.5 251.3 L 263.0 210.6 L 286.5 169.9 L 333.5 169.9 Z" fill="#cedbe6" stroke="#c3ccd7" stroke-width="1.5"/>
+<path d="M 427.5 251.3 L 404.0 292.0 L 357.0 292.0 L 333.5 251.3 L 357.0 210.6 L 404.0 210.6 Z" fill="#cedbe6" stroke="#c3ccd7" stroke-width="1.5"/>
+<path d="M 427.5 332.7 L 404.0 373.4 L 357.0 373.4 L 333.5 332.7 L 357.0 292.0 L 404.0 292.0 Z" fill="#cbddd6" stroke="#c3ccd7" stroke-width="1.5"/>
+<path d="M 357.0 373.4 L 333.5 414.1 L 286.5 414.1 L 263.0 373.4 L 286.5 332.7 L 333.5 332.7 Z" fill="#e8cecd" stroke="#c3ccd7" stroke-width="1.5"/>
+<path d="M 286.5 332.7 L 263.0 373.4 L 216.0 373.4 L 192.5 332.7 L 216.0 292.0 L 263.0 292.0 Z" fill="#dfd6c8" stroke="#c3ccd7" stroke-width="1.5"/>
+<path d="M 286.5 251.3 L 263.0 292.0 L 216.0 292.0 L 192.5 251.3 L 216.0 210.6 L 263.0 210.6 Z" fill="#cedbe6" stroke="#c3ccd7" stroke-width="1.5"/>
+<path d="M 357.0 129.2 L 333.5 169.9 L 286.5 169.9 L 263.0 129.2 L 286.5 88.5 L 333.5 88.5 Z" fill="#cedbe6" stroke="#c3ccd7" stroke-width="1.5"/>
+<path d="M 427.5 169.9 L 404.0 210.6 L 357.0 210.6 L 333.5 169.9 L 357.0 129.2 L 404.0 129.2 Z" fill="#cedbe6" stroke="#c3ccd7" stroke-width="1.5"/>
+<path d="M 498.0 210.6 L 474.5 251.3 L 427.5 251.3 L 404.0 210.6 L 427.5 169.9 L 474.5 169.9 Z" fill="#cedbe6" stroke="#c3ccd7" stroke-width="1.5"/>
+<path d="M 498.0 292.0 L 474.5 332.7 L 427.5 332.7 L 404.0 292.0 L 427.5 251.3 L 474.5 251.3 Z" fill="#f7f9fb" stroke="#8593a5" stroke-width="1.5" stroke-dasharray="6 4"/>
+<path d="M 498.0 373.4 L 474.5 414.1 L 427.5 414.1 L 404.0 373.4 L 427.5 332.7 L 474.5 332.7 Z" fill="#cbddd6" stroke="#c3ccd7" stroke-width="1.5"/>
+<path d="M 427.5 414.1 L 404.0 454.8 L 357.0 454.8 L 333.5 414.1 L 357.0 373.4 L 404.0 373.4 Z" fill="#f7f9fb" stroke="#8593a5" stroke-width="1.5" stroke-dasharray="6 4"/>
+<path d="M 357.0 454.8 L 333.5 495.5 L 286.5 495.5 L 263.0 454.8 L 286.5 414.1 L 333.5 414.1 Z" fill="#e8cecd" stroke="#c3ccd7" stroke-width="1.5"/>
+<path d="M 286.5 414.1 L 263.0 454.8 L 216.0 454.8 L 192.5 414.1 L 216.0 373.4 L 263.0 373.4 Z" fill="#f7f9fb" stroke="#8593a5" stroke-width="1.5" stroke-dasharray="6 4"/>
+<path d="M 216.0 373.4 L 192.5 414.1 L 145.5 414.1 L 122.0 373.4 L 145.5 332.7 L 192.5 332.7 Z" fill="#dfd6c8" stroke="#c3ccd7" stroke-width="1.5"/>
+<path d="M 216.0 292.0 L 192.5 332.7 L 145.5 332.7 L 122.0 292.0 L 145.5 251.3 L 192.5 251.3 Z" fill="#f7f9fb" stroke="#8593a5" stroke-width="1.5" stroke-dasharray="6 4"/>
+<path d="M 216.0 210.6 L 192.5 251.3 L 145.5 251.3 L 122.0 210.6 L 145.5 169.9 L 192.5 169.9 Z" fill="#cedbe6" stroke="#c3ccd7" stroke-width="1.5"/>
+<path d="M 286.5 169.9 L 263.0 210.6 L 216.0 210.6 L 192.5 169.9 L 216.0 129.2 L 263.0 129.2 Z" fill="#cedbe6" stroke="#c3ccd7" stroke-width="1.5"/>
+<path d="M 357.0 292.0 L 333.5 332.7 L 286.5 332.7 L 263.0 292.0 L 286.5 251.3 L 333.5 251.3 Z" fill="#eef2f6" stroke="#c3ccd7" stroke-width="1.5"/>
+<text x="450.5" y="283.5" font-family="DejaVu Sans Mono" font-size="10" letter-spacing="1.00" fill="#5d6b7d" text-anchor="middle">TARGET'S</text>
+<text x="450.5" y="297.5" font-family="DejaVu Sans Mono" font-size="10" letter-spacing="1.00" fill="#5d6b7d" text-anchor="middle">CHOICE</text>
+<text x="380.0" y="405.6" font-family="DejaVu Sans Mono" font-size="10" letter-spacing="1.00" fill="#5d6b7d" text-anchor="middle">TARGET'S</text>
+<text x="380.0" y="419.6" font-family="DejaVu Sans Mono" font-size="10" letter-spacing="1.00" fill="#5d6b7d" text-anchor="middle">CHOICE</text>
+<text x="239.0" y="405.6" font-family="DejaVu Sans Mono" font-size="10" letter-spacing="1.00" fill="#5d6b7d" text-anchor="middle">TARGET'S</text>
+<text x="239.0" y="419.6" font-family="DejaVu Sans Mono" font-size="10" letter-spacing="1.00" fill="#5d6b7d" text-anchor="middle">CHOICE</text>
+<text x="168.5" y="283.5" font-family="DejaVu Sans Mono" font-size="10" letter-spacing="1.00" fill="#5d6b7d" text-anchor="middle">TARGET'S</text>
+<text x="168.5" y="297.5" font-family="DejaVu Sans Mono" font-size="10" letter-spacing="1.00" fill="#5d6b7d" text-anchor="middle">CHOICE</text>
+<g>
+<rect x="288.7" y="282.2" width="9.8" height="19.7" rx="2" fill="#5d6b7d"/>
+<rect x="321.5" y="282.2" width="9.8" height="19.7" rx="2" fill="#5d6b7d"/>
+<path d="M 310.0 275.6 L 320.7 287.1 L 319.0 304.3 L 301.0 304.3 L 299.3 287.1 Z" fill="#141a23"/>
+<path d="M 310.0 279.7 L 314.9 288.7 L 305.1 288.7 Z" fill="#f7f9fb"/>
+</g>
+<line x1="310.0" y1="266.7" x2="310.0" y2="239.0" stroke="#141a23" stroke-width="2.5" marker-end="url(#ahink)"/>
+<text x="309.8" y="318.8" font-family="DejaVu Sans Mono" font-size="8" letter-spacing="0.48" fill="#5d6b7d" text-anchor="middle">TORSO FACING</text>
+<line x1="349.9" y1="292.0" x2="590.0" y2="292.0" stroke="#c3ccd7" stroke-width="1.6" stroke-dasharray="5 5"/>
+<line x1="330.0" y1="326.6" x2="428.0" y2="496.4" stroke="#c3ccd7" stroke-width="1.6" stroke-dasharray="5 5"/>
+<line x1="290.0" y1="326.6" x2="192.0" y2="496.4" stroke="#c3ccd7" stroke-width="1.6" stroke-dasharray="5 5"/>
+<line x1="270.1" y1="292.0" x2="30.0" y2="292.0" stroke="#c3ccd7" stroke-width="1.6" stroke-dasharray="5 5"/>
+<line x1="431.9" y1="221.6" x2="348.8" y2="269.6" stroke="#0e7899" stroke-width="2.2" stroke-dasharray="7 5" marker-end="url(#ah0e7899)"/>
+<text x="450.5" y="188.1" font-family="DejaVu Sans Mono" font-size="10" letter-spacing="1.00" font-weight="bold" fill="#0e7899" text-anchor="middle">ATTACKER</text>
+<text x="309.2" y="43.2" font-family="DejaVu Sans Mono" font-size="15" letter-spacing="1.50" font-weight="bold" fill="#3d6f9c" text-anchor="middle">FRONT HIT ZONE</text>
+<text x="309.4" y="60.9" font-family="DejaVu Sans Mono" font-size="11" letter-spacing="1.10" fill="#5d6b7d" text-anchor="middle">3 HEXSIDES</text>
+<text x="468.0" y="442.6" font-family="DejaVu Sans Mono" font-size="13" letter-spacing="1.30" font-weight="bold" fill="#2f7a52" text-anchor="start">RIGHT SIDE ZONE</text>
+<text x="468.0" y="460.9" font-family="DejaVu Sans Mono" font-size="11" letter-spacing="1.10" fill="#5d6b7d" text-anchor="start">1 HEXSIDE</text>
+<text x="150.7" y="442.6" font-family="DejaVu Sans Mono" font-size="13" letter-spacing="1.30" font-weight="bold" fill="#8a5a12" text-anchor="end">LEFT SIDE ZONE</text>
+<text x="150.9" y="460.9" font-family="DejaVu Sans Mono" font-size="11" letter-spacing="1.10" fill="#5d6b7d" text-anchor="end">1 HEXSIDE</text>
+<text x="309.2" y="545.2" font-family="DejaVu Sans Mono" font-size="15" letter-spacing="1.50" font-weight="bold" fill="#b3342c" text-anchor="middle">REAR HIT ZONE</text>
+<text x="309.4" y="562.9" font-family="DejaVu Sans Mono" font-size="11" letter-spacing="1.10" fill="#5d6b7d" text-anchor="middle">1 HEXSIDE</text>
+<line x1="40" y1="604" x2="580" y2="604" stroke="#c3ccd7" stroke-width="1"/>
+<text x="309.4" y="619.9" font-family="DejaVu Sans Mono" font-size="11" letter-spacing="1.10" fill="#8593a5" text-anchor="middle">DRAW THE LINE FROM THE ATTACKER'S HEX CENTRE TO THE TARGET'S</text>
+<text x="309.4" y="637.9" font-family="DejaVu Sans Mono" font-size="11" letter-spacing="1.10" fill="#8593a5" text-anchor="middle">A LINE ALONG A ZONE BOUNDARY — WHITE HEXES — IS THE TARGET'S CHOICE</text>
+</svg>
